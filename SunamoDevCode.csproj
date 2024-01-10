@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
+    <Version>24.1.9.1</Version>
+	  <Description>Another code mainly for working with C# in all ways. Will be in future merged with SunamoCode and SunamoCSharp.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="NewFolder\**" />
+    <Compile Remove="SolutionsIndexer\**" />
+    <EmbeddedResource Remove="NewFolder\**" />
+    <EmbeddedResource Remove="SolutionsIndexer\**" />
+    <None Remove="NewFolder\**" />
+    <None Remove="SolutionsIndexer\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="C:\Users\r\.nuget\packages\sunamoxlf\23.12.9.1\contentFiles\any\net8.0\WinSec\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\SystemWindowsControls.txt">
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SystemWindowsControls.txt">
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SunamoArgs" Version="24.1.9.1" />
+    <PackageReference Include="SunamoCollectionsChangeContent" Version="24.1.7.1" />
+    <PackageReference Include="SunamoExtensions" Version="24.1.5.1" />
+    <PackageReference Include="SunamoShared" Version="24.1.7.2" />
+    <PackageReference Include="SunamoXlf" Version="24.1.7.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Core" Version="1.64.0">
+    </PackageReference>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.57" />
+    <PackageReference Include="SunamoExceptions" Version="24.1.5.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SunamoCSharp\SunamoCSharp.csproj" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>
+  </PropertyGroup>
+</Project>
