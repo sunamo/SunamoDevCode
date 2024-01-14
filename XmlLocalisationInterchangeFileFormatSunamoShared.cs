@@ -43,7 +43,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
     /// <param name="key2"></param>
     public static string TextFromRLData(string pathOrExt, string key2)
     {
-        var ext = Path.GetExtension(pathOrExt);
+        var ext = FS.GetExtension(pathOrExt);
         ext = SH.PrefixIfNotStartedWith(ext, ".");
         if (ext == AllExtensions.cs)
         {

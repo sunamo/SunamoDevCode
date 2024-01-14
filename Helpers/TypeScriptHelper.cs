@@ -72,12 +72,12 @@ public class TypeScriptHelper
     {
         var l2 = l.ToList();
 
-        CAChangeContent.ChangeContent(new ChangeContentArgs2 { }, l, SH.RemoveAfterFirst, ':');
+        CAChangeContent.ChangeContent(new ChangeContentArgs { }, l, SH.RemoveAfterFirst, ':');
         CA.Trim(l);
         CA.TrimEnd(l, '?');
         CA.Trim(l);
 
-        CAChangeContent.ChangeContent(new ChangeContentArgs2 { }, l2, SH.KeepAfterFirst, ":", false);
+        CAChangeContent.ChangeContent(new ChangeContentArgs { }, l2, SH.KeepAfterFirst, ":", false);
         for (int i = 0; i < l2.Count; i++)
         {
             var t = l2[i];

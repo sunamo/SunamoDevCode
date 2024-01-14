@@ -1,9 +1,4 @@
 ﻿global using HtmlAgilityPack;
-global using sunamo.Collections;
-
-global using sunamo.Generators.Text;
-
-global using sunamo;
 global using SunamoDevCode.Enums;
 global using SunamoDevCode;
 global using System.Collections.Generic;
@@ -57,7 +52,6 @@ global using SunamoStringGetLines;
 global using SunamoStringReplace;
 global using SunamoStringTrim;
 global using SunamoTextOutputGenerator;
-global using SunamoXlf._sunamo;
 global using SunamoXml.Generators;
 global using SunamoXml;
 global using SunamoHtml.Html;
