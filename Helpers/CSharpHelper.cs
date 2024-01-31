@@ -153,7 +153,7 @@ public static partial class CSharpHelper
 
                 if (inserted)
                 {
-                    TF.WriteAllText(item, c);
+                    await TF.WriteAllText(item, c);
                 }
 
 
@@ -223,7 +223,7 @@ public static partial class CSharpHelper
 #endif
  TF.ReadAllLines(item);
         RemoveNamespace(l, null);
-        TF.WriteAllLines(item, l);
+        await TF.WriteAllLines(item, l);
         return l;
     }
     #endregion
@@ -464,7 +464,7 @@ public static partial class CSharpHelper
     {
         for (int i = list.Count - 1; i >= 0; i--)
         {
-            list[i] = SH.RemoveAfterFirst(list[i], "///");
+            list[i] = SHParts.RemoveAfterFirst(list[i], "///");
         }
         CA.TrimWhereIsOnlyWhitespace(list);
         var s = SHJoin.JoinNL(list);
@@ -504,7 +504,7 @@ public static partial class CSharpHelper
 
         for (int i = list.Count - 1; i >= 0; i--)
         {
-            list[i] = SH.RemoveAfterFirst(list[i], CSharpConsts.lc);
+            list[i] = SHParts.RemoveAfterFirst(list[i], CSharpConsts.lc);
         }
 
         CA.RemoveStringsEmpty2(list);
@@ -525,7 +525,7 @@ public static partial class CSharpHelper
 
         //for (int i = list.Count - 1; i >= 0; i--)
         //{
-        //    list[i] = SH.RemoveAfterFirst(list[i], CSharpConsts.lc);
+        //    list[i] = SHParts.RemoveAfterFirst(list[i], CSharpConsts.lc);
         //}
 
         str = Regex.Replace(str,
@@ -600,7 +600,7 @@ public static partial class CSharpHelper
         CSharpGenerator csg = new CSharpGenerator();
         foreach (var item in values)
         {
-            csg.AppendLine(tabCount, SH.Format2(assignVariable, item));
+            csg.AppendLine(tabCount, SHFormat.Format2(assignVariable, item));
         }
         return csg.ToString().Trim();
     }
@@ -662,7 +662,7 @@ public static partial class CSharpHelper
             }
         }
 
-        TF.WriteAllLines(pathXlfKeys, c);
+        await TF.WriteAllLines(pathXlfKeys, c);
     }
 
     public static string GetConsts(List<string> list, bool? toCamelConvention)
@@ -762,7 +762,7 @@ public static partial class CSharpHelper
     public static Dictionary<string, string> ParseFields(List<string> l)
     {
         CA.RemoveStringsEmpty2(l);
-        CAChangeContent.ChangeContent0(null, l, e => SH.RemoveAfterFirst(e, AllChars.equals));
+        CAChangeContent.ChangeContent0(null, l, e => SHParts.RemoveAfterFirst(e, AllChars.equals));
         CA.TrimEnd(l, AllChars.sc);
         Dictionary<string, string> r = new Dictionary<string, string>();
         foreach (var item in l)
@@ -808,7 +808,7 @@ public static partial class CSharpHelper
         StringBuilder sb = new StringBuilder();
         foreach (var item in d)
         {
-            sb.AppendLine(SH.Format3(tProperty, item.Value, CSharpHelperSunamo.DefaultValueForType(item.Value), item.Key, SH.FirstCharUpper(item.Key)));
+            sb.AppendLine(SHFormat.Format3(tProperty, item.Value, CSharpHelperSunamo.DefaultValueForType(item.Value), item.Key, SH.FirstCharUpper(item.Key)));
         }
         return sb.ToString();
     }

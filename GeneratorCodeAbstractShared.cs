@@ -52,7 +52,7 @@ public abstract partial class GeneratorCodeAbstract
     {
         if (p2.Length != 0)
         {
-            sb.AppendLine(AddTab(tabCount, SH.Format2(p, p2)));
+            sb.AppendLine(AddTab(tabCount, SHFormat.Format2(p, p2)));
         }
         else
         {
@@ -64,7 +64,7 @@ public abstract partial class GeneratorCodeAbstract
     {
         if (p2.Length != 0)
         {
-            sb.AddItem(AddTab(tabCount, SH.Format2(p, p2)));
+            sb.AddItem(AddTab(tabCount, SHFormat.Format2(p, p2)));
         }
         else
         {

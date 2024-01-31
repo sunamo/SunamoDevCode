@@ -168,7 +168,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
             }
         }
 
-        TF.WriteAllLines(pathXlfKeys, l);
+        await TF.WriteAllLines(pathXlfKeys, l);
     }
 
     public static
@@ -210,7 +210,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
             }
         }
 
-        TF.WriteAllLines(path, ls);
+        await TF.WriteAllLines(path, ls);
     }
 
     #region Mám už tady metodu GetKeysInCsWithRLDataEn, proto je toto zbytečné

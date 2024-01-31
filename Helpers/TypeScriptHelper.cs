@@ -72,7 +72,7 @@ public class TypeScriptHelper
     {
         var l2 = l.ToList();
 
-        CAChangeContent.ChangeContent(new ChangeContentArgs { }, l, SH.RemoveAfterFirst, ':');
+        CAChangeContent.ChangeContent(new ChangeContentArgs { }, l, SHParts.RemoveAfterFirst, ':');
         CA.Trim(l);
         CA.TrimEnd(l, '?');
         CA.Trim(l);

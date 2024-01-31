@@ -18,7 +18,7 @@ public class Boilerplate
 
         StringBuilder sb = new StringBuilder();
         // If it not working, try Format3. Dont use any try-catch! 
-        sb.AppendLine(SH.Format4(c, innerMain));
+        sb.AppendLine(SHFormat.Format4(c, innerMain));
 
         return sb.ToString();
     }
@@ -41,7 +41,7 @@ public class Boilerplate
         StringBuilder sb = new StringBuilder();
 
         // If it not working, try Format3. Dont use any try-catch! 
-        sb.AppendLine(SH.Format4(c, addNamespacesLines, className, fields, contentOfInitMethod));
+        sb.AppendLine(SHFormat.Format4(c, addNamespacesLines, className, fields, contentOfInitMethod));
 
         return sb.ToString();
     }

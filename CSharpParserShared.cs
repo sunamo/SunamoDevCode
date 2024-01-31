@@ -24,7 +24,7 @@ public partial class CSharpParser
     {
         remove.Leading(null);
 
-        var ind = CA.IndexesWithNull(remove);
+        var ind = CAIndexesWithNull.IndexesWithNull(remove);
 
         var lines =
 #if ASYNC
@@ -49,7 +49,7 @@ public partial class CSharpParser
 
         //var d3 = lines.Where(d => d.Contains(d2));
 
-        TF.WriteAllLines(file, lines);
+        await TF.WriteAllLines(file, lines);
         if (remove.Count > 0)
         {
             //ThrowEx.Custom( "Cant be deleted in XlfKeys: " + string.Join(",", remove));

@@ -1,5 +1,3 @@
-using SunamoI18N.Values;
-
 namespace SunamoDevCode.FileFormats;
 
 
@@ -273,7 +271,7 @@ Into A1 insert:
 / - always path
          */
 
-        list = CAChangeContent.ChangeContent0(null, list, t => SH.RemoveAfterFirst(t, AllChars.space));
+        list = CAChangeContent.ChangeContent0(null, list, t => SHParts.RemoveAfterFirst(t, AllChars.space));
 
         var idsEndingOn = new List<string>();
         Dictionary<string, StringBuilder> result = new Dictionary<string, StringBuilder>();
@@ -412,7 +410,7 @@ TF.ReadAllText(item2);
                 {
                     content = content.Replace(from[i], to[i]);
                 }
-                TF.WriteAllText(item2, content);
+                await TF.WriteAllText(item2, content);
                 //break;
             }
             //break;
@@ -683,7 +681,7 @@ void
         Append(source, target, pascal, d);
         d.xd.Save(fn);
 
-        XHelper.FormatXml(fn);
+        await XHelper.FormatXml(fn);
     }
 
     public static void Append(string source, string target, string pascal, XlfData d)
@@ -703,9 +701,9 @@ void
     }
 
     #region Cooperating XlfKeys and *.xlf
-    public static void RemoveFromXlfAndXlfKeys(string fn, List<string> idsEndingEnd)
+    public static async Task RemoveFromXlfAndXlfKeys(string fn, List<string> idsEndingEnd)
     {
-        RemoveFromXlfAndXlfKeys(fn, idsEndingEnd, XlfParts.Id);
+        await RemoveFromXlfAndXlfKeys(fn, idsEndingEnd, XlfParts.Id);
     }
 
     /// <summary>
@@ -853,7 +851,7 @@ void
             }
         }
 
-        CSharpParser.RemoveConsts(XmlLocalisationInterchangeFileFormatSunamo.pathXlfKeys, idsEndingEnd);
+        await CSharpParser.RemoveConsts(XmlLocalisationInterchangeFileFormatSunamo.pathXlfKeys, idsEndingEnd);
 
         d.xd.Save(fn);
     }
@@ -969,7 +967,7 @@ void
 
 
         List<string> files = FS.GetFiles(path, "*.cs", SearchOption.AllDirectories);
-        ReplaceStringKeysWithXlfKeys(files);
+        await ReplaceStringKeysWithXlfKeys(files);
     }
 
     public static
@@ -992,7 +990,7 @@ void
             var content2 = ReplaceStringKeysWithXlfKeysWorker(ref key, content);
             if (content != content2)
             {
-                TF.WriteAllText(item, content2);
+                await TF.WriteAllText(item, content2);
             }
         }
     }
@@ -1163,7 +1161,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
             if (replacedKeys.c.Count > 0)
             {
 
-                TF.WriteAllText(kv.Key, sb.ToString());
+                await TF.WriteAllText(kv.Key, sb.ToString());
             }
         }
         return new OutRef<object, CollectionWithoutDuplicates<string>>(null, addToNotToTranslateStrings);
