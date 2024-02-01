@@ -1,4 +1,31 @@
+
 namespace SunamoDevCode.FileFormats;
+using SunamoClipboard;
+using SunamoCollections;
+using SunamoCollectionsChangeContent;
+using SunamoCollectionsGeneric;
+using SunamoCollectionWithoutDuplicates;
+using SunamoDevCode._sunamo;
+using SunamoDictionary;
+using SunamoExceptions.OnlyInSE;
+using SunamoFileSystem;
+using SunamoFileSystem.Args;
+using SunamoHtml.Html;
+//using SunamoFileIO;
+using SunamoLang;
+using SunamoLogger.Logger.LoggerBaseNS;
+using SunamoString;
+using SunamoStringGetLines;
+using SunamoStringParts;
+using SunamoStringReplace;
+using SunamoStringSplit;
+using SunamoStringTrim;
+using SunamoTextOutputGenerator;
+using SunamoValues;
+using SunamoValues.Values;
+using SunamoXlf;
+using SunamoXml;
+
 
 
 
@@ -219,7 +246,7 @@ TranslateEngine");
 
         occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.SessI18n + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
 
-        if (file.Contains(XlfKeys.AboutApp))
+        if (file.Contains("AboutApp"))
         {
 
         }
@@ -293,7 +320,7 @@ GetTransUnits(fn);
             string id = null;
             var lastLetter = GetLastLetter(item, out id).ToString();
 
-            if (CA.IsEqualToAnyElement<string>(lastLetter, list))
+            if (list.Any(d => d == lastLetter))
             {
                 result[lastLetter].AppendLine(GetTarget(item).Value);
                 idsEndingOn.Add(id);
@@ -344,7 +371,7 @@ ReplaceForWithoutUnderscore(string folder)
 #if ASYNC
     await
 #endif
-    TF.ReadAllText(item);
+    File.ReadAllTextAsync(item);
             var keys = GetKeysInCsWithRLDataEn(ref key, content);
 
             if (keys.Count > 0)
@@ -359,7 +386,7 @@ ReplaceForWithoutUnderscore(string folder)
                     content = content.Replace(item2.Key + AllChars.lsqb, item2.Value + AllChars.lsqb);
                 }
 
-                await TF.WriteAllText(item, content);
+                await File.WriteAllTextAsync(item, content);
             }
         }
     }
@@ -370,7 +397,10 @@ ReplaceForWithoutUnderscore(string folder)
         {
             path = DefaultPaths.vs;
         }
-        return FS.GetFiles(path, "*.cs", System.IO.SearchOption.AllDirectories, new GetFilesArgs { excludeWithMethod = SunamoDevCodeHelper.RemoveTemporaryFilesVS });
+        return null;
+
+        //return FS.GetFiles(path, "*.cs", System.IO.SearchOption.AllDirectories, new
+        //{ excludeWithMethod = SunamoDevCodeHelper.RemoveTemporaryFilesVS });
     }
 
     /// <summary>
@@ -404,13 +434,13 @@ ReplaceInXlfSolutions(string pairsReplace)
 #if ASYNC
 await
 #endif
-TF.ReadAllText(item2);
+File.ReadAllTextAsync(item2);
                 content = content.Replace("\"-\"+\"-\"", "\"-\"");
                 for (int i = 0; i < from.Count; i++)
                 {
                     content = content.Replace(from[i], to[i]);
                 }
-                await TF.WriteAllText(item2, content);
+                await File.WriteAllTextAsync(item2, content);
                 //break;
             }
             //break;
@@ -428,11 +458,12 @@ TF.ReadAllText(item2);
 #endif
     GetTransUnits(Langs en)
     {
-        return
-#if ASYNC
-    await
-#endif
-    GetTransUnits(XlfResourcesH.PathToXlfSunamo(en));
+        return null;
+        //        return
+        //#if ASYNC
+        //    await
+        //#endif
+        //    GetTransUnits(XlfResourcesH.PathToXlfSunamo(en));
 
     }
 
@@ -529,7 +560,7 @@ string
                         }
                         else
                         {
-                            ThrowEx.Custom("Instead of this use <source>.*</source> in VS!");
+                            throw new Exception("Instead of this use <source>.*</source> in VS!");
                             el.Item1.Remove();
                         }
                     }
@@ -547,7 +578,7 @@ string
                         }
                         else
                         {
-                            ThrowEx.Custom("Instead of this use <source>.*</source> in VS!");
+                            throw new Exception("Instead of this use <source>.*</source> in VS!");
                             el.Item2.Remove();
                         }
                     }
@@ -621,7 +652,7 @@ GetTransUnits(fn);
 #if ASYNC
     await
 #endif
-    TF.ReadAllText(fn);
+    File.ReadAllTextAsync(fn);
         XlfData d = new XlfData();
 
         d.path = fn;
@@ -966,7 +997,7 @@ void
     {
 
 
-        List<string> files = FS.GetFiles(path, "*.cs", SearchOption.AllDirectories);
+        List<string> files = Directory.GetFiles(path, "*.cs", SearchOption.AllDirectories).ToList();
         await ReplaceStringKeysWithXlfKeys(files);
     }
 
@@ -986,11 +1017,11 @@ void
 #if ASYNC
     await
 #endif
-    TF.ReadAllText(item);
+    File.ReadAllTextAsync(item);
             var content2 = ReplaceStringKeysWithXlfKeysWorker(ref key, content);
             if (content != content2)
             {
-                await TF.WriteAllText(item, content2);
+                await File.WriteAllTextAsync(item, content2);
             }
         }
     }
@@ -1027,7 +1058,7 @@ void
         var l = sunamoStrings.ToList();
         for (int i = 0; i < l.Count; i++)
         {
-            l[i] = SHReplace.ReplaceOnce(l[i], SunamoNotTranslateAble.SessI18n + SunamoNotTranslateAble.XlfKeysDot, string.Empty).TrimEnd(AllChars.rb);
+            l[i] = SHReplaceOnce.ReplaceOnce(l[i], SunamoNotTranslateAble.SessI18n + SunamoNotTranslateAble.XlfKeysDot, string.Empty).TrimEnd(AllChars.rb);
         }
         return l;
     }
@@ -1070,7 +1101,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
 
         Dictionary<string, string> filesWithXlf = new Dictionary<string, string>();
 
-        var files = FS.GetFiles(DefaultPaths.vsProjects, "*.cs", SearchOption.AllDirectories);
+        var files = Directory.GetFiles(DefaultPaths.vsProjects, "*.cs", SearchOption.AllDirectories);
 
         Dictionary<string, string> idTarget = new Dictionary<string, string>();
 
@@ -1111,7 +1142,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
 #if ASYNC
     await
 #endif
-    TF.ReadAllText(item);
+    File.ReadAllTextAsync(item);
             if (content.Contains(XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot))
             {
                 filesWithXlf.Add(item, content);
@@ -1161,7 +1192,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
             if (replacedKeys.c.Count > 0)
             {
 
-                await TF.WriteAllText(kv.Key, sb.ToString());
+                await File.WriteAllTextAsync(kv.Key, sb.ToString());
             }
         }
         return new OutRef<object, CollectionWithoutDuplicates<string>>(null, addToNotToTranslateStrings);

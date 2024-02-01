@@ -8,7 +8,7 @@ public class CsFileFilter : ICsFileFilter
 
     public List<string> GetFilesFiltered(string s, string masc, SearchOption so)
     {
-        var f = FS.GetFiles(s, masc, so);
+        var f = Directory.GetFiles(s, masc, so);
 
         f.RemoveAll(AllowOnly);
         f.RemoveAll(AllowOnlyContains);

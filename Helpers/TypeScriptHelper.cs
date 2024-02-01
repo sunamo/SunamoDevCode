@@ -1,3 +1,11 @@
+using SunamoCollections;
+using SunamoCollectionsChangeContent;
+using SunamoCollectionsChangeContent.Args;
+using SunamoExceptions.OnlyInSE;
+using SunamoString;
+using SunamoStringParts;
+using SunamoValues;
+
 namespace SunamoDevCode.Helpers;
 
 
@@ -77,7 +85,7 @@ public class TypeScriptHelper
         CA.TrimEnd(l, '?');
         CA.Trim(l);
 
-        CAChangeContent.ChangeContent(new ChangeContentArgs { }, l2, SH.KeepAfterFirst, ":", false);
+        CAChangeContent.ChangeContent(new ChangeContentArgs { }, l2, SHParts.KeepAfterFirst, ":", false);
         for (int i = 0; i < l2.Count; i++)
         {
             var t = l2[i];

@@ -1,5 +1,8 @@
+
 namespace SunamoDevCode;
 
+using SunamoCollectionsGeneric.Collections;
+using TextCopy;
 
 public class UnindexableHelper
 {
@@ -18,8 +21,8 @@ public class UnindexableHelper
     {
         unindexable = new Unindexable();
 
-        ClipboardHelper.SetText(f.fileUnindexablePathParts);
-        PD.ShowMb(f.fileUnindexablePathParts);
+        ClipboardService.SetText(f.fileUnindexablePathParts);
+        //PD.ShowMb(f.fileUnindexablePathParts);
 
         unindexable.unindexablePathParts = new PpkOnDrive(f.fileUnindexablePathParts);
 

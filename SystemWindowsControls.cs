@@ -1,4 +1,26 @@
+using SunamoStringGetLines;
+using SunamoStringSplit;
+using SunamoEmbeddedResources;
+using System.Reflection;
+
 namespace SunamoDevCode;
+
+class EmbeddedResourcesH
+{
+    private Assembly assembly;
+    private string v;
+
+    public EmbeddedResourcesH(Assembly assembly, string v)
+    {
+        this.assembly = assembly;
+        this.v = v;
+    }
+
+    public static string GetString(string s)
+    {
+        return "";
+    }
+}
 
 public static class SystemWindowsControls
 {
@@ -35,12 +57,12 @@ public static class SystemWindowsControls
 
             s_embeddedResourcesH = new EmbeddedResourcesH(type.Assembly, "SunamoDevCode");
 
-            var d = SHGetLines.GetLines(s_embeddedResourcesH.GetString("/Resources/SystemWindowsControls.txt"));
-            foreach (var item in d)
-            {
-                var p = SHSplit.Split(item, " ");
-                s_controls.Add(p[0], SHSplit.Split(p[1], ","));
-            }
+            //var d = SHGetLines.GetLines(s_embeddedResourcesH.GetString("/Resources/SystemWindowsControls.txt"));
+            //foreach (var item in d)
+            //{
+            //    var p = SHSplit.Split(item, " ");
+            //    s_controls.Add(p[0], SHSplit.Split(p[1], ","));
+            //}
         }
     }
 

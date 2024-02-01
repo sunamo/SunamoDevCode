@@ -1,5 +1,25 @@
 namespace SunamoDevCode.Helpers;
 
+using Case.NET.Extensions;
+using SunamoCollections;
+using SunamoCollectionsChangeContent;
+using SunamoCollectionWithoutDuplicates;
+using SunamoConverters.Converts;
+using SunamoCSharp.Args;
+using SunamoCSharp.Helpers;
+using SunamoCSharp.Values;
+using SunamoDevCode._sunamo;
+using SunamoDictionary;
+using SunamoEnums.Enums;
+using SunamoExceptions.OnlyInSE;
+using SunamoFileSystem;
+using SunamoStringGetLines;
+using SunamoStringReplace;
+using SunamoStringSplit;
+using SunamoValues;
+using SunamoValues.Constants;
+
+
 public static partial class CSharpHelper
 {
     public const string Using = "using ";
@@ -10,7 +30,7 @@ public static partial class CSharpHelper
     {
         foreach (var r in removed.c)
         {
-            text = SHReplace.ReplaceOnce(text, "using " + r + AllStrings.sc, string.Empty);
+            text = SHReplaceOnce.ReplaceOnce(text, "using " + r + AllStrings.sc, string.Empty);
         }
         return text;
     }
@@ -21,10 +41,10 @@ public static partial class CSharpHelper
 #else
     void
 #endif
- AddTypeToEveryFile()
+ AddTypeToEveryFile(string BasePathsHelperVs)
     {
         int i = 0;
-        var path = BasePathsHelper.vs;
+        var path = BasePathsHelperVs;
 
         var files = Directory.GetFiles(path, "*.cs", SearchOption.AllDirectories).ToList();
 
@@ -48,27 +68,34 @@ public static partial class CSharpHelper
 #if ASYNC
     await
 #endif
- TF.ReadAllText(item);
+ File.ReadAllTextAsync(item);
 
             if (c.Contains("ThrowEx.") && !c.Contains(mustContains))
             {
-                if (
-#if ASYNC
-    await
-#endif
- SH.ContainsInShared(item, mustContains, shared1))
+                var c1 = await File.ReadAllTextAsync(FS.InsertBetweenFileNameAndExtension(item, shared1));
+                var c2 = await File.ReadAllTextAsync(FS.InsertBetweenFileNameAndExtension(item, shared2));
+
+                if (c1.Contains(mustContains) || c2.Contains(mustContains))
                 {
                     continue;
                 }
 
-                if (
-#if ASYNC
-    await
-#endif
- SH.ContainsInShared(item, mustContains, shared2))
-                {
-                    continue;
-                }
+                //                if (
+                //#if ASYNC
+                //    await
+                //#endif
+                // SH.ContainsInShared(item, mustContains, shared1))
+                //                {
+                //                    continue;
+                //                }
+
+                //#if ASYNC
+                //                await
+                //#endif
+                //             SH.ContainsInShared(item, mustContains, shared2))
+                //                {
+                //                    continue;
+                //                }
 
                 var l = c.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
@@ -109,8 +136,9 @@ public static partial class CSharpHelper
 
                             if (pi.Contains("<"))
                             {
-                                start += SH.CountOf(pi, '<');
-                                end += SH.CountOf(pi, '>');
+                                start += pi.Count((ch) => ch == '<'); //SH.CountOf(pi, '<');
+                                end += pi.Count((ch) => ch == '>');
+
 
                                 if (start == end)
                                 {
@@ -121,8 +149,8 @@ public static partial class CSharpHelper
                                 {
                                     pi = p[y];
 
-                                    start += SH.CountOf(pi, '<');
-                                    end += SH.CountOf(pi, '>');
+                                    start += pi.Count((ch) => ch == '<');
+                                    end += pi.Count((ch) => ch == '>');
 
                                     sbGeneric.Append(pi);
 
@@ -145,7 +173,7 @@ public static partial class CSharpHelper
 
                         l.Insert(insertTo, string.Format(template, p[cl + 1].Trim().TrimEnd('{') + sbGeneric.ToString()));
 
-                        c = SHJoin.JoinNL(sbGeneric, l);
+                        c = string.Join(Environment.NewLine, sbGeneric, l);
                         inserted = true;
                         break;
                     }
@@ -153,7 +181,7 @@ public static partial class CSharpHelper
 
                 if (inserted)
                 {
-                    await TF.WriteAllText(item, c);
+                    await File.WriteAllTextAsync(item, c);
                 }
 
 
@@ -217,13 +245,13 @@ public static partial class CSharpHelper
 #endif
  RemoveNamespace(string item)
     {
-        var l =
+        var l = (
 #if ASYNC
     await
 #endif
- TF.ReadAllLines(item);
+ File.ReadAllLinesAsync(item)).ToList();
         RemoveNamespace(l, null);
-        await TF.WriteAllLines(item, l);
+        await File.WriteAllLinesAsync(item, l);
         return l;
     }
     #endregion
@@ -324,7 +352,7 @@ public static partial class CSharpHelper
             var line = cs[i];
             if (line.StartsWith(CodeElementsConstants.XmlDocumentationCsharp))
             {
-                line = SHTrim.TrimStart(line, CodeElementsConstants.XmlDocumentationCsharp).Trim();
+                line = line.TrimStart('/'); //SHTrim.TrimStart(line, CodeElementsConstants.XmlDocumentationCsharp).Trim();
                 sb.AppendLine(line);
                 if (line.Contains("</summary>"))
                 {
@@ -345,7 +373,7 @@ public static partial class CSharpHelper
         foreach (var item in uris)
         {
             Uri u = new Uri(item);
-            string name = ConvertPascalConvention.ToConvention(u.Host);
+            string name = u.Host.ToConstantCase().ToPascalCase();  //CaseDotNet.CaseConverter.PascalCase.ConvertCase(u.Host); //ConvertPascalConvention.ToConvention(u.Host);
             dict.Add(name, item);
             all.Add(name);
         }
@@ -458,24 +486,25 @@ public static partial class CSharpHelper
                 list.RemoveAt(i);
             }
         }
-        return SHJoin.JoinNL(list);
+        return string.Join(Environment.NewLine, list); //string.Join(Environment.NewLine, list);
     }
     public static string RemoveXmlDocComments(List<string> list)
     {
-        for (int i = list.Count - 1; i >= 0; i--)
-        {
-            list[i] = SHParts.RemoveAfterFirst(list[i], "///");
-        }
-        CA.TrimWhereIsOnlyWhitespace(list);
-        var s = SHJoin.JoinNL(list);
+        throw new NotImplementedException();
+        //for (int i = list.Count - 1; i >= 0; i--)
+        //{
+        //    list[i] = SHParts.RemoveAfterFirst(list[i], "///");
+        //}
+        //CA.TrimWhereIsOnlyWhitespace(list);
+        //var s = string.Join(Environment.NewLine, list);
 
-        CA.DoubleOrMoreMultiLinesToSingle(ref s);
+        //CA.DoubleOrMoreMultiLinesToSingle(ref s);
 
-        return s;
+        //return s;
     }
 
 
-    public static List<string> RemoveComments(object listOrString, bool line = true, bool block = true)
+    public static List<string> RemoveComments(List<string> listOrString, bool line = true, bool block = true)
     {
         if (line)
         {
@@ -484,12 +513,12 @@ public static partial class CSharpHelper
 
         if (block)
         {
-            listOrString = RemoveBlockComments(listOrString);
+            listOrString = SHGetLines.GetLines(RemoveBlockComments(string.Join(Environment.NewLine, listOrString)));
         }
 
-        var list = CastHelper.ToListString(listOrString);
-        CA.Trim(list);
-        return list;
+        //var list = CastHelper.ToListString(listOrString);
+        CA.Trim(listOrString);
+        return listOrString;
     }
 
     /// <summary>
@@ -497,14 +526,14 @@ public static partial class CSharpHelper
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    public static List<string> RemoveLineComments(object listOrString)
+    public static List<string> RemoveLineComments(List<string> list)
     {
-        List<string> list = CastHelper.ToListString(listOrString);
+        //List<string> list = CastHelper.ToListString(listOrString);
 
 
         for (int i = list.Count - 1; i >= 0; i--)
         {
-            list[i] = SHParts.RemoveAfterFirst(list[i], CSharpConsts.lc);
+            list[i] = SHParts2.RemoveAfterFirst(list[i], CSharpConsts.lc);
         }
 
         CA.RemoveStringsEmpty2(list);
@@ -519,9 +548,9 @@ public static partial class CSharpHelper
 
 
 
-    public static string RemoveBlockComments(object listOrString)
+    public static string RemoveBlockComments(string str)
     {
-        var str = CastHelper.ToString(listOrString);
+        //var str = CastHelper.ToString(listOrString);
 
         //for (int i = list.Count - 1; i >= 0; i--)
         //{
@@ -590,7 +619,7 @@ public static partial class CSharpHelper
                 ThrowEx.NotImplementedCase(type);
                 break;
         }
-        ThrowEx.Custom("Nepodporovaný typ");
+        throw new Exception("Nepodporovaný typ");
         return null;
     }
 
@@ -600,7 +629,7 @@ public static partial class CSharpHelper
         CSharpGenerator csg = new CSharpGenerator();
         foreach (var item in values)
         {
-            csg.AppendLine(tabCount, SHFormat.Format2(assignVariable, item));
+            csg.AppendLine(tabCount, string.Format(assignVariable, item));
         }
         return csg.ToString().Trim();
     }
@@ -643,11 +672,11 @@ public static partial class CSharpHelper
 #endif
     ReplaceForConsts(string pathXlfKeys)
     {
-        var c =
+        var c = (
 #if ASYNC
     await
 #endif
-    TF.ReadAllLines(pathXlfKeys);
+    File.ReadAllLinesAsync(pathXlfKeys)).ToList();
         for (int i = 0; i < c.Count; i++)
         {
             var a = c[i];
@@ -655,14 +684,14 @@ public static partial class CSharpHelper
             {
                 if (!a.Contains("const") && !a.Contains("class"))
                 {
-                    a = SHReplace.ReplaceOnce(a, "static ", string.Empty);
-                    a = SHReplace.ReplaceOnce(a, "readonly ", string.Empty);
-                    c[i] = SHReplace.ReplaceOnce(a, CSharpParser.p, CSharpParser.p + "const ");
+                    a = SHReplaceOnce.ReplaceOnce(a, "static ", string.Empty);
+                    a = SHReplaceOnce.ReplaceOnce(a, "readonly ", string.Empty);
+                    c[i] = SHReplaceOnce.ReplaceOnce(a, CSharpParser.p, CSharpParser.p + "const ");
                 }
             }
         }
 
-        await TF.WriteAllLines(pathXlfKeys, c);
+        await File.WriteAllLinesAsync(pathXlfKeys, c);
     }
 
     public static string GetConsts(List<string> list, bool? toCamelConvention)
@@ -762,14 +791,16 @@ public static partial class CSharpHelper
     public static Dictionary<string, string> ParseFields(List<string> l)
     {
         CA.RemoveStringsEmpty2(l);
-        CAChangeContent.ChangeContent0(null, l, e => SHParts.RemoveAfterFirst(e, AllChars.equals));
+        CAChangeContent.ChangeContent0(null, l, e => SHParts2.RemoveAfterFirst(e, AllChars.equals));
         CA.TrimEnd(l, AllChars.sc);
         Dictionary<string, string> r = new Dictionary<string, string>();
         foreach (var item in l)
         {
             var p = SHSplit.SplitByWhiteSpaces(item);
             var c = p.Count;
-            r.Add(SH.FirstCharLower(p[c - 1]), p[c - 2]);
+            StringBuilder sb2 = new StringBuilder(p[c - 1]);
+            sb2[0] = char.ToLower(sb2[0]);
+            r.Add(sb2.ToString(), p[c - 2]);
         }
         return r;
     }
@@ -795,9 +826,13 @@ public static partial class CSharpHelper
             foreach (var item in l)
             {
                 var p = ConvertPascalConvention.ToConvention(item);
-                p = SH.FirstCharLower(p);
+
+                StringBuilder sb2 = new StringBuilder(p);
+                sb2[0] = char.ToUpper(sb2[0]);
+
+                //p = SH.FirstCharLower(p);
                 //DebugLogger.Instance.WriteLine(p);
-                d.Add(p, "string");
+                d.Add(sb2.ToString(), "string");
             }
         }
         else
@@ -808,7 +843,9 @@ public static partial class CSharpHelper
         StringBuilder sb = new StringBuilder();
         foreach (var item in d)
         {
-            sb.AppendLine(SHFormat.Format3(tProperty, item.Value, CSharpHelperSunamo.DefaultValueForType(item.Value), item.Key, SH.FirstCharUpper(item.Key)));
+            StringBuilder sb2 = new StringBuilder(item.Key);
+            sb2[0] = char.ToUpper(sb2[0]);
+            sb.AppendLine(/*SHFormat.Format3*/ string.Format(tProperty, item.Value, CSharpHelperSunamo.DefaultValueForType(item.Value, ConvertTypeShortcutFullName.ToShortcut), item.Key, sb2.ToString()));
         }
         return sb.ToString();
     }

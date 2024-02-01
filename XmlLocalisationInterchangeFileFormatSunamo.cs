@@ -15,7 +15,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
     await
 #endif
- TF.ReadAllText(path);
+ File.ReadAllTextAsync(path);
         #region
         List<string> consts = new List<string>();
         AllLists.InitHtmlEntitiesFullNames();
@@ -37,7 +37,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
         await
 #endif
-        TF.WriteAllText(path, content);
+        File.WriteAllTextAsync(path, content);
         #endregion
     }
 
@@ -72,7 +72,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
     await
 #endif
- TF.ReadAllText(path);
+ File.ReadAllTextAsync(path);
 
         for (i = from.Count - 1; i >= 0; i--)
         {
@@ -84,7 +84,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
         await
 #endif
-        TF.WriteAllText(path, content);
+        File.WriteAllTextAsync(path, content);
     }
 
     public static void ConstsFromClipboard()
@@ -119,7 +119,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
     await
 #endif
- TF.ReadAllLines(pathXlfKeys)).ToList();
+ File.ReadAllLinesAsync(pathXlfKeys)).ToList();
 
         for (i = 0; i < l.Count(); i++)
         {
@@ -168,7 +168,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
             }
         }
 
-        await TF.WriteAllLines(pathXlfKeys, l);
+        await File.WriteAllLinesAsync(pathXlfKeys, l);
     }
 
     public static
@@ -186,7 +186,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
     await
 #endif
- TF.ReadAllLines(path)).ToList();
+ File.ReadAllLinesAsync(path)).ToList();
         //var ls = SHGetLines.GetLines(s);
         int first;
         var consts = CSharpParser.ParseConsts(ls, out first);
@@ -210,7 +210,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
             }
         }
 
-        await TF.WriteAllLines(path, ls);
+        await File.WriteAllLinesAsync(path, ls);
     }
 
     #region Mám už tady metodu GetKeysInCsWithRLDataEn, proto je toto zbytečné

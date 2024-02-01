@@ -1,3 +1,13 @@
+using SunamoCollections;
+using SunamoCollectionsChangeContent;
+using SunamoConverters.Converts;
+using SunamoCSharp.Values;
+using SunamoDevCode._sunamo;
+using SunamoExceptions.OnlyInSE;
+using SunamoStringReplace;
+using SunamoValues;
+using SunamoXml.Generators;
+
 namespace SunamoDevCode;
 
 public class XamlGenerator : XmlGenerator
@@ -15,8 +25,8 @@ public class XamlGenerator : XmlGenerator
 
         WriteTag("Grid");
 
-        WriteColumnDefinitions(GridHelperSunamo.ForAllTheSame(columns));
-        WriteRowDefinitions(GridHelperSunamo.ForAllTheSame(rows));
+        //WriteColumnDefinitions(GridHelperSunamo.ForAllTheSame(columns));
+        //WriteRowDefinitions(GridHelperSunamo.ForAllTheSame(rows));
 
         for (int row = 0; row < rows; row++)
         {
@@ -47,7 +57,7 @@ public class XamlGenerator : XmlGenerator
     public void WriteColumnDefinitions(List<double> cd)
     {
         var cds = cd.ConvertAll(d => d.ToString());
-        CAChangeContent.ChangeContent<string, string>(null, cds, SHReplace.ReplaceOnce, AllStrings.comma, AllStrings.dot);
+        CAChangeContent.ChangeContent<string, string>(null, cds, SHReplaceOnce.ReplaceOnce, AllStrings.comma, AllStrings.dot);
         WriteColumnDefinitions(cds);
     }
 
@@ -123,7 +133,7 @@ public class XamlGenerator : XmlGenerator
     public void WriteRowDefinitions(List<double> cd)
     {
         var cds = cd.ConvertAll(d => d.ToString());
-        CAChangeContent.ChangeContent<string, string>(null, cds, SHReplace.ReplaceOnce, AllStrings.comma, AllStrings.dot);
+        CAChangeContent.ChangeContent<string, string>(null, cds, SHReplaceOnce.ReplaceOnce, AllStrings.comma, AllStrings.dot);
         WriteRowDefinitions(cds);
     }
 

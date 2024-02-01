@@ -1,4 +1,14 @@
+
 namespace SunamoDevCode;
+
+using SunamoExceptions.OnlyInSE;
+using SunamoFileExtensions;
+using SunamoLang;
+using SunamoLang.SunamoXlf;
+using SunamoString;
+using SunamoValues.Values;
+using SunamoXlf;
+
 
 
 /// <summary>
@@ -6,7 +16,7 @@ namespace SunamoDevCode;
 /// </summary>
 public partial class XmlLocalisationInterchangeFileFormatSunamo
 {
-    public static string pathXlfKeys = BasePathsHelper.vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
+    public static string pathXlfKeys = SunamoLang.SunamoXlf.BasePathsHelper.vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
     static Type type = typeof(XmlLocalisationInterchangeFileFormatSunamo);
     public const string cs = "const string ";
     const string eqBs = " = \"";
@@ -43,7 +53,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
     /// <param name="key2"></param>
     public static string TextFromRLData(string pathOrExt, string key2)
     {
-        var ext = FS.GetExtension(pathOrExt);
+        var ext = Path.GetExtension(pathOrExt);
         ext = SH.PrefixIfNotStartedWith(ext, ".");
         if (ext == AllExtensions.cs)
         {

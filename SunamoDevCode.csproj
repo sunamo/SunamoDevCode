@@ -2,15 +2,12 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>24.1.24.1</Version>
+    <Version>24.2.1.1</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with SunamoCode and SunamoCSharp.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="NewFolder\**" />
     <Compile Remove="SolutionsIndexer\**" />
-    <EmbeddedResource Remove="NewFolder\**" />
     <EmbeddedResource Remove="SolutionsIndexer\**" />
-    <None Remove="NewFolder\**" />
     <None Remove="SolutionsIndexer\**" />
   </ItemGroup>
   <ItemGroup>
@@ -25,19 +22,33 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="SunamoCollectionsChangeContent" Version="24.1.14.2" />
-    <PackageReference Include="SunamoCollectionsIndexesWithNull" Version="24.1.23.1" />
-    <PackageReference Include="SunamoCSharp" Version="24.1.14.1" />
-    <PackageReference Include="SunamoShared" Version="24.1.14.2" />
-    <PackageReference Include="SunamoStringFormat" Version="24.1.23.1" />
-    <PackageReference Include="SunamoStringParts" Version="24.1.23.6" />
-    <PackageReference Include="SunamoXlf" Version="24.1.14.1" />
-  </ItemGroup>
-  <ItemGroup>
+    <PackageReference Include="CaseDotNet" Version="0.3.36" />
+    <PackageReference Include="CaseDotNet.Extensions" Version="0.2.46" />
     <PackageReference Include="Google.Apis.Core" Version="1.66.0">
     </PackageReference>
+    <PackageReference Include="SunamoCollections" Version="24.2.1.1" />
+    <PackageReference Include="SunamoCollectionsChangeContent" Version="24.2.1.1" />
+    <PackageReference Include="SunamoCollectionsGeneric" Version="24.2.1.1" />
+    <PackageReference Include="SunamoCollectionsNonGeneric" Version="24.2.1.3" />
+    <PackageReference Include="SunamoConverters" Version="24.2.1.2" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="SunamoCSharp" Version="24.2.1.1" />
+    <PackageReference Include="SunamoEmbeddedResources" Version="24.2.1.1" />
+    <PackageReference Include="SunamoExtensions" Version="24.2.1.3" />
+    <PackageReference Include="SunamoFileExtensions" Version="24.2.1.2" />
+    <PackageReference Include="SunamoFileSystem" Version="24.2.1.2" />
+    <PackageReference Include="SunamoHtml" Version="24.2.1.1" />
+    <PackageReference Include="SunamoLang" Version="24.2.1.1" />
+    <PackageReference Include="SunamoString" Version="24.2.1.1" />
+    <PackageReference Include="SunamoStringGetLines" Version="24.2.1.2" />
+    <PackageReference Include="SunamoStringParts" Version="24.2.1.1" />
+    <PackageReference Include="SunamoStringReplace" Version="24.2.1.1" />
+    <PackageReference Include="SunamoStringSplit" Version="24.2.1.1" />
+    <PackageReference Include="SunamoTextBuilder" Version="24.2.1.2" />
+    <PackageReference Include="SunamoTextOutputGenerator" Version="24.2.1.2" />
+    <PackageReference Include="SunamoXml" Version="24.2.1.3" />
+    <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>

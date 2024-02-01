@@ -43,7 +43,7 @@ sess.i18n(XlfKeys.IsNotInRange)");
     /// <summary>
     /// XmlLocalisationInterchangeFileFormatSunamo.removeSessI18nIfLineContains
     /// </summary>
-    public static List<string> removeSessI18nIfLineContains = CAG.ToList<string>("MSStoredProceduresI");
+    public static List<string> removeSessI18nIfLineContains = new List<string>("MSStoredProceduresI");
 
     /// <summary>
     /// Before is possible use ReplaceRlDataToSessionI18n
@@ -97,7 +97,7 @@ sess.i18n(XlfKeys.IsNotInRange)");
             }
         }
 
-        return SHJoin.JoinNL(l);
+        return string.Join(Environment.NewLine, l);
     }
 
     /// <summary>

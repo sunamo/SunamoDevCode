@@ -1,4 +1,10 @@
+
 namespace SunamoDevCode;
+
+using SunamoStringGetLines;
+using SunamoTextBuilder;
+using SunamoValues;
+
 public abstract partial class GeneratorCodeAbstract
 {
     public void AddTab2(int tabCount, string text)
@@ -52,7 +58,7 @@ public abstract partial class GeneratorCodeAbstract
     {
         if (p2.Length != 0)
         {
-            sb.AppendLine(AddTab(tabCount, SHFormat.Format2(p, p2)));
+            sb.AppendLine(AddTab(tabCount, string.Format(p, p2)));
         }
         else
         {
@@ -64,7 +70,7 @@ public abstract partial class GeneratorCodeAbstract
     {
         if (p2.Length != 0)
         {
-            sb.AddItem(AddTab(tabCount, SHFormat.Format2(p, p2)));
+            sb.AddItem(AddTab(tabCount, string.Format(p, p2)));
         }
         else
         {
@@ -121,7 +127,7 @@ public abstract partial class GeneratorCodeAbstract
             }
         }
 
-        string vr = SHJoin.JoinString(Environment.NewLine, radky);
+        string vr = string.Join(Environment.NewLine, radky);
         return vr;
     }
 }

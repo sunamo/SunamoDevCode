@@ -4,8 +4,8 @@ public class FiltersNotTranslateAble
 {
     private FiltersNotTranslateAble()
     {
-        ending = CAG.ToList<string>(AssemblyInfo, Layer, NotTranslateAbleCs);
-        contains = CAG.ToList<string>(SunamoXlf, WithoutDep, Credentials, Interfaces, Enums, NotTranslateAblePp, Consts, standard);
+        ending = new List<string>(AssemblyInfo, Layer, NotTranslateAbleCs);
+        contains = new List<string>(SunamoXlf, WithoutDep, Credentials, Interfaces, Enums, NotTranslateAblePp, Consts, standard);
     }
 
     public static FiltersNotTranslateAble Instance = new FiltersNotTranslateAble();

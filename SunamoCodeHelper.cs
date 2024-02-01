@@ -5,15 +5,15 @@ public partial class SunamoDevCodeHelper
 {
     public static void CopySolution(string slnFolder, string folderTo, Action<string> archive)
     {
-        var l = FS.GetFiles(slnFolder, true);
+        var l = Directory.GetFiles(slnFolder, true);
         RemoveTemporaryFilesVS(l);
         RemoveGitFiles(l);
 
-        var b = FS.GetDirectoryName(slnFolder);
+        var b = Path.GetDirectoryName(slnFolder);
         FS.WithEndSlash(ref b);
         FS.WithEndSlash(ref folderTo);
 
-        var slnFolderTo = Path.Combine(folderTo, FS.GetFileName(slnFolder));
+        var slnFolderTo = Path.Combine(folderTo, Path.GetFileName(slnFolder));
         FS.TryDeleteDirectory(slnFolderTo);
 
         foreach (var item in l)

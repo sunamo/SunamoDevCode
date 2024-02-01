@@ -1,6 +1,18 @@
-namespace SunamoDevCode;
 
-public class CSharpGenerator : GeneratorCodeAbstract
+namespace SunamoDevCode;
+using SunamoCollectionsChangeContent;
+using SunamoConverters.Converts;
+using SunamoCSharp.Args;
+using SunamoCSharp.Helpers;
+using SunamoDictionary;
+using SunamoEnums.Enums;
+using SunamoExceptions.OnlyInSE;
+using SunamoString;
+using SunamoValues;
+using SunamoValues.Constants;
+
+
+public class CSharpGenerator : GeneratorCodeAbstract, ICSharpGenerator
 {
     static Type type = typeof(CSharpGenerator);
     //public int Length => sb.Length;
@@ -168,7 +180,7 @@ public class CSharpGenerator : GeneratorCodeAbstract
         if (defaultValue)
         {
             sb.AddItem("=");
-            sb.AddItem(CSharpHelperSunamo.DefaultValueForType(type));
+            sb.AddItem(CSharpHelperSunamo.DefaultValueForType(type, ConvertTypeShortcutFullName.ToShortcut));
         }
     }
 
@@ -255,7 +267,9 @@ public class CSharpGenerator : GeneratorCodeAbstract
     public void Ctor(int tabCount, ModifiersConstructor mc, string ctorName, string inner, params string[] args)
     {
         AddTab(tabCount);
-        sb.AddItem(SH.FirstCharLower(mc.ToString()));
+        StringBuilder sb2 = new StringBuilder(mc.ToString());
+        sb2[0] = char.ToLower(sb2[0]);
+        sb.AddItem(sb2.ToString());
         sb.AddItem(ctorName);
         StartParenthesis();
         List<string> nazevParams = new List<string>(args.Length / 2);
@@ -293,7 +307,9 @@ public class CSharpGenerator : GeneratorCodeAbstract
     public void Ctor(int tabCount, ModifiersConstructor mc, string ctorName, bool autoAssing, bool isBase, params string[] args)
     {
         AddTab(tabCount);
-        sb.AddItem(SH.FirstCharLower(mc.ToString()));
+        var sb2 = new StringBuilder(mc.ToString());
+        sb2[0] = char.ToLower(sb2[0]);
+        sb.AddItem(sb2.ToString());
         sb.AddItem(ctorName);
         StartParenthesis();
         List<string> nazevParams = new List<string>(args.Length / 2);
@@ -357,7 +373,7 @@ public class CSharpGenerator : GeneratorCodeAbstract
         ReturnTypeName(returnType, name);
         AddTab(tabCount);
         StartBrace(tabCount);
-        if (!BTS.FalseOrNull(_get))
+        if (!(_get == null || _get.ToString() == false.ToString()))
         {
             var s = _get.ToString();
             AddTab(tabCount + 1);
@@ -377,7 +393,7 @@ public class CSharpGenerator : GeneratorCodeAbstract
             sb.AppendLine();
             EndBrace(tabCount + 1);
         }
-        if (!BTS.FalseOrNull(_set))
+        if (!(_get == null || _get.ToString() == false.ToString()))
         {
             AddTab(tabCount + 1);
             sb.AddItem("set");
@@ -528,7 +544,7 @@ public class CSharpGenerator : GeneratorCodeAbstract
         foreach (var item in result)
         {
             var list = CAChangeContent.ChangeContent0(null, item.Value, SH.WrapWithQm);
-            this.AppendLine(tabCount, nameDictionary + ".Add(\"" + item.Key + "\", CA.ToListString(" + string.Join(AllChars.comma, list) + "));");
+            this.AppendLine(tabCount, nameDictionary + ".Add(\"" + item.Key + "\", new List<string>(" + string.Join(AllChars.comma, list) + "));");
         }
     }
 
@@ -684,7 +700,7 @@ public class CSharpGenerator : GeneratorCodeAbstract
             }
             else
             {
-                ThrowEx.Custom("App want to split key but key is not string");
+                throw new Exception("App want to split key but key is not string");
             }
         }
         ThrowEx.DifferentCountInListsTU("keys", keys, "values", values);
@@ -694,10 +710,10 @@ public class CSharpGenerator : GeneratorCodeAbstract
         {
             if (split)
             {
-                var splitted = SHSplit.Split(keys[i].ToString(), s);
+                var splitted = keys[i].ToString().Split(new string[] { s }, StringSplitOptions.RemoveEmptyEntries); //SHSplit.Split(, s);
                 foreach (var item in splitted)
                 {
-                    dict.Add(RuntimeHelper.CastToGeneric<Key>(item), values[i]);
+                    dict.Add((Key)(dynamic)item, values[i]);
                 }
             }
             else
@@ -760,7 +776,7 @@ public class CSharpGenerator : GeneratorCodeAbstract
         foreach (var item in dict)
         {
             key = item.Key;
-            value = RuntimeHelper.CastToGeneric<Value>(item.Value.FirstOrDefault());
+            value = (Value)(dynamic)item.Value.FirstOrDefault();
 
             break;
         }
@@ -875,13 +891,18 @@ public class CSharpGenerator : GeneratorCodeAbstract
         NewVariable(tabCount, AccessModifiers.Private, cn, listName, a);
         if (a.addHyphens)
         {
-            list = CA.WrapWith(list, AllStrings.qm);
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i] = SH.WrapWithQm(list[i]);
+            }
+
+            //list = CA.WrapWith(list, AllStrings.qm);
         }
         if (genericType == "string")
         {
             if (a.useCA)
             {
-                AppendLine(tabCount, listName + " = CA.ToListString(@" + string.Join(AllChars.comma, list) + ");");
+                AppendLine(tabCount, listName + " = new List<string>(@" + string.Join(AllChars.comma, list) + ");");
             }
             else
             {
@@ -1017,7 +1038,11 @@ public class CSharpGenerator : GeneratorCodeAbstract
         }
         if (a.addHyphens)
         {
-            whereIsUsed2 = CA.WrapWith(whereIsUsed2, "\"");
+            //whereIsUsed2 = CA.WrapWith(whereIsUsed2, "\"");
+            for (int i = 0; i < whereIsUsed2.Count; i++)
+            {
+                whereIsUsed2[i] = SH.WrapWithBs(whereIsUsed2[i]);
+            }
         }
         AddTab(tabCount);
         sb.AddItem((objectIdentificator + v + ".AddRange(new " + type + "[] { " + string.Join(',', whereIsUsed2) + "});"));

@@ -1,3 +1,6 @@
+using SunamoConverters.Converts;
+using SunamoValues;
+
 namespace SunamoDevCode.Helpers;
 
 
@@ -34,13 +37,13 @@ public static partial class CSharpHelper
                 // Původně tu bylo MinValue kvůli SQLite ale dohodl jsem se že SQLite už nebudu používat a proto si ušetřím v kódu práci s MSSQL
                 return Consts.DateTimeMinVal;
             case "char":
-                ThrowEx.Custom(type);
+                throw new Exception(type);
                 return 0;
             case "byte" + "[]":
                 // Podporovaný typ pouze v desktopových aplikacích, kde není lsožka sbf
                 return null;
         }
-        ThrowEx.Custom("Nepodporovaný typ");
+        throw new Exception("Nepodporovaný typ");
         return null;
     }
 

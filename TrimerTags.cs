@@ -6,7 +6,7 @@ public static class TrimerTags
     static List<string> tagsWrappingUpper = null;
 
 
-    public static string TrimWrappingTag(string html,  StringBuilder fromStart,  StringBuilder fromEnd)
+    public static string TrimWrappingTag(string html, StringBuilder fromStart, StringBuilder fromEnd)
     {
         fromStart.Clear();
         fromEnd.Clear();
@@ -60,7 +60,7 @@ public static class TrimerTags
 
     public static void InitTagsWrapping()
     {
-        tagsWrapping = CAG.ToList<string>("i", "b", "u");
+        tagsWrapping = new List<string>(["i", "b", "u"]);
         tagsWrappingUpper = new List<string>(tagsWrapping.Count);
         foreach (var item in tagsWrapping)
         {

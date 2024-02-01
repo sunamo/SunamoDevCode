@@ -1,4 +1,12 @@
+
 namespace SunamoDevCode;
+using SunamoCollections;
+using SunamoCollectionsGeneric;
+using SunamoDictionary._sunamo;
+using SunamoEnums.Enums;
+using SunamoExceptions.OnlyInSE;
+using SunamoStringTrim;
+
 
 public class ConstsManager
 {
@@ -31,7 +39,7 @@ public class ConstsManager
 #endif
  GetConsts();
 
-        var both = CA.CompareList(keys.Item1, keysAll);
+        var both = CAG.CompareList(keys.Item1, keysAll);
         AddKeysConsts(keysAll, first, lines, valuesAll);
     }
 
@@ -62,11 +70,11 @@ public class ConstsManager
     {
         var first = -1;
 
-        var lines =
+        var lines = (
 #if ASYNC
     await
 #endif
- TF.ReadAllLines(pathXlfKeys);
+ File.ReadAllLinesAsync(pathXlfKeys)).ToList();
 
         var keys = CSharpParser.ParseConsts(lines, out first);
         return new OutRef<List<string>, int, List<string>>(keys, first, lines);
@@ -123,7 +131,7 @@ public class ConstsManager
 
         CA.RemoveStringsEmpty2(lines);
 
-        TF.WriteAllLines(pathXlfKeys, lines);
+        File.WriteAllLinesAsync(pathXlfKeys, lines);
     }
     #endregion
 }

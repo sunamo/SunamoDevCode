@@ -1,3 +1,5 @@
+using SunamoStringGetLines;
+
 namespace SunamoDevCode;
 
 
@@ -26,7 +28,7 @@ public class GitConfigFileHelper
             }
         }
 
-        return SHJoin.JoinNL(l).Trim();
+        return string.Join(Environment.NewLine, l).Trim();
     }
 
     public static ExistsNonExistsList<GitConfigSection> ExistsBlocks(string s)

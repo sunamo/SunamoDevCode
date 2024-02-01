@@ -1,4 +1,7 @@
+
 namespace SunamoDevCode.Values;
+using SunamoCollectionsNonGeneric;
+
 
 public class VisualStudioTempFse
 {
@@ -32,8 +35,8 @@ foldersInProjectDownloaded);
     public const string gitignoreFile = ".gitignore";
 
     #region 1) To delete
-    public static List<string> foldersInSolutionToDelete = CA.ToListString(".vs", "_UpgradeReport_Files", "obj", "Backup*", "bin", "obj", "TestResults", "MigrationBackup");
-    public static List<string> foldersInProjectToDelete = CA.ToListString(".vs", "obj", "bin", "BundleArtifacts");
+    public static List<string> foldersInSolutionToDelete = new List<string>([".vs", "_UpgradeReport_Files", "obj", "Backup*", "bin", "obj", "TestResults", "MigrationBackup"]);
+    public static List<string> foldersInProjectToDelete = new List<string>([".vs", "obj", "bin", "BundleArtifacts"]);
     public static List<string> foldersAnywhereToDelete = new List<string> { };
 
     public static ExtensionSortedCollection filesInSolutionToDelete = new ExtensionSortedCollection("UpgradeLog*.htm", "UpgradeLog*.htm", "*.suo");

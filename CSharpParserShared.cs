@@ -1,3 +1,5 @@
+using SunamoExtensions;
+
 namespace SunamoDevCode;
 
 
@@ -30,7 +32,7 @@ public partial class CSharpParser
 #if ASYNC
     await
 #endif
- TF.ReadAllLines(file);
+ File.ReadAllLinesAsync(file).ToList();
 
         for (int i = lines.Count - 1; i >= 0; i--)
         {
@@ -49,10 +51,10 @@ public partial class CSharpParser
 
         //var d3 = lines.Where(d => d.Contains(d2));
 
-        await TF.WriteAllLines(file, lines);
+        await File.WriteAllLinesAsync(file, lines).ToList();
         if (remove.Count > 0)
         {
-            //ThrowEx.Custom( "Cant be deleted in XlfKeys: " + string.Join(",", remove));
+            //throw new Exception( "Cant be deleted in XlfKeys: " + string.Join(",", remove));
         }
     }
 

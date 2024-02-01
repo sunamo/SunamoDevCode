@@ -12,6 +12,6 @@ public class RemoveCommentsHelper
         var l = SHGetLines.GetLines(s);
         CA.Trim(l);
         CA.RemoveStartingWith("#", l);
-        return SHJoin.JoinNL(l);
+        return string.Join(Environment.NewLine, l);
     }
 }

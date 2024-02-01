@@ -14,7 +14,7 @@ public class MarvinPathsHelper
     {
         var p = Module(r) + ClientS + (addS ? "s" : "") + SrcS;
         p = SHReplace.ReplaceOnce(p, @"\s", @"s\");
-        if (!FS.ExistsDirectory(p))
+        if (!Directory.Exists(p))
         {
             ThrowEx.DirectoryExists(p);
         }
@@ -25,7 +25,7 @@ public class MarvinPathsHelper
     {
         var p = Module(r) + ClientS + (addS ? "s" : "");
         p = SHReplace.ReplaceOnce(p, @"\s", @"s\");
-        if (throwExIfNotExists && !FS.ExistsDirectory(p))
+        if (throwExIfNotExists && !Directory.Exists(p))
         {
             ThrowEx.DirectoryExists(p);
         }
