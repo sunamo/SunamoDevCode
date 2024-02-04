@@ -1,7 +1,4 @@
-
 namespace SunamoDevCode;
-using SunamoCSharp.Args;
-using SunamoEnums.Enums;
 
 
 public interface ICSharpGenerator
@@ -42,4 +39,3 @@ public interface ICSharpGenerator
     void This(int tabCount, string item);
     void Using(string usings);
 }
-

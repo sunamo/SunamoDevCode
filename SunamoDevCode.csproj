@@ -26,21 +26,26 @@
     <PackageReference Include="CaseDotNet.Extensions" Version="0.2.46" />
     <PackageReference Include="Google.Apis.Core" Version="1.66.0">
     </PackageReference>
+    <PackageReference Include="SunamoBts" Version="24.2.1.2" />
     <PackageReference Include="SunamoCollections" Version="24.2.1.1" />
     <PackageReference Include="SunamoCollectionsChangeContent" Version="24.2.1.1" />
     <PackageReference Include="SunamoCollectionsGeneric" Version="24.2.1.1" />
+    <PackageReference Include="SunamoCollectionsIndexesWithNull" Version="24.2.1.2" />
     <PackageReference Include="SunamoCollectionsNonGeneric" Version="24.2.1.3" />
+    <PackageReference Include="SunamoCompare" Version="24.2.1.2" />
     <PackageReference Include="SunamoConverters" Version="24.2.1.2" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SunamoCSharp" Version="24.2.1.1" />
     <PackageReference Include="SunamoEmbeddedResources" Version="24.2.1.1" />
-    <PackageReference Include="SunamoExtensions" Version="24.2.1.3" />
+    <PackageReference Include="SunamoExtensions" Version="24.2.1.4" />
     <PackageReference Include="SunamoFileExtensions" Version="24.2.1.2" />
     <PackageReference Include="SunamoFileSystem" Version="24.2.1.2" />
+    <PackageReference Include="SunamoFubuCore" Version="24.2.1.3" />
     <PackageReference Include="SunamoHtml" Version="24.2.1.1" />
     <PackageReference Include="SunamoLang" Version="24.2.1.1" />
     <PackageReference Include="SunamoString" Version="24.2.1.1" />
+    <PackageReference Include="SunamoStringFormat" Version="24.2.1.1" />
     <PackageReference Include="SunamoStringGetLines" Version="24.2.1.2" />
     <PackageReference Include="SunamoStringParts" Version="24.2.1.1" />
     <PackageReference Include="SunamoStringReplace" Version="24.2.1.1" />

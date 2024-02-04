@@ -1,4 +1,4 @@
-using SunamoExtensions;
+using SunamoCollectionsIndexesWithNull;
 
 namespace SunamoDevCode;
 
@@ -28,11 +28,11 @@ public partial class CSharpParser
 
         var ind = CAIndexesWithNull.IndexesWithNull(remove);
 
-        var lines =
+        var lines = (
 #if ASYNC
     await
 #endif
- File.ReadAllLinesAsync(file).ToList();
+ File.ReadAllLinesAsync(file)).ToList();
 
         for (int i = lines.Count - 1; i >= 0; i--)
         {
@@ -51,7 +51,7 @@ public partial class CSharpParser
 
         //var d3 = lines.Where(d => d.Contains(d2));
 
-        await File.WriteAllLinesAsync(file, lines).ToList();
+        await File.WriteAllLinesAsync(file, lines);
         if (remove.Count > 0)
         {
             //throw new Exception( "Cant be deleted in XlfKeys: " + string.Join(",", remove));

@@ -1,3 +1,5 @@
+using SunamoFubuCore;
+
 namespace SunamoDevCode;
 
 /// <summary>
@@ -8,7 +10,7 @@ public class CsFileFilter : ICsFileFilter
 
     public List<string> GetFilesFiltered(string s, string masc, SearchOption so)
     {
-        var f = Directory.GetFiles(s, masc, so);
+        var f = Directory.GetFiles(s, masc, so).ToList();
 
         f.RemoveAll(AllowOnly);
         f.RemoveAll(AllowOnlyContains);

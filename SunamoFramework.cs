@@ -9,7 +9,7 @@ public class SunamoFramework
         Dictionary<char, string> charEntity = new Dictionary<char, string>();
         List<string> constsToCreate = new List<string>();
 
-        foreach (var item in RLData.en)
+        foreach (var item in SunamoLang.SunamoXlf.RLData.en)
         {
             foreach (var c in item.Value)
             {

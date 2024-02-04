@@ -1,8 +1,3 @@
-using SunamoStringGetLines;
-using SunamoStringSplit;
-using SunamoEmbeddedResources;
-using System.Reflection;
-
 namespace SunamoDevCode;
 
 class EmbeddedResourcesH

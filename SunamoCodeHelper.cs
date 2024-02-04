@@ -5,7 +5,7 @@ public partial class SunamoDevCodeHelper
 {
     public static void CopySolution(string slnFolder, string folderTo, Action<string> archive)
     {
-        var l = Directory.GetFiles(slnFolder, true);
+        var l = Directory.GetFiles(slnFolder, "*", SearchOption.AllDirectories).ToList();
         RemoveTemporaryFilesVS(l);
         RemoveGitFiles(l);
 
@@ -20,11 +20,11 @@ public partial class SunamoDevCodeHelper
         {
             var np = item.Replace(b, folderTo);
             FS.CreateUpfoldersPsysicallyUnlessThere(np);
-            FS.CopyFile(item, np, FileMoveCollisionOption.DontManipulate);
+            //FS.CopyFile(item, np, FileMoveCollisionOption.DontManipulate);
         }
 
         archive(slnFolderTo);
-        ThisApp.Info("Archive was created successfully, is important create archive because first open with VS because will create folders package,obj,bin");
+        //ThisApp.Info("Archive was created successfully, is important create archive because first open with VS because will create folders package,obj,bin");
     }
 
     public static void RemoveGitFiles(List<string> files, bool alsoGitFiles = true, bool alsoDownloadedFolders = false, bool alsoFoldersToDelete = false)

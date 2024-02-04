@@ -1,7 +1,4 @@
-
 namespace SunamoDevCode.CodeGenerator;
-using SunamoData.Data;
-using SunamoValues;
 
 
 public class TypeScriptGenerator

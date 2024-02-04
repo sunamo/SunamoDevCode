@@ -1,30 +1,5 @@
-
 namespace SunamoDevCode.FileFormats;
-using SunamoClipboard;
-using SunamoCollections;
-using SunamoCollectionsChangeContent;
-using SunamoCollectionsGeneric;
-using SunamoCollectionWithoutDuplicates;
-using SunamoDevCode._sunamo;
-using SunamoDictionary;
-using SunamoExceptions.OnlyInSE;
-using SunamoFileSystem;
-using SunamoFileSystem.Args;
-using SunamoHtml.Html;
 //using SunamoFileIO;
-using SunamoLang;
-using SunamoLogger.Logger.LoggerBaseNS;
-using SunamoString;
-using SunamoStringGetLines;
-using SunamoStringParts;
-using SunamoStringReplace;
-using SunamoStringSplit;
-using SunamoStringTrim;
-using SunamoTextOutputGenerator;
-using SunamoValues;
-using SunamoValues.Values;
-using SunamoXlf;
-using SunamoXml;
 
 
 
@@ -92,7 +67,7 @@ TranslateEngine");
 
         foreach (var item in slns)
         {
-            xlfSolutions.Add(DefaultPaths.vs + item);
+            xlfSolutions.Add(SunamoLang.SunamoXlf.DefaultPaths.vs + item);
         }
     }
 
@@ -395,7 +370,7 @@ ReplaceForWithoutUnderscore(string folder)
     {
         if (path == null)
         {
-            path = DefaultPaths.vs;
+            path = SunamoLang.SunamoXlf.DefaultPaths.vs;
         }
         return null;
 
@@ -1101,7 +1076,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
 
         Dictionary<string, string> filesWithXlf = new Dictionary<string, string>();
 
-        var files = Directory.GetFiles(DefaultPaths.vsProjects, "*.cs", SearchOption.AllDirectories);
+        var files = Directory.GetFiles(SunamoLang.SunamoXlf.DefaultPaths.vsProjects, "*.cs", SearchOption.AllDirectories);
 
         Dictionary<string, string> idTarget = new Dictionary<string, string>();
 

@@ -1,13 +1,5 @@
-
 namespace SunamoDevCode;
 
-using SunamoExceptions.OnlyInSE;
-using SunamoFileExtensions;
-using SunamoLang;
-using SunamoLang.SunamoXlf;
-using SunamoString;
-using SunamoValues.Values;
-using SunamoXlf;
 
 
 
@@ -29,7 +21,8 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 
     public static Langs GetLangFromFilename(string s)
     {
-        return XmlLocalisationInterchangeFileFormatXlf.GetLangFromFilename(s);
+        return Langs.cs;
+        //return XmlLocalisationInterchangeFileFormatXlf.GetLangFromFilename(s);
     }
 
     /// <summary>

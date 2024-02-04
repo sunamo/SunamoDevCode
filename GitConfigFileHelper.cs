@@ -1,5 +1,3 @@
-using SunamoStringGetLines;
-
 namespace SunamoDevCode;
 
 
@@ -65,7 +63,7 @@ To co upravím v těchto větvích
             }
         }
 
-        var values = EnumHelper.GetValues<GitConfigSection>();
+        var values = Enum.GetValues<GitConfigSection>();
         foreach (var item in values)
         {
             if (!result.Contains(item))

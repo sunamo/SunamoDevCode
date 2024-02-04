@@ -1,9 +1,5 @@
-
 namespace SunamoDevCode;
 
-using SunamoStringGetLines;
-using SunamoTextBuilder;
-using SunamoValues;
 
 public abstract partial class GeneratorCodeAbstract
 {
