@@ -1,3 +1,6 @@
+using SunamoCollectionWithoutDuplicates;
+using SunamoConverters.Converts;
+
 namespace SunamoDevCode.Helpers;
 
 
@@ -763,6 +766,14 @@ public static partial class CSharpHelper
         return csg.ToString();
     }
 
+    public static List<string> TrimEnd(List<string> sf, params char[] toTrim)
+    {
+        for (int i = 0; i < sf.Count; i++)
+        {
+            sf[i] = sf[i].TrimEnd(toTrim);
+        }
+        return sf;
+    }
 
     /// <summary>
     /// value - data type

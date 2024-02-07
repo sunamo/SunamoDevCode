@@ -18,7 +18,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         List<string> consts = new List<string>();
         AllLists.InitHtmlEntitiesFullNames();
 
-        var val = AllLists.htmlEntitiesFullNames._d1.Values.ToList();
+        var val = AllLists.htmlEntitiesFullNames.Values.ToList();
         int i;
         for (i = 0; i < val.Count; i++)
         {
@@ -44,7 +44,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
             }
         }
 
-        ClipboardHelper.SetText(newConsts.ToString());
+        //ClipboardHelper.SetText(newConsts.ToString());
         #endregion
     }
 
@@ -67,7 +67,7 @@ TranslateEngine");
 
         foreach (var item in slns)
         {
-            xlfSolutions.Add(SunamoLang.SunamoXlf.DefaultPaths.vs + item);
+            xlfSolutions.Add(DefaultPaths.vs + item);
         }
     }
 
@@ -158,7 +158,7 @@ TranslateEngine");
 
     public static IList<string> GetKeysInCsWithoutRLDataEn(ref string key, string content)
     {
-        CollectionWithoutDuplicates<string> c = new CollectionWithoutDuplicates<string>();
+        List<string> c = new List<string>();
 
         var occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
 
@@ -186,7 +186,7 @@ TranslateEngine");
 
 
 
-        return c.c;
+        return c.Distinct().ToList();
     }
 
 
@@ -201,7 +201,7 @@ TranslateEngine");
     /// <returns></returns>
     public static IList<string> GetKeysInCsWithRLDataEn(ref string key, string content, string file = "")
     {
-        CollectionWithoutDuplicates<string> c = new CollectionWithoutDuplicates<string>();
+        List<string> c = new List<string>();
 
         var occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.RLDataEn + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
 
@@ -238,7 +238,7 @@ TranslateEngine");
             c.Add(key);
         }
 
-        return c.c;
+        return c.Distinct().ToList();
     }
 
     #region Manage * edit in *.xlf
@@ -368,10 +368,10 @@ ReplaceForWithoutUnderscore(string folder)
 
     public static List<string> GetFilesCs(string path = null)
     {
-        if (path == null)
-        {
-            path = SunamoLang.SunamoXlf.DefaultPaths.vs;
-        }
+        //if (path == null)
+        //{
+        //    path = DefaultPaths.vs;
+        //}
         return null;
 
         //return FS.GetFiles(path, "*.cs", System.IO.SearchOption.AllDirectories, new
@@ -459,7 +459,7 @@ GetAllLastLetterFromEnd(string fn, bool saveAllLastLetterToClipboard)
     {
 
         List<string> ids = new List<string>();
-        CollectionWithoutDuplicates<char> allLastLetters = new CollectionWithoutDuplicates<char>();
+        List<char> allLastLetters = new List<char>();
 
         var d =
 #if ASYNC
@@ -480,11 +480,13 @@ GetTransUnits(fn);
             ids.Add(id);
         }
 
-        allLastLetters.c.Sort();
+        allLastLetters = allLastLetters.Distinct().ToList();
+        allLastLetters.Sort();
 
         if (saveAllLastLetterToClipboard)
         {
-            ClipboardHelper.SetLines(allLastLetters.c.ConvertAll(d => d.ToString()));
+
+            //ClipboardHelper.SetLines(allLastLetters.c.ConvertAll(d => d.ToString()));
         }
 
         return ids;
@@ -607,6 +609,8 @@ GetTransUnits(fn);
 
         d.xd.Save(fn);
     }
+
+
 
     /// <summary>
     /// A1 is possible to obtain with XlfResourcesH.PathToXlfSunamo
@@ -777,10 +781,10 @@ GetTransUnits(fn);
 
         }
 
-        if (saveToClipboard)
-        {
-            ClipboardHelper.SetLines(r);
-        }
+        //if (saveToClipboard)
+        //{
+        //    ClipboardHelper.SetLines(r);
+        //}
 
         return r;
     }
@@ -851,7 +855,7 @@ void
                 if (!removed)
                 {
 #if DEBUG
-                    DebugLogger.Instance.WriteLine(idsEndingEnd[i]);
+                    //DebugLogger.Instance.WriteLine(idsEndingEnd[i]);
 #endif
                 }
             }
@@ -1063,20 +1067,20 @@ void
     /// <param name="addToNotToTranslateStrings"></param>
     public static
 #if ASYNC
-    async Task<OutRef<object, CollectionWithoutDuplicates<string>>>
+    async Task<OutRef<object, List<string>>>
 #else
 OutRef<object, CollectionWithoutDuplicates<string>>
 #endif
     ReplaceXlfKeysForString(string path, List<string> ids, List<string> solutionsExcludeWhileWorkingOnSourceCode)
     {
-        var addToNotToTranslateStrings = new CollectionWithoutDuplicates<string>();
+        var addToNotToTranslateStrings = new List<string>();
         solutionsExcludeWhileWorkingOnSourceCode.Add("AllProjectsSearchTestFiles");
 
         CA.WrapWith(solutionsExcludeWhileWorkingOnSourceCode, @"\");
 
         Dictionary<string, string> filesWithXlf = new Dictionary<string, string>();
 
-        var files = Directory.GetFiles(SunamoLang.SunamoXlf.DefaultPaths.vsProjects, "*.cs", SearchOption.AllDirectories);
+        var files = Directory.GetFiles(DefaultPaths.vsProjects, "*.cs", SearchOption.AllDirectories);
 
         Dictionary<string, string> idTarget = new Dictionary<string, string>();
 
@@ -1124,14 +1128,14 @@ OutRef<object, CollectionWithoutDuplicates<string>>
             }
         }
 
-        CollectionWithoutDuplicates<string> replacedKeys = new CollectionWithoutDuplicates<string>();
+        List<string> replacedKeys = new List<string>();
 
         foreach (var kv in filesWithXlf)
         {
             var content = kv.Value;
             StringBuilder sb = new StringBuilder(content);
 
-            replacedKeys.c.Clear();
+            replacedKeys.Clear();
 
             foreach (var item in ids)
             {
@@ -1164,13 +1168,14 @@ OutRef<object, CollectionWithoutDuplicates<string>>
                 }
             }
 
-            if (replacedKeys.c.Count > 0)
+            replacedKeys = replacedKeys.Distinct().ToList();
+            if (replacedKeys.Count > 0)
             {
 
                 await File.WriteAllTextAsync(kv.Key, sb.ToString());
             }
         }
-        return new OutRef<object, CollectionWithoutDuplicates<string>>(null, addToNotToTranslateStrings);
+        return new OutRef<object, List<string>>(null, addToNotToTranslateStrings.Distinct().ToList());
         // Nepřidávat znovu pokud již končí na postfix
     }
 

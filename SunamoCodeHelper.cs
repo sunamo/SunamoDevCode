@@ -1,8 +1,52 @@
+using SunamoCompare._SunamoComparer;
+
 namespace SunamoDevCode;
 
 
 public partial class SunamoDevCodeHelper
 {
+    public static bool TryDeleteDirectory(string v)
+    {
+        if (!Directory.Exists(v))
+        {
+            return true;
+        }
+
+        try
+        {
+            Directory.Delete(v, true);
+            return true;
+        }
+        catch (Exception ex)
+        {
+
+            // Je to try takže nevím co tu dělá tohle a
+            //ThrowEx.FolderCannotBeDeleted(v, ex);
+            //var result = InvokePs(v);
+            //if (result.Count > 0)
+            //{
+            //    return false;
+            //}
+        }
+
+        var files = FS.GetFiles(v, "*", SearchOption.AllDirectories);
+        foreach (var item in files)
+        {
+            File.SetAttributes(item, FileAttributes.Normal);
+        }
+
+        try
+        {
+            Directory.Delete(v, true);
+            return true;
+        }
+        catch (Exception ex)
+        {
+        }
+
+        return false;
+    }
+
     public static void CopySolution(string slnFolder, string folderTo, Action<string> archive)
     {
         var l = Directory.GetFiles(slnFolder, "*", SearchOption.AllDirectories).ToList();
@@ -102,7 +146,7 @@ public partial class SunamoDevCodeHelper
             else
             {
                 var remain = between.Substring(startWithTag.Length);
-                add = BTS.IsInt(remain);
+                add = int.TryParse(remain, out var _);
             }
         }
 

@@ -14,9 +14,9 @@ public class ReplacerXlf
     {
         AllLists.InitHtmlEntitiesFullNames();
 
-        val = AllLists.htmlEntitiesFullNames._d1.Values.ToList();
+        val = AllLists.htmlEntitiesFullNames.Values.ToList();
 
-        val.Sort(SunamoComparer.StringLength.Instance.Desc);
+        //val.Sort(SunamoComparer.StringLength.Instance.Desc);
         CA.Prepend("_", val);
     }
 

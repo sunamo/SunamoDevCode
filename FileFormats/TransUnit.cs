@@ -1,3 +1,5 @@
+using SunamoXml.Generators;
+
 namespace SunamoDevCode.FileFormats;
 
 public class TransUnit
@@ -45,9 +47,9 @@ public class TransUnit
 
     public const string tTransUnit = "trans-unit";
 
-    public override string ToString()
+    public string ToString(IXmlGenerator g)
     {
-        XmlGenerator g = new XmlGenerator();
+        //XmlGenerator g = new XmlGenerator();
         g.WriteTagWithAttrs(tTransUnit, "id", id, "translate", BTS.BoolToString(translate, true), "xml:space", "preserve");
         g.WriteElement("source", source);
 

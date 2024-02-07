@@ -20,7 +20,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
         List<string> consts = new List<string>();
         AllLists.InitHtmlEntitiesFullNames();
 
-        var val = AllLists.htmlEntitiesFullNames._d1.Values.ToList();
+        var val = AllLists.htmlEntitiesFullNames.Values.ToList();
         int i;
         for (i = 0; i < val.Count; i++)
         {
@@ -87,9 +87,9 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
         File.WriteAllTextAsync(path, content);
     }
 
-    public static void ConstsFromClipboard()
+    public static void ConstsFromClipboard(string input)
     {
-        var l = ClipboardHelper.GetText().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        var l = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
         //StringBuilder sb = new StringBuilder();
         //foreach (var item in l)

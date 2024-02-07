@@ -8,7 +8,7 @@ namespace SunamoDevCode;
 /// </summary>
 public partial class XmlLocalisationInterchangeFileFormatSunamo
 {
-    public static string pathXlfKeys = SunamoLang.SunamoXlf.BasePathsHelper.vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
+    public static string pathXlfKeys = BasePathsHelper.vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
     static Type type = typeof(XmlLocalisationInterchangeFileFormatSunamo);
     public const string cs = "const string ";
     const string eqBs = " = \"";
