@@ -128,6 +128,7 @@ internal class SH
         return h + value + h;
     }
 
+    #region SH.FirstCharUpper
     internal static void FirstCharUpper(ref string nazevPP)
     {
         nazevPP = FirstCharUpper(nazevPP);
@@ -144,6 +145,7 @@ internal class SH
         string sb = nazevPP.Substring(1);
         return nazevPP[0].ToString().ToUpper() + sb;
     }
+    #endregion
 
     internal static bool MatchWildcard(string name, string mask)
     {

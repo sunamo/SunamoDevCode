@@ -507,7 +507,7 @@ public class FoldersWithSolutions
 
         var l2 = result.Count;
 
-        //result.RemoveAll(d => CA.IsEqualToAnyElement(d.nameSolution, skip));
+        //result.RemoveAll(d => CAG.IsEqualToAnyElement(d.nameSolution, skip));
 
         ////////DebugLogger.Instance.WriteCount("Solutions in " + documentsFolder, solutions);
         return result;
