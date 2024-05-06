@@ -105,7 +105,7 @@ public class GitHelper
                     gitBashBuilder.Fetch();
                 }
 
-                gitBashBuilder.Add(AllStringsSE.asterisk);
+                gitBashBuilder.Add(AllStrings.asterisk);
 
                 gitBashBuilder.Commit(false, commitMessage);
 
@@ -189,7 +189,7 @@ public class GitHelper
             s = s.Replace(b6, string.Empty);
         }
 
-        if (s.Contains(AllStringsSE.slash))
+        if (s.Contains(AllStrings.slash))
         {
             throw new Exception(s + " - name of repo contains still /");
         }

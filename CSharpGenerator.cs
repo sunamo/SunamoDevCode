@@ -3,7 +3,7 @@ using SunamoConverters.Converts;
 namespace SunamoDevCode;
 
 
-public class CSharpGenerator : GeneratorCodeAbstract, ICSharpGenerator
+public class CSharpGenerator : GeneratorCodeAbstract//, ICSharpGenerator
 {
     static Type type = typeof(CSharpGenerator);
     //public int Length => sb.Length;
@@ -355,7 +355,7 @@ public class CSharpGenerator : GeneratorCodeAbstract, ICSharpGenerator
     /// <param name="_get"></param>
     /// <param name="_set"></param>
     /// <param name="field"></param>
-    public void Property(int tabCount, AccessModifiers _public, bool _static, string returnType, string name, object _get, object _set, string field)
+    public void Property(int tabCount, AccessModifiers _public, bool _static, string returnType, string name, object _get, object _set, string field, bool shortGet, bool shortSet)
     {
         #region MyRegion
         AddTab(tabCount);
@@ -363,9 +363,23 @@ public class CSharpGenerator : GeneratorCodeAbstract, ICSharpGenerator
         #endregion
         ReturnTypeName(returnType, name);
         AddTab(tabCount);
-        StartBrace(tabCount);
-        if (!(_get == null || _get.ToString() == false.ToString()))
+        if (shortGet && shortSet)
         {
+            sb.AddItem("{");
+        }
+        else
+        {
+            StartBrace(tabCount);
+        }
+
+        var settedGet = !(_get == null || _get.ToString() == false.ToString());
+        if (settedGet)
+        {
+            if (shortGet)
+            {
+                throw new Exception("Can't be set shortGet and _get in one time");
+            }
+
             var s = _get.ToString();
             AddTab(tabCount + 1);
             sb.AddItem("get");
@@ -384,8 +398,15 @@ public class CSharpGenerator : GeneratorCodeAbstract, ICSharpGenerator
             sb.AppendLine();
             EndBrace(tabCount + 1);
         }
-        if (!(_get == null || _get.ToString() == false.ToString()))
+
+        var settedSet = !(_set == null || _set.ToString() == false.ToString());
+        if (settedSet)
         {
+            if (shortSet)
+            {
+                throw new Exception("Can't be set shortSet and _set in one time");
+            }
+
             AddTab(tabCount + 1);
             sb.AddItem("set");
             StartBrace(tabCount + 1);
@@ -403,6 +424,23 @@ public class CSharpGenerator : GeneratorCodeAbstract, ICSharpGenerator
 
             sb.AppendLine();
             EndBrace(tabCount + 1);
+        }
+
+        if (shortGet)
+        {
+            if (settedSet)
+            {
+                throw new Exception("Can't be set shortGet and _get in one time");
+            }
+            sb.AddItem("get;");
+        }
+        if (shortSet)
+        {
+            if (settedGet)
+            {
+                throw new Exception("Can't be set shortGet and _get in one time");
+            }
+            sb.AddItem("set;");
         }
 
         EndBrace(tabCount);

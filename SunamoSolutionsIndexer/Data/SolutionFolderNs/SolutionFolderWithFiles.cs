@@ -35,7 +35,7 @@ public class SolutionFolderWithFiles : SolutionFolder
         sizeOfExtensionTypes = new Dictionary<TypeOfExtensionDevCode, long>();
         sizeOfExtension = new Dictionary<string, long>();
 
-        files = Directory.GetFiles(fullPathFolder, AllStringsSE.asterisk, SearchOption.AllDirectories).ToList();
+        files = Directory.GetFiles(fullPathFolder, AllStrings.asterisk, SearchOption.AllDirectories).ToList();
         filesOfExtension = new Dictionary<string, List<string>>();
 
         for (int i = 0; i < files.Count; i++)
@@ -79,7 +79,7 @@ public class SolutionFolderWithFiles : SolutionFolder
         //    }
         //}
 
-        //displayedText += " (" + FS.GetSizeInAutoString(overallSize, ComputerSizeUnits.MB) + AllStringsSE.rb;
+        //displayedText += " (" + FS.GetSizeInAutoString(overallSize, ComputerSizeUnits.MB) + AllStrings.rb;
     }
 
     public void CreateFileInfoLiteObjects(string extensionWithoutDot, string item)

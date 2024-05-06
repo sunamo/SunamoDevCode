@@ -1,0 +1,13 @@
+GitConfigFileHelper
+SHGetLines
+Environment
+NewLine
+ExistsNonExistsList
+GitConfigSection
+Exists
+To
+NonExists
+ThrowEx
+Enum
+GetValues
+List

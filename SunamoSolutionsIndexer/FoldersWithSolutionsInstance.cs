@@ -539,7 +539,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
             foreach (string var in slo)
             {
                 string nazev = Path.GetFileName(var);
-                if (nazev.StartsWith(AllStringsSE.lowbar))
+                if (nazev.StartsWith(AllStrings.lowbar))
                 {
                     spec.Add(var);
                 }

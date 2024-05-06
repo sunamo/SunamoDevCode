@@ -175,7 +175,7 @@ public class FoldersWithSolutions
                 ProjectsTypes p = ProjectsTypes.None;
 
                 var l = fn.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
-                var l2 = l.Replace(AllStringsSE.lowbar, string.Empty).Trim();
+                var l2 = l.Replace(AllStrings.lowbar, string.Empty).Trim();
                 switch (l2)
                 {
                     case "C++":
@@ -613,7 +613,7 @@ public class FoldersWithSolutions
             foreach (string var in slo)
             {
                 string nazev = Path.GetFileName(var);
-                if (nazev.StartsWith(AllStringsSE.lowbar))
+                if (nazev.StartsWith(AllStrings.lowbar))
                 {
                     spec.Add(var);
                 }

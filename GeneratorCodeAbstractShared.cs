@@ -3,6 +3,13 @@ namespace SunamoDevCode;
 
 public abstract partial class GeneratorCodeAbstract
 {
+    public XmlDoc xmlDoc = null;
+
+    public GeneratorCodeAbstract()
+    {
+        xmlDoc = new XmlDoc(sb);
+    }
+
     public void AddTab2(int tabCount, string text)
     {
         sb.AddItem(AddTab(tabCount, text));

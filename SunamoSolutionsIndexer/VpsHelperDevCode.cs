@@ -6,7 +6,7 @@ using TextBuilder = SunamoTextBuilder.TextBuilder;
 
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
-public class VpsHelper
+public class VpsHelperDevCode
 {
     public static bool IsVps
     {
