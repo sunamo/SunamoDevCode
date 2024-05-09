@@ -82,7 +82,7 @@ public static partial class CSharpHelper
                 //                    continue;
                 //                }
 
-                var l = c.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var l = cv.Split(new string[] { v.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
                 bool allCommented = true;
 

@@ -89,7 +89,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 
     public static void ConstsFromClipboard(string input)
     {
-        var l = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        var l = inputv.Split(new string[] { v.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
         //StringBuilder sb = new StringBuilder();
         //foreach (var item in l)
