@@ -3,7 +3,7 @@ using SunamoCollectionOnDrive;
 using SunamoDevCode.SunamoSolutionsIndexer;
 using SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 
-namespace SunamoSolutionsIndexer;
+namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 public partial class SolutionsIndexerHelper
 {
