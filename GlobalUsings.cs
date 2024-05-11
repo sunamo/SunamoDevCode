@@ -35,3 +35,6 @@ global using SunamoValues;
 global using System.Reflection;
 global using TextCopy;
 global using HtmlAgilityPack;
+global using System.Collections.Generic;
+global using System.Collections;
+

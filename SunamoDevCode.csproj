@@ -9,6 +9,49 @@
     <Compile Remove="SolutionsIndexer\**" />
     <EmbeddedResource Remove="SolutionsIndexer\**" />
     <None Remove="SolutionsIndexer\**" />
+    <Compile Include="..\SunamoLang\SunamoXlf\XlfResourcesH.cs" Link="_linked\SunamoLang\SunamoXlf\XlfResourcesH.cs" />
+    <Compile Include="..\SunamoLang\SunamoXlf\DefaultPaths.cs" Link="_linked\SunamoLang\SunamoXlf\DefaultPaths.cs" />
+    <Compile Include="..\SunamoEnums\Enums\VariableModifiers.cs" Link="_linked\SunamoEnums\Enums\VariableModifiers.cs" />
+    <Compile Include="..\SunamoExceptions\OnlyInSE\OutRef.cs" Link="_linked\SunamoExceptions\OnlyInSE\OutRef.cs" />
+    <Compile Include="..\SunamoExceptions\OnlyInSE\ThrowEx.cs" Link="_linked\SunamoExceptions\OnlyInSE\ThrowEx.cs" />
+    <Compile Include="..\SunamoEnums\Enums\ObjectInitializationOptions.cs" Link="_linked\SunamoEnums\Enums\ObjectInitializationOptions.cs" />
+    <Compile Include="..\SunamoEnums\Enums\ModifiersConstructor.cs" Link="_linked\SunamoEnums\Enums\ModifiersConstructor.cs" />
+    <Compile Include="..\SunamoValues\AllStrings.cs" Link="_linked\SunamoValues\AllStrings.cs" />
+    <Compile Include="..\SunamoValues\AllChars.cs" Link="_linked\SunamoValues\AllChars.cs" />
+    <Compile Include="..\SunamoExceptions\OnlyInSE\Types.cs" Link="_linked\SunamoExceptions\OnlyInSE\Types.cs" />
+    <Compile Include="..\SunamoValues\Consts.cs" Link="_linked\SunamoValues\Consts.cs" />
+    <Compile Include="..\SunamoData\Data\PushSolutionsData.cs" Link="_linked\SunamoData\Data\PushSolutionsData.cs" />
+    <Compile Include="..\SunamoEnums\Enums\Device.cs" Link="_linked\SunamoEnums\Enums\Device.cs" />
+    <Compile Include="..\SunamoValues\Values\AllLists.cs" Link="_linked\SunamoValues\Values\AllLists.cs" />
+    <Compile Include="..\SunamoEnums\Enums\Langs.cs" Link="_linked\SunamoEnums\Enums\Langs.cs" />
+    <Compile Include="..\SunamoEnums\Enums\FileMoveCollisionOption.cs" Link="_linked\SunamoEnums\Enums\FileMoveCollisionOption.cs" />
+    <Compile Include="..\SunamoValues\All\AllHtmlAttrsValues.cs" Link="_linked\SunamoValues\All\AllHtmlAttrsValues.cs" />
+    <Compile Include="..\SunamoValues\All\AllHtmlAttrs.cs" Link="_linked\SunamoValues\All\AllHtmlAttrs.cs" />
+    <Compile Include="..\SunamoValues\All\AllHtmlTags.cs" Link="_linked\SunamoValues\All\AllHtmlTags.cs" />
+    <Compile Include="..\SunamoLang\SunamoXlf\RLData.cs" Link="_linked\SunamoLang\SunamoXlf\RLData.cs" />
+    <Compile Include="..\SunamoArgs\SubstringArgs.cs" Link="_linked\SunamoArgs\SubstringArgs.cs" />
+    <Compile Include="..\SunamoValues\Constants\SunamoStrings.cs" Link="_linked\SunamoValues\Constants\SunamoStrings.cs" />
+    <Compile Include="..\SunamoLang\SunamoXlf\XmlLocalisationInterchangeFileFormatXlf.cs" Link="_linked\SunamoLang\SunamoXlf\XmlLocalisationInterchangeFileFormatXlf.cs" />
+    <Compile Include="..\SunamoValues\Values\SunamoNotTranslateAble.cs" Link="_linked\SunamoValues\Values\SunamoNotTranslateAble.cs" />
+    <Compile Include="..\SunamoDelegates\StringVoid.cs" Link="_linked\SunamoDelegates\StringVoid.cs" />
+    <Compile Include="..\SunamoData\Data\TWithName.cs" Link="_linked\SunamoData\Data\TWithName.cs" />
+    <Compile Include="..\SunamoInterfaces\Interfaces\IXmlGenerator.cs" Link="_linked\SunamoInterfaces\Interfaces\IXmlGenerator.cs" />
+    <Compile Include="..\SunamoValues\Constants\CodeElementsConstants.cs" Link="_linked\SunamoValues\Constants\CodeElementsConstants.cs" />
+    <Compile Include="..\SunamoData\Data\Date.cs" Link="_linked\SunamoData\Data\Date.cs" />
+    <Compile Include="..\SunamoArgs\ChangeContentArgs.cs" Link="_linked\SunamoArgs\ChangeContentArgs.cs" />
+    <Compile Include="..\SunamoExceptions\Data\ResultWithException.cs" Link="_linked\SunamoExceptions\Data\ResultWithException.cs" />
+    <Compile Include="..\SunamoExceptions\MayExcHelper.cs" Link="_linked\SunamoExceptions\MayExcHelper.cs" />
+    <Compile Include="..\SunamoArgs\GetFilesArgs.cs" Link="_linked\SunamoArgs\GetFilesArgs.cs" />
+    <Compile Include="..\SunamoEnums\Enums\AppFolders.cs" Link="_linked\SunamoEnums\Enums\AppFolders.cs" />
+    <Compile Include="..\SunamoExceptions\OnlyInSE\Exceptions.cs" Link="_linked\SunamoExceptions\OnlyInSE\Exceptions.cs" />
+    <Compile Include="..\SunamoInterfaces\Interfaces\IListBoxHelperItem.cs" Link="_linked\SunamoInterfaces\Interfaces\IListBoxHelperItem.cs" />
+    <Compile Include="..\SunamoExceptions\OnlyInSE\Exc.cs" Link="_linked\SunamoExceptions\OnlyInSE\Exc.cs" />
+    <Compile Include="..\SunamoData\Data\FileInfoLite.cs" Link="_linked\SunamoData\Data\FileInfoLite.cs" />
+    <Compile Include="..\SunamoEnums\Enums\ComputerSizeUnits.cs" Link="_linked\SunamoEnums\Enums\ComputerSizeUnits.cs" />
+    <Compile Include="..\SunamoDelegates\VoidListT.cs" Link="_linked\SunamoDelegates\VoidListT.cs" />
+    <Compile Include="..\SunamoExceptions\OnlyInSE\TranslateAble.cs" Link="_linked\SunamoExceptions\OnlyInSE\TranslateAble.cs" />
+    <Compile Include="..\SunamoExceptions\_AddedToAllCsproj\SHSunamoExceptions.cs" Link="_linked\SunamoExceptions\_AddedToAllCsproj\SHSunamoExceptions.cs" />
+    <Compile Include="..\SunamoExceptions\_AddedToAllCsproj\CASunamoExceptions.cs" Link="_linked\SunamoExceptions\_AddedToAllCsproj\CASunamoExceptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="C:\Users\r\.nuget\packages\sunamoxlf\23.12.9.1\contentFiles\any\net8.0\WinSec\Readme.txt" />

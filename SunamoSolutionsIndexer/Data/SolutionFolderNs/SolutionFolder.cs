@@ -44,7 +44,7 @@ public class SolutionFolder : SolutionFolderSerialize, IProjectType, ISolutionFo
 
 #if DEBUG
 
-            if (sf.fullPathFolder.TrimEnd(AllCharsSE.bs) == @"\monoConsoleSqlClient")
+            if (sf.fullPathFolder.TrimEnd(AllChars.bs) == @"\monoConsoleSqlClient")
             {
 
             }
@@ -63,7 +63,7 @@ public class SolutionFolder : SolutionFolderSerialize, IProjectType, ISolutionFo
             }
 
 #if DEBUG
-            if (sf.fullPathFolder.TrimEnd(AllCharsSE.bs) == @"\monoConsoleSqlClient")
+            if (sf.fullPathFolder.TrimEnd(AllChars.bs) == @"\monoConsoleSqlClient")
             {
 
             }
@@ -223,7 +223,7 @@ public class SolutionFolder : SolutionFolderSerialize, IProjectType, ISolutionFo
         // zde můžu přiřadit jen ty co skutečně existují
         string existingExeReleaseFolder = null;
         // 
-        var solutionFolder = sln.fullPathFolder.TrimEnd(AllCharsSE.bs);
+        var solutionFolder = sln.fullPathFolder.TrimEnd(AllChars.bs);
 
         var exeName = sln.nameSolution;
         string exeNameWithExt = exeName + AllExtensions.exe;
