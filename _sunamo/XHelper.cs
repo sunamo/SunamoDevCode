@@ -3,7 +3,7 @@
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
-using SunamoExceptions.InSunamoIsDerivedFrom;
+
 
 namespace SunamoDevCode._sunamo;
 
