@@ -1,4 +1,4 @@
-﻿namespace SunamoDevCode._sunamo;
+namespace SunamoDevCode;
 internal class sess
 {
     internal static string i18n(object canTAssignToEnumTypeOfFolder)

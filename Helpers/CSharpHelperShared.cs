@@ -1,6 +1,6 @@
 
 
-namespace SunamoDevCode.Helpers;
+namespace SunamoDevCode;
 
 
 public static partial class CSharpHelper

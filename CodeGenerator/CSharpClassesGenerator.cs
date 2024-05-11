@@ -1,6 +1,6 @@
 
 
-namespace SunamoDevCode.CodeGenerator;
+namespace SunamoDevCode;
 
 
 /// <summary>

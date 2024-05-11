@@ -1,4 +1,4 @@
-namespace SunamoDevCode.Values;
+namespace SunamoDevCode;
 
 /// <summary>
 /// Only folders here - wrapped by bs

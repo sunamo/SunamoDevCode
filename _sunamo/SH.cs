@@ -1,6 +1,6 @@
-﻿using Diacritics.Extensions;
+using Diacritics.Extensions;
 
-namespace SunamoDevCode._sunamo;
+namespace SunamoDevCode;
 internal class SH
 {
     internal static bool ContainsAtLeastOne(string p, List<string> aggregate)

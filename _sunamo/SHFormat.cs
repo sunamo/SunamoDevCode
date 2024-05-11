@@ -1,4 +1,4 @@
-﻿namespace SunamoDevCode._sunamo;
+namespace SunamoDevCode;
 internal class SHFormat
 {
     internal static string Format4(string v, params Object[] o)

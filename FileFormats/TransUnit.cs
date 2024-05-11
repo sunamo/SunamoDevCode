@@ -1,6 +1,6 @@
 
 
-namespace SunamoDevCode.FileFormats;
+namespace SunamoDevCode;
 
 public class TransUnit
 {

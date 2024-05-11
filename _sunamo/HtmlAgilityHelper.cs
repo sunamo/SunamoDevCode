@@ -1,4 +1,4 @@
-﻿namespace SunamoDevCode._sunamo;
+namespace SunamoDevCode;
 internal class HtmlAgilityHelper
 {
     internal static HtmlDocument CreateHtmlDocument(CreateHtmlDocumentInitData d = null)

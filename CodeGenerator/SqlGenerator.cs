@@ -1,4 +1,4 @@
-namespace SunamoDevCode.CodeGenerator;
+namespace SunamoDevCode;
 
 public class SqlGenerator
 {

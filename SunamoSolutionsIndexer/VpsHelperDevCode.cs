@@ -4,7 +4,7 @@
 
 using TextBuilder = SunamoTextBuilder.TextBuilder;
 
-namespace SunamoDevCode.SunamoSolutionsIndexer;
+namespace SunamoDevCode;
 
 public class VpsHelperDevCode
 {

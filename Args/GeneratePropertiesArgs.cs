@@ -1,4 +1,4 @@
-namespace SunamoDevCode.Args;
+namespace SunamoDevCode;
 
 public class GeneratePropertiesArgs
 {

@@ -1,7 +1,7 @@
 
 
 
-namespace SunamoDevCode._sunamo;
+namespace SunamoDevCode;
 internal class SHSplit
 {
     internal static List<string> Split(string p, params string[] newLine)

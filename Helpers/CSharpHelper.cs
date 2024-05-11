@@ -1,7 +1,7 @@
 
 
 
-namespace SunamoDevCode.Helpers;
+namespace SunamoDevCode;
 
 
 

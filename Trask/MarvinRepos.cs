@@ -1,4 +1,4 @@
-namespace SunamoDevCode.Trask;
+namespace SunamoDevCode;
 
 public class MarvinReposName
 {

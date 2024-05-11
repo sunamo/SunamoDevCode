@@ -1,6 +1,6 @@
 
 
-namespace SunamoDevCode.Values;
+namespace SunamoDevCode;
 
 
 public class VisualStudioTempFse

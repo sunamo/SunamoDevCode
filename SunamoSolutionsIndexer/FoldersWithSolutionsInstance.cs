@@ -6,7 +6,7 @@ using SunamoDevCode.SunamoSolutionsIndexer.Enums;
 
 
 
-namespace SunamoDevCode.SunamoSolutionsIndexer;
+namespace SunamoDevCode;
 
 public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 {

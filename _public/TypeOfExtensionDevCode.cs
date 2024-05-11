@@ -1,4 +1,4 @@
-﻿namespace SunamoDevCode._public;
+namespace SunamoDevCode;
 
 public enum TypeOfExtensionDevCode
 {

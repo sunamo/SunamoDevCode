@@ -1,4 +1,4 @@
-namespace SunamoDevCode.FileFormats;
+namespace SunamoDevCode;
 //using SunamoFileIO;
 
 

@@ -1,4 +1,4 @@
-namespace SunamoDevCode.SunamoSolutionsIndexer._sunamo;
+namespace SunamoDevCode;
 
 //namespace SunamoSolutionsIndexer._sunamo;
 //internal class FS

@@ -1,4 +1,4 @@
-namespace SunamoDevCode.SunamoSolutionsIndexer;
+namespace SunamoDevCode;
 
 public partial class SolutionsIndexerHelper
 {

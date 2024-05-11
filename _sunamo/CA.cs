@@ -1,7 +1,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace SunamoDevCode._sunamo;
+namespace SunamoDevCode;
 internal class CA
 {
     internal static (bool, string) IsNegationTuple(string contains)

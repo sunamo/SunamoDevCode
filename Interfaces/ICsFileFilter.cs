@@ -1,4 +1,4 @@
-namespace SunamoDevCode.Interfaces;
+namespace SunamoDevCode;
 
 public interface ICsFileFilter
 {

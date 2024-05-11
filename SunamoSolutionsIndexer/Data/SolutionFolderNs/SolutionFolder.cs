@@ -1,5 +1,5 @@
 
-namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
+namespace SunamoDevCode;
 
 using global::SunamoSolutionsIndexer;
 using SunamoArgs;

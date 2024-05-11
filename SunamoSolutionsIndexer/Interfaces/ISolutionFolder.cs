@@ -2,7 +2,7 @@
 using SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 using SunamoDevCode.SunamoSolutionsIndexer.Enums;
 
-namespace SunamoDevCode.SunamoSolutionsIndexer.Interfaces;
+namespace SunamoDevCode;
 
 public interface ISolutionFolder
 {

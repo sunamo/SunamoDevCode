@@ -1,6 +1,6 @@
-﻿using System.Net;
+using System.Net;
 
-namespace SunamoDevCode._sunamo;
+namespace SunamoDevCode;
 internal class HtmlAssistant
 {
     internal static string TrimInnerHtml(string value)

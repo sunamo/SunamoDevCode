@@ -1,4 +1,4 @@
-namespace SunamoDevCode.Templates;
+namespace SunamoDevCode;
 
 public class SqlTemplates
 {

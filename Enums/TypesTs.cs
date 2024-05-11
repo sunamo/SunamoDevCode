@@ -1,4 +1,4 @@
-namespace SunamoDevCode.Enums;
+namespace SunamoDevCode;
 
 /// <summary>
 /// Another is in TsTypes

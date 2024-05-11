@@ -1,4 +1,4 @@
-namespace SunamoDevCode.Helpers;
+namespace SunamoDevCode;
 /// <summary>
 /// Jednotné místo pro remove commentů odevšad
 /// protože jsem chtěl odst # a nemohl jsem si vzpomenout kde se používají

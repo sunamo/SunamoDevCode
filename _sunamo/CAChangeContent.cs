@@ -1,6 +1,6 @@
 
 
-namespace SunamoDevCode._sunamo;
+namespace SunamoDevCode;
 internal class CAChangeContent
 {
     internal static List<string> ChangeContent<Arg1>(ChangeContentArgs a, List<string> files_in, Func<string, Arg1, string> func, Arg1 arg, Func<Arg1, string, string> funcSwitch12 = null)

@@ -1,4 +1,4 @@
-﻿namespace SunamoDevCode._sunamo;
+namespace SunamoDevCode;
 internal class SHParts
 {
     internal static string KeepAfterFirst(string searchQuery, string after, bool keepDeli = false)
