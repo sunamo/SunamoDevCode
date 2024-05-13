@@ -9,20 +9,20 @@ global using System.Diagnostics;
 global using System.Data;
 global using System.Text.RegularExpressions;
 global using System.Xml.Linq;
-global using SunamoDevCode.Enums;
-global using SunamoDevCode.Args;
-global using SunamoDevCode.CodeGenerator;
-global using SunamoDevCode.Data;
-global using SunamoDevCode.Helpers;
-global using SunamoDevCode.Interfaces;
-global using SunamoDevCode.Values;
+
+
+
+
+
+
+
 global using Case.NET.Extensions;
 
 
 
 
 
-global using SunamoDevCode._sunamo;
+
 
 
 

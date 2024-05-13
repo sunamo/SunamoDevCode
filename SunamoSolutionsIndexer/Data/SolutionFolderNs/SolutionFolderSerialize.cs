@@ -1,8 +1,8 @@
 
 namespace SunamoDevCode;
 
-using SunamoDevCode.SunamoSolutionsIndexer;
-using SunamoDevCode.SunamoSolutionsIndexer.Interfaces;
+
+
 
 
 public partial class SolutionFolderSerialize : IListBoxHelperItem, ISolutionFolderSerialize
