@@ -53,6 +53,52 @@
     <Compile Include="..\SunamoExceptions\_AddedToAllCsproj\SHSunamoExceptions.cs" Link="_linked\SunamoExceptions\_AddedToAllCsproj\SHSunamoExceptions.cs" />
     <Compile Include="..\SunamoExceptions\_AddedToAllCsproj\CASunamoExceptions.cs" Link="_linked\SunamoExceptions\_AddedToAllCsproj\CASunamoExceptions.cs" />
     <Compile Include="..\SunamoXlfKeys\XlfKeys.cs" Link="_linked\SunamoXlfKeys\XlfKeys.cs" />
+    <Compile Include="..\SunamoCSharp\Helpers\CSharpHelperSunamo.cs" Link="_linked\SunamoCSharp\Helpers\CSharpHelperSunamo.cs" />
+    <Compile Include="..\SunamoStringFormat\SHFormat.cs" Link="_linked\SunamoStringFormat\SHFormat.cs" />
+    <Compile Include="..\SunamoCollectionsGeneric\CAG.cs" Link="_linked\SunamoCollectionsGeneric\CAG.cs" />
+    <Compile Include="..\SunamoStringTrim\SHTrim.cs" Link="_linked\SunamoStringTrim\SHTrim.cs" />
+    <Compile Include="..\SunamoCollections\CA.cs" Link="_linked\SunamoCollections\CA.cs" />
+    <Compile Include="..\SunamoBts\BTS.cs" Link="_linked\SunamoBts\BTS.cs" />
+    <Compile Include="..\SunamoConverters\Converts\ConvertTypeShortcutFullName.cs" Link="_linked\SunamoConverters\Converts\ConvertTypeShortcutFullName.cs" />
+    <Compile Include="..\SunamoCSharp\Args\CSharpGeneratorArgs.cs" Link="_linked\SunamoCSharp\Args\CSharpGeneratorArgs.cs" />
+    <Compile Include="..\SunamoCollectionsChangeContent\CAChangeContent.cs" Link="_linked\SunamoCollectionsChangeContent\CAChangeContent.cs" />
+    <Compile Include="..\SunamoString\SH.cs" Link="_linked\SunamoString\SH.cs" />
+    <Compile Include="..\SunamoDictionary\DictionaryHelper.cs" Link="_linked\SunamoDictionary\DictionaryHelper.cs" />
+    <Compile Include="..\SunamoFubuCsProjFile\_NotMine\None.cs" Link="_linked\SunamoFubuCsProjFile\_NotMine\None.cs" />
+    <Compile Include="..\SunamoFubuCore\Attributes.cs" Link="_linked\SunamoFubuCore\Attributes.cs" />
+    <Compile Include="..\SunamoCollectionsIndexesWithNull\CAIndexesWithNull.cs" Link="_linked\SunamoCollectionsIndexesWithNull\CAIndexesWithNull.cs" />
+    <Compile Include="..\SunamoConverters\Converts\ConvertSnakeConvention.cs" Link="_linked\SunamoConverters\Converts\ConvertSnakeConvention.cs" />
+    <Compile Include="..\SunamoTextOutputGenerator\InstantSB.cs" Link="_linked\SunamoTextOutputGenerator\InstantSB.cs" />
+    <Compile Include="..\SunamoStringGetLines\SHGetLines.cs" Link="_linked\SunamoStringGetLines\SHGetLines.cs" />
+    <Compile Include="..\SunamoGitBashBuilder\GitBashBuilder.cs" Link="_linked\SunamoGitBashBuilder\GitBashBuilder.cs" />
+    <Compile Include="..\SunamoTextOutputGenerator\TextBuilder.cs" Link="_linked\SunamoTextOutputGenerator\TextBuilder.cs" />
+    <Compile Include="..\SunamoShared\HttpUtility.cs" Link="_linked\SunamoShared\HttpUtility.cs" />
+    <Compile Include="..\SunamoFubuCsProjFile\_NotMine\Solution.cs" Link="_linked\SunamoFubuCsProjFile\_NotMine\Solution.cs" />
+    <Compile Include="..\SunamoWinStd\Win.cs" Link="_linked\SunamoWinStd\Win.cs" />
+    <Compile Include="..\SunamoFileSystem\FS.cs" Link="_linked\SunamoFileSystem\FS.cs" />
+    <Compile Include="..\SunamoParsing\TryParse.cs" Link="_linked\SunamoParsing\TryParse.cs" />
+    <Compile Include="..\SunamoEmbeddedResources\EmbeddedResourcesH.cs" Link="_linked\SunamoEmbeddedResources\EmbeddedResourcesH.cs" />
+    <Compile Include="..\SunamoCollectionOnDrive\PpkOnDrive.cs" Link="_linked\SunamoCollectionOnDrive\PpkOnDrive.cs" />
+    <Compile Include="..\SunamoCollectionsGeneric\Collections\D.cs" Link="_linked\SunamoCollectionsGeneric\Collections\D.cs" />
+    <Compile Include="..\SunamoStringSplit\SHSplit.cs" Link="_linked\SunamoStringSplit\SHSplit.cs" />
+    <Compile Include="..\SunamoShared\Helpers\BasePathsHelper.cs" Link="_linked\SunamoShared\Helpers\BasePathsHelper.cs" />
+    <Compile Include="..\SunamoFileExtensions\AllExtensions.cs" Link="_linked\SunamoFileExtensions\AllExtensions.cs" />
+    <Compile Include="..\SunamoConverters\Converts\ConvertPascalConvention.cs" Link="_linked\SunamoConverters\Converts\ConvertPascalConvention.cs" />
+    <Compile Include="..\SunamoCollectionWithoutDuplicates\CollectionWithoutDuplicates.cs" Link="_linked\SunamoCollectionWithoutDuplicates\CollectionWithoutDuplicates.cs" />
+    <Compile Include="..\SunamoHtml\Html\HtmlAssistant.cs" Link="_linked\SunamoHtml\Html\HtmlAssistant.cs" />
+    <Compile Include="..\SunamoXml\XHelper.cs" Link="_linked\SunamoXml\XHelper.cs" />
+    <Compile Include="..\SunamoStringParts\SHParts.cs" Link="_linked\SunamoStringParts\SHParts.cs" />
+    <Compile Include="..\SunamoTextOutputGenerator\TextOutputGenerator.cs" Link="_linked\SunamoTextOutputGenerator\TextOutputGenerator.cs" />
+    <Compile Include="..\SunamoXml\XmlNamespacesHolder.cs" Link="_linked\SunamoXml\XmlNamespacesHolder.cs" />
+    <Compile Include="..\SunamoParsing\Parse.cs" Link="_linked\SunamoParsing\Parse.cs" />
+    <Compile Include="..\SunamoFubuCsProjFile\_NotMine\Content.cs" Link="_linked\SunamoFubuCsProjFile\_NotMine\Content.cs" />
+    <Compile Include="..\SunamoCSharp\Values\CSharpConsts.cs" Link="_linked\SunamoCSharp\Values\CSharpConsts.cs" />
+    <Compile Include="..\SunamoTwoWayDictionary\TwoWayDictionary.cs" Link="_linked\SunamoTwoWayDictionary\TwoWayDictionary.cs" />
+    <Compile Include="..\SunamoEnumsHelper\EnumHelper.cs" Link="_linked\SunamoEnumsHelper\EnumHelper.cs" />
+    <Compile Include="..\SunamoFubuCsProjFile\XmlDocumentsCache.cs" Link="_linked\SunamoFubuCsProjFile\XmlDocumentsCache.cs" />
+    <Compile Include="..\SunamoRegex\Wildcard.cs" Link="_linked\SunamoRegex\Wildcard.cs" />
+    <Compile Include="..\SunamoCollectionsNonGeneric\ExtensionSortedCollection.cs" Link="_linked\SunamoCollectionsNonGeneric\ExtensionSortedCollection.cs" />
+    <Compile Include="..\SunamoFubuCore\DependencyAnalysis\Node.cs" Link="_linked\SunamoFubuCore\DependencyAnalysis\Node.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="C:\Users\r\.nuget\packages\sunamoxlf\23.12.9.1\contentFiles\any\net8.0\WinSec\Readme.txt" />
