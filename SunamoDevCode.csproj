@@ -117,21 +117,8 @@
     <PackageReference Include="Diacritics" Version="3.3.27" />
     <PackageReference Include="Google.Apis.Core" Version="1.66.0">
     </PackageReference>
-    <PackageReference Include="SunamoCollectionOnDrive" Version="24.2.6.3" />
-    <PackageReference Include="SunamoCollectionsNonGeneric" Version="24.2.6.2" />
-    <PackageReference Include="SunamoCollectionWithoutDuplicates" Version="24.2.6.2" />
-    <PackageReference Include="SunamoConverters" Version="24.2.6.2" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="SunamoCSharp" Version="24.2.6.2" />
-    <PackageReference Include="SunamoFubuCore" Version="24.2.6.2" />
-    <PackageReference Include="SunamoFubuCsProjFile" Version="24.2.6.2" />
-    <PackageReference Include="SunamoGitBashBuilder" Version="24.2.6.2" />
-    <PackageReference Include="SunamoRegex" Version="24.2.6.3" />
-    <PackageReference Include="SunamoTextBuilder" Version="24.2.6.2" />
-    <PackageReference Include="SunamoTextOutputGenerator" Version="24.2.6.2" />
-    <PackageReference Include="SunamoTwoWayDictionary" Version="24.2.6.2" />
-    <PackageReference Include="SunamoXlfKeys" Version="24.2.6.2" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
   <ItemGroup>
