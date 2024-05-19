@@ -1,6 +1,48 @@
 namespace SunamoDevCode;
 internal class FS
 {
+    internal static string Slash(string path, bool slash)
+    {
+        string result = null;
+        if (slash)
+        {
+            result = path.Replace(AllStrings.bs, AllStrings.slash); //SHReplace.ReplaceAll2(path, AllStrings.slash, AllStrings.bs);
+        }
+        else
+        {
+            result = path.Replace(AllStrings.slash, AllStrings.bs); //SHReplace.ReplaceAll2(path, AllStrings.bs, AllStrings.slash);
+        }
+
+        SH.FirstCharUpper(ref result);
+        return result;
+    }
+    public static Dictionary<string, List<string>> GetDictionaryByFileNameWithExtension(List<string> files)
+    {
+        Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+        foreach (var item in files)
+        {
+            string filename = Path.GetFileName(item);
+            DictionaryHelper.AddOrCreateIfDontExists<string, string>(result, filename, item);
+        }
+
+        return result;
+    }
+
+    public static string AddExtensionIfDontHave(string file, string ext)
+    {
+        // For *.* and git paths {dir}/*
+        if (file[file.Length - 1] == AllChars.asterisk)
+        {
+            return file;
+        }
+        if (Path.GetExtension(file) == string.Empty)
+        {
+            return file + ext;
+        }
+
+        return file;
+    }
+
     internal static bool TryDeleteDirectory(string v)
     {
         if (!Directory.Exists(v))

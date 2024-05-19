@@ -22,7 +22,7 @@ internal class SHSplit
         if (input.Contains(Consts.transformTo))
         {
 
-            var lines = SHSE.GetLines(input);
+            var lines = SHGetLines.GetLines(input);
 
             lines = lines.ConvertAll(d => d.Trim());
 
@@ -46,7 +46,7 @@ internal class SHSplit
     internal static Tuple<List<string>, List<string>> SplitFromReplaceManyFormatList(string input)
     {
         var t = SplitFromReplaceManyFormat(input);
-        return new Tuple<List<string>, List<string>>(SHSE.GetLines(t.Item1), SHSE.GetLines(t.Item2));
+        return new Tuple<List<string>, List<string>>(SHGetLines.GetLines(t.Item1), SHGetLines.GetLines(t.Item2));
     }
 
     internal static List<string> SplitChar(string parametry, char deli)

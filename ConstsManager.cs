@@ -55,7 +55,7 @@ public class ConstsManager
     /// <param name="lines"></param>
     public
 #if ASYNC
-    async Task<OutRef<List<string>, int, List<string>>>
+    async Task<OutRef3<List<string>, int, List<string>>>
 #else
       OutRef<List<string>, int, List<string>>
 #endif
@@ -70,7 +70,7 @@ public class ConstsManager
  File.ReadAllLinesAsync(pathXlfKeys)).ToList();
 
         var keys = CSharpParser.ParseConsts(lines, out first);
-        return new OutRef<List<string>, int, List<string>>(keys, first, lines);
+        return new OutRef3<List<string>, int, List<string>>(keys, first, lines);
     }
 
     public ConstsManager(string pathXlfKeys, Func<string, bool> XmlLocalisationInterchangeFileFormatIsToBeInXlfKeys)

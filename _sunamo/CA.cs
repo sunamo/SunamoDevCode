@@ -4,6 +4,21 @@ using System.Runtime.CompilerServices;
 namespace SunamoDevCode;
 internal class CA
 {
+    static string Replace(string s, string from, string to)
+    {
+        return s.Replace(from, to);
+    }
+
+    internal static void Replace(List<string> files_in, string what, string forWhat)
+    {
+        for (int i = 0; i < files_in.Count; i++)
+        {
+            files_in[i] = Replace(files_in[i], what, forWhat);
+        }
+        //CAChangeContent.ChangeContent2(null, files_in, Replace, what, forWhat);
+    }
+
+    
     internal static (bool, string) IsNegationTuple(string contains)
     {
         if (contains[0] == '!')

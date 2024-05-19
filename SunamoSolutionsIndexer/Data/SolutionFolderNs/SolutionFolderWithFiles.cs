@@ -42,6 +42,7 @@ public class SolutionFolderWithFiles : SolutionFolder
         {
             var item = files[i];
             string ext = Path.GetExtension(item).TrimStart(AllChars.dot);
+            
             DictionaryHelper.AddOrCreate(filesOfExtension, ext, item);
         }
 

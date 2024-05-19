@@ -1,9 +1,7 @@
-global using SunamoInterfaces.Interfaces;
-global using SunamoRegex;
+
+
 global using System.Xml;
-global using SunamoExceptions.Data;
-global using SunamoSolutionsIndexer.Data.SolutionFolderNs;
-global using SunamoTwoWayDictionary;
+
 
 //global using SunamoEnums.Enums;
 //global using System.Collections.Generic;

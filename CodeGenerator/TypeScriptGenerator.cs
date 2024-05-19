@@ -5,7 +5,7 @@ public class TypeScriptGenerator
 {
     StringBuilder sb = new StringBuilder();
 
-    public void Interface(bool export, string name, params TWithName<string>[] vars)
+    public void Interface(bool export, string name, params TWithNameT<string>[] vars)
     {
         if (export)
         {

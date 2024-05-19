@@ -216,7 +216,7 @@ public class CSharpGenerator : GeneratorCodeAbstract//, ICSharpGenerator
 
     public void Namespace(int tabCount, string ns)
     {
-        sb.AddItem(CsKeywords.ns + " " + ns);
+        sb.AddItem("namespace" + " " + ns);
         sb.AppendLine();
         sb.AddItem("{");
         sb.AppendLine();

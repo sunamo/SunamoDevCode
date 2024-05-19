@@ -82,7 +82,7 @@ public static partial class CSharpHelper
                 //                    continue;
                 //                }
 
-                var l = cv.Split(new string[] { v.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var l = c.Split(new string[] { c.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
                 bool allCommented = true;
 
@@ -103,7 +103,7 @@ public static partial class CSharpHelper
 
                 inserted = false;
 
-                for (i = 0; i < l.Count; i++)
+                for (i = 0; i < l.Count(); i++)
                 {
                     if (l[i].Contains("class "))
                     {

@@ -23,7 +23,7 @@ public partial class CSharpParser
 #endif
  RemoveConsts(string file, List<string> remove)
     {
-        remove.Leading(null);
+        remove.Insert(0, null);
 
         var ind = CAIndexesWithNull.IndexesWithNull(remove);
 

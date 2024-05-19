@@ -476,7 +476,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
                         continue;
                     }
 
-                    slozkySJazykyOutsideVs17.Leading(Path.Combine(folderWithVisualStudioFolders.Replace("E:\\", "D:\\"), SolutionsIndexerConsts.BitBucket));
+                    slozkySJazykyOutsideVs17.Insert(0, Path.Combine(folderWithVisualStudioFolders.Replace("E:\\", "D:\\"), SolutionsIndexerConsts.BitBucket));
 
                     foreach (var item2 in slozkySJazyky)
                     {
