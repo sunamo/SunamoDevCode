@@ -1,6 +1,6 @@
 namespace SunamoDevCode;
 
-//namespace SunamoSolutionsIndexer._sunamo;
+//namespace SunamoSolutionsIndexer;
 //internal class FS
 //{
 
