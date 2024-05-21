@@ -1,9 +1,30 @@
-
+﻿
 using System.Runtime.CompilerServices;
 
 namespace SunamoDevCode;
 internal class CA
 {
+    public static void DoubleOrMoreMultiLinesToSingle(ref string list)
+    {
+        var n = Environment.NewLine;
+        list = Regex.Replace(list, @"(\r?\n\s*){2,}", Environment.NewLine + Environment.NewLine);
+        list = list.Trim();
+        //list = list.Replace(n, n + n);
+        // 27-10-23 dříve to bylo takhle
+        //return list.Trim();
+    }
+    public static void TrimWhereIsOnlyWhitespace(List<string> list)
+    {
+        for (int i = list.Count - 1; i >= 0; i--)
+        {
+            var l = list[i];
+            if (string.IsNullOrWhiteSpace(l))
+            {
+                list[i] = list[i].Trim();
+            }
+        }
+    }
+
     static string Replace(string s, string from, string to)
     {
         return s.Replace(from, to);
@@ -283,15 +304,13 @@ internal class CA
     {
         //https://stackoverflow.com/a/15275806
 
-        throw new NotImplementedException();
-
-        //for (int i = d.Count - 1; i >= 0; i--)
-        //{
-        //    if (SH.MatchWildcard(d[i], mask))
-        //    {
-        //        d.RemoveAt(i);
-        //    }
-        //}
+        for (int i = d.Count - 1; i >= 0; i--)
+        {
+            if (SH.MatchWildcard(d[i], mask))
+            {
+                d.RemoveAt(i);
+            }
+        }
     }
 
     internal static bool HasPostfix(string key, params string[] v1)

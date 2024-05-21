@@ -392,7 +392,7 @@ ReplaceInXlfSolutions(string pairsReplace)
     {
         if (pairsReplace == string.Empty)
         {
-            Debugger.Break();
+            System.Diagnostics.Debugger.Break();
         }
 
         var t = SHSplit.SplitFromReplaceManyFormatList(pairsReplace);

@@ -18,7 +18,7 @@ public partial class SolutionsIndexerHelper
 
         if (FoldersWithSolutions.fwss.Count > 1)
         {
-            Debugger.Break();
+            System.Diagnostics.Debugger.Break();
         }
 
         //bool specificNameOfScz = false;

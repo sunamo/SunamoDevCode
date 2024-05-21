@@ -86,6 +86,8 @@
     <Compile Include="..\SunamoExceptions\_AddedToAllCsproj\SHSunamoExceptions.cs" Link="_linked\SunamoExceptions\_AddedToAllCsproj\SHSunamoExceptions.cs" />
     <Compile Include="..\SunamoExceptions\_AddedToAllCsproj\CASunamoExceptions.cs" Link="_linked\SunamoExceptions\_AddedToAllCsproj\CASunamoExceptions.cs" />
     <Compile Include="..\SunamoValues\Constants\HtmlAttrValue.cs" Link="_linked\SunamoValues\Constants\HtmlAttrValue.cs" />
+    <Compile Include="..\SunamoExceptions\_AddedToAllCsproj\FSSunamoExceptions.cs" Link="_linked\SunamoExceptions\_AddedToAllCsproj\FSSunamoExceptions.cs" />
+    <Compile Include="..\SunamoLang\SunamoI18N\sess.cs" Link="_linked\SunamoLang\SunamoI18N\sess.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="C:\Users\r\.nuget\packages\sunamoxlf\23.12.9.1\contentFiles\any\net8.0\WinSec\Readme.txt" />

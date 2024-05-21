@@ -475,17 +475,17 @@ public static partial class CSharpHelper
     }
     public static string RemoveXmlDocComments(List<string> list)
     {
-        throw new NotImplementedException();
-        //for (int i = list.Count - 1; i >= 0; i--)
-        //{
-        //    list[i] = SHParts.RemoveAfterFirst(list[i], "///");
-        //}
-        //CA.TrimWhereIsOnlyWhitespace(list);
-        //var s = string.Join(Environment.NewLine, list);
+        ThrowEx.NotImplementedMethod();
+        for (int i = list.Count - 1; i >= 0; i--)
+        {
+            list[i] = SHParts.RemoveAfterFirst(list[i], "///");
+        }
+        CA.TrimWhereIsOnlyWhitespace(list);
+        var s = string.Join(Environment.NewLine, list);
 
-        //CA.DoubleOrMoreMultiLinesToSingle(ref s);
+        CA.DoubleOrMoreMultiLinesToSingle(ref s);
 
-        //return s;
+        return s;
     }
 
 

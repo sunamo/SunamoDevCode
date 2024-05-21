@@ -204,7 +204,7 @@ nad
 
     internal static List<string> GetFiles(string projectFolder, string v, SearchOption topDirectoryOnly, GetFilesArgs getFilesArgs = null)
     {
-        //throw new NotImplementedException();
+        //ThrowEx.NotImplementedMethod();
         return Directory.GetFiles(projectFolder, v, topDirectoryOnly).ToList();
     }
 }
