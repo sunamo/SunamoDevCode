@@ -16,7 +16,7 @@ internal class FS
         SH.FirstCharUpper(ref result);
         return result;
     }
-    public static Dictionary<string, List<string>> GetDictionaryByFileNameWithExtension(List<string> files)
+    internal static Dictionary<string, List<string>> GetDictionaryByFileNameWithExtension(List<string> files)
     {
         Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
         foreach (var item in files)
@@ -28,7 +28,7 @@ internal class FS
         return result;
     }
 
-    public static string AddExtensionIfDontHave(string file, string ext)
+    internal static string AddExtensionIfDontHave(string file, string ext)
     {
         // For *.* and git paths {dir}/*
         if (file[file.Length - 1] == AllChars.asterisk)

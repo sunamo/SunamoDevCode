@@ -1,4 +1,4 @@
 namespace SunamoDevCode;
 
 
-public delegate string StringVoid();
+internal delegate string StringVoid();

@@ -1,17 +1,17 @@
 namespace SunamoDevCode;
 
 
-public class PushSolutionsData
+internal class PushSolutionsData
 {
-    public bool mergeAndFetch = false;
-    public bool addGitignore = false;
-    public List<string> onlyThese = null;
-    public bool? cs = null;
+    internal bool mergeAndFetch = false;
+    internal bool addGitignore = false;
+    internal List<string> onlyThese = null;
+    internal bool? cs = null;
     /// <summary>
     /// Když nemám očíslované, počítá od 0. tedy warning = 0, error = 1, fatal = 2, ve VS debuggeru při error | fatal vidím 3 
     /// </summary>
-    public GitTypesOfMessages checkForGit = GitTypesOfMessages.error | GitTypesOfMessages.fatal;
-    public void Set(bool mergeAndFetch, bool addGitignore = false)
+    internal GitTypesOfMessages checkForGit = GitTypesOfMessages.error | GitTypesOfMessages.fatal;
+    internal void Set(bool mergeAndFetch, bool addGitignore = false)
     {
         this.mergeAndFetch = mergeAndFetch;
         this.addGitignore = addGitignore;

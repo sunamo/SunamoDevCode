@@ -1,11 +1,11 @@
 namespace SunamoDevCode;
 
 
-public class AllHtmlAttrs
+internal class AllHtmlAttrs
 {
     //
-    public static List<string> list = null;
-    public static void Initialize()
+    internal static List<string> list = null;
+    internal static void Initialize()
     {
         if (list == null)
         {

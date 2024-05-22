@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-public class MayExcHelper
+internal class MayExcHelper
 {
     /// <summary>
     /// True when is there error
@@ -9,7 +9,7 @@ public class MayExcHelper
     /// <typeparam name="T"></typeparam>
     /// <param name="result"></param>
     /// <returns></returns>
-    public static bool MayExc<T>(ResultWithException<T> result)
+    internal static bool MayExc<T>(ResultWithException<T> result)
     {
         if (result.exc != null)
         {
@@ -24,7 +24,7 @@ public class MayExcHelper
     // /// </summary>
     // /// <param name="r"></param>
     // /// <returns></returns>
-    // public static bool XmlDocument(ResultWithException<XmlDocument> r)
+    // internal static bool XmlDocument(ResultWithException<XmlDocument> r)
     // {
     //     return MayExc<XmlDocument>(r);
     // }

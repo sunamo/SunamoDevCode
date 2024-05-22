@@ -2,7 +2,7 @@ namespace SunamoDevCode;
 
 using System.Text;
 
-public abstract class PpkOnDriveBase<T> : List<T>
+internal abstract class PpkOnDriveBase<T> : List<T>
 {
     #region DPP
     protected PpkOnDriveArgs a = null;
@@ -21,38 +21,38 @@ void
 #endif
         File.WriteAllTextAsync(a.file, string.Empty);
     }
-    public new void Remove(T t)
+    internal new void Remove(T t)
     {
         base.Remove(t);
         Save();
     }
-    public new void Clear()
+    internal new void Clear()
     {
         base.Clear();
         Save();
     }
-    public abstract
+    internal abstract
 #if ASYNC
     Task
 #else
 void
 #endif
     Load();
-    public void AddWithoutSave(T t)
+    internal void AddWithoutSave(T t)
     {
         if (!Contains(t))
         {
             base.Add(t);
         }
     }
-    public void Add(IList<T> prvek)
+    internal void Add(IList<T> prvek)
     {
         foreach (var item in prvek)
         {
             Add(item);
         }
     }
-    public new bool Add(T prvek)
+    internal new bool Add(T prvek)
     {
         bool b = false;
         if (!Contains(prvek))
@@ -80,7 +80,7 @@ void
     /// </summary>
     FileSystemWatcher w = null;
     #region base
-    public PpkOnDriveBase(PpkOnDriveArgs a)
+    internal PpkOnDriveBase(PpkOnDriveArgs a)
     {
         this.a = a;
         File.AppendAllText(a.file, "");
@@ -108,7 +108,7 @@ void
             Load();
         }
     }
-    public async Task Save()
+    internal async Task Save()
     {
         if (a.save)
         {

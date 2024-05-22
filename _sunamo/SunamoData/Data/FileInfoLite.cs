@@ -1,42 +1,42 @@
 namespace SunamoDevCode;
 
 
-public class FileInfoLite
+internal class FileInfoLite
 {
     /// <summary>
     /// Plná cesta k souboru
     /// </summary>
-    public string Path = null;
+    internal string Path = null;
     /// <summary>
     /// Název souboru bez cesty s příponou a sériemi
     /// </summary>
-    public string Name = null;
-    public string FileName
+    internal string Name = null;
+    internal string FileName
     {
         get
         {
             return Name;
         }
     }
-    public long Size = 0;
-    public long Length
+    internal long Size = 0;
+    internal long Length
     {
         get
         {
             return Size;
         }
     }
-    public string Directory = null;
-    public FileInfoLite()
+    internal string Directory = null;
+    internal FileInfoLite()
     {
     }
-    public FileInfoLite(string Directory, string FileName, long Length)
+    internal FileInfoLite(string Directory, string FileName, long Length)
     {
         this.Directory = Directory;
         Name = FileName;
         Size = Length;
     }
-    public static FileInfoLite GetFIL(FileInfo item2)
+    internal static FileInfoLite GetFIL(FileInfo item2)
     {
         FileInfoLite fil = new FileInfoLite();
         fil.Name = item2.Name;
@@ -45,7 +45,7 @@ public class FileInfoLite
         fil.Size = item2.Length;
         return fil;
     }
-    public static FileInfoLite GetFIL(string file)
+    internal static FileInfoLite GetFIL(string file)
     {
         FileInfo item2 = new FileInfo(file);
         return GetFIL(item2);

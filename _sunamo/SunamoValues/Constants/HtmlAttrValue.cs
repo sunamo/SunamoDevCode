@@ -4,18 +4,18 @@ namespace SunamoDevCode;
 /// <summary>
 /// Everything must be consts to use in AllHtmlAttrsValues
 /// </summary>
-public class HtmlAttrValue
+internal class HtmlAttrValue
 {
-    public const string textCss = "text/css";
-    public const string stylesheet = "stylesheet";
-    public const string server = "server";
-    public const string text = "text";
-    public const string radio = "radio";
-    public const string hoverable = "hoverable";
-    public const string textarea = "textarea";
-    public static string checkbox = "checkbox";
-    public static string Switch = "switch";
-    public static string textJavascript = "text/javascript";
-    public const string cells = "cells";
-    public const string colspan = "colspan";
+    internal const string textCss = "text/css";
+    internal const string stylesheet = "stylesheet";
+    internal const string server = "server";
+    internal const string text = "text";
+    internal const string radio = "radio";
+    internal const string hoverable = "hoverable";
+    internal const string textarea = "textarea";
+    internal static string checkbox = "checkbox";
+    internal static string Switch = "switch";
+    internal static string textJavascript = "text/javascript";
+    internal const string cells = "cells";
+    internal const string colspan = "colspan";
 }

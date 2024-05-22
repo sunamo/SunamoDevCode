@@ -1,10 +1,10 @@
-﻿
+
 using System.Runtime.CompilerServices;
 
 namespace SunamoDevCode;
 internal class CA
 {
-    public static void DoubleOrMoreMultiLinesToSingle(ref string list)
+    internal static void DoubleOrMoreMultiLinesToSingle(ref string list)
     {
         var n = Environment.NewLine;
         list = Regex.Replace(list, @"(\r?\n\s*){2,}", Environment.NewLine + Environment.NewLine);
@@ -13,7 +13,7 @@ internal class CA
         // 27-10-23 dříve to bylo takhle
         //return list.Trim();
     }
-    public static void TrimWhereIsOnlyWhitespace(List<string> list)
+    internal static void TrimWhereIsOnlyWhitespace(List<string> list)
     {
         for (int i = list.Count - 1; i >= 0; i--)
         {

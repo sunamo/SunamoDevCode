@@ -2,11 +2,11 @@ namespace SunamoDevCode;
 
 using System.Reflection;
 
-public class AllHtmlAttrsValues
+internal class AllHtmlAttrsValues
 {
     static bool initialized = false;
-    public static List<string> list = new List<string>();
-    public static void Init()
+    internal static List<string> list = new List<string>();
+    internal static void Init()
     {
         if (!initialized)
         {

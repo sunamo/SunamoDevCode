@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-public enum HtmlTextWriterTag
+internal enum HtmlTextWriterTag
 {
     Unknown = 0,
     A = 1,
