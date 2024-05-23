@@ -1,18 +1,18 @@
 namespace SunamoDevCode;
 
 
-internal class XmlDocumentsCache
+public class XmlDocumentsCache
 {
     private const string nullable = "<Nullable>enable</Nullable>";
     private const string debugTypeNone = "<DebugType>none</DebugType>";
-    internal static Type type = typeof(XmlDocumentsCache);
-    internal static Dictionary<string, XmlDocument> cache = new();
+    public static Type type = typeof(XmlDocumentsCache);
+    public static Dictionary<string, XmlDocument> cache = new();
     /// <summary>
     ///     In key is csproj path
     ///     In value is absolute path of references (recursive)
     /// </summary>
-    internal static Dictionary<string, List<string>> projectDeps = new();
-    internal static Func<string, Dictionary<string, XmlDocument>,
+    public static Dictionary<string, List<string>> projectDeps = new();
+    public static Func<string, Dictionary<string, XmlDocument>,
 #if ASYNC
             Task<List<string>>
 #else
@@ -20,10 +20,10 @@ List<string>
 #endif
         >
         buildProjectsDependencyTreeList;
-    internal static int nulled;
-    internal static IProgressBar clpb = null;
-    internal static List<string> cantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull = new();
-    internal static
+    public static int nulled;
+    public static IProgressBar clpb = null;
+    public static List<string> cantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull = new();
+    public static
         /// <summary>
         ///     Nemůže se volat společně s .Result! viz. https://stackoverflow.com/a/65820543/9327173 Způsobí to deadlock! Musím to
         ///     dělat přes ThisApp.async_
@@ -145,7 +145,7 @@ ResultWithException<XmlDocument>
             return xml;
         }
     }
-    internal static Dictionary<string, XmlDocument> BuildProjectDeps()
+    public static Dictionary<string, XmlDocument> BuildProjectDeps()
     {
         var xd = new Dictionary<string, XmlDocument>();
         // Všechny načtené XML dokumenty do xd
@@ -156,14 +156,14 @@ ResultWithException<XmlDocument>
                 xd.Add(item.Key, item.Value);
         return xd;
     }
-    internal static List<string> BadXml()
+    public static List<string> BadXml()
     {
         var withNull = cache.Where(s => s.Value == null);
         var bx = new List<string>();
         foreach (var item in withNull) bx.Add(item.Key);
         return bx;
     }
-    internal static
+    public static
 #if ASYNC
         async Task
 #else
@@ -179,7 +179,7 @@ void
 #endif
             Set(path, xd, saveToFile);
     }
-    internal static
+    public static
 #if ASYNC
         async Task
 #else

@@ -7,13 +7,13 @@ namespace SunamoDevCode;
 ///     Třída s 1 parametrem je nesmysl protože vždy musím vrátit i původní result
 /// </summary>
 /// <typeparam name="T"></typeparam>
-internal class OutRef<T, U>
+public class OutRef<T, U>
 {
-    internal OutRef(T t, U u)
+    public OutRef(T t, U u)
     {
         Item1 = t;
         Item2 = u;
     }
-    internal T Item1 { get; set; }
-    internal U Item2 { get; set; }
+    public T Item1 { get; set; }
+    public U Item2 { get; set; }
 }

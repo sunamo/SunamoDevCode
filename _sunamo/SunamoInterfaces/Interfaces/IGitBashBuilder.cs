@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-internal interface IGitBashBuilder
+public interface IGitBashBuilder
 {
     List<string> Commands { get; }
     void Add(string v);

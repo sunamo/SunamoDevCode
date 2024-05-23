@@ -3,23 +3,23 @@ namespace SunamoDevCode;
 
 
 
-internal class ConvertPascalConvention //: IConvertConvention
+public class ConvertPascalConvention //: IConvertConvention
 {
     /// <summary>
     /// NI
     /// </summary>
     /// <param name="p"></param>
-    internal static string FromConvention(string p)
+    public static string FromConvention(string p)
     {
         //ThrowEx.NotImplementedMethod();
         return SH.FirstCharUpper(Regex.Replace(p, "[a-z][A-Z]", m => $"{m.Value[0]} {char.ToLower(m.Value[1])}").ToLower());
     }
-    internal static bool IsPascal(string r)
+    public static bool IsPascal(string r)
     {
         var s = ToConvention(r);
         return r == s;
     }
-    internal static List<string> FromToWords(string s)
+    public static List<string> FromToWords(string s)
     {
         return null;
     }
@@ -30,7 +30,7 @@ internal class ConvertPascalConvention //: IConvertConvention
     /// helloWorld = HelloWorld
     /// </summary>
     /// <param name="p"></param>
-    internal static string ToConvention(string p)
+    public static string ToConvention(string p)
     {
         StringBuilder sb = new StringBuilder();
         bool dalsiVelke = false;

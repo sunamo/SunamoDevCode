@@ -5,14 +5,14 @@ namespace SunamoDevCode;
 /// Must be in shared due to HtmlTextWriterTag in System.Web
 /// All is lower
 /// </summary>
-internal class AllHtmlTags
+public class AllHtmlTags
 {
     /// <summary>
     /// Sorted from longest to shortest due to comparing and finding right string
     /// </summary>
-    internal static List<string> list = null;
+    public static List<string> list = null;
     static List<string> withLeftArrow;
-    internal static List<string> WithLeftArrow
+    public static List<string> WithLeftArrow
     {
         get
         {
@@ -28,7 +28,7 @@ internal class AllHtmlTags
             return withLeftArrow;
         }
     }
-    internal static void Initialize()
+    public static void Initialize()
     {
         if (list == null)
         {

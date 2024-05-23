@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-internal interface ITextBuilder
+public interface ITextBuilder
 {
     bool CanUndo { get; set; }
     List<string> list { get; set; }

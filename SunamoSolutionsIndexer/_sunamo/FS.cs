@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 //namespace SunamoSolutionsIndexer;
-//internal class FS
+//public class FS
 //{
 
 //}

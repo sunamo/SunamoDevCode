@@ -1,16 +1,16 @@
 namespace SunamoDevCode;
 
-internal class XmlNamespacesHolder
+public class XmlNamespacesHolder
 {
-    //internal NameTable nt = new NameTable();
-    internal XmlNamespaceManager nsmgr = null;
+    //public NameTable nt = new NameTable();
+    public XmlNamespaceManager nsmgr = null;
 
     /// <summary>
     /// Return XmlDocument but dont use return value
     /// Just use XHelper class, because with XmlDocument is still not working
     /// </summary>
     /// <param name="content"></param>
-    internal XmlDocument ParseAndRemoveNamespacesXmlDocument(string content)
+    public XmlDocument ParseAndRemoveNamespacesXmlDocument(string content)
     {
         XmlDocument xd = new XmlDocument();
 
@@ -27,7 +27,7 @@ internal class XmlNamespacesHolder
     /// <param name="content"></param>
     /// <param name="nt"></param>
     /// <param name="defaultPrefix"></param>
-    internal XmlDocument ParseAndRemoveNamespacesXmlDocument(string content, XmlNameTable nt, string defaultPrefix = "x")
+    public XmlDocument ParseAndRemoveNamespacesXmlDocument(string content, XmlNameTable nt, string defaultPrefix = "x")
     {
         XmlDocument xd = new XmlDocument();
 
@@ -77,7 +77,7 @@ internal class XmlNamespacesHolder
     /// Just use XHelper class, because with XmlDocument is still not working
     /// </summary>
     /// <param name="content"></param>
-    internal XDocument ParseAndRemoveNamespacesXDocument(string content)
+    public XDocument ParseAndRemoveNamespacesXDocument(string content)
     {
         var xd = ParseAndRemoveNamespacesXmlDocument(content);
         return XDocument.Parse(xd.OuterXml);
@@ -91,7 +91,7 @@ internal class XmlNamespacesHolder
     /// <param name="content"></param>
     /// <param name="nt"></param>
     /// <param name="defaultPrefix"></param>
-    internal XDocument ParseAndRemoveNamespacesXDocument(string content, XmlNameTable nt, string defaultPrefix = "x")
+    public XDocument ParseAndRemoveNamespacesXDocument(string content, XmlNameTable nt, string defaultPrefix = "x")
     {
         var xd = ParseAndRemoveNamespacesXmlDocument(content, nt, defaultPrefix);
         return new XDocument(xd.OuterXml);

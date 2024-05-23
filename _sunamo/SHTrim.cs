@@ -1,9 +1,9 @@
 
 
 namespace SunamoDevCode;
-internal class SHTrim
+public class SHTrim
 {
-    internal static string TrimLeadingNumbersAtStart(string nameSolution)
+    public static string TrimLeadingNumbersAtStart(string nameSolution)
     {
         for (int i = 0; i < nameSolution.Length; i++)
         {
@@ -25,14 +25,14 @@ internal class SHTrim
         return nameSolution;
     }
 
-    internal static string TrimEnd(string name, string ext)
+    public static string TrimEnd(string name, string ext)
     {
         while (name.EndsWith(ext)) return name.Substring(0, name.Length - ext.Length);
 
         return name;
     }
 
-    internal static string TrimStartAndEnd(string target, Func<char, bool> startAllowed, Func<char, bool> endAllowed)
+    public static string TrimStartAndEnd(string target, Func<char, bool> startAllowed, Func<char, bool> endAllowed)
     {
         for (int i = 0; i < target.Length; i++)
         {
@@ -62,7 +62,7 @@ internal class SHTrim
         return target;
     }
 
-    internal static string TrimStart(string v, string s)
+    public static string TrimStart(string v, string s)
     {
         while (v.StartsWith(s))
         {
@@ -72,7 +72,7 @@ internal class SHTrim
         return v;
     }
 
-    internal static List<string> Split(StringSplitOptions stringSplitOptions, string text, params string[] deli)
+    public static List<string> Split(StringSplitOptions stringSplitOptions, string text, params string[] deli)
     {
         if (deli == null || deli.Count() == 0)
         {

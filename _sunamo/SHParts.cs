@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
-internal class SHParts
+public class SHParts
 {
-    internal static string RemoveAfterFirst(string t, string ch)
+    public static string RemoveAfterFirst(string t, string ch)
     {
         int dex = t.IndexOf(ch);
         if (dex == -1 || dex == t.Length - 1)
@@ -12,7 +12,7 @@ internal class SHParts
         string vr = t.Remove(dex);
         return vr;
     }
-    internal static string KeepAfterFirst(string searchQuery, string after, bool keepDeli = false)
+    public static string KeepAfterFirst(string searchQuery, string after, bool keepDeli = false)
     {
         var dx = searchQuery.IndexOf(after);
         if (dx != -1)
@@ -41,7 +41,7 @@ internal class SHParts
 
 
 
-    internal static string RemoveAfterLast(string nameSolution, object delimiter)
+    public static string RemoveAfterLast(string nameSolution, object delimiter)
     {
         int dex = nameSolution.LastIndexOf(delimiter.ToString());
         if (dex != -1)
@@ -51,7 +51,7 @@ internal class SHParts
         }
         return nameSolution;
     }
-    internal static string RemoveAfterFirst(string t, char ch)
+    public static string RemoveAfterFirst(string t, char ch)
     {
         int dex = t.IndexOf(ch);
         return dex == -1 || dex == t.Length - 1 ? t : t.Substring(0, dex);

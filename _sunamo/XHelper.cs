@@ -7,15 +7,15 @@
 
 namespace SunamoDevCode;
 
-internal class XHelper
+public class XHelper
 {
-    internal static Dictionary<string, string> ns = new Dictionary<string, string>();
+    public static Dictionary<string, string> ns = new Dictionary<string, string>();
 
-    internal static IList<XElement> GetElementsOfNameWithAttrContains(XElement group, string tag, string attr, string value, bool caseSensitive = false)
+    public static IList<XElement> GetElementsOfNameWithAttrContains(XElement group, string tag, string attr, string value, bool caseSensitive = false)
     {
         return GetElementsOfNameWithAttrWorker(group, tag, attr, value, true, caseSensitive);
     }
-    internal static List<XElement> GetElementsOfNameWithAttrWorker(System.Xml.Linq.XElement xElement, string tag, string attr, string value, bool enoughIsContainsAttribute, bool caseSensitive)
+    public static List<XElement> GetElementsOfNameWithAttrWorker(System.Xml.Linq.XElement xElement, string tag, string attr, string value, bool enoughIsContainsAttribute, bool caseSensitive)
     {
         List<XElement> vr = new List<XElement>();
         List<XElement> e = XHelper.GetElementsOfNameRecursive(xElement, tag);
@@ -31,7 +31,7 @@ internal class XHelper
         return vr;
     }
 
-    internal static List<XElement> GetElementsOfNameRecursive(XElement node, string nazev)
+    public static List<XElement> GetElementsOfNameRecursive(XElement node, string nazev)
     {
         List<XElement> vr = new List<XElement>();
 
@@ -61,7 +61,7 @@ internal class XHelper
         return vr;
     }
 
-    internal static void AddXmlNamespaces(XmlNamespaceManager nsmgr)
+    public static void AddXmlNamespaces(XmlNamespaceManager nsmgr)
     {
         foreach (string item in nsmgr)
         {
@@ -74,7 +74,7 @@ internal class XHelper
         }
     }
 
-    internal static XElement GetElementOfNameWithAttr(XElement node, string nazev, string attr, string value)
+    public static XElement GetElementOfNameWithAttr(XElement node, string nazev, string attr, string value)
     {
 
         if (nazev.Contains(AllStrings.colon))
@@ -109,7 +109,7 @@ internal class XHelper
         return null;
     }
 
-    internal static string Attr(XElement item, string attr)
+    public static string Attr(XElement item, string attr)
     {
         XAttribute xa = item.Attribute(XName.Get(attr));
         if (xa != null)
@@ -120,7 +120,7 @@ internal class XHelper
         return null;
     }
 
-    internal static XElement MakeAllElementsWithDefaultNs(XElement settings)
+    public static XElement MakeAllElementsWithDefaultNs(XElement settings)
     {
         var ns2 = XHelper.ns[string.Empty];
         List<object> toInsert = new List<object>();
@@ -141,12 +141,12 @@ internal class XHelper
         return vr;
     }
 
-    internal static bool IsRightTag(XElement xName, string nazev)
+    public static bool IsRightTag(XElement xName, string nazev)
     {
         return IsRightTag(xName.Name, nazev);
     }
 
-    internal static bool IsRightTag(XName xName, string nazev)
+    public static bool IsRightTag(XName xName, string nazev)
     {
 
         var (p, z) = SH.GetPartsByLocationNoOut(nazev, AllChars.colon);
@@ -159,7 +159,7 @@ internal class XHelper
         return false;
     }
 
-    internal static List<XElement> GetElementsOfName(XElement node, string nazev)
+    public static List<XElement> GetElementsOfName(XElement node, string nazev)
     {
         List<XElement> result = new List<XElement>();
         if (nazev.Contains(AllStrings.colon))
@@ -186,12 +186,12 @@ internal class XHelper
         return result;
     }
 
-    internal static bool IsRightTag(XElement xName, string localName, string namespaceName)
+    public static bool IsRightTag(XElement xName, string localName, string namespaceName)
     {
         return IsRightTag(xName.Name, localName, namespaceName);
     }
 
-    internal static bool IsRightTag(XName xName, string localName, string namespaceName)
+    public static bool IsRightTag(XName xName, string localName, string namespaceName)
     {
         if (xName.LocalName == localName && xName.NamespaceName == namespaceName)
         {
@@ -201,7 +201,7 @@ internal class XHelper
         return false;
     }
 
-    internal static XElement GetElementOfName(XContainer node, string nazev)
+    public static XElement GetElementOfName(XContainer node, string nazev)
     {
 
         if (nazev.Contains(AllStrings.colon))
@@ -234,7 +234,7 @@ internal class XHelper
         return null;
     }
 
-    internal static
+    public static
 #if ASYNC
     async Task<XDocument>
 #else
@@ -262,7 +262,7 @@ XDocument
         return xd;
     }
 
-    internal static
+    public static
 #if ASYNC
     async Task<string>
 #else

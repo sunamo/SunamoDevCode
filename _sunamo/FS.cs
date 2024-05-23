@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
-internal class FS
+public class FS
 {
-    internal static string Slash(string path, bool slash)
+    public static string Slash(string path, bool slash)
     {
         string result = null;
         if (slash)
@@ -16,7 +16,7 @@ internal class FS
         SH.FirstCharUpper(ref result);
         return result;
     }
-    internal static Dictionary<string, List<string>> GetDictionaryByFileNameWithExtension(List<string> files)
+    public static Dictionary<string, List<string>> GetDictionaryByFileNameWithExtension(List<string> files)
     {
         Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
         foreach (var item in files)
@@ -28,7 +28,7 @@ internal class FS
         return result;
     }
 
-    internal static string AddExtensionIfDontHave(string file, string ext)
+    public static string AddExtensionIfDontHave(string file, string ext)
     {
         // For *.* and git paths {dir}/*
         if (file[file.Length - 1] == AllChars.asterisk)
@@ -43,7 +43,7 @@ internal class FS
         return file;
     }
 
-    internal static bool TryDeleteDirectory(string v)
+    public static bool TryDeleteDirectory(string v)
     {
         if (!Directory.Exists(v))
         {
@@ -85,12 +85,12 @@ internal class FS
         return false;
     }
 
-    internal static void CreateUpfoldersPsysicallyUnlessThere(string nad)
+    public static void CreateUpfoldersPsysicallyUnlessThere(string nad)
     {
         CreateFoldersPsysicallyUnlessThere(Path.GetDirectoryName(nad));
     }
 
-    internal static void CreateFoldersPsysicallyUnlessThere(string nad)
+    public static void CreateFoldersPsysicallyUnlessThere(string nad)
     {
         ThrowEx.IsNullOrEmpty("nad", nad);
         ThrowEx.IsNotWindowsPathFormat("nad", nad);
@@ -131,7 +131,7 @@ nad
         }
     }
 
-    internal static string WithEndSlash(string v)
+    public static string WithEndSlash(string v)
     {
         return WithEndSlash(ref v);
     }
@@ -141,7 +141,7 @@ nad
     /// </summary>
     /// <param name="v"></param>
     /// <returns></returns>
-    internal static string WithEndSlash(ref string v)
+    public static string WithEndSlash(ref string v)
     {
         if (v != string.Empty)
         {
@@ -154,7 +154,7 @@ nad
 
 
 
-    internal static string InsertBetweenFileNameAndExtension(string orig, string whatInsert)
+    public static string InsertBetweenFileNameAndExtension(string orig, string whatInsert)
     {
         //return InsertBetweenFileNameAndExtension<string, string>(orig, whatInsert, null);
 
@@ -180,7 +180,7 @@ nad
     /// </summary>
     /// <param name="files2"></param>
     /// <returns></returns>
-    internal static List<string> OnlyNamesNoDirectEdit(String[] files2)
+    public static List<string> OnlyNamesNoDirectEdit(String[] files2)
     {
         var tl = files2.ToList();
         return OnlyNamesNoDirectEdit(tl);
@@ -192,7 +192,7 @@ nad
     /// POZOR: Na rozdíl od stejné metody v sunamo tato metoda vrací úplně nové pole a nemodifikuje A1
     /// </summary>
     /// <param name="files"></param>
-    internal static List<string> OnlyNamesNoDirectEdit(List<string> files2)
+    public static List<string> OnlyNamesNoDirectEdit(List<string> files2)
     {
         List<string> files = new List<string>(files2.Count);
         for (int i = 0; i < files2.Count; i++)
@@ -202,7 +202,7 @@ nad
         return files;
     }
 
-    internal static List<string> GetFiles(string projectFolder, string v, SearchOption topDirectoryOnly, GetFilesArgs getFilesArgs = null)
+    public static List<string> GetFiles(string projectFolder, string v, SearchOption topDirectoryOnly, GetFilesArgs getFilesArgs = null)
     {
         //ThrowEx.NotImplementedMethod();
         return Directory.GetFiles(projectFolder, v, topDirectoryOnly).ToList();

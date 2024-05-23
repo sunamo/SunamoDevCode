@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
-internal class AllExtensions
+public class AllExtensions
 {
-    internal const string exe = ".exe";
-    internal static string cs;
-    internal static string ts;
+    public const string exe = ".exe";
+    public static string cs;
+    public static string ts;
 }

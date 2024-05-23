@@ -4,11 +4,11 @@ namespace SunamoDevCode;
 /// <summary>
 /// Checking whether string is already contained.
 /// </summary>
-internal class PpkOnDrive : PpkOnDriveBase<string>
+public class PpkOnDrive : PpkOnDriveBase<string>
 {
-    internal bool removeDuplicates = false;
+    public bool removeDuplicates = false;
     static PpkOnDrive wroteOnDrive = null;
-    //internal static PpkOnDrive WroteOnDrive
+    //public static PpkOnDrive WroteOnDrive
     //{
     //    get
     //    {
@@ -19,12 +19,12 @@ internal class PpkOnDrive : PpkOnDriveBase<string>
     //        return wroteOnDrive;
     //    }
     //}
-    internal async Task Load(string file)
+    public async Task Load(string file)
     {
         a.file = file;
         await Load();
     }
-    internal override
+    public override
 #if ASYNC
     async Task
 #else
@@ -50,13 +50,13 @@ void
             }
         }
     }
-    internal PpkOnDrive(PpkOnDriveArgs a) : base(a)
+    public PpkOnDrive(PpkOnDriveArgs a) : base(a)
     {
     }
-    internal PpkOnDrive(string file2, bool load = true) : base(new PpkOnDriveArgs { file = file2, load = load })
+    public PpkOnDrive(string file2, bool load = true) : base(new PpkOnDriveArgs { file = file2, load = load })
     {
     }
-    internal PpkOnDrive(string file, bool load, bool save) : base(new PpkOnDriveArgs { file = file, load = load, save = save })
+    public PpkOnDrive(string file, bool load, bool save) : base(new PpkOnDriveArgs { file = file, load = load, save = save })
     {
     }
 }

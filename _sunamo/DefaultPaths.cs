@@ -1,9 +1,9 @@
 namespace SunamoDevCode;
-internal class DefaultPaths
+public class DefaultPaths
 {
-    internal static string vsProjects = null;
-    internal static string vs = null;
-    internal static string cRepos;
-    internal static string bpVps;
-    internal static string bp;
+    public static string vsProjects = null;
+    public static string vs = null;
+    public static string cRepos;
+    public static string bpVps;
+    public static string bp;
 }

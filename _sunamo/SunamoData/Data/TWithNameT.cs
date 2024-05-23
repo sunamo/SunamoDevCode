@@ -1,17 +1,17 @@
 namespace SunamoDevCode;
 
 
-internal class TWithNameT<T>
+public class TWithNameT<T>
 {
     /// <summary>
     ///     Just first 5. letters
     /// </summary>
-    internal string name = string.Empty;
-    internal T t;
-    internal TWithNameT()
+    public string name = string.Empty;
+    public T t;
+    public TWithNameT()
     {
     }
-    internal TWithNameT(string name, T t)
+    public TWithNameT(string name, T t)
     {
         this.name = name;
         this.t = t;
@@ -20,7 +20,7 @@ internal class TWithNameT<T>
     {
         return name;
     }
-    internal static TWithNameT<T> Get(string nameCb)
+    public static TWithNameT<T> Get(string nameCb)
     {
         return new TWithNameT<T> { name = nameCb };
     }

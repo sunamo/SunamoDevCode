@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-internal interface IListBoxHelperItem
+public interface IListBoxHelperItem
 {
     string RunOne { get; }
     /// <summary>

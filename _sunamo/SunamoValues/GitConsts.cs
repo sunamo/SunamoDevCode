@@ -1,9 +1,9 @@
 namespace SunamoDevCode;
 
 
-internal class GitConsts
+public class GitConsts
 {
-    internal const string startingHead = "<<<<<<<";
-    internal const string delimiter = "=======";
-    internal const string end = ">>>>>>>";
+    public const string startingHead = "<<<<<<<";
+    public const string delimiter = "=======";
+    public const string end = ">>>>>>>";
 }

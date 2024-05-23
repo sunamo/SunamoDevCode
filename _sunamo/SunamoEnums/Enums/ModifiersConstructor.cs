@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-internal enum ModifiersConstructor
+public enum ModifiersConstructor
 {
     Public,
     Private,

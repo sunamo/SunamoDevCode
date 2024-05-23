@@ -4,28 +4,28 @@ namespace SunamoDevCode;
 /// <summary>
 /// GitBashBuilder
 /// </summary>
-internal partial class GitBashBuilder 
+public partial class GitBashBuilder 
 {
     private static Type type = typeof(GitBashBuilder);
-    internal ITextBuilder sb = null;
-    //internal GitBashBuilder()
+    public ITextBuilder sb = null;
+    //public GitBashBuilder()
     //{
     //    sb = new TextBuilder();
     //    sb.prependEveryNoWhite = AllStrings.space;
     //}
-    internal GitBashBuilder(ITextBuilder sb)
+    public GitBashBuilder(ITextBuilder sb)
     {
         this.sb = sb;
         //this.sb.sb = sb.sb;
     }
-    internal bool GitForDebug = false;
-    internal List<string> Commands { get => SHGetLines.GetLines(ToString()); }
+    public bool GitForDebug = false;
+    public List<string> Commands { get => SHGetLines.GetLines(ToString()); }
     /// <summary>
     /// A2 must be files prepared to cmd
     /// </summary>
     /// <param name="sb"></param>
     /// <param name="linesFiles"></param>
-    internal static string CreateGitAddForFiles(StringBuilder sb, List<string> linesFiles)
+    public static string CreateGitAddForFiles(StringBuilder sb, List<string> linesFiles)
     {
         return CreateGitCommandForFiles("add", sb, linesFiles);
     }
@@ -44,7 +44,7 @@ internal partial class GitBashBuilder
     /// <param name="solution"></param>
     /// <param name="linesFiles"></param>
     /// <param name="searchOnlyWithExtension"></param>
-    internal static string GenerateCommandForGit(/*TypedLoggerBaseGitBashBuilder*/ object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string command, string basePathIfA2SolutionsWontExistsOnFilesystem)
+    public static string GenerateCommandForGit(/*TypedLoggerBaseGitBashBuilder*/ object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string command, string basePathIfA2SolutionsWontExistsOnFilesystem)
     {
         var filesToCommit = GitBashBuilder.PrepareFilesToSimpleGitFormat(tlb, solution, linesFiles, out anyError, searchOnlyWithExtension, basePathIfA2SolutionsWontExistsOnFilesystem);
         if (filesToCommit == null || filesToCommit.Count == 0)
@@ -61,7 +61,7 @@ internal partial class GitBashBuilder
     /// <param name="folder"></param>
     /// <param name="typedExt"></param>
     /// <param name="files"></param>
-    internal static string CheckoutWithExtension(string folder, string typedExt, List<string> files, string basePathIfA2SolutionsWontExistsOnFilesystem, ITextBuilder ci, ITypedLoggerBase typedLoggerBase)
+    public static string CheckoutWithExtension(string folder, string typedExt, List<string> files, string basePathIfA2SolutionsWontExistsOnFilesystem, ITextBuilder ci, ITypedLoggerBase typedLoggerBase)
     {
         ThrowEx.IsNull("typedExt", typedExt);
         GitBashBuilder bashBuilder = new GitBashBuilder(ci);
@@ -86,7 +86,7 @@ internal partial class GitBashBuilder
     /// <param name="linesFiles"></param>
     /// <param name="searchOnlyWithExtension"></param>
     /// <param name="command"></param>
-    internal static List<string> PrepareFilesToSimpleGitFormat(/*TypedLoggerBaseGitBashBuilder*/ object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string basePathIfA2SolutionsWontExistsOnFilesystem)
+    public static List<string> PrepareFilesToSimpleGitFormat(/*TypedLoggerBaseGitBashBuilder*/ object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string basePathIfA2SolutionsWontExistsOnFilesystem)
     {
         searchOnlyWithExtension = searchOnlyWithExtension.TrimStart(AllChars.asterisk);
         anyError = false;
@@ -213,29 +213,29 @@ internal partial class GitBashBuilder
         }
         return filesToCommit;
     }
-    internal static string xSomeErrorsOccured = "SomeErrorsOccured";
-    internal static string CreateGitCommandForFiles(string command, StringBuilder sb, List<string> linesFiles)
+    public static string xSomeErrorsOccured = "SomeErrorsOccured";
+    public static string CreateGitCommandForFiles(string command, StringBuilder sb, List<string> linesFiles)
     {
         return null;
         //return GitStatic(sb, command + AllStrings.space + string.Join(AllChars.space, linesFiles));
     }
-    internal void Cd(string key)
+    public void Cd(string key)
     {
         sb.AppendLine("cd " + SH.WrapWith(key, AllStrings.qm));
     }
-    internal void Clear()
+    public void Clear()
     {
         sb.Clear();
     }
-    internal void Append(string text)
+    public void Append(string text)
     {
         sb.Append(text);
     }
-    internal void AppendLine(string text)
+    public void AppendLine(string text)
     {
         sb.AppendLine(text);
     }
-    internal void AppendLine()
+    public void AppendLine()
     {
         sb.AppendLine();
     }
@@ -248,20 +248,20 @@ internal partial class GitBashBuilder
 /// <summary>
 /// To easy create interface
 /// </summary>
-internal partial class GitBashBuilder : IGitBashBuilder
+public partial class GitBashBuilder : IGitBashBuilder
 {
-    internal void Pull()
+    public void Pull()
     {
         Git("pull");
         AppendLine();
     }
     #region Git commands
-    internal void Clone(string repoUri, string args)
+    public void Clone(string repoUri, string args)
     {
         Git("clone " + repoUri + " " + args);
         AppendLine();
     }
-    internal void Commit(bool addAllUntrackedFiles, string commitMessage)
+    public void Commit(bool addAllUntrackedFiles, string commitMessage)
     {
         ThrowEx.IsNullOrWhitespace("commitMessage", commitMessage);
         Git("commit ");
@@ -275,7 +275,7 @@ internal partial class GitBashBuilder : IGitBashBuilder
         }
         AppendLine();
     }
-    internal void Push(bool force)
+    public void Push(bool force)
     {
         Git("push");
         if (force)
@@ -284,7 +284,7 @@ internal partial class GitBashBuilder : IGitBashBuilder
         }
         AppendLine();
     }
-    internal void Push(string arg)
+    public void Push(string arg)
     {
         Git("push");
         AppendLine(arg);
@@ -294,18 +294,18 @@ internal partial class GitBashBuilder : IGitBashBuilder
     /// myslim si ze chyba spise ne z v initu byla v clone, init se musi udelat i kdyz chci udelat git remote
     /// nikdy nepoustet na adresar ktery ma jiz adresar .git!! jinak se mi zapise s prazdnym obsahem a pri pristim pushi mam po vsem!!! soubory mi odstrani z disku a ne do zadneho kose!!!
     /// </summary>
-    internal void Init()
+    public void Init()
     {
         Git("init");
         AppendLine();
     }
-    internal void Add(string v)
+    public void Add(string v)
     {
         Git("add");
         Append(v);
         AppendLine();
     }
-    internal void Config(string v)
+    public void Config(string v)
     {
         Git("config");
         Append(v);
@@ -320,13 +320,13 @@ internal partial class GitBashBuilder : IGitBashBuilder
     /// A1 - arguments without dash
     /// </summary>
     /// <param name="v"></param>
-    internal void Clean(string v)
+    public void Clean(string v)
     {
         Git("clean");
         Arg(v);
         AppendLine();
     }
-    internal static string GitStatic(StringBuilder sb, string remainCommand)
+    public static string GitStatic(StringBuilder sb, string remainCommand)
     {
         sb.Append("git " + remainCommand);
         return sb.ToString();
@@ -347,28 +347,28 @@ internal partial class GitBashBuilder : IGitBashBuilder
     {
         Append(AllStrings.dash + v);
     }
-    internal void Remote(string arg)
+    public void Remote(string arg)
     {
         Git("remote");
         Append(arg);
         AppendLine();
     }
-    internal void Status()
+    public void Status()
     {
         Git("status");
         AppendLine();
     }
-    internal void Fetch(string s = Consts.se)
+    public void Fetch(string s = Consts.se)
     {
         Git("fetch " + s);
         AppendLine();
     }
-    internal void Merge(string v)
+    public void Merge(string v)
     {
         Git("merge " + v);
         AppendLine();
     }
-    internal void AddNewRemote(string s)
+    public void AddNewRemote(string s)
     {
         Remote("add origin " + s);
         Fetch("origin");
@@ -376,7 +376,7 @@ internal partial class GitBashBuilder : IGitBashBuilder
         AppendLine("vsGitIgnoreGitHub");
         AppendLine("gaacipuu");
     }
-    internal void Checkout(string arg)
+    public void Checkout(string arg)
     {
         Git("checkout");
         AppendLine(arg);

@@ -1,19 +1,19 @@
 namespace SunamoDevCode;
 
 
-internal class Ignored
+public class Ignored
 {
-    internal class StartWith
+    public class StartWith
     {
-        internal const string uap = @"\_Uap\";
-        internal const string archived = @"_Archived";
-        internal const string mixin = @"_Mixin";
+        public const string uap = @"\_Uap\";
+        public const string archived = @"_Archived";
+        public const string mixin = @"_Mixin";
     }
-    internal class EndsWith
+    public class EndsWith
     {
-        internal const string vcxProj = ".vcxproj";
+        public const string vcxProj = ".vcxproj";
     }
-    internal static bool IsIgnored(string path)
+    public static bool IsIgnored(string path)
     {
         if (path == null) return true;
         return path.Contains(StartWith.archived) || path.Contains(StartWith.uap) || path.Contains(StartWith.mixin) ||

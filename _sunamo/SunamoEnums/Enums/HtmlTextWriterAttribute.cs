@@ -4,7 +4,7 @@ namespace SunamoDevCode;
 /// <summary>
 /// Must be in sunamo, not System.Web.UI. HtmlTextWriterAttribute, because its not available in _UAp
 /// </summary>
-internal enum HtmlTextWriterAttribute
+public enum HtmlTextWriterAttribute
 {
     Accesskey = 0,
     Align = 1,

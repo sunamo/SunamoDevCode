@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-internal interface IProgressBar
+public interface IProgressBar
 {
     bool isRegistered { get; set; }
     int writeOnlyDividableBy { get; set; }

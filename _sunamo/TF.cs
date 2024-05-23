@@ -1,4 +1,4 @@
 namespace SunamoDevCode;
-internal class TF
+public class TF
 {
 }
