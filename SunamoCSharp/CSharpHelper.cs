@@ -234,7 +234,7 @@ public static partial class CSharpHelper
 #if ASYNC
     await
 #endif
- File.ReadAllLinesAsync(item)).ToList();
+ File.ReadAllTextAsync(item)).ToList();
         RemoveNamespace(l, null);
         await File.WriteAllLinesAsync(item, l);
         return l;
@@ -657,11 +657,11 @@ public static partial class CSharpHelper
 #endif
     ReplaceForConsts(string pathXlfKeys)
     {
-        var c = (
+        var c = SHGetLines.GetLines (
 #if ASYNC
     await
 #endif
-    File.ReadAllLinesAsync(pathXlfKeys)).ToList();
+    File.ReadAllTextAsync(pathXlfKeys)).ToList();
         for (int i = 0; i < c.Count; i++)
         {
             var a = c[i];

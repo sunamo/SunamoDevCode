@@ -67,7 +67,7 @@ public class ConstsManager
 #if ASYNC
     await
 #endif
- File.ReadAllLinesAsync(pathXlfKeys)).ToList();
+ File.ReadAllTextAsync(pathXlfKeys)).ToList();
 
         var keys = CSharpParser.ParseConsts(lines, out first);
         return new OutRef3<List<string>, int, List<string>>(keys, first, lines);

@@ -38,7 +38,7 @@ void
 #if ASYNC
             await
 #endif
-            File.ReadAllLinesAsync(a.file));
+            File.ReadAllTextAsync(a.file));
             //CASH.RemoveStringsEmpty2(this);
             if (removeDuplicates)
             {

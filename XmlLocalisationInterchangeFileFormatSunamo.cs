@@ -115,11 +115,11 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
     {
         int i;
 
-        var l = (
+        var l = SHGetLines.GetLines(
 #if ASYNC
     await
 #endif
- File.ReadAllLinesAsync(pathXlfKeys)).ToList();
+ File.ReadAllTextAsync(pathXlfKeys)).ToList();
 
         for (i = 0; i < l.Count(); i++)
         {
@@ -182,11 +182,11 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
         int y, i;
         //AllLists.InitHtmlEntitiesDict();
         var path = pathXlfKeys;
-        var ls = (
+        var ls = SHGetLines.GetLines(
 #if ASYNC
     await
 #endif
- File.ReadAllLinesAsync(path)).ToList();
+ File.ReadAllTextAsync(path)).ToList();
         //var ls = SHGetLines.GetLines(s);
         int first;
         var consts = CSharpParser.ParseConsts(ls, out first);

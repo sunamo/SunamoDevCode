@@ -27,11 +27,11 @@ public partial class CSharpParser
 
         var ind = CAIndexesWithNull.IndexesWithNull(remove);
 
-        var lines = (
+        var lines = SHGetLines.GetLines(
 #if ASYNC
     await
 #endif
- File.ReadAllLinesAsync(file)).ToList();
+ File.ReadAllTextAsync(file)).ToList();
 
         for (int i = lines.Count - 1; i >= 0; i--)
         {
