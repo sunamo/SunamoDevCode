@@ -194,7 +194,7 @@ List<string>
 #if ASYNC
         //await WaitD();
 #endif
-        var result = SHGetLines.GetLines SHGetLines.GetLines
+        var result = SHGetLines.GetLines
 #if ASYNC
             (await File.ReadAllTextAsync(file)).ToList();
 #else

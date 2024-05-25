@@ -230,7 +230,7 @@ public static partial class CSharpHelper
 #endif
  RemoveNamespace(string item)
     {
-        var l = (
+        var l = SHGetLines.GetLines (
 #if ASYNC
     await
 #endif

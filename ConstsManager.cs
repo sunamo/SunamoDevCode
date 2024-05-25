@@ -63,7 +63,7 @@ public class ConstsManager
     {
         var first = -1;
 
-        var lines = (
+        var lines = SHGetLines.GetLines (
 #if ASYNC
     await
 #endif
