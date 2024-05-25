@@ -1,6 +1,7 @@
 namespace SunamoDevCode;
 public class FS
 {
+    
     public static string Slash(string path, bool slash)
     {
         string result = null;
