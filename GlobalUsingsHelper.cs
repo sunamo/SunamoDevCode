@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SunamoDevCode;
+/// <summary>
+/// Druhá část je v ToNugets
+/// Vložit sem jak toto šílenství s nugety skončí
+/// </summary>
 public class GlobalUsingsHelper
 {
     const string globalUsing = "global using ";
