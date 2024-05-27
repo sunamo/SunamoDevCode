@@ -1,21 +1,22 @@
 namespace SunamoDevCode;
 
-class EmbeddedResourcesH
-{
-    private Assembly assembly;
-    private string v;
+// mám už EmbeddedResourcesH v SunamoEmbeddedResources
+//class EmbeddedResourcesH
+//{
+//    private Assembly assembly;
+//    private string v;
 
-    public EmbeddedResourcesH(Assembly assembly, string v)
-    {
-        this.assembly = assembly;
-        this.v = v;
-    }
+//    public EmbeddedResourcesH(Assembly assembly, string v)
+//    {
+//        this.assembly = assembly;
+//        this.v = v;
+//    }
 
-    public static string GetString(string s)
-    {
-        return "";
-    }
-}
+//    public static string GetString(string s)
+//    {
+//        return "";
+//    }
+//}
 
 public static class SystemWindowsControls
 {
