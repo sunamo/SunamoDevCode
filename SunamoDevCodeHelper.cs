@@ -29,7 +29,7 @@ public partial class SunamoDevCodeHelper
             //}
         }
 
-        var files = FS.GetFiles(v, "*", SearchOption.AllDirectories);
+        var files = FSGetFiles.GetFiles(v, "*", SearchOption.AllDirectories);
         foreach (var item in files)
         {
             File.SetAttributes(item, FileAttributes.Normal);

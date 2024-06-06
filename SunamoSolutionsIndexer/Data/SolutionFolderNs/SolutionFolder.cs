@@ -55,7 +55,7 @@ public class SolutionFolder : SolutionFolderSerialize, IProjectType, ISolutionFo
 
             foreach (var projectFolder in projectsFolder)
             {
-                var files = FS.GetFiles(projectFolder, "*.csproj", SearchOption.TopDirectoryOnly, new GetFilesArgs { _trimA1AndLeadingBs = a.onlyNames });
+                var files = FSGetFiles.GetFiles(projectFolder, "*.csproj", SearchOption.TopDirectoryOnly, new GetFilesArgs { _trimA1AndLeadingBs = a.onlyNames });
                 foreach (var item in files)
                 {
                     csprojs.Add(item);

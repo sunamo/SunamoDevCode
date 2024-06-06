@@ -374,7 +374,7 @@ ReplaceForWithoutUnderscore(string folder)
         //}
         return null;
 
-        //return FS.GetFiles(path, "*.cs", System.IO.SearchOption.AllDirectories, new
+        //return FSGetFiles.GetFiles(path, "*.cs", System.IO.SearchOption.AllDirectories, new
         //{ excludeWithMethod = SunamoDevCodeHelper.RemoveTemporaryFilesVS });
     }
 
