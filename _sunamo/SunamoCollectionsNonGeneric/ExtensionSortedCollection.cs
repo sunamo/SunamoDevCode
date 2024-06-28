@@ -6,18 +6,18 @@ namespace SunamoDevCode;
 /// if file has no exception, will be grouped under empty string
 /// All strings converts to lowercase
 /// </summary>
-public class ExtensionSortedCollection
+internal class ExtensionSortedCollection
 {
-    public Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
+    internal Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
     /// <summary>
     /// Entries in A1 must be only filenames without paths
     /// </summary>
     /// <param name="d"></param>
-    public ExtensionSortedCollection(params string[] d)
+    internal ExtensionSortedCollection(params string[] d)
     {
         d.ToList().ForEach(fileName => AddOnlyFileName(fileName));
     }
-    public void AddOnlyFileName(string fileName)
+    internal void AddOnlyFileName(string fileName)
     {
         string key = Path.GetExtension(fileName).ToLower();
         string value = Path.GetFileNameWithoutExtension(fileName).ToLower();
@@ -35,7 +35,7 @@ public class ExtensionSortedCollection
             dictionary.Add(key, ad);
         }
     }
-    public void AddWholeFilePath(string filePath)
+    internal void AddWholeFilePath(string filePath)
     {
         AddOnlyFileName(Path.GetFileName(filePath));
     }

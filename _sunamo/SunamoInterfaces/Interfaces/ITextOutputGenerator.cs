@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-public interface ITextOutputGenerator
+internal interface ITextOutputGenerator
 {
     void PairBullet(string key, string v);
     string prependEveryNoWhite { get; set; }

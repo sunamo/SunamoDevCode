@@ -1,9 +1,9 @@
 using Diacritics.Extensions;
 
 namespace SunamoDevCode;
-public class SH
+internal class SH
 {
-    public static bool ContainsAtLeastOne(string p, List<string> aggregate)
+    internal static bool ContainsAtLeastOne(string p, List<string> aggregate)
     {
         foreach (var item in aggregate)
         {
@@ -15,7 +15,7 @@ public class SH
         return false;
     }
 
-    public static string GetLineFromCharIndex(string content, List<string> lines, int dx2)
+    internal static string GetLineFromCharIndex(string content, List<string> lines, int dx2)
     {
         var dx = GetLineIndexFromCharIndex(content, dx2);
         return lines[dx];
@@ -26,20 +26,20 @@ public class SH
     /// </summary>
     /// <param name="input"></param>
     /// <param name="pos"></param>
-    public static int GetLineIndexFromCharIndex(string input, int pos)
+    internal static int GetLineIndexFromCharIndex(string input, int pos)
     {
         var lineNumber = input.Take(pos).Count(c => c == '\n') + 1;
         return lineNumber - 1;
     }
 
-    public static string GetTextBetweenSimple(string p, string after, string before, bool throwExceptionIfNotContains = true)
+    internal static string GetTextBetweenSimple(string p, string after, string before, bool throwExceptionIfNotContains = true)
     {
         int dxOfFounded = int.MinValue;
         var t = GetTextBetween(p, after, before, out dxOfFounded, 0, throwExceptionIfNotContains);
         return t;
     }
 
-    public static string GetTextBetween(string p, string after, string before, out int dxOfFounded, int startSearchingAt, bool throwExceptionIfNotContains = true)
+    internal static string GetTextBetween(string p, string after, string before, out int dxOfFounded, int startSearchingAt, bool throwExceptionIfNotContains = true)
     {
         string vr = null;
         dxOfFounded = p.IndexOf(after, startSearchingAt);
@@ -76,7 +76,7 @@ public class SH
         return vr.Trim();
     }
 
-    public static string WhiteSpaceFromStart(string v)
+    internal static string WhiteSpaceFromStart(string v)
     {
         StringBuilder sb = new StringBuilder();
         foreach (var item in v)
@@ -93,7 +93,7 @@ public class SH
         return sb.ToString();
     }
 
-    public static string PrefixIfNotStartedWith(string item, string http, bool skipWhitespaces = false)
+    internal static string PrefixIfNotStartedWith(string item, string http, bool skipWhitespaces = false)
     {
         string whitespaces = string.Empty;
 
@@ -111,31 +111,31 @@ public class SH
         return whitespaces + item;
     }
 
-    public static string WrapWith(string value, string h)
+    internal static string WrapWith(string value, string h)
     {
         return h + value + h;
     }
 
-    public static string WrapWithQm(string value)
+    internal static string WrapWithQm(string value)
     {
         var h = "\"";
         return h + value + h;
     }
 
-    public static string WrapWithBs(string value)
+    internal static string WrapWithBs(string value)
     {
         var h = "\\";
         return h + value + h;
     }
 
     #region SH.FirstCharUpper
-    public static void FirstCharUpper(ref string nazevPP)
+    internal static void FirstCharUpper(ref string nazevPP)
     {
         nazevPP = FirstCharUpper(nazevPP);
     }
 
 
-    public static string FirstCharUpper(string nazevPP)
+    internal static string FirstCharUpper(string nazevPP)
     {
         if (nazevPP.Length == 1)
         {
@@ -147,7 +147,7 @@ public class SH
     }
     #endregion
 
-    public static bool MatchWildcard(string name, string mask)
+    internal static bool MatchWildcard(string name, string mask)
     {
         return IsMatchRegex(name, mask, AllChars.q, AllChars.asterisk);
     }
@@ -170,19 +170,19 @@ public class SH
     }
 
 
-    public static (string, string) GetPartsByLocationNoOut(string text, char or)
+    internal static (string, string) GetPartsByLocationNoOut(string text, char or)
     {
         GetPartsByLocation(out var pred, out var za, text, or);
         return (pred, za);
     }
 
-    public static void GetPartsByLocation(out string pred, out string za, string text, char or)
+    internal static void GetPartsByLocation(out string pred, out string za, string text, char or)
     {
         int dex = text.IndexOf(or);
         GetPartsByLocation(out pred, out za, text, dex);
     }
 
-    public static void GetPartsByLocation(out string pred, out string za, string text, int pozice)
+    internal static void GetPartsByLocation(out string pred, out string za, string text, int pozice)
     {
         if (pozice == -1)
         {
@@ -203,7 +203,7 @@ public class SH
         }
     }
 
-    public static List<int> ReturnOccurencesOfString(string vcem, string co)
+    internal static List<int> ReturnOccurencesOfString(string vcem, string co)
     {
         vcem = NormalizeString(vcem);
         List<int> Results = new List<int>();
@@ -224,7 +224,7 @@ public class SH
         return Results;
     }
 
-    public static string NormalizeString(string s)
+    internal static string NormalizeString(string s)
     {
         if (s.Contains(AllChars.nbsp))
         {
@@ -246,12 +246,12 @@ public class SH
         return s;
     }
 
-    public static string TextWithoutDiacritic(string projName)
+    internal static string TextWithoutDiacritic(string projName)
     {
         return projName.RemoveDiacritics();
     }
 
-    public static bool ContainsDiacritic(string target)
+    internal static bool ContainsDiacritic(string target)
     {
         return target.HasDiacritics();
     }

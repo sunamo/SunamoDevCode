@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
-public class SHNotTranslateAble
+internal class SHNotTranslateAble
 {
-    public static string DecodeSlashEncodedString(string value)
+    internal static string DecodeSlashEncodedString(string value)
     {
         // was added ; after 1,2 line and  after 2,3
         // keep as was writte

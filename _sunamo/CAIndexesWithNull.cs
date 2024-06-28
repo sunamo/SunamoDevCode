@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
-public class CAIndexesWithNull
+internal class CAIndexesWithNull
 {
-    public static List<int> IndexesWithNull(IList times)
+    internal static List<int> IndexesWithNull(IList times)
     {
         List<int> nulled = new List<int>();
         int i = 0;

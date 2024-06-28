@@ -2,9 +2,9 @@
 using System.Runtime.CompilerServices;
 
 namespace SunamoDevCode;
-public class CA
+internal class CA
 {
-    public static void DoubleOrMoreMultiLinesToSingle(ref string list)
+    internal static void DoubleOrMoreMultiLinesToSingle(ref string list)
     {
         var n = Environment.NewLine;
         list = Regex.Replace(list, @"(\r?\n\s*){2,}", Environment.NewLine + Environment.NewLine);
@@ -13,7 +13,7 @@ public class CA
         // 27-10-23 dříve to bylo takhle
         //return list.Trim();
     }
-    public static void TrimWhereIsOnlyWhitespace(List<string> list)
+    internal static void TrimWhereIsOnlyWhitespace(List<string> list)
     {
         for (int i = list.Count - 1; i >= 0; i--)
         {
@@ -30,7 +30,7 @@ public class CA
         return s.Replace(from, to);
     }
 
-    public static void Replace(List<string> files_in, string what, string forWhat)
+    internal static void Replace(List<string> files_in, string what, string forWhat)
     {
         for (int i = 0; i < files_in.Count; i++)
         {
@@ -40,7 +40,7 @@ public class CA
     }
 
     
-    public static (bool, string) IsNegationTuple(string contains)
+    internal static (bool, string) IsNegationTuple(string contains)
     {
         if (contains[0] == '!')
         {
@@ -50,7 +50,7 @@ public class CA
         return (false, contains);
     }
 
-    public static void RemoveStartingWith(string start, List<string> mySites, RemoveStartingWithArgs a = null)
+    internal static void RemoveStartingWith(string start, List<string> mySites, RemoveStartingWithArgs a = null)
     {
         if (a == null)
         {
@@ -85,7 +85,7 @@ public class CA
         }
     }
 
-    public static bool StartingWith(string val, string start, bool caseSensitive)
+    internal static bool StartingWith(string val, string start, bool caseSensitive)
     {
         if (caseSensitive)
         {
@@ -97,7 +97,7 @@ public class CA
         }
     }
 
-    public static string StartWith(List<string> suMethods, string line, out string element)
+    internal static string StartWith(List<string> suMethods, string line, out string element)
     {
         element = null;
 
@@ -115,7 +115,7 @@ public class CA
         return null;
     }
 
-    public static string StartWith(string item2, IList<string> v1, out int i)
+    internal static string StartWith(string item2, IList<string> v1, out int i)
     {
         i = -1;
         foreach (var item in v1)
@@ -130,7 +130,7 @@ public class CA
         return null;
     }
 
-    public static void RemoveWhichContains(List<string> files1, string item, bool wildcard, Func<string, string, bool> WildcardIsMatch)
+    internal static void RemoveWhichContains(List<string> files1, string item, bool wildcard, Func<string, string, bool> WildcardIsMatch)
     {
         if (wildcard)
         {
@@ -155,7 +155,7 @@ public class CA
         }
     }
 
-    public static void RemoveWhichContainsList(List<string> files, List<string> list, bool wildcard, Func<string, string, bool> WildcardIsMatch = null)
+    internal static void RemoveWhichContainsList(List<string> files, List<string> list, bool wildcard, Func<string, string, bool> WildcardIsMatch = null)
     {
         foreach (var item in list)
         {
@@ -163,7 +163,7 @@ public class CA
         }
     }
 
-    public static List<string> TrimEnd(List<string> sf, params char[] toTrim)
+    internal static List<string> TrimEnd(List<string> sf, params char[] toTrim)
     {
         for (int i = 0; i < sf.Count; i++)
         {
@@ -172,7 +172,7 @@ public class CA
         return sf;
     }
 
-    public static List<T> JoinIList<T>(params IList<T>[] enumerable)
+    internal static List<T> JoinIList<T>(params IList<T>[] enumerable)
     {
         List<T> t = new List<T>();
         foreach (var item in enumerable)
@@ -185,7 +185,7 @@ public class CA
         return t;
     }
 
-    public static void RemoveEmptyLinesToFirstNonEmpty(List<string> content)
+    internal static void RemoveEmptyLinesToFirstNonEmpty(List<string> content)
     {
         for (int i = 0; i < content.Count; i++)
         {
@@ -201,7 +201,7 @@ public class CA
             }
         }
     }
-    public static List<T> SortSetFirst<T, U, P>(U result, Func<T, P> getProperty, P prioritize) where U : List<T>
+    internal static List<T> SortSetFirst<T, U, P>(U result, Func<T, P> getProperty, P prioritize) where U : List<T>
     {
         List<T> t = new List<T>();
 
@@ -221,7 +221,7 @@ public class CA
         return t;
     }
 
-    public static void RemoveLines(List<string> lines, List<int> removeLines)
+    internal static void RemoveLines(List<string> lines, List<int> removeLines)
     {
         removeLines.Sort();
         for (int i = removeLines.Count - 1; i >= 0; i--)
@@ -231,7 +231,7 @@ public class CA
         }
     }
 
-    public static List<string> RemoveStringsEmpty2(List<string> mySites)
+    internal static List<string> RemoveStringsEmpty2(List<string> mySites)
     {
         for (int i = mySites.Count - 1; i >= 0; i--)
         {
@@ -243,14 +243,14 @@ public class CA
         return mySites;
     }
 
-    public static List<string> Trim(List<string> l)
+    internal static List<string> Trim(List<string> l)
     {
         for (var i = 0; i < l.Count; i++) l[i] = l[i].Trim();
 
         return l;
     }
 
-    public static List<string> WrapWith(List<string> whereIsUsed2, string v)
+    internal static List<string> WrapWith(List<string> whereIsUsed2, string v)
     {
         return WrapWith(whereIsUsed2, v, v);
     }
@@ -260,7 +260,7 @@ public class CA
     /// </summary>
     /// <param name="whereIsUsed2"></param>
     /// <param name="v"></param>
-    public static List<string> WrapWith(List<string> whereIsUsed2, string before, string after)
+    internal static List<string> WrapWith(List<string> whereIsUsed2, string before, string after)
     {
         for (int i = 0; i < whereIsUsed2.Count; i++)
         {
@@ -269,7 +269,7 @@ public class CA
         return whereIsUsed2;
     }
 
-    public static List<string> EnsureBackslash(List<string> eb)
+    internal static List<string> EnsureBackslash(List<string> eb)
     {
         for (int i = 0; i < eb.Count; i++)
         {
@@ -283,7 +283,7 @@ public class CA
         return eb;
     }
 
-    public static bool ContainsElement<T>(IList<T> list, T t)
+    internal static bool ContainsElement<T>(IList<T> list, T t)
     {
         if (list.Count() == 0)
         {
@@ -300,7 +300,7 @@ public class CA
         return false;
     }
 
-    public static void RemoveWildcard(List<string> d, string mask)
+    internal static void RemoveWildcard(List<string> d, string mask)
     {
         //https://stackoverflow.com/a/15275806
 
@@ -313,7 +313,7 @@ public class CA
         }
     }
 
-    public static bool HasPostfix(string key, params string[] v1)
+    internal static bool HasPostfix(string key, params string[] v1)
     {
         foreach (var item in v1)
         {
@@ -326,12 +326,12 @@ public class CA
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string WrapWith(string value, string h)
+    internal static string WrapWith(string value, string h)
     {
         return h + value + h;
     }
 
-    public static List<string> Prepend(string v, List<string> toReplace)
+    internal static List<string> Prepend(string v, List<string> toReplace)
     {
         for (int i = 0; i < toReplace.Count; i++)
         {

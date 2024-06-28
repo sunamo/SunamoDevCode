@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
-public class SHFormat
+internal class SHFormat
 {
-    public static string Format4(string v, params Object[] o)
+    internal static string Format4(string v, params Object[] o)
     {
         return string.Format(v, o);
     }

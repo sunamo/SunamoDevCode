@@ -2,9 +2,9 @@ using HtmlAgilityPack;
 using System.Net;
 
 namespace SunamoDevCode;
-public class HtmlAssistant
+internal class HtmlAssistant
 {
-    public static string TrimInnerHtml(string value)
+    internal static string TrimInnerHtml(string value)
     {
         HtmlDocument hd = HtmlAgilityHelper.CreateHtmlDocument();
         hd.LoadHtml(value);
@@ -17,7 +17,7 @@ public class HtmlAssistant
         }
         return hd.DocumentNode.OuterHtml;
     }
-    public static string HtmlDecode(string v)
+    internal static string HtmlDecode(string v)
     {
         return WebUtility.HtmlDecode(v);
     }

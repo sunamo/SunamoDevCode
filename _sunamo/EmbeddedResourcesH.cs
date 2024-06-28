@@ -4,7 +4,7 @@ namespace SunamoDevCode;
 /// Require assembly and default namespace.
 /// Content is referred like with ResourcesH - with fs path
 /// </summary>
-public class EmbeddedResourcesH //: IResourceHelper
+internal class EmbeddedResourcesH //: IResourceHelper
 {
     /*usage:
 uri = new Uri("Wpf.Tests.Resources.EmbeddedResource.txt", UriKind.Relative);
@@ -14,7 +14,7 @@ GetString(uri.ToString()) - the same string as passed in ctor Uri
     /// <summary>
     /// For entry assembly
     /// </summary>
-    public static EmbeddedResourcesH ci = null;
+    internal static EmbeddedResourcesH ci = null;
 
     protected EmbeddedResourcesH()
     {
@@ -22,11 +22,11 @@ GetString(uri.ToString()) - the same string as passed in ctor Uri
     }
 
     /// <summary>
-    /// public to use in assembly like SunamoNTextCat
+    /// internal to use in assembly like SunamoNTextCat
     /// A2 is name of project, therefore don't insert typeResourcesSunamo.Namespace
     /// </summary>
     /// <param name="_entryAssembly"></param>
-    public EmbeddedResourcesH(Assembly _entryAssembly, string defaultNamespace)
+    internal EmbeddedResourcesH(Assembly _entryAssembly, string defaultNamespace)
     {
         this._entryAssembly = _entryAssembly;
         _defaultNamespace = defaultNamespace;
@@ -47,7 +47,7 @@ GetString(uri.ToString()) - the same string as passed in ctor Uri
         }
     }
 
-    public string GetResourceName(string name)
+    internal string GetResourceName(string name)
     {
         name = string.Join(".", _defaultNamespace, name.TrimStart(AllChars.slash).Replace(AllStrings.slash, AllStrings.dot));
         return name;
@@ -58,7 +58,7 @@ GetString(uri.ToString()) - the same string as passed in ctor Uri
     /// Its for getting string from file, never from resx or another in code variable
     /// </summary>
     /// <param name="name"></param>
-    public string GetString(string name)
+    internal string GetString(string name)
     {
         var s = GetStream(name);
 
@@ -69,7 +69,7 @@ GetString(uri.ToString()) - the same string as passed in ctor Uri
     /// Resources/tidy_config.txt (no assembly)
     /// </summary>
     /// <param name="name"></param>
-    public Stream GetStream(string name)
+    internal Stream GetStream(string name)
     {
         var s = GetResourceName(name);
         var vr = entryAssembly.GetManifestResourceStream(s);

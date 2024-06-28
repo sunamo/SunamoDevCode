@@ -1,10 +1,10 @@
 namespace SunamoDevCode;
 
 
-public static class ConvertTypeShortcutFullName //: IConvertShortcutFullName
+internal static class ConvertTypeShortcutFullName //: IConvertShortcutFullName
 {
     const string systemDot = "System.";
-    public static string FromShortcut(string shortcut)
+    internal static string FromShortcut(string shortcut)
     {
         switch (shortcut)
         {
@@ -42,16 +42,16 @@ public static class ConvertTypeShortcutFullName //: IConvertShortcutFullName
         throw new Exception("Nepodporovan\u00E9 kl\u00ED\u010Dov\u00E9 slovo");
         return null;
     }
-    public static string ToShortcut(object instance)
+    internal static string ToShortcut(object instance)
     {
         return ToShortcut(instance.GetType().FullName, false);
     }
-    public static string ToShortcut(string fullName)
+    internal static string ToShortcut(string fullName)
     {
         return ToShortcut(fullName, true);
     }
     /// <param name="fullName"></param>
-    public static string ToShortcut(string fullName, bool throwExceptionWhenNotBasicType)
+    internal static string ToShortcut(string fullName, bool throwExceptionWhenNotBasicType)
     {
         if (!fullName.StartsWith(systemDot))
         {

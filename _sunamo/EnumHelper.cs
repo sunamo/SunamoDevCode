@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
-public class EnumHelper
+internal class EnumHelper
 {
-    public static T Parse<T>(string web, T _def, bool returnDefIfNull = false)
+    internal static T Parse<T>(string web, T _def, bool returnDefIfNull = false)
         where T : struct
     {
         if (returnDefIfNull)

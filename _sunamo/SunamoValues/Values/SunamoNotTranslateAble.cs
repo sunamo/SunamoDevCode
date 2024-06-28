@@ -1,15 +1,15 @@
 namespace SunamoDevCode;
 
 
-public class SunamoNotTranslateAble
+internal class SunamoNotTranslateAble
 {
-    public const string From = " - From";
-    public const string SessI18n = "sess.i18n(";
-    public const string SessI18nShort = "sess.i18n(";
-    public const string RLDataEn = "RLData.en[";
-    public const string RLDataCs = "RLData.cs[";
-    public const string RLDataEn2 = "RLDataEn[";
-    public const string XlfKeysDot = "XlfKeys.";
-    public const string on = "on";
-    public const string Orient = "Orient";
+    internal const string From = " - From";
+    internal const string SessI18n = "sess.i18n(";
+    internal const string SessI18nShort = "sess.i18n(";
+    internal const string RLDataEn = "RLData.en[";
+    internal const string RLDataCs = "RLData.cs[";
+    internal const string RLDataEn2 = "RLDataEn[";
+    internal const string XlfKeysDot = "XlfKeys.";
+    internal const string on = "on";
+    internal const string Orient = "Orient";
 }

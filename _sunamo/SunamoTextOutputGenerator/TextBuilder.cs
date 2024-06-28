@@ -4,20 +4,20 @@ namespace SunamoDevCode;
 /// <summary>
 /// In Comparing
 /// </summary>
-public class TextBuilder : ITextBuilder
+internal class TextBuilder : ITextBuilder
 {
     private static Type type = typeof(TextBuilder);
     private bool _canUndo = false;
     private int _lastIndex = -1;
     private string _lastText = "";
-    public StringBuilder sb = null;
-    public string prependEveryNoWhite { get; set; } = string.Empty;
+    internal StringBuilder sb = null;
+    internal string prependEveryNoWhite { get; set; } = string.Empty;
     /// <summary>
     /// For PowershellRunner
     /// </summary>
-    public List<string> list { get; set; }
+    internal List<string> list { get; set; }
     private bool _useList = false;
-    public void Clear()
+    internal void Clear()
     {
         if (_useList)
         {
@@ -28,7 +28,7 @@ public class TextBuilder : ITextBuilder
             sb.Clear();
         }
     }
-    public static ITextBuilder Create(bool useList = false)
+    internal static ITextBuilder Create(bool useList = false)
     {
         return new TextBuilder(useList);
     }
@@ -39,7 +39,7 @@ public class TextBuilder : ITextBuilder
     /// git počítal s sb ale ps s lines
     /// </summary>
     /// <param name="useList"></param>
-    public TextBuilder(bool useList = false)
+    internal TextBuilder(bool useList = false)
     {
         _useList = useList;
         if (useList)
@@ -51,7 +51,7 @@ public class TextBuilder : ITextBuilder
             sb = new StringBuilder();
         }
     }
-    public bool CanUndo
+    internal bool CanUndo
     {
         get
         {
@@ -75,7 +75,7 @@ public class TextBuilder : ITextBuilder
     {
         ThrowEx.IsNotAllowed(what);
     }
-    public void Undo()
+    internal void Undo()
     {
         if (_useList)
         {
@@ -86,7 +86,7 @@ public class TextBuilder : ITextBuilder
             sb.Remove(_lastIndex, _lastText.Length);
         }
     }
-    public void Append(string s)
+    internal void Append(string s)
     {
         if (_useList)
         {
@@ -118,17 +118,17 @@ public class TextBuilder : ITextBuilder
             _lastText = text;
         }
     }
-    public void Append(object s)
+    internal void Append(object s)
     {
         string text = s.ToString();
         SetUndo(text);
         Append(text);
     }
-    public void AppendLine()
+    internal void AppendLine()
     {
         Append(Environment.NewLine);
     }
-    public void AppendLine(string s)
+    internal void AppendLine(string s)
     {
         if (_useList)
         {
@@ -144,7 +144,7 @@ public class TextBuilder : ITextBuilder
     /// If is use List, join it with NL.
     /// Otherwise return sb
     /// </summary>
-    public override string ToString()
+    internal override string ToString()
     {
         if (_useList)
         {

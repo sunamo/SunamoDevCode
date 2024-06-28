@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
-public class SHReplace
+internal class SHReplace
 {
-    public static string ReplaceAll(string vstup, string zaCo, params string[] co)
+    internal static string ReplaceAll(string vstup, string zaCo, params string[] co)
     {
         foreach (var item in co)
         {

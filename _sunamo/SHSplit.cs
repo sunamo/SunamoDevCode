@@ -2,19 +2,19 @@
 
 
 namespace SunamoDevCode;
-public class SHSplit
+internal class SHSplit
 {
-    public static List<string> Split(string p, params string[] newLine)
+    internal static List<string> Split(string p, params string[] newLine)
     {
         return p.Split(newLine, StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
-    public static List<string> SplitByWhiteSpaces(string innerText)
+    internal static List<string> SplitByWhiteSpaces(string innerText)
     {
         return innerText.Split(AllChars.whiteSpacesChars.ToArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
-    public static Tuple<string, string> SplitFromReplaceManyFormat(string input)
+    internal static Tuple<string, string> SplitFromReplaceManyFormat(string input)
     {
         StringBuilder to = new StringBuilder();
         StringBuilder from = new StringBuilder();
@@ -43,18 +43,18 @@ public class SHSplit
 
     }
 
-    public static Tuple<List<string>, List<string>> SplitFromReplaceManyFormatList(string input)
+    internal static Tuple<List<string>, List<string>> SplitFromReplaceManyFormatList(string input)
     {
         var t = SplitFromReplaceManyFormat(input);
         return new Tuple<List<string>, List<string>>(SHGetLines.GetLines(t.Item1), SHGetLines.GetLines(t.Item2));
     }
 
-    public static List<string> SplitChar(string parametry, char deli)
+    internal static List<string> SplitChar(string parametry, char deli)
     {
         return Split(StringSplitOptions.RemoveEmptyEntries, parametry, (new List<char>([deli]).ConvertAll(d => d.ToString()).ToArray()));
     }
 
-    public static List<string> Split(StringSplitOptions stringSplitOptions, string text, params string[] deli)
+    internal static List<string> Split(StringSplitOptions stringSplitOptions, string text, params string[] deli)
     {
         if (deli == null || deli.Count() == 0)
         {

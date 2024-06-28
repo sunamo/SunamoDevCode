@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
-public class BTS
+internal class BTS
 {
-    public static bool Is(bool binFp, bool n)
+    internal static bool Is(bool binFp, bool n)
     {
         if (n)
         {
@@ -13,7 +13,7 @@ public class BTS
     private const string Yes = "Yes";
     private const string No = "No";
 
-    public static string BoolToString(bool p, bool lower = false)
+    internal static string BoolToString(bool p, bool lower = false)
     {
         string vr = null;
         if (p)

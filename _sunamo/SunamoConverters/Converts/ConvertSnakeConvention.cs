@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-public class ConvertSnakeConvention
+internal class ConvertSnakeConvention
 {
     static string Sanitize(string t)
     {
@@ -16,7 +16,7 @@ public class ConvertSnakeConvention
         }
         return s.ToString();
     }
-    public static string ToConvention(string text)
+    internal static string ToConvention(string text)
     {
         var rz = string.Concat(text.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString())).ToLower();
         return Sanitize(rz);
@@ -46,7 +46,7 @@ public class ConvertSnakeConvention
         var r = sb.ToString().Replace(AllStrings.space, AllStrings.lowbar);
         return r;
     }
-    public static string FromConvention(string p)
+    internal static string FromConvention(string p)
 
     {
         ThrowEx.Custom("Zkusit knihovnu třetích stran");

@@ -1,10 +1,10 @@
 namespace SunamoDevCode;
 
 
-public class FromToList
+internal class FromToList
 {
-    public List<FromTo> c = new();
-    public bool IsInRange(int i)
+    internal List<FromTo> c = new();
+    internal bool IsInRange(int i)
     {
         foreach (var item in c)
             if (i < item.to && i > item.from)

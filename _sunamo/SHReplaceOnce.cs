@@ -1,8 +1,8 @@
 namespace SunamoDevCode;
 
-public class SHReplaceOnce
+internal class SHReplaceOnce
 {
-    public static string ReplaceOnce(string a, string v, string empty)
+    internal static string ReplaceOnce(string a, string v, string empty)
     {
         return a.Replace(v, empty);
     }

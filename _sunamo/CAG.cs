@@ -1,7 +1,7 @@
 
 
 namespace SunamoDevCode;
-public class CAG
+internal class CAG
 {
     /// <summary>
     /// Return what exists in both
@@ -9,7 +9,7 @@ public class CAG
     /// </summary>
     /// <param name="c1"></param>
     /// <param name="c2"></param>
-    public static List<T> CompareList<T>(List<T> c1, List<T> c2) where T : IEquatable<T>
+    internal static List<T> CompareList<T>(List<T> c1, List<T> c2) where T : IEquatable<T>
     {
         List<T> existsInBoth = new List<T>();
 
@@ -44,13 +44,13 @@ public class CAG
         return existsInBoth;
     }
 
-    public static List<T> GetDuplicities<T>(List<T> clipboardL)
+    internal static List<T> GetDuplicities<T>(List<T> clipboardL)
     {
         List<T> alreadyProcessed;
         return GetDuplicities<T>(clipboardL, out alreadyProcessed);
     }
 
-    public static List<T> GetDuplicities<T>(List<T> clipboardL, out List<T> alreadyProcessed)
+    internal static List<T> GetDuplicities<T>(List<T> clipboardL, out List<T> alreadyProcessed)
     {
         alreadyProcessed = new List<T>(clipboardL.Count);
         CollectionWithoutDuplicates<T> duplicated = new CollectionWithoutDuplicates<T>();
@@ -67,7 +67,7 @@ public class CAG
         }
         return duplicated.c;
     }
-    public static List<T> RemoveDuplicitiesList<T>(IList<T> idKesek)
+    internal static List<T> RemoveDuplicitiesList<T>(IList<T> idKesek)
     {
         List<T> foundedDuplicities;
         return RemoveDuplicitiesList<T>(idKesek, out foundedDuplicities);
@@ -82,7 +82,7 @@ public class CAG
     /// <typeparam name="T"></typeparam>
     /// <param name="idKesek"></param>
     /// <param name="foundedDuplicities"></param>
-    public static List<T> RemoveDuplicitiesList<T>(IList<T> idKesek, out List<T> foundedDuplicities)
+    internal static List<T> RemoveDuplicitiesList<T>(IList<T> idKesek, out List<T> foundedDuplicities)
     {
         foundedDuplicities = new List<T>();
         List<T> h = new List<T>();

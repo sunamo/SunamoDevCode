@@ -1,30 +1,30 @@
 namespace SunamoDevCode;
 
 
-public class ResultWithException<T>
+internal class ResultWithException<T>
 {
-    public T Data { get; set; }
+    internal T Data { get; set; }
     /// <summary>
     ///     only string, because Message property isn't editable after instatiate
     ///     Usage: FubuCsprojFile
     /// </summary>
-    public string exc { get; set; }
-    public ResultWithException(T data)
+    internal string exc { get; set; }
+    internal ResultWithException(T data)
     {
         Data = data;
     }
-    public ResultWithException(string exc)
+    internal ResultWithException(string exc)
     {
         this.exc = exc;
     }
-    public ResultWithException(Exception exc)
+    internal ResultWithException(Exception exc)
     {
         this.exc = Exceptions.TextOfExceptions(exc);
     }
     /// <summary>
     /// Pro případ že data josu string což je typ i exception
     /// </summary>
-    public ResultWithException()
+    internal ResultWithException()
     {
     }
 }
