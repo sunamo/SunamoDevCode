@@ -1,11 +1,4 @@
 
-namespace
-#if SunamoDevCode
-SunamoDevCode
-#else
-SunamoDevCode
-#endif
-;
 
 
 
@@ -229,3 +222,4 @@ public partial class CSharpHelperSunamo
         return null;
     }
 }
+

@@ -1,10 +1,3 @@
-namespace
-#if SunamoDevCode
-SunamoDevCode
-#else
-SunamoDevCode
-#endif
-;
 
 public class CSharpGeneratorArgs
 {
@@ -23,3 +16,4 @@ public class CSharpGeneratorArgs
     public string splitKeyWith = null;
     public bool checkForNull = false;
 }
+
