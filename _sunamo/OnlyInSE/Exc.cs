@@ -1,3 +1,5 @@
+
+namespace SunamoDevCode;
 using System.Diagnostics;
 using System.Text;
 

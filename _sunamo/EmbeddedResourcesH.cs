@@ -1,4 +1,4 @@
-﻿namespace SunamoDevCode;
+namespace SunamoDevCode;
 /// <summary>
 ///
 /// Require assembly and default namespace.

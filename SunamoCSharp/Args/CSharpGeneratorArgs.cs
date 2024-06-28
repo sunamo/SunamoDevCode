@@ -1,3 +1,4 @@
+namespace SunamoDevCode;
 
 public class CSharpGeneratorArgs
 {
