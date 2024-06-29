@@ -13,5 +13,5 @@ public interface ISolutionFolder
     string ExeToRelease(SolutionFolder sln, string projectDistinction, bool standaloneSlnForProject, bool addProtectedWhenSelling = false, bool publish = false);
     bool HaveGitFolder();
     string ToString();
-    void UpdateModules(PpkOnDriveDevCode toSelling);
+    void UpdateModules(PpkOnDrive toSelling);
 }

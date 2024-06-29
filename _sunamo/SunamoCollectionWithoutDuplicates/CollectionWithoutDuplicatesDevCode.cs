@@ -1,15 +1,15 @@
 namespace SunamoDevCode;
 
 
-internal class CollectionWithoutDuplicates<T> : CollectionWithoutDuplicatesBase<T>
+public class CollectionWithoutDuplicatesDevCode<T> : CollectionWithoutDuplicatesBase<T>
 {
-    internal CollectionWithoutDuplicates() : base()
+    internal CollectionWithoutDuplicatesDevCode() : base()
     {
     }
-    internal CollectionWithoutDuplicates(int count) : base(count)
+    internal CollectionWithoutDuplicatesDevCode(int count) : base(count)
     {
     }
-    internal CollectionWithoutDuplicates(IList<T> l) : base(l)
+    internal CollectionWithoutDuplicatesDevCode(IList<T> l) : base(l)
     {
     }
     internal override int AddWithIndex(T t2)

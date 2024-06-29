@@ -11,7 +11,7 @@ public static partial class CSharpHelper
     public const string Import = "import ";
 
     #region Cs files
-    public static string RemoveUsing(string text, CollectionWithoutDuplicates<string> removed)
+    public static string RemoveUsing(string text, CollectionWithoutDuplicatesDevCode<string> removed)
     {
         foreach (var r in removed.c)
         {
@@ -175,7 +175,7 @@ public static partial class CSharpHelper
     }
 
     /// <param name="lines"></param>
-    public static void RemoveNamespace(List<string> lines, CollectionWithoutDuplicates<string> removed, bool removeRegions = true)
+    public static void RemoveNamespace(List<string> lines, CollectionWithoutDuplicatesDevCode<string> removed, bool removeRegions = true)
     {
 
 
@@ -230,7 +230,7 @@ public static partial class CSharpHelper
 #endif
  RemoveNamespace(string item)
     {
-        var l = SHGetLines.GetLines (
+        var l = SHGetLines.GetLines(
 #if ASYNC
     await
 #endif
@@ -271,25 +271,25 @@ public static partial class CSharpHelper
         CA.RemoveEmptyLinesToFirstNonEmpty(l2);
     }
 
-    public static CollectionWithoutDuplicates<string> Usings(List<string> lines, bool remove = false)
+    public static CollectionWithoutDuplicatesDevCode<string> Usings(List<string> lines, bool remove = false)
     {
         return Usings(lines, Using, remove);
     }
 
-    public static CollectionWithoutDuplicates<string> Imports(List<string> lines, bool remove = false)
+    public static CollectionWithoutDuplicatesDevCode<string> Imports(List<string> lines, bool remove = false)
     {
         return Usings(lines, Import, remove);
     }
 
-    public static CollectionWithoutDuplicates<string> Usings(List<string> lines, string keyword, bool remove = false)
+    public static CollectionWithoutDuplicatesDevCode<string> Usings(List<string> lines, string keyword, bool remove = false)
     {
         List<int> removeLines = null;
         return Usings(lines, keyword, out removeLines, remove);
     }
 
-    public static CollectionWithoutDuplicates<string> Usings(List<string> lines, string keyword, out List<int> removeLines, bool remove = false)
+    public static CollectionWithoutDuplicatesDevCode<string> Usings(List<string> lines, string keyword, out List<int> removeLines, bool remove = false)
     {
-        CollectionWithoutDuplicates<string> usings = new CollectionWithoutDuplicates<string>();
+        CollectionWithoutDuplicatesDevCode<string> usings = new CollectionWithoutDuplicatesDevCode<string>();
         removeLines = new List<int>();
 
         int i = -1;
@@ -657,7 +657,7 @@ public static partial class CSharpHelper
 #endif
     ReplaceForConsts(string pathXlfKeys)
     {
-        var c = SHGetLines.GetLines (
+        var c = SHGetLines.GetLines(
 #if ASYNC
     await
 #endif

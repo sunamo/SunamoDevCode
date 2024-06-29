@@ -103,7 +103,7 @@ public class SolutionFolder : SolutionFolderSerialize, IProjectType, ISolutionFo
     /// </summary>
     public ProjectsTypes typeProjectFolder { get; set; } = ProjectsTypes.None;
 
-    public void UpdateModules(PpkOnDriveDevCode toSelling)
+    public void UpdateModules(PpkOnDrive toSelling)
     {
         if (toSelling != null)
         {

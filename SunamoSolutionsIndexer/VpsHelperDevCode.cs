@@ -24,8 +24,8 @@ public class VpsHelperDevCode
     static PushSolutionsData pushSolutionsData = new PushSolutionsData();
     //public static PpkOnDrive list = new PpkOnDrive(AppData.ci.GetFile(AppFolders.Data, "SlnVps.txt"));
     //public static PpkOnDrive listMain = new PpkOnDrive(AppData.ci.GetFile(AppFolders.Data, "SlnVpsMain.txt"));
-    public static PpkOnDriveDevCode listVpsNew = new PpkOnDriveDevCode(SolutionsIndexerPaths.listVpsNew);
-    public static PpkOnDriveDevCode listSczAdmin64 = new PpkOnDriveDevCode(SolutionsIndexerPaths.listSczAdmin64);
+    public static PpkOnDrive listVpsNew = new PpkOnDrive(SolutionsIndexerPaths.listVpsNew);
+    public static PpkOnDrive listSczAdmin64 = new PpkOnDrive(SolutionsIndexerPaths.listSczAdmin64);
 
     public static void PushAll(Func<List<string>, Task<List<List<string>>>> psInvoke)
     {

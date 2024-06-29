@@ -11,9 +11,9 @@ public class UnindexableFiles
     {
     }
 
-    public CollectionWithoutDuplicates<string> unindexablePathPartsFiles = new CollectionWithoutDuplicates<string>();
-    public CollectionWithoutDuplicates<string> unindexableFileNamesFiles = new CollectionWithoutDuplicates<string>();
-    public CollectionWithoutDuplicates<string> unindexableFileNamesExactlyFiles = new CollectionWithoutDuplicates<string>();
-    public CollectionWithoutDuplicates<string> unindexablePathEndsFiles = new CollectionWithoutDuplicates<string>();
-    public CollectionWithoutDuplicates<string> unindexablePathStartsFiles = new CollectionWithoutDuplicates<string>();
+    public CollectionWithoutDuplicatesDevCode<string> unindexablePathPartsFiles = new CollectionWithoutDuplicatesDevCode<string>();
+    public CollectionWithoutDuplicatesDevCode<string> unindexableFileNamesFiles = new CollectionWithoutDuplicatesDevCode<string>();
+    public CollectionWithoutDuplicatesDevCode<string> unindexableFileNamesExactlyFiles = new CollectionWithoutDuplicatesDevCode<string>();
+    public CollectionWithoutDuplicatesDevCode<string> unindexablePathEndsFiles = new CollectionWithoutDuplicatesDevCode<string>();
+    public CollectionWithoutDuplicatesDevCode<string> unindexablePathStartsFiles = new CollectionWithoutDuplicatesDevCode<string>();
 }
