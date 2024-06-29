@@ -33,6 +33,9 @@
   <ItemGroup>
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_sunamo\SunamoFubuCsProjFile\" />
+  </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>$(DefineConstants);ASYNC;SunamoDevCode</DefineConstants>
   </PropertyGroup>

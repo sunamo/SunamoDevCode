@@ -287,11 +287,11 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
             {
                 return Repository.BitBucket;
             }
-            else if (fullPathFolder.Contains(DefaultPaths.cRepos))
+            else if (fullPathFolder.Contains(BasePathsHelper.cRepos))
             {
                 return Repository.Vs17;
             }
-            else if (fullPathFolder.Contains(DefaultPaths.bpVps))
+            else if (fullPathFolder.Contains(BasePathsHelper.bpVps))
             {
                 return Repository.Vs17;
             }
@@ -428,7 +428,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 
         if (Directory.Exists(bp))
         {
-            if (DefaultPaths.bpVps == bp)
+            if (BasePathsHelper.bpVps == bp)
             {
                 AddProjectsFolder(projs, bp);
             }

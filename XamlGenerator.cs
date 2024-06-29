@@ -51,7 +51,7 @@ namespace SunamoDevCode;
 //    public void WriteColumnDefinitions(List<double> cd)
 //    {
 //        var cds = cd.ConvertAll(d => d.ToString());
-//        CAChangeContent.ChangeContent<string, string>(null, cds, SHReplaceOnce.ReplaceOnce, AllStrings.comma, AllStrings.dot);
+//        CAChangeContent.ChangeContent<string, string>(null, cds, SHReplace.ReplaceOnce, AllStrings.comma, AllStrings.dot);
 //        WriteColumnDefinitions(cds);
 //    }
 
@@ -127,7 +127,7 @@ namespace SunamoDevCode;
 //    public void WriteRowDefinitions(List<double> cd)
 //    {
 //        var cds = cd.ConvertAll(d => d.ToString());
-//        CAChangeContent.ChangeContent<string, string>(null, cds, SHReplaceOnce.ReplaceOnce, AllStrings.comma, AllStrings.dot);
+//        CAChangeContent.ChangeContent<string, string>(null, cds, SHReplace.ReplaceOnce, AllStrings.comma, AllStrings.dot);
 //        WriteRowDefinitions(cds);
 //    }
 

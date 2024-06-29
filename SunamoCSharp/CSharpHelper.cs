@@ -15,7 +15,7 @@ public static partial class CSharpHelper
     {
         foreach (var r in removed.c)
         {
-            text = SHReplaceOnce.ReplaceOnce(text, "using " + r + AllStrings.sc, string.Empty);
+            text = SHReplace.ReplaceOnce(text, "using " + r + AllStrings.sc, string.Empty);
         }
         return text;
     }
@@ -518,7 +518,7 @@ public static partial class CSharpHelper
 
         for (int i = list.Count - 1; i >= 0; i--)
         {
-            list[i] = SHParts2.RemoveAfterFirst(list[i], CSharpConsts.lc);
+            list[i] = SHParts.RemoveAfterFirst(list[i], CSharpConsts.lc);
         }
 
         CA.RemoveStringsEmpty2(list);
@@ -669,9 +669,9 @@ public static partial class CSharpHelper
             {
                 if (!a.Contains("const") && !a.Contains("class"))
                 {
-                    a = SHReplaceOnce.ReplaceOnce(a, "static ", string.Empty);
-                    a = SHReplaceOnce.ReplaceOnce(a, "readonly ", string.Empty);
-                    c[i] = SHReplaceOnce.ReplaceOnce(a, CSharpParser.p, CSharpParser.p + "const ");
+                    a = SHReplace.ReplaceOnce(a, "static ", string.Empty);
+                    a = SHReplace.ReplaceOnce(a, "readonly ", string.Empty);
+                    c[i] = SHReplace.ReplaceOnce(a, CSharpParser.p, CSharpParser.p + "const ");
                 }
             }
         }
@@ -784,7 +784,7 @@ public static partial class CSharpHelper
     public static Dictionary<string, string> ParseFields(List<string> l)
     {
         CA.RemoveStringsEmpty2(l);
-        CAChangeContent.ChangeContent0(null, l, e => SHParts2.RemoveAfterFirst(e, AllChars.equals));
+        CAChangeContent.ChangeContent0(null, l, e => SHParts.RemoveAfterFirst(e, AllChars.equals));
         CA.TrimEnd(l, AllChars.sc);
         Dictionary<string, string> r = new Dictionary<string, string>();
         foreach (var item in l)

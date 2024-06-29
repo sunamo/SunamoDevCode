@@ -13,7 +13,7 @@ public class MarvinPathsHelper
     static string ClientSrcWorker(string r, bool addS)
     {
         var p = Module(r) + ClientS + (addS ? "s" : "") + SrcS;
-        p = SHReplaceOnce.ReplaceOnce(p, @"\s", @"s\");
+        p = SHReplace.ReplaceOnce(p, @"\s", @"s\");
         if (!Directory.Exists(p))
         {
             ThrowEx.DirectoryExists(p);
@@ -24,7 +24,7 @@ public class MarvinPathsHelper
     static string ClientWorker(string r, bool addS, bool throwExIfNotExists = true)
     {
         var p = Module(r) + ClientS + (addS ? "s" : "");
-        p = SHReplaceOnce.ReplaceOnce(p, @"\s", @"s\");
+        p = SHReplace.ReplaceOnce(p, @"\s", @"s\");
         if (throwExIfNotExists && !Directory.Exists(p))
         {
             ThrowEx.DirectoryExists(p);

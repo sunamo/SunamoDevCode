@@ -60,7 +60,7 @@ public class FoldersWithSolutions
     ///
     /// přidává se mi zde když volám ctor FoldersWithSolutionsInstance
     ///
-    /// pokud nemám sln, zavolat new FoldersWithSolutions(DefaultPaths.vs, null);
+    /// pokud nemám sln, zavolat new FoldersWithSolutions(BasePathsHelper.vs, null);
     /// </summary>
     public static FoldersWithSolutionsList fwss = new FoldersWithSolutionsList();
 
@@ -159,7 +159,7 @@ public class FoldersWithSolutions
             return;
         }
 
-        var p2 = DefaultPaths.bp;
+        var p2 = BasePathsHelper.bp;
         if (!Directory.Exists(p2))
         {
             return;
@@ -371,7 +371,7 @@ public class FoldersWithSolutions
         {
 
 
-            solutionFolder = SHTrim.TrimStart(solutionFolder, DefaultPaths.bp);
+            solutionFolder = SHTrim.TrimStart(solutionFolder, BasePathsHelper.bp);
             var p = SHSplit.SplitChar(solutionFolder, AllChars.bs);
             //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
 
@@ -398,11 +398,11 @@ public class FoldersWithSolutions
         {
             return Repository.BitBucket;
         }
-        else if (fullPathFolder.Contains(DefaultPaths.cRepos))
+        else if (fullPathFolder.Contains(BasePathsHelper.cRepos))
         {
             return Repository.Vs17;
         }
-        else if (fullPathFolder.Contains(DefaultPaths.bpVps))
+        else if (fullPathFolder.Contains(BasePathsHelper.bpVps))
         {
             return Repository.Vs17;
         }
@@ -526,7 +526,7 @@ public class FoldersWithSolutions
 
         //if (Directory.Exists(bp))
         //{
-        //    if (DefaultPaths.bpVps == bp)
+        //    if (BasePathsHelper.bpVps == bp)
         //    {
         //        AddProjectsFolder(projs, bp);
         //    }

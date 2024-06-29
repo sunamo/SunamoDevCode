@@ -67,7 +67,7 @@ TranslateEngine");
 
         foreach (var item in slns)
         {
-            xlfSolutions.Add(DefaultPaths.vs + item);
+            xlfSolutions.Add(BasePathsHelper.vs + item);
         }
     }
 
@@ -370,7 +370,7 @@ ReplaceForWithoutUnderscore(string folder)
     {
         //if (path == null)
         //{
-        //    path = DefaultPaths.vs;
+        //    path = BasePathsHelper.vs;
         //}
         return null;
 
@@ -1037,7 +1037,7 @@ void
         var l = sunamoStrings.ToList();
         for (int i = 0; i < l.Count; i++)
         {
-            l[i] = SHReplaceOnce.ReplaceOnce(l[i], SunamoNotTranslateAble.SessI18n + SunamoNotTranslateAble.XlfKeysDot, string.Empty).TrimEnd(AllChars.rb);
+            l[i] = SHReplace.ReplaceOnce(l[i], SunamoNotTranslateAble.SessI18n + SunamoNotTranslateAble.XlfKeysDot, string.Empty).TrimEnd(AllChars.rb);
         }
         return l;
     }
@@ -1080,7 +1080,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
 
         Dictionary<string, string> filesWithXlf = new Dictionary<string, string>();
 
-        var files = Directory.GetFiles(DefaultPaths.vsProjects, "*.cs", SearchOption.AllDirectories);
+        var files = Directory.GetFiles(BasePathsHelper.vsProjects, "*.cs", SearchOption.AllDirectories);
 
         Dictionary<string, string> idTarget = new Dictionary<string, string>();
 
