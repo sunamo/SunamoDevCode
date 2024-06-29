@@ -103,7 +103,7 @@ public partial class CSharpHelperSunamo
         var ft = new FromToList();
         for (int i = 0; i < oc.Count; i++)
         {
-            ft.c.Add(new FromTo(oc[i], oc[++i]));
+            ft.c.Add(new FromToDevCode(oc[i], oc[++i]));
         }
         return ft;
     }

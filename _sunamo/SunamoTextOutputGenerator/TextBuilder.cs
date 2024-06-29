@@ -144,7 +144,7 @@ internal class TextBuilder : ITextBuilder
     /// If is use List, join it with NL.
     /// Otherwise return sb
     /// </summary>
-    internal override string ToString()
+    public override string ToString()
     {
         if (_useList)
         {

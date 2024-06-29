@@ -16,7 +16,7 @@ internal class TWithNameT<T>
         this.name = name;
         this.t = t;
     }
-    internal override string ToString()
+    public override string ToString()
     {
         return name;
     }

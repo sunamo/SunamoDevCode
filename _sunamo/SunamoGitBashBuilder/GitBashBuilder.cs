@@ -239,7 +239,7 @@ internal partial class GitBashBuilder
     {
         sb.AppendLine();
     }
-    internal override string ToString()
+    public override string ToString()
     {
         return sb.ToString();
     }

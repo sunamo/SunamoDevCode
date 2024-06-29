@@ -15,7 +15,7 @@ internal class InstantSB //: StringWriter
         _tokensDelimiter = znak;
     }
     internal int Length => sb.Length;
-    internal override string ToString()
+    public override string ToString()
     {
         string vratit = sb.ToString();
         return vratit;

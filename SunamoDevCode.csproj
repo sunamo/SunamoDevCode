@@ -6,22 +6,6 @@
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with SunamoCode and SunamoCSharp.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="SolutionsIndexer\**" />
-    <EmbeddedResource Remove="SolutionsIndexer\**" />
-    <None Remove="SolutionsIndexer\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="C:\Users\r\.nuget\packages\sunamoxlf\23.12.9.1\contentFiles\any\net8.0\WinSec\Readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Resources\SystemWindowsControls.txt">
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\SystemWindowsControls.txt">
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="CaseDotNet" Version="0.3.36" />
     <PackageReference Include="CaseDotNet.Extensions" Version="0.2.46" />
     <PackageReference Include="Diacritics" Version="3.3.27" />
@@ -32,9 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TextCopy" Version="6.2.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="_sunamo\SunamoFubuCsProjFile\" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>$(DefineConstants);ASYNC;SunamoDevCode</DefineConstants>

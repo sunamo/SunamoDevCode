@@ -3,7 +3,7 @@ namespace SunamoDevCode;
 
 internal class FromToList
 {
-    internal List<FromTo> c = new();
+    internal List<FromToDevCode> c = new();
     internal bool IsInRange(int i)
     {
         foreach (var item in c)
