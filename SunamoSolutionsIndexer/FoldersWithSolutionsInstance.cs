@@ -34,7 +34,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
     /// This class should be instaniate only once and then call reload by needs
     /// A1 toSelling can be null
     /// </summary>
-    public FoldersWithSolutionsInstance(string documentsFolder, PpkOnDrive toSelling, bool addAlsoSolutions = true, bool notSaveToInstance = false)
+    public FoldersWithSolutionsInstance(string documentsFolder, PpkOnDriveDevCode toSelling, bool addAlsoSolutions = true, bool notSaveToInstance = false)
     {
         if (!notSaveToInstance)
         {
@@ -75,7 +75,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
     /// A1 toSelling must be null
     /// </summary>
     /// <param name="documentsFolder"></param>
-    public List<SolutionFolder> Reload(string documentsFolder, PpkOnDrive toSelling, bool useBp = true, bool ignorePartAfterUnderscore = false, bool sunamoAndSunamoWithoutDepProjectsAsFirst = true)
+    public List<SolutionFolder> Reload(string documentsFolder, PpkOnDriveDevCode toSelling, bool useBp = true, bool ignorePartAfterUnderscore = false, bool sunamoAndSunamoWithoutDepProjectsAsFirst = true)
     {
         FoldersWithSolutions.PairProjectFolderWithEnum();
 
@@ -218,7 +218,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
         return vr;
     }
 
-    public SolutionFolder CreateSolutionFolder(SolutionFolderSerialize solutionFolder, PpkOnDrive toSelling, bool useBp, string projName = null)
+    public SolutionFolder CreateSolutionFolder(SolutionFolderSerialize solutionFolder, PpkOnDriveDevCode toSelling, bool useBp, string projName = null)
     {
         return CreateSolutionFolder(null, solutionFolder.fullPathFolder, toSelling, useBp, projName);
     }
@@ -230,7 +230,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
     /// <param name="toSelling"></param>
     /// <param name="projName"></param>
     /// <returns></returns>
-    public SolutionFolder CreateSolutionFolder(string documentsFolder, string solutionFolder, PpkOnDrive toSelling, bool useBp, string projName = null)
+    public SolutionFolder CreateSolutionFolder(string documentsFolder, string solutionFolder, PpkOnDriveDevCode toSelling, bool useBp, string projName = null)
     {
         return CreateSolutionFolder(documentsFolder, null, solutionFolder, toSelling, useBp, projName);
     }
@@ -243,7 +243,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
     /// <param name="toSelling"></param>
     /// <param name="projName"></param>
     /// <returns></returns>
-    public SolutionFolder CreateSolutionFolder(string documentsFolder, SolutionFolderSerialize sfs, string solutionFolder, PpkOnDrive toSelling, bool useBp, string projName = null)
+    public SolutionFolder CreateSolutionFolder(string documentsFolder, SolutionFolderSerialize sfs, string solutionFolder, PpkOnDriveDevCode toSelling, bool useBp, string projName = null)
     {
 
         if (projName == null)

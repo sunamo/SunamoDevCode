@@ -70,7 +70,7 @@ public class FoldersWithSolutions
     /// This class should be instaniate only once and then call reload by needs
     /// A1 toSelling can be null
     /// </summary>
-    public FoldersWithSolutions(string documentsFolder, PpkOnDrive toSelling, bool addAlsoSolutions = true)
+    public FoldersWithSolutions(string documentsFolder, PpkOnDriveDevCode toSelling, bool addAlsoSolutions = true)
     {
         // documentsFolder může být null / SE, stejně to poté doplňuji z actualPlatform
         ThrowEx.DirectoryExists(documentsFolder);
@@ -124,7 +124,7 @@ public class FoldersWithSolutions
     /// A1 toSelling must be null
     /// </summary>
     /// <param name="documentsFolder"></param>
-    public List<SolutionFolder> Reload(string documentsFolder, PpkOnDrive toSelling, bool ignorePartAfterUnderscore = false)
+    public List<SolutionFolder> Reload(string documentsFolder, PpkOnDriveDevCode toSelling, bool ignorePartAfterUnderscore = false)
     {
         PairProjectFolderWithEnum();
 
@@ -308,7 +308,7 @@ public class FoldersWithSolutions
         return vr;
     }
 
-    public static SolutionFolder CreateSolutionFolder(SolutionFolderSerialize solutionFolder, PpkOnDrive toSelling, string projName = null)
+    public static SolutionFolder CreateSolutionFolder(SolutionFolderSerialize solutionFolder, PpkOnDriveDevCode toSelling, string projName = null)
     {
         return CreateSolutionFolder(null, solutionFolder.fullPathFolder, toSelling, projName);
     }
@@ -320,7 +320,7 @@ public class FoldersWithSolutions
     /// <param name="toSelling"></param>
     /// <param name="projName"></param>
     /// <returns></returns>
-    public static SolutionFolder CreateSolutionFolder(string solutionFolder, PpkOnDrive toSelling, string projName = null)
+    public static SolutionFolder CreateSolutionFolder(string solutionFolder, PpkOnDriveDevCode toSelling, string projName = null)
     {
         return CreateSolutionFolder(null, solutionFolder, toSelling, projName);
     }
@@ -333,7 +333,7 @@ public class FoldersWithSolutions
     /// <param name="toSelling"></param>
     /// <param name="projName"></param>
     /// <returns></returns>
-    public static SolutionFolder CreateSolutionFolder(SolutionFolderSerialize sfs, string solutionFolder, PpkOnDrive toSelling, string projName = null)
+    public static SolutionFolder CreateSolutionFolder(SolutionFolderSerialize sfs, string solutionFolder, PpkOnDriveDevCode toSelling, string projName = null)
     {
 
         if (projName == null)

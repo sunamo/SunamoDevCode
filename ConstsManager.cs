@@ -11,7 +11,7 @@ public class ConstsManager
     #region Work with consts in XlfKeys
     /// <summary>
     /// Add to XlfKeys.cs from xlf
-    /// Must manually call XlfResourcesH.SaveResouresToRL(DefaultPaths.sunamoProject) before
+    /// Must manually call XlfResourcesH.SaveResouresToRL(BasePathsHelper.sunamoProject) before
     /// called externally from MiAddTranslationWhichIsntInKeys_Click
     /// </summary>
     /// <param name="keysAll"></param>
