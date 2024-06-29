@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-internal abstract class CollectionWithoutDuplicatesBase<T> //: IDumpAsString
+public abstract class CollectionWithoutDuplicatesBase<T> //: IDumpAsString
 {
     internal List<T> c = null;
     internal List<string> sr = null;

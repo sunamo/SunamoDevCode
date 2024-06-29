@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-internal class PushSolutionsData
+public class PushSolutionsData
 {
     internal bool mergeAndFetch = false;
     internal bool addGitignore = false;

@@ -21,7 +21,7 @@ List<string>
         >
         buildProjectsDependencyTreeList;
     internal static int nulled;
-    internal static IProgressBar clpb = null;
+    internal static IProgressBarDC clpb = null;
     internal static List<string> cantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull = new();
     internal static
         /// <summary>
@@ -33,7 +33,7 @@ List<string>
         /// <param name="path"></param>
         /// <returns></returns>
 #if ASYNC
-        async Task<ResultWithException<XmlDocument>>
+        async Task<ResultWithExceptionDC<XmlDocument>>
 #else
 ResultWithException<XmlDocument>
 #endif
@@ -46,12 +46,12 @@ ResultWithException<XmlDocument>
 #endif
         // Tady to mít je píčovina. To se nemůže nikdy s malým vyskytnout
         //path = SH.FirstCharUpper(path);
-        if (cache.ContainsKey(path)) return new ResultWithException<XmlDocument>(cache[path]);
+        if (cache.ContainsKey(path)) return new ResultWithExceptionDC<XmlDocument>(cache[path]);
         if (Ignored.IsIgnored(path))
         {
             cache.Add(path, null);
             nulled++;
-            return new ResultWithException<XmlDocument>() { exc = "csproj is ignored: " + path };
+            return new ResultWithExceptionDC<XmlDocument>() { exc = "csproj is ignored: " + path };
         }
         // Load the XML document
         var doc = new XmlDocument();
@@ -81,7 +81,7 @@ ResultWithException<XmlDocument>
         {
             cache.Add(path, null);
             nulled++;
-            return new ResultWithException<XmlDocument>();
+            return new ResultWithExceptionDC<XmlDocument>();
         }
         var save = false;
         if (xml.Contains(nullable))
@@ -96,7 +96,7 @@ ResultWithException<XmlDocument>
         }
         if (save) await TFSE.WriteAllText(path, xml);
         xml = FormatXml(xml);
-        if (xml.StartsWith(Consts.Exception)) return new ResultWithException<XmlDocument>(xml);
+        if (xml.StartsWith(Consts.Exception)) return new ResultWithExceptionDC<XmlDocument>(xml);
         try
         {
             doc.PreserveWhitespace = true;
@@ -115,7 +115,7 @@ ResultWithException<XmlDocument>
             cache.Add(path, null);
             nulled++;
             //ThrowEx.NotValidXml(path, ex);
-            return new ResultWithException<XmlDocument>();
+            return new ResultWithExceptionDC<XmlDocument>();
         }
         //lock (_lock)
         //{
@@ -130,7 +130,7 @@ ResultWithException<XmlDocument>
             projectDeps.Add(path, l);
         }
         //}
-        return new ResultWithException<XmlDocument>(doc);
+        return new ResultWithExceptionDC<XmlDocument>(doc);
     }
     private static string FormatXml(string xml)
     {

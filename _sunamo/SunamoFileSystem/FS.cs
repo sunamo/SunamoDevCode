@@ -258,7 +258,7 @@ nad
         return files;
     }
 
-    internal static List<string> GetFiles(string projectFolder, string v, SearchOption topDirectoryOnly, GetFilesArgs getFilesArgs = null)
+    internal static List<string> GetFiles(string projectFolder, string v, SearchOption topDirectoryOnly, GetFilesArgsArgs getFilesArgs = null)
     {
         //ThrowEx.NotImplementedMethod();
         return Directory.GetFiles(projectFolder, v, topDirectoryOnly).ToList();

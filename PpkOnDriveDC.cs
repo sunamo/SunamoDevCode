@@ -4,10 +4,10 @@ namespace SunamoDevCode;
 /// <summary>
 /// Checking whether string is already contained.
 /// </summary>
-public class PpkOnDriveDevCode : PpkOnDriveDevCodeBase<string>
+public class PpkOnDriveDC : PpkOnDriveDevCodeBase<string>
 {
     public bool removeDuplicates = false;
-    static PpkOnDriveDevCode wroteOnDrive = null;
+    static PpkOnDriveDC wroteOnDrive = null;
     //public static PpkOnDrive WroteOnDrive
     //{
     //    get
@@ -50,13 +50,13 @@ void
             }
         }
     }
-    public PpkOnDriveDevCode(PpkOnDriveDevCodeArgs a) : base(a)
+    public PpkOnDriveDC(PpkOnDriveDevCodeArgs a) : base(a)
     {
     }
-    public PpkOnDriveDevCode(string file2, bool load = true) : base(new PpkOnDriveDevCodeArgs { file = file2, load = load })
+    public PpkOnDriveDC(string file2, bool load = true) : base(new PpkOnDriveDevCodeArgs { file = file2, load = load })
     {
     }
-    public PpkOnDriveDevCode(string file, bool load, bool save) : base(new PpkOnDriveDevCodeArgs { file = file, load = load, save = save })
+    public PpkOnDriveDC(string file, bool load, bool save) : base(new PpkOnDriveDevCodeArgs { file = file, load = load, save = save })
     {
     }
 }

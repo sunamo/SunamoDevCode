@@ -12,7 +12,7 @@ public class GitHelper
 {
     public static string PowershellForPull(List<string> folders)
     {
-        var gitBashBuilder = new GitBashBuilder(new TextBuilder());
+        var gitBashBuilder = new GitBashBuilder(new TextBuilderDC());
         foreach (var item in folders)
         {
             gitBashBuilder.Cd(item);

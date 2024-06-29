@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 internal class TextOutputGenerator //: ITextOutputGenerator
 {
     private readonly static string s_znakNadpisu = AllStrings.asterisk;
-    // při převádění na nugety jsem to změnil na ITextBuilder sb = TextBuilder.Create();
+    // při převádění na nugety jsem to změnil na TextBuilderDC sb = TextBuilder.Create();
     // ale asi to byla blbost, teď mám v _sunamo Create() která je ale null místo abych použil ctor
     // takže vracím nazpět.
     //internal TextBuilder sb = new TextBuilder();

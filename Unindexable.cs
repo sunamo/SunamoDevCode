@@ -5,9 +5,9 @@ namespace SunamoDevCode;
 
 public class Unindexable
 {
-    public PpkOnDrive unindexablePathParts = null;
-    public PpkOnDrive unindexableFileNames = null;
-    public PpkOnDrive unindexableFileNamesExactly = null;
-    public PpkOnDrive unindexablePathEnds = null;
-    public PpkOnDrive unindexablePathStarts = null;
+    public PpkOnDriveDC unindexablePathParts = null;
+    public PpkOnDriveDC unindexableFileNames = null;
+    public PpkOnDriveDC unindexableFileNamesExactly = null;
+    public PpkOnDriveDC unindexablePathEnds = null;
+    public PpkOnDriveDC unindexablePathStarts = null;
 }

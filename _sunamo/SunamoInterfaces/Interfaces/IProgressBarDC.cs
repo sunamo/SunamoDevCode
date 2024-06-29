@@ -1,12 +1,12 @@
 namespace SunamoDevCode;
 
 
-internal interface IProgressBar
+internal interface IProgressBarDC
 {
     bool isRegistered { get; set; }
     int writeOnlyDividableBy { get; set; }
-    void Init(IPercentCalculator pc);
-    void Init(IPercentCalculator pc, bool isNotUt);
+    void Init(IPercentCalculatorDC pc);
+    void Init(IPercentCalculatorDC pc, bool isNotUt);
     /// <summary>
     ///     A1 is to increment done items after really finished async operation. Can be any.
     /// </summary>

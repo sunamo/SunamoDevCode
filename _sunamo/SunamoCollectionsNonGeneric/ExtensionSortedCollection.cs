@@ -6,7 +6,7 @@ namespace SunamoDevCode;
 /// if file has no exception, will be grouped under empty string
 /// All strings converts to lowercase
 /// </summary>
-internal class ExtensionSortedCollection
+public class ExtensionSortedCollection
 {
     internal Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
     /// <summary>

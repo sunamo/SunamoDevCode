@@ -24,8 +24,8 @@ public class VpsHelperDevCode
     static PushSolutionsData pushSolutionsData = new PushSolutionsData();
     //public static PpkOnDrive list = new PpkOnDrive(AppData.ci.GetFile(AppFolders.Data, "SlnVps.txt"));
     //public static PpkOnDrive listMain = new PpkOnDrive(AppData.ci.GetFile(AppFolders.Data, "SlnVpsMain.txt"));
-    public static PpkOnDrive listVpsNew = new PpkOnDrive(SolutionsIndexerPaths.listVpsNew);
-    public static PpkOnDrive listSczAdmin64 = new PpkOnDrive(SolutionsIndexerPaths.listSczAdmin64);
+    public static PpkOnDriveDC listVpsNew = new PpkOnDriveDC(SolutionsIndexerPaths.listVpsNew);
+    public static PpkOnDriveDC listSczAdmin64 = new PpkOnDriveDC(SolutionsIndexerPaths.listSczAdmin64);
 
     public static void PushAll(Func<List<string>, Task<List<List<string>>>> psInvoke)
     {
@@ -42,8 +42,8 @@ public class VpsHelperDevCode
             string pushArgs = string.Empty;
             string commitMessage = sess.i18n(XlfKeys.FromVPS) + " " + DateTime.Today.ToShortDateString();
 
-            var gitBashBuilder = new GitBashBuilder(new TextBuilder());
-            var gitStatus = new GitBashBuilder(new TextBuilder());
+            var gitBashBuilder = new GitBashBuilder(new TextBuilderDC());
+            var gitStatus = new GitBashBuilder(new TextBuilderDC());
 
             foreach (var item in folders)
             {
@@ -59,8 +59,8 @@ public class VpsHelperDevCode
             string pushArgs = string.Empty;
             string commitMessage = sess.i18n(XlfKeys.BeforePublishingToVPS) + " " + DateTime.Today.ToShortDateString();
 
-            var gitBashBuilder = new GitBashBuilder(new TextBuilder());
-            var gitStatus = new GitBashBuilder(new TextBuilder());
+            var gitBashBuilder = new GitBashBuilder(new TextBuilderDC());
+            var gitStatus = new GitBashBuilder(new TextBuilderDC());
             foreach (var sln in listVpsNew)
             {
                 var sln2 = SolutionsIndexerHelper.SolutionWithName(sln);

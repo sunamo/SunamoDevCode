@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SunamoDevCode;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,35 @@ using System.Threading.Tasks;
 
 internal class DictionaryHelper
 {
+    internal static void AddOrCreateIfDontExists<Key, Value>(Dictionary<Key, List<Value>> sl, Key key, Value value)
+    {
+        if (sl.ContainsKey(key))
+        {
+            if (!sl[key].Contains(value))
+            {
+                sl[key].Add(value);
+            }
+        }
+        else
+        {
+            List<Value> ad = new List<Value>();
+            ad.Add(value);
+            sl.Add(key, ad);
+        }
+    }
+
+    public static void AddOrSet<T1, T2>(IDictionary<T1, T2> qs, T1 k, T2 v)
+    {
+        if (qs.ContainsKey(k))
+        {
+            qs[k] = v;
+        }
+        else
+        {
+            qs.Add(k, v);
+        }
+    }
+
     #region AddOrCreate když key i value není list
     /// <summary>
     ///     A3 is inner type of collection entries

@@ -251,7 +251,7 @@ TranslateEngine");
     /// <returns></returns>
     public static
 #if ASYNC
-async Task<OutRef<string, List<string>>>
+async Task<OutRefDC<string, List<string>>>
 #else
 OutRef<string, List<string>>
 #endif
@@ -308,7 +308,7 @@ GetTransUnits(fn);
         {
             tb.Paragraph(item.Value, item.Key);
         }
-        return new OutRef<string, List<string>>(tb.sb.ToString(), idsEndingOn);
+        return new OutRefDC<string, List<string>>(tb.sb.ToString(), idsEndingOn);
     }
 
 
@@ -431,7 +431,7 @@ File.ReadAllTextAsync(item2);
 #else
   XlfData
 #endif
-    GetTransUnits(Langs en)
+    GetTransUnits(LangsDC en)
     {
         return null;
         //        return
@@ -625,7 +625,7 @@ GetTransUnits(fn);
 #endif
     GetTransUnits(string fn)
     {
-        Langs toL = XmlLocalisationInterchangeFileFormatSunamo.GetLangFromFilename(fn);
+        LangsDC toL = XmlLocalisationInterchangeFileFormatSunamo.GetLangFromFilename(fn);
 
         string enS =
 #if ASYNC
@@ -947,7 +947,7 @@ GetIds(xlfPath);
     /// <returns></returns>
     public static
 #if ASYNC
-    async Task<OutRef<List<string>, XlfData>>
+    async Task<OutRefDC<List<string>, XlfData>>
 #else
 OutRef<List<string>, XlfData>
 #endif
@@ -961,7 +961,7 @@ OutRef<List<string>, XlfData>
     XmlLocalisationInterchangeFileFormat.GetTransUnits(xlfPath);
         xlfData.FillIds();
 
-        return new OutRef<List<string>, XlfData>(xlfData.allids, xlfData);
+        return new OutRefDC<List<string>, XlfData>(xlfData.allids, xlfData);
     }
 
 
@@ -1067,7 +1067,7 @@ void
     /// <param name="addToNotToTranslateStrings"></param>
     public static
 #if ASYNC
-    async Task<OutRef<object, List<string>>>
+    async Task<OutRefDC<object, List<string>>>
 #else
 OutRef<object, CollectionWithoutDuplicates<string>>
 #endif
@@ -1175,7 +1175,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
                 await File.WriteAllTextAsync(kv.Key, sb.ToString());
             }
         }
-        return new OutRef<object, List<string>>(null, addToNotToTranslateStrings.Distinct().ToList());
+        return new OutRefDC<object, List<string>>(null, addToNotToTranslateStrings.Distinct().ToList());
         // Nepřidávat znovu pokud již končí na postfix
     }
 

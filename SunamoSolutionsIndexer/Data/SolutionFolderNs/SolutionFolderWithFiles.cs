@@ -21,7 +21,7 @@ public class SolutionFolderWithFiles : SolutionFolder
     /// <summary>
     /// Is filled in method CreateFileInfoLiteObjects
     /// </summary>
-    public Dictionary<string, List<FileInfoLite>> fileInfoLiteOfExtension = null;
+    public Dictionary<string, List<FileInfoLiteDC>> fileInfoLiteOfExtension = null;
 
 
     public SolutionFolderWithFiles(SolutionFolder sf)
@@ -42,7 +42,7 @@ public class SolutionFolderWithFiles : SolutionFolder
         {
             var item = files[i];
             string ext = Path.GetExtension(item).TrimStart(AllChars.dot);
-            
+
             DictionaryHelper.AddOrCreate(filesOfExtension, ext, item);
         }
 
@@ -85,14 +85,14 @@ public class SolutionFolderWithFiles : SolutionFolder
 
     public void CreateFileInfoLiteObjects(string extensionWithoutDot, string item)
     {
-        var fil = FileInfoLite.GetFIL(item);
+        var fil = FileInfoLiteDC.GetFIL(item);
         if (fileInfoLiteOfExtension.ContainsKey(extensionWithoutDot))
         {
             fileInfoLiteOfExtension[extensionWithoutDot].Add(fil);
         }
         else
         {
-            List<FileInfoLite> l = new List<FileInfoLite>();
+            List<FileInfoLiteDC> l = new List<FileInfoLiteDC>();
             l.Add(fil);
             fileInfoLiteOfExtension.Add(extensionWithoutDot, l);
         }

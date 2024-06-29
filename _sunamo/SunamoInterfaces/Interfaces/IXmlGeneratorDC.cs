@@ -2,7 +2,7 @@ namespace SunamoDevCode;
 
 using System.Xml;
 
-internal interface IXmlGenerator
+public interface IXmlGeneratorDC
 {
     void AppendLine();
     void EndComment();

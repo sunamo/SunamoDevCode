@@ -9,7 +9,7 @@ internal class MayExcHelper
     /// <typeparam name="T"></typeparam>
     /// <param name="result"></param>
     /// <returns></returns>
-    internal static bool MayExc<T>(ResultWithException<T> result)
+    internal static bool MayExc<T>(ResultWithExceptionDC<T> result)
     {
         if (result.exc != null)
         {

@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-internal enum ObjectInitializationOptions
+public enum ObjectInitializationOptions
 {
     Hyphens,
     Original,

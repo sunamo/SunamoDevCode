@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 internal class FSGetFiles
 {
-    internal static List<string> GetFiles(string folder2, string mask, SearchOption searchOption, GetFilesArgs getFilesArgs = null)
+    internal static List<string> GetFiles(string folder2, string mask, SearchOption searchOption, GetFilesArgsArgs getFilesArgs = null)
     {
         if (getFilesArgs != null)
         {

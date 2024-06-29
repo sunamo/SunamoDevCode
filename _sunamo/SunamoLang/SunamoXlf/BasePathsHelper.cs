@@ -1,6 +1,8 @@
 namespace SunamoDevCode;
 internal class BasePathsHelper
 {
+    public static string bp = null;
+    public static string vsProjects = null;
     internal static string actualPlatform;
     internal static string vs;
 

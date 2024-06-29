@@ -6,7 +6,7 @@ namespace SunamoDevCode;
 /// TextBuilder(implements Undo, save to Sb or List)
 /// HtmlSB(Same as InstantSB, use br)
 /// </summary>
-internal class InstantSB //: StringWriter
+public class InstantSB //: StringWriter
 {
     internal StringBuilder sb = new StringBuilder();
     private string _tokensDelimiter;

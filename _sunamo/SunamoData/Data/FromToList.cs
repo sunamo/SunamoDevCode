@@ -1,7 +1,7 @@
 namespace SunamoDevCode;
 
 
-internal class FromToList
+public class FromToList
 {
     internal List<FromToDevCode> c = new();
     internal bool IsInRange(int i)

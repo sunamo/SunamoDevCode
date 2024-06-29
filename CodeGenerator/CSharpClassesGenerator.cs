@@ -10,7 +10,7 @@ public class CSharpClassesGenerator
 {
     public static Type type = typeof(CSharpClassesGenerator);
 
-    public static string Dictionary(string nameClass, List<string> keys, StringVoid randomValue)
+    public static string Dictionary(string nameClass, List<string> keys, Func<string> randomValue)
     {
         List<string> values = new List<string>();
         for (int i = 0; i < keys.Count; i++)

@@ -1,11 +1,11 @@
 namespace SunamoDevCode;
 
 
-internal interface IPercentCalculator
+internal interface IPercentCalculatorDC
 {
     double _overallSum { get; set; }
     double last { get; set; }
-    IPercentCalculator Create(double overallSum);
+    IPercentCalculatorDC Create(double overallSum);
     void AddOnePercent();
     int PercentFor(double value, bool last);
     void ResetComputedSum();

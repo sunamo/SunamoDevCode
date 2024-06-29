@@ -6,12 +6,12 @@ internal class FromToTSHDevCode<T>
     
     internal bool empty;
     protected long fromL;
-    internal FromToUse ftUse = FromToUse.DateTime;
+    internal FromToUseDevCode ftUse = FromToUseDevCode.DateTime;
     protected long toL;
     internal FromToTSHDevCode()
     {
         var t = typeof(T);
-        if (t == Types.tInt) ftUse = FromToUse.None;
+        if (t == Types.tInt) ftUse = FromToUseDevCode.None;
     }
     /// <summary>
     ///     Use Empty contstant outside of class
@@ -28,7 +28,7 @@ internal class FromToTSHDevCode<T>
     /// <param name="from"></param>
     /// <param name="to"></param>
     /// <param name="ftUse"></param>
-    internal FromToTSHDevCode(T from, T to, FromToUse ftUse = FromToUse.DateTime) : this()
+    internal FromToTSHDevCode(T from, T to, FromToUseDevCode ftUse = FromToUseDevCode.DateTime) : this()
     {
         this.from = from;
         this.to = to;

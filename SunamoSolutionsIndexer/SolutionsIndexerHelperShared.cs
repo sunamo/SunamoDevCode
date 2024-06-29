@@ -132,7 +132,7 @@ public partial class SolutionsIndexerHelper
         return string.Join(AllChars.slash, tokens.ToArray());
     }
 
-    public static List<string> ModulesInSolution(List<string> projects, string fullPathFolder, bool selling, PpkOnDrive toSelling)
+    public static List<string> ModulesInSolution(List<string> projects, string fullPathFolder, bool selling, PpkOnDriveDC toSelling)
     {
         List<string> result = new List<string>();
         var slnName = Path.GetFileName(fullPathFolder);
@@ -154,7 +154,7 @@ public partial class SolutionsIndexerHelper
         return result;
     }
 
-    private static string AddModules(bool selling, PpkOnDrive toSelling, List<string> result, string slnName, string projectName, string path, string nameFolder)
+    private static string AddModules(bool selling, PpkOnDriveDC toSelling, List<string> result, string slnName, string projectName, string path, string nameFolder)
     {
         var path2 = Path.Combine(path, nameFolder);
         AddModules(path2, slnName + AllStrings.bs + projectName, result, selling, toSelling);
@@ -169,12 +169,12 @@ public partial class SolutionsIndexerHelper
     /// <param name="result"></param>
     /// <param name="selling"></param>
     /// <param name="toSelling"></param>
-    private static void AddModules(string path, string SlnProject, List<string> result, bool selling, PpkOnDrive toSelling)
+    private static void AddModules(string path, string SlnProject, List<string> result, bool selling, PpkOnDriveDC toSelling)
     {
 
         if (Directory.Exists(path))
         {
-            var files = FSGetFiles.GetFiles(path, "*.xaml", System.IO.SearchOption.TopDirectoryOnly, new GetFilesArgs { _trimA1AndLeadingBs = true });
+            var files = FSGetFiles.GetFiles(path, "*.xaml", System.IO.SearchOption.TopDirectoryOnly, new GetFilesArgsArgs { _trimA1AndLeadingBs = true });
             for (int i = 0; i < files.Count; i++)
             {
                 files[i] = Path.GetFileNameWithoutExtension(files[i]);

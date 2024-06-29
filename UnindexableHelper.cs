@@ -7,10 +7,10 @@ public class UnindexableHelper
 {
     public static Unindexable unindexable = null;
 
-    public static PpkOnDriveDevCode unindexablePathParts => unindexable.unindexablePathParts;
-    public static PpkOnDriveDevCode unindexableFileNames => unindexable.unindexableFileNames;
-    public static PpkOnDriveDevCode unindexablePathEnds => unindexable.unindexablePathEnds;
-    public static PpkOnDriveDevCode unindexablePathStarts => unindexable.unindexablePathStarts;
+    public static PpkOnDriveDC unindexablePathParts => unindexable.unindexablePathParts;
+    public static PpkOnDriveDC unindexableFileNames => unindexable.unindexableFileNames;
+    public static PpkOnDriveDC unindexablePathEnds => unindexable.unindexablePathEnds;
+    public static PpkOnDriveDC unindexablePathStarts => unindexable.unindexablePathStarts;
 
     /// <summary>
     /// Into A1 insert SearchCodeElementsUC .ufp
@@ -23,12 +23,12 @@ public class UnindexableHelper
         ClipboardService.SetText(f.fileUnindexablePathParts);
         //PD.ShowMb(f.fileUnindexablePathParts);
 
-        unindexable.unindexablePathParts = new PpkOnDriveDevCode(f.fileUnindexablePathParts);
+        unindexable.unindexablePathParts = new PpkOnDriveDC(f.fileUnindexablePathParts);
 
-        unindexable.unindexableFileNames = new PpkOnDriveDevCode(f.fileUnindexableFileNames);
-        unindexable.unindexableFileNamesExactly = new PpkOnDriveDevCode(f.fileUnindexableFileNamesExactly);
-        unindexable.unindexablePathEnds = new PpkOnDriveDevCode(f.fileUnindexablePathEnds);
-        unindexable.unindexablePathStarts = new PpkOnDriveDevCode(f.fileUnindexablePathStarts);
+        unindexable.unindexableFileNames = new PpkOnDriveDC(f.fileUnindexableFileNames);
+        unindexable.unindexableFileNamesExactly = new PpkOnDriveDC(f.fileUnindexableFileNamesExactly);
+        unindexable.unindexablePathEnds = new PpkOnDriveDC(f.fileUnindexablePathEnds);
+        unindexable.unindexablePathStarts = new PpkOnDriveDC(f.fileUnindexablePathStarts);
     }
 
     public static bool IsToIndexedFolder(string d)

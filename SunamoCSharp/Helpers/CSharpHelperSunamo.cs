@@ -8,7 +8,7 @@ namespace SunamoDevCode;
 
 public partial class CSharpHelperSunamo
 {
-    public static string IsAllCsprojAndSlnRightInHiearchy(string path, ITextOutputGenerator tog)
+    public static string IsAllCsprojAndSlnRightInHiearchy(string path, TextOutputGeneratorDC tog)
     {
         var csproj = Directory.GetFiles(path, "*.csproj", SearchOption.AllDirectories).ToList();
         var sln = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories).ToList();

@@ -55,7 +55,7 @@ public class SolutionFolder : SolutionFolderSerialize, IProjectType, ISolutionFo
 
             foreach (var projectFolder in projectsFolder)
             {
-                var files = FSGetFiles.GetFiles(projectFolder, "*.csproj", SearchOption.TopDirectoryOnly, new GetFilesArgs { _trimA1AndLeadingBs = a.onlyNames });
+                var files = FSGetFiles.GetFiles(projectFolder, "*.csproj", SearchOption.TopDirectoryOnly, new GetFilesArgsArgs { _trimA1AndLeadingBs = a.onlyNames });
                 foreach (var item in files)
                 {
                     csprojs.Add(item);
@@ -103,7 +103,7 @@ public class SolutionFolder : SolutionFolderSerialize, IProjectType, ISolutionFo
     /// </summary>
     public ProjectsTypes typeProjectFolder { get; set; } = ProjectsTypes.None;
 
-    public void UpdateModules(PpkOnDrive toSelling)
+    public void UpdateModules(PpkOnDriveDC toSelling)
     {
         if (toSelling != null)
         {

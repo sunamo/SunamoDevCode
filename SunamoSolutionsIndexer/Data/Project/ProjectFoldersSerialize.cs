@@ -4,9 +4,9 @@ public class ProjectFoldersSerialize
 {
     public List<ProjectFolderSerialize> projects = new List<ProjectFolderSerialize>();
 
-    public ResultWithException<ProjectFoldersSerialize> GetWithName(List<string> projectsNamesFounded, bool canMissing)
+    public ResultWithExceptionDC<ProjectFoldersSerialize> GetWithName(List<string> projectsNamesFounded, bool canMissing)
     {
-        ResultWithException<ProjectFoldersSerialize> result = new ResultWithException<ProjectFoldersSerialize>();
+        ResultWithExceptionDC<ProjectFoldersSerialize> result = new ResultWithExceptionDC<ProjectFoldersSerialize>();
         result.Data = new ProjectFoldersSerialize();
 
         foreach (var item in projectsNamesFounded)

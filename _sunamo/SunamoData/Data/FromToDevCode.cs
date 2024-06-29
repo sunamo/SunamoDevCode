@@ -26,7 +26,7 @@ internal class FromToDevCode : FromToTSHDevCode<long>
     /// <param name="from"></param>
     /// <param name="to"></param>
     /// <param name="ftUse"></param>
-    internal FromToDevCode(long from, long to, FromToUse ftUse = FromToUse.DateTime)
+    internal FromToDevCode(long from, long to, FromToUseDevCode ftUse = FromToUseDevCode.DateTime)
     {
         this.from = from;
         this.to = to;

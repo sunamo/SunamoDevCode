@@ -19,9 +19,9 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
         return SH.GetTextBetweenSimple(d4, cs, eqBs, false);
     }
 
-    public static Langs GetLangFromFilename(string s)
+    public static LangsDC GetLangFromFilename(string s)
     {
-        return Langs.cs;
+        return LangsDC.cs;
         //return XmlLocalisationInterchangeFileFormatXlf.GetLangFromFilename(s);
     }
 

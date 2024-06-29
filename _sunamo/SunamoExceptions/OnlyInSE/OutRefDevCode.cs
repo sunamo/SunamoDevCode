@@ -7,9 +7,9 @@ namespace SunamoDevCode;
 ///     Třída s 1 parametrem je nesmysl protože vždy musím vrátit i původní result
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class OutRef<T, U>
+public class OutRefDC<T, U>
 {
-    internal OutRef(T t, U u)
+    internal OutRefDC(T t, U u)
     {
         Item1 = t;
         Item2 = u;

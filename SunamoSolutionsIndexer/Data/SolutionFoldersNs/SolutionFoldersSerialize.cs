@@ -30,7 +30,7 @@ public class SolutionFoldersSerialize
         Update();
     }
 
-    public event VoidListT<SolutionFolderSerialize> Updated;
+    public event Action<List<SolutionFolderSerialize>> Updated;
 
     public void RemoveWithDisplayedText(string displayedText)
     {
@@ -47,9 +47,9 @@ public class SolutionFoldersSerialize
     /// </summary>
     /// <param name="solutionNamesFounded"></param>
     /// <param name="canMissing"></param>
-    public ResultWithException<SolutionFoldersSerialize> GetWithName(List<string> solutionNamesFounded, bool canMissing)
+    public ResultWithExceptionDC<SolutionFoldersSerialize> GetWithName(List<string> solutionNamesFounded, bool canMissing)
     {
-        ResultWithException<SolutionFoldersSerialize> result = new ResultWithException<SolutionFoldersSerialize>();
+        ResultWithExceptionDC<SolutionFoldersSerialize> result = new ResultWithExceptionDC<SolutionFoldersSerialize>();
         result.Data = new SolutionFoldersSerialize();
 
         foreach (var item in solutionNamesFounded)

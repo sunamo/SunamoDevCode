@@ -47,7 +47,7 @@ public class TransUnit
 
     public const string tTransUnit = "trans-unit";
 
-    public string ToString(IXmlGenerator g)
+    public string ToString(IXmlGeneratorDC g)
     {
         //XmlGenerator g = new XmlGenerator();
         g.WriteTagWithAttrs(tTransUnit, "id", id, "translate", BTS.BoolToString(translate, true), "xml:space", "preserve");
