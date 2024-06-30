@@ -9,15 +9,12 @@ namespace SunamoDevCode;
 
 
 
-public interface IProjectType
-{
-    ProjectsTypes typeProjectFolder { get; set; }
-}
 
 
 
 
-public class SolutionFolder : SolutionFolderSerialize, IProjectType, ISolutionFolder
+
+public class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
 {
     public static Type type = typeof(SolutionFolder);
 
