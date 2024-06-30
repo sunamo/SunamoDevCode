@@ -1,9 +1,9 @@
 namespace SunamoDevCode;
 
 
-internal class FromToTSHDevCode<T>
+public class FromToTSHDevCode<T>
 {
-    
+
     internal bool empty;
     protected long fromL;
     internal FromToUseDevCode ftUse = FromToUseDevCode.DateTime;

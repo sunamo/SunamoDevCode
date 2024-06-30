@@ -3,8 +3,8 @@ namespace SunamoDevCode;
 
 public class FromToList
 {
-    internal List<FromToDevCode> c = new();
-    internal bool IsInRange(int i)
+    public List<FromToDevCode> c = new();
+    public bool IsInRange(int i)
     {
         foreach (var item in c)
             if (i < item.to && i > item.from)

@@ -3,40 +3,40 @@ namespace SunamoDevCode;
 
 public class FileInfoLiteDC
 {
-    /// <summary>
-    /// Plná cesta k souboru
-    /// </summary>
-    internal string Path = null;
-    /// <summary>
-    /// Název souboru bez cesty s příponou a sériemi
-    /// </summary>
-    internal string Name = null;
-    internal string FileName
+    
+    
+    
+    public string Path = null;
+    
+    
+    
+    public string Name = null;
+    public string FileName
     {
         get
         {
             return Name;
         }
     }
-    internal long Size = 0;
-    internal long Length
+    public long Size = 0;
+    public long Length
     {
         get
         {
             return Size;
         }
     }
-    internal string Directory = null;
-    internal FileInfoLiteDC()
+    public string Directory = null;
+    public FileInfoLiteDC()
     {
     }
-    internal FileInfoLiteDC(string Directory, string FileName, long Length)
+    public FileInfoLiteDC(string Directory, string FileName, long Length)
     {
         this.Directory = Directory;
         Name = FileName;
         Size = Length;
     }
-    internal static FileInfoLiteDC GetFIL(FileInfo item2)
+    public static FileInfoLiteDC GetFIL(FileInfo item2)
     {
         FileInfoLiteDC fil = new FileInfoLiteDC();
         fil.Name = item2.Name;
@@ -45,7 +45,7 @@ public class FileInfoLiteDC
         fil.Size = item2.Length;
         return fil;
     }
-    internal static FileInfoLiteDC GetFIL(string file)
+    public static FileInfoLiteDC GetFIL(string file)
     {
         FileInfo item2 = new FileInfo(file);
         return GetFIL(item2);

@@ -42,10 +42,10 @@ public class GitBashBuilder : IGitBashBuilder
         AppendLine(arg);
         AppendLine();
     }
-    /// <summary>
-    /// myslim si ze chyba spise ne z v initu byla v clone, init se musi udelat i kdyz chci udelat git remote
-    /// nikdy nepoustet na adresar ktery ma jiz adresar .git!! jinak se mi zapise s prazdnym obsahem a pri pristim pushi mam po vsem!!! soubory mi odstrani z disku a ne do zadneho kose!!!
-    /// </summary>
+    
+    
+    
+    
     public void Init()
     {
         Git("init");
@@ -63,15 +63,15 @@ public class GitBashBuilder : IGitBashBuilder
         Append(v);
         AppendLine();
     }
-    /// <summary>
-    /// never use, special with dfx argument
-    /// d - Remove untracked directories in addition to untracked files.
-    /// f - delete all files although conf variable clean.requireForce
-    /// x - ignore rules from all .gitignore
-    ///
-    /// A1 - arguments without dash
-    /// </summary>
-    /// <param name="v"></param>
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public void Clean(string v)
     {
         Git("clean");
@@ -83,13 +83,13 @@ public class GitBashBuilder : IGitBashBuilder
         sb.Append("git " + remainCommand);
         return sb.ToString();
     }
-    /// <summary>
-    /// Not automatically append new line - due to conditionals adding arguments
-    /// 
-    /// Mus� b�t tato metoda statick�? dal�� takov� tu nen�
-    /// </summary>
-    /// <param name="sb"></param>
-    /// <param name="remainCommand"></param>
+    
+    
+    
+    
+    
+    
+    
     private void Git(string remainCommand)
     {
         sb.Append((GitForDebug ? "GitForDebug " : "git ") + remainCommand);
@@ -136,43 +136,43 @@ public class GitBashBuilder : IGitBashBuilder
 
     private static Type type = typeof(GitBashBuilder);
     public TextBuilderDC sb = null;
-    //public GitBashBuilder()
-    //{
-    //    sb = new TextBuilder();
-    //    sb.prependEveryNoWhite = AllStrings.space;
-    //}
+    
+    
+    
+    
+    
     public GitBashBuilder(TextBuilderDC sb)
     {
         this.sb = sb;
-        //this.sb.sb = sb.sb;
+        
     }
     public bool GitForDebug = false;
     public List<string> Commands { get => SHGetLines.GetLines(ToString()); }
-    /// <summary>
-    /// A2 must be files prepared to cmd
-    /// </summary>
-    /// <param name="sb"></param>
-    /// <param name="linesFiles"></param>
+    
+    
+    
+    
+    
     public static string CreateGitAddForFiles(StringBuilder sb, List<string> linesFiles)
     {
         return CreateGitCommandForFiles("add", sb, linesFiles);
     }
-    /// <summary>
-    /// Support:
-    /// {dir}/* for add all files
-    /// */{filename} - add files from all dirs
-    /// automatically add .cs extension where is not
-    ///
-    ///
-    /// A2 - full path or name in Projects folder
-    /// A3 - with or without full path, without extension, can be slash and backslash
-    /// A5 - must be filled, because is stripped all extension then passed will be suffixed
-    /// </summary>
-    /// <param name="tlb"></param>
-    /// <param name="solution"></param>
-    /// <param name="linesFiles"></param>
-    /// <param name="searchOnlyWithExtension"></param>
-    public static string GenerateCommandForGit(/*TypedLoggerBaseGitBashBuilder*/ object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string command, string basePathIfA2SolutionsWontExistsOnFilesystem)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public static string GenerateCommandForGit( object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string command, string basePathIfA2SolutionsWontExistsOnFilesystem)
     {
         var filesToCommit = GitBashBuilder.PrepareFilesToSimpleGitFormat(tlb, solution, linesFiles, out anyError, searchOnlyWithExtension, basePathIfA2SolutionsWontExistsOnFilesystem);
         if (filesToCommit == null || filesToCommit.Count == 0)
@@ -180,15 +180,15 @@ public class GitBashBuilder : IGitBashBuilder
             return "";
         }
         string result = GitBashBuilder.CreateGitCommandForFiles(command, new StringBuilder(), filesToCommit);
-        //ClipboardHelper.SetText(result);
+        
         return result;
     }
-    /// <summary>
-    /// A2 - must be filled, because is stripped all extension then passed will be suffixed
-    /// </summary>
-    /// <param name="folder"></param>
-    /// <param name="typedExt"></param>
-    /// <param name="files"></param>
+    
+    
+    
+    
+    
+    
     public static string CheckoutWithExtension(string folder, string typedExt, List<string> files, string basePathIfA2SolutionsWontExistsOnFilesystem, TextBuilderDC ci)
     {
         ThrowEx.IsNull("typedExt", typedExt);
@@ -197,29 +197,29 @@ public class GitBashBuilder : IGitBashBuilder
         var filesToCommit = GitBashBuilder.PrepareFilesToSimpleGitFormat(null, folder, files, out anyError, typedExt, basePathIfA2SolutionsWontExistsOnFilesystem);
         if (filesToCommit == null)
         {
-            //SunamoTemplateLogger.Instance.SomeErrorsOccuredSeeLog();
+            
         }
-        //string result = GitBashBuilder.CreateGitCommandForFiles("checkout", new StringBuilder(), filesToCommit);
+        
         string result = GitBashBuilder.GenerateCommandForGit(null, folder, files, out anyError, typedExt, "checkout", basePathIfA2SolutionsWontExistsOnFilesystem);
         return result;
     }
-    /// <summary>
-    /// A2 - path in which search for files by extension
-    /// A5 - must be filled, because is stripped all extension then passed will be suffixed
-    /// 
-    /// basePathIfA2SolutionsWontExistsOnFilesystem - pass SourceCodePaths.CsProjects or null if A2 exists
-    /// </summary>
-    /// <param name="tlb"></param>
-    /// <param name="solution"></param>
-    /// <param name="linesFiles"></param>
-    /// <param name="searchOnlyWithExtension"></param>
-    /// <param name="command"></param>
-    public static List<string> PrepareFilesToSimpleGitFormat(/*TypedLoggerBaseGitBashBuilder*/ object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string basePathIfA2SolutionsWontExistsOnFilesystem)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public static List<string> PrepareFilesToSimpleGitFormat( object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string basePathIfA2SolutionsWontExistsOnFilesystem)
     {
         searchOnlyWithExtension = searchOnlyWithExtension.TrimStart(AllChars.asterisk);
         anyError = false;
-        // removing notes and description
-        //TypedLoggerBase tlb = TypedConsoleLogger.Instance;
+        
+        
         string pathSearchForFiles = null;
         if (Directory.Exists(solution))
         {
@@ -232,12 +232,12 @@ public class GitBashBuilder : IGitBashBuilder
         string pathRepository = pathSearchForFiles;
         if (solution == Consts.Cz)
         {
-            //tlb.Information("Is sunamo.cz");
+            
             pathSearchForFiles += AllStrings.bs + solution;
         }
-        //tlb.Information("Path" + ": " + pathSearchForFiles);
+        
         FS.WithEndSlash(ref pathRepository);
-        var files = Directory.GetFiles(pathSearchForFiles, "*.*", System.IO.SearchOption.AllDirectories/*, new GetFilesArgs { excludeFromLocationsCOntains = SunamoCollections.new List<string>(@"\.git\") }*/).ToList();
+        var files = Directory.GetFiles(pathSearchForFiles, "*.*", System.IO.SearchOption.AllDirectories).ToList();
         files = files.Where(d => !d.Contains(@"\.git\")).ToList();
         CA.Replace(linesFiles, solution, string.Empty);
         CAChangeContent.ChangeContent1(null, linesFiles, SHParts.RemoveAfterFirst, AllStrings.swd);
@@ -248,15 +248,15 @@ public class GitBashBuilder : IGitBashBuilder
         var linesFilesOnlyFilename = FS.OnlyNamesNoDirectEdit(linesFiles);
         anyError = false;
         List<string> filesToCommit = new List<string>();
-        // In key are filenames, in value full paths to files backslashed
+        
         Dictionary<string, List<string>> dictPsychicallyExistsFiles = FS.GetDictionaryByFileNameWithExtension(files);
         CA.Replace(files, AllStrings.bs, AllStrings.slash);
         pathRepository = FS.Slash(pathRepository, false);
-        // process full path files
+        
         for (int i = 0; i < linesFiles.Count; i++)
         {
             var item = linesFilesOnlyFilename[i];
-            // full path with backslash on end
+            
             var itemWithoutTrim = linesFiles[i];
             #region Directory\*
             if (item[item.Length - 1] == AllChars.asterisk)
@@ -270,7 +270,7 @@ public class GitBashBuilder : IGitBashBuilder
                 else
                 {
                     anyError = true;
-                    //tlb.Error(Exceptions.DirectoryWasntFound(null, itemWithoutTrimBackslashed));
+                    
                 }
             }
             #endregion
@@ -296,7 +296,7 @@ public class GitBashBuilder : IGitBashBuilder
                 if (!dictPsychicallyExistsFiles.ContainsKey(item))
                 {
                     anyError = true;
-                    //tlb.Error(Exceptions.FileWasntFoundInDirectory(null, fullPath));
+                    
                 }
                 #endregion
                 else
@@ -312,7 +312,7 @@ public class GitBashBuilder : IGitBashBuilder
                         else
                         {
                             anyError = true;
-                            //tlb.Error(Exceptions.FileWasntFoundInDirectory(null, itemWithoutTrimBackslashed));
+                            
                         }
                     }
                     #endregion
@@ -326,7 +326,7 @@ public class GitBashBuilder : IGitBashBuilder
                         else
                         {
                             anyError = true;
-                            //tlb.Error(Exceptions.MoreCandidates(null, dictPsychicallyExistsFiles[item], item));
+                            
                         }
                     }
                     #endregion
@@ -336,7 +336,7 @@ public class GitBashBuilder : IGitBashBuilder
         }
         if (anyError)
         {
-            //tlb.Error(xSomeErrorsOccured);
+            
             return null;
         }
         return filesToCommit;
@@ -345,7 +345,7 @@ public class GitBashBuilder : IGitBashBuilder
     public static string CreateGitCommandForFiles(string command, StringBuilder sb, List<string> linesFiles)
     {
         return null;
-        //return GitStatic(sb, command + AllStrings.space + string.Join(AllChars.space, linesFiles));
+        
     }
     public void Cd(string key)
     {

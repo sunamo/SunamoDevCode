@@ -1,23 +1,23 @@
 namespace SunamoDevCode;
 
 
-/// <summary>
-/// In Comparing
-/// </summary>
+
+
+
 public class TextBuilderDC
 {
     private static Type type = typeof(TextBuilderDC);
     private bool _canUndo = false;
     private int _lastIndex = -1;
     private string _lastText = "";
-    internal StringBuilder sb = null;
-    internal string prependEveryNoWhite { get; set; } = string.Empty;
-    /// <summary>
-    /// For PowershellRunner
-    /// </summary>
-    internal List<string> list { get; set; }
+    public StringBuilder sb = null;
+    public string prependEveryNoWhite { get; set; } = string.Empty;
+    
+    
+    
+    public List<string> list { get; set; }
     private bool _useList = false;
-    internal void Clear()
+    public void Clear()
     {
         if (_useList)
         {
@@ -28,18 +28,18 @@ public class TextBuilderDC
             sb.Clear();
         }
     }
-    internal static TextBuilderDC Create(bool useList = false)
+    public static TextBuilderDC Create(bool useList = false)
     {
         return new TextBuilderDC(useList);
     }
-    /// <summary>
-    /// Když někde nastavím na true, musím i zdůvodnit proč
-    /// protože mi potom nefunguje sb.sb
-    /// jako teď když jsem připojoval git do ps
-    /// git počítal s sb ale ps s lines
-    /// </summary>
-    /// <param name="useList"></param>
-    internal TextBuilderDC(bool useList = false)
+    
+    
+    
+    
+    
+    
+    
+    public TextBuilderDC(bool useList = false)
     {
         _useList = useList;
         if (useList)
@@ -51,7 +51,7 @@ public class TextBuilderDC
             sb = new StringBuilder();
         }
     }
-    internal bool CanUndo
+    public bool CanUndo
     {
         get
         {
@@ -75,7 +75,7 @@ public class TextBuilderDC
     {
         ThrowEx.IsNotAllowed(what);
     }
-    internal void Undo()
+    public void Undo()
     {
         if (_useList)
         {
@@ -86,7 +86,7 @@ public class TextBuilderDC
             sb.Remove(_lastIndex, _lastText.Length);
         }
     }
-    internal void Append(string s)
+    public void Append(string s)
     {
         if (_useList)
         {
@@ -118,17 +118,17 @@ public class TextBuilderDC
             _lastText = text;
         }
     }
-    internal void Append(object s)
+    public void Append(object s)
     {
         string text = s.ToString();
         SetUndo(text);
         Append(text);
     }
-    internal void AppendLine()
+    public void AppendLine()
     {
         Append(Environment.NewLine);
     }
-    internal void AppendLine(string s)
+    public void AppendLine(string s)
     {
         if (_useList)
         {
@@ -140,10 +140,10 @@ public class TextBuilderDC
             sb.Append(prependEveryNoWhite + s + Environment.NewLine);
         }
     }
-    /// <summary>
-    /// If is use List, join it with NL.
-    /// Otherwise return sb
-    /// </summary>
+    
+    
+    
+    
     public override string ToString()
     {
         if (_useList)

@@ -5,7 +5,7 @@ namespace SunamoDevCode;
 ///     Must have always entered both from and to
 ///     None of event could have unlimited time!
 /// </summary>
-internal class FromToDevCode : FromToTSHDevCode<long>
+public class FromToDevCode : FromToTSHDevCode<long>
 {
     internal static FromToDevCode Empty = new(true);
     internal FromToDevCode()

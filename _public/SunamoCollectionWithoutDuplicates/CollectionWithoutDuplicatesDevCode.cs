@@ -3,22 +3,22 @@ namespace SunamoDevCode;
 
 public class CollectionWithoutDuplicatesDevCode<T> : CollectionWithoutDuplicatesBase<T>
 {
-    internal CollectionWithoutDuplicatesDevCode() : base()
+    public CollectionWithoutDuplicatesDevCode() : base()
     {
     }
-    internal CollectionWithoutDuplicatesDevCode(int count) : base(count)
+    public CollectionWithoutDuplicatesDevCode(int count) : base(count)
     {
     }
-    internal CollectionWithoutDuplicatesDevCode(IList<T> l) : base(l)
+    public CollectionWithoutDuplicatesDevCode(IList<T> l) : base(l)
     {
     }
-    internal override int AddWithIndex(T t2)
+    public override int AddWithIndex(T t2)
     {
         if (IsComparingByString())
         {
             if (Contains(t2).GetValueOrDefault())
             {
-                // Will checkout below
+                
             }
             else
             {
@@ -34,7 +34,7 @@ public class CollectionWithoutDuplicatesDevCode<T> : CollectionWithoutDuplicates
         }
         return vr;
     }
-    internal override bool? Contains(T t2)
+    public override bool? Contains(T t2)
     {
         if (IsComparingByString())
         {
@@ -54,7 +54,7 @@ public class CollectionWithoutDuplicatesDevCode<T> : CollectionWithoutDuplicates
         }
         return true;
     }
-    internal override int IndexOf(T path)
+    public override int IndexOf(T path)
     {
         if (IsComparingByString())
         {
