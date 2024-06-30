@@ -2,8 +2,7 @@
 
 namespace SunamoDevCode;
 
-
-public partial class SunamoDevCodeHelper
+public class SunamoDevCodeHelper
 {
     public static bool TryDeleteDirectory(string v)
     {

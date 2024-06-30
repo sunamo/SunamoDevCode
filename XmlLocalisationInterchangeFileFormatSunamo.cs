@@ -1,21 +1,21 @@
 namespace SunamoDevCode;
 
-public partial class XmlLocalisationInterchangeFileFormatSunamo
+public class XmlLocalisationInterchangeFileFormatSunamo
 {
     public static
 #if ASYNC
-    async Task
+        async Task
 #else
     void
 #endif
- ReplaceHtmlEntitiesWithEmpty()
+        ReplaceHtmlEntitiesWithEmpty()
     {
         var path = @"D:\a\sunamo.en-US.xlf";
         var content =
 #if ASYNC
-    await
+            await
 #endif
- File.ReadAllTextAsync(path);
+                File.ReadAllTextAsync(path);
         #region
         List<string> consts = new List<string>();
         AllLists.InitHtmlEntitiesFullNames();
@@ -37,17 +37,17 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
         await
 #endif
-        File.WriteAllTextAsync(path, content);
+            File.WriteAllTextAsync(path, content);
         #endregion
     }
 
     public static
 #if ASYNC
-    async Task
+        async Task
 #else
     void
 #endif
- ReplaceInXlfManuallyEnteredPairsWithPrependXlfKeys()
+        ReplaceInXlfManuallyEnteredPairsWithPrependXlfKeys()
     {
         int i;
 
@@ -70,9 +70,9 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
         var path = @"D:\a\sunamo.en-US.xlf";
         var content =
 #if ASYNC
-    await
+            await
 #endif
- File.ReadAllTextAsync(path);
+                File.ReadAllTextAsync(path);
 
         for (i = from.Count - 1; i >= 0; i--)
         {
@@ -84,7 +84,7 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
         await
 #endif
-        File.WriteAllTextAsync(path, content);
+            File.WriteAllTextAsync(path, content);
     }
 
     public static void ConstsFromClipboard(string input)
@@ -107,19 +107,19 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
     /// </summary>
     public static
 #if ASYNC
-    async Task
+        async Task
 #else
     void
 #endif
- RemoveDuplicatedXlfKeysConsts()
+        RemoveDuplicatedXlfKeysConsts()
     {
         int i;
 
         var l = SHGetLines.GetLines(
 #if ASYNC
-    await
+            await
 #endif
- File.ReadAllTextAsync(pathXlfKeys)).ToList();
+                File.ReadAllTextAsync(pathXlfKeys)).ToList();
 
         for (i = 0; i < l.Count(); i++)
         {
@@ -173,20 +173,20 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
 
     public static
 #if ASYNC
-    async Task
+        async Task
 #else
     void
 #endif
- RemoveDuplicatedXlfKeysConsts2()
+        RemoveDuplicatedXlfKeysConsts2()
     {
         int y, i;
         //AllLists.InitHtmlEntitiesDict();
         var path = pathXlfKeys;
         var ls = SHGetLines.GetLines(
 #if ASYNC
-    await
+            await
 #endif
- File.ReadAllTextAsync(path)).ToList();
+                File.ReadAllTextAsync(path)).ToList();
         //var ls = SHGetLines.GetLines(s);
         int first;
         var consts = CSharpParser.ParseConsts(ls, out first);
@@ -241,4 +241,56 @@ public partial class XmlLocalisationInterchangeFileFormatSunamo
     //    return usedKeys;
     //}
     #endregion
+
+    public static string pathXlfKeys = BasePathsHelper.vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
+    static Type type = typeof(XmlLocalisationInterchangeFileFormatSunamo);
+    public const string cs = "const string ";
+    const string eqBs = " = \"";
+    public static string SunamoStringsDot = "SunamoStrings.";
+
+    public static string GetConstsFromLine(string d4)
+    {
+        return SH.GetTextBetweenSimple(d4, cs, eqBs, false);
+    }
+
+    public static LangsDC GetLangFromFilename(string s)
+    {
+        return LangsDC.cs;
+        //return XmlLocalisationInterchangeFileFormatXlf.GetLangFromFilename(s);
+    }
+
+    /// <summary>
+    /// sess.i18n(
+    /// </summary>
+    public const string RLDataEn = SunamoNotTranslateAble.RLDataEn;
+    public const string RLDataCs = SunamoNotTranslateAble.RLDataCs;
+    public const string RLDataEn2 = SunamoNotTranslateAble.RLDataEn2;
+    public const string SessI18n = SunamoNotTranslateAble.SessI18n;
+    public const string XlfKeysDot = SunamoNotTranslateAble.XlfKeysDot;
+    public const string SessI18nShort = SunamoNotTranslateAble.SessI18nShort;
+
+
+
+
+
+
+    /// <summary>
+    /// return code for getting from RLData.en
+    /// </summary>
+    /// <param name="key2"></param>
+    public static string TextFromRLData(string pathOrExt, string key2)
+    {
+        var ext = Path.GetExtension(pathOrExt);
+        ext = SH.PrefixIfNotStartedWith(ext, ".");
+        if (ext == AllExtensions.cs)
+        {
+            return SessI18n + XlfKeysDot + key2 + ")";
+        }
+        else if (ext == AllExtensions.ts)
+        {
+            return "su.en(\"" + key2 + "\")";
+        }
+        ThrowEx.NotImplementedCase(ext);
+        return null;
+    }
 }

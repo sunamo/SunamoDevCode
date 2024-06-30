@@ -1,12 +1,13 @@
 
 namespace SunamoDevCode;
 
-
-
-
-
-public partial class SolutionFolderSerialize : IListBoxHelperItem, ISolutionFolderSerialize
+public class SolutionFolderSerialize : IListBoxHelperItem, ISolutionFolderSerialize
 {
+    public override string ToString()
+    {
+        return displayedText;
+    }
+
     public static Type type = typeof(SolutionFolderSerialize);
 
     string _displayedText = "";

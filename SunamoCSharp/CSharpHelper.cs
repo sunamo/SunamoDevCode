@@ -3,9 +3,7 @@
 
 namespace SunamoDevCode;
 
-
-
-public static partial class CSharpHelper
+public static class CSharpHelper
 {
     public const string Using = "using ";
     public const string Import = "import ";
@@ -22,11 +20,11 @@ public static partial class CSharpHelper
 
     public static
 #if ASYNC
-    async Task
+        async Task
 #else
     void
 #endif
- AddTypeToEveryFile(string BasePathsHelperVs)
+        AddTypeToEveryFile(string BasePathsHelperVs)
     {
         int i = 0;
         var path = BasePathsHelperVs;
@@ -51,9 +49,9 @@ public static partial class CSharpHelper
         {
             var c =
 #if ASYNC
-    await
+                await
 #endif
- File.ReadAllTextAsync(item);
+                    File.ReadAllTextAsync(item);
 
             if (c.Contains("ThrowEx.") && !c.Contains(mustContains))
             {
@@ -224,17 +222,17 @@ public static partial class CSharpHelper
     /// <param name="item"></param>
     public static
 #if ASYNC
-    async Task<List<string>>
+        async Task<List<string>>
 #else
     List<string>
 #endif
- RemoveNamespace(string item)
+        RemoveNamespace(string item)
     {
         var l = SHGetLines.GetLines(
 #if ASYNC
-    await
+            await
 #endif
- File.ReadAllTextAsync(item)).ToList();
+                File.ReadAllTextAsync(item)).ToList();
         RemoveNamespace(l, null);
         await File.WriteAllLinesAsync(item, l);
         return l;
@@ -543,15 +541,15 @@ public static partial class CSharpHelper
         //}
 
         str = Regex.Replace(str,
-    blockComments + "|" + lineComments + "|" + strings + "|" + verbatimStrings,
-    me =>
-    {
-        if (me.Value.StartsWith("/*") || me.Value.StartsWith("//"))
-            return me.Value.StartsWith("//") ? Environment.NewLine : "";
-        // Keep the literal strings
-        return me.Value;
-    },
-    RegexOptions.Singleline);
+            blockComments + "|" + lineComments + "|" + strings + "|" + verbatimStrings,
+            me =>
+            {
+                if (me.Value.StartsWith("/*") || me.Value.StartsWith("//"))
+                    return me.Value.StartsWith("//") ? Environment.NewLine : "";
+                // Keep the literal strings
+                return me.Value;
+            },
+            RegexOptions.Singleline);
 
         //CA.RemoveStringsEmpty2(list);
 
@@ -651,17 +649,17 @@ public static partial class CSharpHelper
 
     public static
 #if ASYNC
-    async Task
+        async Task
 #else
     void
 #endif
-    ReplaceForConsts(string pathXlfKeys)
+        ReplaceForConsts(string pathXlfKeys)
     {
         var c = SHGetLines.GetLines(
 #if ASYNC
-    await
+            await
 #endif
-    File.ReadAllTextAsync(pathXlfKeys)).ToList();
+                File.ReadAllTextAsync(pathXlfKeys)).ToList();
         for (int i = 0; i < c.Count; i++)
         {
             var a = c[i];
@@ -761,7 +759,7 @@ public static partial class CSharpHelper
             }
 
             csg.Field(tabCount, AccessModifiers.Public, true, VariableModifiers.Mapped, "string", name, true, item
-                );
+            );
         }
         return csg.ToString();
     }
@@ -838,7 +836,7 @@ public static partial class CSharpHelper
         {
             StringBuilder sb2 = new StringBuilder(item.Key);
             sb2[0] = char.ToUpper(sb2[0]);
-            sb.AppendLine(/*SHFormat.Format3*/ string.Format(tProperty, item.Value, CSharpHelperSunamo.DefaultValueForType(item.Value, ConvertTypeShortcutFullName.ToShortcut), item.Key, sb2.ToString()));
+            sb.AppendLine(/*SHFormat.Format3*/ string.Format((string)tProperty, item.Value, CSharpHelperSunamo.DefaultValueForType(item.Value, ConvertTypeShortcutFullName.ToShortcut), item.Key, sb2.ToString()));
         }
         return sb.ToString();
     }
@@ -859,5 +857,141 @@ public static partial class CSharpHelper
             }
         }
         return null;
+    }
+
+    static Type type = typeof(CSharpHelper);
+    public static object DefaultValueForTypeObject(string type)
+    {
+        if (type.Contains(AllStrings.dot))
+        {
+            type = ConvertTypeShortcutFullName.ToShortcut(type);
+        }
+
+        switch (type)
+        {
+            case "string":
+                return AllStrings.qm + AllStrings.qm;
+            case "bool":
+                return false;
+            case "float":
+            case "double":
+            case "int":
+            case "long":
+            case "short":
+            case "decimal":
+            case "sbyte":
+                return -1;
+            case "byte":
+            case "ushort":
+            case "uint":
+            case "ulong":
+                return 0;
+            case "DateTime":
+                // Původně tu bylo MinValue kvůli SQLite ale dohodl jsem se že SQLite už nebudu používat a proto si ušetřím v kódu práci s MSSQL
+                return Consts.DateTimeMinVal;
+            case "char":
+                throw new Exception(type);
+                return 0;
+            case "byte" + "[]":
+                // Podporovaný typ pouze v desktopových aplikacích, kde není lsožka sbf
+                return null;
+        }
+        throw new Exception("Nepodporovaný typ");
+        return null;
+    }
+
+    public static string WrapWithRegion(string s, string v)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append("#region ");
+        sb.AppendLine(v);
+        sb.AppendLine(s);
+        sb.AppendLine("#endregion");
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// call CsKeywords.Init before use
+    /// </summary>
+    /// <param name="con"></param>
+    /// <returns></returns>
+    public static bool IsKeyword(string con)
+    {
+        //CsKeywords.Init();
+
+        if (CsKeywordsList.modifier.Contains(con))
+        {
+            return true;
+        }
+        if (CsKeywordsList.accessModifier.Contains(con))
+        {
+            return true;
+        }
+        if (CsKeywordsList.statement.Contains(con))
+        {
+            return true;
+        }
+        if (CsKeywordsList.methodParameter.Contains(con))
+        {
+            return true;
+        }
+        if (CsKeywordsList._namespace.Contains(con))
+        {
+            return true;
+        }
+        if (CsKeywordsList._operator.Contains(con))
+        {
+            return true;
+        }
+        if (CsKeywordsList.access.Contains(con))
+        {
+            return true;
+        }
+        if (CsKeywordsList.literal.Contains(con))
+        {
+            return true;
+        }
+        if (CsKeywordsList.type.Contains(con))
+        {
+            return true;
+        }
+        if (CsKeywordsList.contextual.Contains(con))
+        {
+            return true;
+        }
+        if (CsKeywordsList.query.Contains(con))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static string WrapWithQuoteList(Type tValue, IList valueS)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (var item in valueS)
+        {
+            var v = item.ToString();
+            WrapWithQuote(tValue, ref v);
+            sb.Append(v + AllStrings.comma);
+        }
+        return sb.ToString().TrimEnd(AllChars.comma);
+    }
+
+    public static void WrapWithQuote(Type tKey, ref string keyS)
+    {
+        if (tKey == Types.tString)
+        {
+            keyS = SH.WrapWithQm(keyS);
+        }
+        else if (tKey == Types.tChar)
+        {
+            keyS = SH.WrapWith(keyS, "\'");
+        }
+        else
+        {
+
+        }
     }
 }
