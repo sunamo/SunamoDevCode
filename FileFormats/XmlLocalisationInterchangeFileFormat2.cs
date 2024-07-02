@@ -1,4 +1,4 @@
-﻿namespace SunamoDevCode;
+namespace SunamoDevCode;
 
 public static class XmlLocalisationInterchangeFileFormat
 {

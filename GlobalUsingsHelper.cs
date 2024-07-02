@@ -11,8 +11,8 @@ namespace SunamoDevCode;
 /// </summary>
 public class GlobalUsingsHelper
 {
-    const string globalUsing = "global using ";
-    const string global = "global ";
+    public const string globalUsing = "global using ";
+    public const string global = "global ";
 
     public static ParseGlobalUsingsResult Parse(List<string> content)
     {
