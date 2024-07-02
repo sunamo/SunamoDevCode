@@ -28,7 +28,10 @@ internal class GlobalUsingsInstance
 
     public void AddNewGlobalUsing(string usng)
     {
-        r.GlobalUsings.Add(usng);
+        if (r.GlobalUsings.Contains(usng))
+        {
+            r.GlobalUsings.Add(usng);
+        }
     }
 
     public async Task Save()
