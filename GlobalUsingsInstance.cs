@@ -28,7 +28,7 @@ public class GlobalUsingsInstance
 
     public void AddNewGlobalUsing(string usng)
     {
-        if (r.GlobalUsings.Contains(usng))
+        if (!r.GlobalUsings.Contains(usng))
         {
             r.GlobalUsings.Add(usng);
         }
