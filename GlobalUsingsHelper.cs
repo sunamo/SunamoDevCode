@@ -23,8 +23,7 @@ public class GlobalUsingsHelper
             {
                 result.GlobalUsings.Add(item.Replace(globalUsing, ""));
             }
-
-            if (item.StartsWith(global))
+            else if (item.StartsWith(global))
             {
                 var kvp = ParseSymbol(item);
                 result.GlobalSymbols.Add(kvp.Key, kvp.Value);
@@ -37,7 +36,17 @@ public class GlobalUsingsHelper
     private static KeyValuePair<string, string> ParseSymbol(string item)
     {
         var p = item.Split('=');
-        return new KeyValuePair<string, string>(p[0].Replace(global, ""), p[1]);
+        try
+        {
+            return new KeyValuePair<string, string>(p[0].Replace(global, ""), p[1]);
+        }
+        catch (global::System.Exception ex)
+        {
+
+            throw;
+        }
+
+        return new KeyValuePair<string, string>();
     }
 }
 
