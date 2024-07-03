@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-internal class GlobalUsingsInstance
+public class GlobalUsingsInstance
 {
     ParseGlobalUsingsResult r = null;
     string path;
