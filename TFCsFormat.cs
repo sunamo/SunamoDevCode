@@ -38,10 +38,10 @@ public partial class TFCsFormat
         }
 
         var l = SHGetLines.GetLines(c);
-        await AppendAllTextAsync(p, l);
+        await WriteAllLinesAsync(p, l);
     }
 
-    public static async Task AppendAllTextAsync(string p, List<string> l)
+    public static async Task WriteAllLinesAsync(string p, List<string> l)
     {
         if (p.EndsWith(".cs"))
         {
