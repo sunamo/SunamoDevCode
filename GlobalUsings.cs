@@ -90,3 +90,8 @@ global using SunamoDevCode._sunamo.SunamoLang.SunamoXlf;
 global using SunamoDevCode._sunamo.SunamoValues.All;
 global using SunamoDevCode._sunamo.SunamoValues.Constants;
 global using SunamoDevCode._sunamo.SunamoValues.Values;
+global using Diacritics.Extensions;
+global using System.Net;
+global using System.Runtime.CompilerServices;
+global using System.Web;
+global using System.Xml;

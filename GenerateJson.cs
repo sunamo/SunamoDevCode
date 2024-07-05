@@ -1,5 +1,3 @@
-
-
 namespace SunamoDevCode;
 
 public class GenerateJson

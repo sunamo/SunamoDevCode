@@ -1,6 +1,3 @@
-using HtmlAgilityPack;
-using System.Net;
-
 namespace SunamoDevCode._sunamo.SunamoHtml.Html;
 internal class HtmlAssistant
 {
@@ -23,4 +20,3 @@ internal class HtmlAssistant
         return WebUtility.HtmlDecode(v);
     }
 }
-

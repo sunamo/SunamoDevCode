@@ -1,6 +1,3 @@
-
-
-
 namespace SunamoDevCode.SunamoCSharp;
 
 public static class CSharpHelper
@@ -486,6 +483,10 @@ public static class CSharpHelper
         return s;
     }
 
+    public static string RemoveComments(string listOrString, bool line = true, bool block = true)
+    {
+        return SHJoin.JoinNL(RemoveComments(SHGetLines.GetLines(listOrString), line, block));
+    }
 
     public static List<string> RemoveComments(List<string> listOrString, bool line = true, bool block = true)
     {

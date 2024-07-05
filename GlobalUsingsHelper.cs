@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace SunamoDevCode;
 /// <summary>
 /// Druhá část je v ToNugets
@@ -40,4 +34,3 @@ public class GlobalUsingsHelper
         return new KeyValuePair<string, string>(p[0].Replace(global, ""), p[1]);
     }
 }
-

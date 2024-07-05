@@ -1,11 +1,4 @@
-
 namespace SunamoDevCode._sunamo.SunamoGetFiles;
-using SunamoDevCode;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 internal class FSGetFiles
@@ -20,4 +13,3 @@ internal class FSGetFiles
         return Directory.GetFiles(folder2, mask, searchOption).ToList();
     }
 }
-

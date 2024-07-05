@@ -1,6 +1,3 @@
-
-using System.Runtime.CompilerServices;
-
 namespace SunamoDevCode._sunamo.SunamoCollections;
 internal class CA
 {

@@ -1,6 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoTextOutputGenerator;
 
-using System.Runtime.CompilerServices;
 
 /// <summary>
 /// In Comparing

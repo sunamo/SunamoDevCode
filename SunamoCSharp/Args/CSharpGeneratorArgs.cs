@@ -17,4 +17,3 @@ public class CSharpGeneratorArgs
     public string splitKeyWith = null;
     public bool checkForNull = false;
 }
-

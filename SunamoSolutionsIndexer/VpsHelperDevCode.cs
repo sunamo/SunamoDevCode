@@ -1,7 +1,3 @@
-
-
-
-
 //using TextBuilder = SunamoTextBuilder.TextBuilder;
 
 namespace SunamoDevCode.SunamoSolutionsIndexer;

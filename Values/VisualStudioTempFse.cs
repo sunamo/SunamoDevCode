@@ -1,5 +1,3 @@
-
-
 namespace SunamoDevCode.Values;
 
 

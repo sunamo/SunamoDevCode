@@ -1,6 +1,5 @@
 namespace SunamoDevCode;
 
-using System.Text;
 
 public abstract class PpkOnDriveDevCodeBase<T> : List<T>
 {

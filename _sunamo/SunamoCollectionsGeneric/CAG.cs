@@ -1,5 +1,3 @@
-
-
 namespace SunamoDevCode._sunamo.SunamoCollectionsGeneric;
 internal class CAG
 {

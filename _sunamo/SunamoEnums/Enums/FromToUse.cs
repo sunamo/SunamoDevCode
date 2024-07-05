@@ -1,7 +1,7 @@
 namespace SunamoDevCode._sunamo.SunamoEnums.Enums;
 
 
-internal enum FromToUseDevCode
+public enum FromToUseDevCode
 {
     DateTime,
     Unix,

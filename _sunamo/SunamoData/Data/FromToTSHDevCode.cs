@@ -1,7 +1,7 @@
 namespace SunamoDevCode._sunamo.SunamoData.Data;
 
 
-internal class FromToTSHDevCode<T>
+public class FromToTSHDevCode<T>
 {
 
     internal bool empty;

@@ -1,4 +1,3 @@
-
 namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 
 

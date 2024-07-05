@@ -1,5 +1,3 @@
-
-
 namespace SunamoDevCode._sunamo.SunamoStringTrim;
 internal class SHTrim
 {

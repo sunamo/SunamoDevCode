@@ -1,7 +1,3 @@
-
-
-
-
 namespace SunamoDevCode.SunamoSolutionsIndexer.Interfaces;
 
 public interface ISolutionFolder

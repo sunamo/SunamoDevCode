@@ -1,11 +1,4 @@
-
 namespace SunamoDevCode;
-using SunamoDevCode;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 public class GlobalUsingsInstance
@@ -53,4 +46,3 @@ public class GlobalUsingsInstance
         await File.WriteAllTextAsync(path, sb.ToString());
     }
 }
-
