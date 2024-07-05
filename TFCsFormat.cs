@@ -34,7 +34,7 @@ public partial class TFCsFormat
         WriteAllTextAsync(p, c).GetAwaiter().GetResult();
     }
 
-    public static void WriteAllLines(string p, List<string> l)
+    public static void WriteAllLines(string p, IEnumerable<string> l)
     {
         WriteAllLinesAsync(p, l).GetAwaiter().GetResult();
     }
@@ -51,7 +51,7 @@ public partial class TFCsFormat
         await WriteAllLinesAsync(p, l);
     }
 
-    public static async Task WriteAllLinesAsync(string p, List<string> l)
+    public static async Task WriteAllLinesAsync(string p, IEnumerable<string> l)
     {
         if (!p.EndsWith(".cs") || p.EndsWith("GlobalUsings.cs"))
         {
@@ -59,7 +59,9 @@ public partial class TFCsFormat
             return;
         }
 
-        var toFirstCodeElement = OnlyToFirst(l);
+        var l2 = l.ToList();
+
+        var toFirstCodeElement = OnlyToFirst(l2);
 
         List<string> usings = new List<string>();
         string ns = string.Empty;
