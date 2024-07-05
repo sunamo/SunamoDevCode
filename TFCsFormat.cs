@@ -6,7 +6,7 @@ public partial class TFCsFormat
 {
     static readonly List<string> classCodeElements = new List<string>() { "class ", "interface ", "enum ", "struct ", "delegate " };
 
-    public List<string> OnlyToFirst(List<string> d)
+    static List<string> OnlyToFirst(List<string> d)
     {
         List<string> toFirstCodeElement = new List<string>();
 
@@ -29,7 +29,7 @@ public partial class TFCsFormat
         return toFirstCodeElement;
     }
 
-    public async Task WriteAllTextAsync(string p, string c)
+    public static async Task WriteAllTextAsync(string p, string c)
     {
         if (p.EndsWith(".cs"))
         {
@@ -41,7 +41,7 @@ public partial class TFCsFormat
         await AppendAllTextAsync(p, l);
     }
 
-    public async Task AppendAllTextAsync(string p, List<string> l)
+    public static async Task AppendAllTextAsync(string p, List<string> l)
     {
         if (p.EndsWith(".cs"))
         {
