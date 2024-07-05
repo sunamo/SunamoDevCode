@@ -29,17 +29,17 @@ public partial class TFCsFormat
         return toFirstCodeElement;
     }
 
-    public static void WriteAllText(string p, string c)
+    public static void WriteAllTextSync(string p, string c)
     {
-        WriteAllTextAsync(p, c).GetAwaiter().GetResult();
+        WriteAllText(p, c).GetAwaiter().GetResult();
     }
 
-    public static void WriteAllLines(string p, IEnumerable<string> l)
+    public static void WriteAllLinesSync(string p, IEnumerable<string> l)
     {
-        WriteAllLinesAsync(p, l).GetAwaiter().GetResult();
+        WriteAllLines(p, l).GetAwaiter().GetResult();
     }
 
-    public static async Task WriteAllTextAsync(string p, string c)
+    public static async Task WriteAllText(string p, string c)
     {
         if (!p.EndsWith(".cs") || p.EndsWith("GlobalUsings.cs"))
         {
@@ -48,10 +48,10 @@ public partial class TFCsFormat
         }
 
         var l = SHGetLines.GetLines(c);
-        await WriteAllLinesAsync(p, l);
+        await WriteAllLines(p, l);
     }
 
-    public static async Task WriteAllLinesAsync(string p, IEnumerable<string> l)
+    public static async Task WriteAllLines(string p, IEnumerable<string> l)
     {
         if (!p.EndsWith(".cs") || p.EndsWith("GlobalUsings.cs"))
         {
