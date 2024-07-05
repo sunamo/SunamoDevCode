@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoLang.SunamoXlf;
 internal class BasePathsHelper
 {
     public static string bp = null;

@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode.Trask;
 
 public class MarvinPathsHelper
 {

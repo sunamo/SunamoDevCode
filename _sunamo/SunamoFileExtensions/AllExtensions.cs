@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoFileExtensions;
 internal class AllExtensions
 {
     internal const string exe = ".exe";

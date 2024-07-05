@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._public.SunamoData.Data;
 
 
 public class PushSolutionsData

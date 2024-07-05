@@ -5,7 +5,7 @@
 //using System.Threading.Tasks;
 
 
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoXml;
 
 internal class XHelper
 {

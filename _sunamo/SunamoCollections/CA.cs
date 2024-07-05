@@ -1,7 +1,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoCollections;
 internal class CA
 {
     internal static void DoubleOrMoreMultiLinesToSingle(ref string list)

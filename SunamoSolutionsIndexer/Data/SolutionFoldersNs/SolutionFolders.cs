@@ -1,6 +1,6 @@
 
 
-namespace SunamoDevCode;
+namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFoldersNs;
 
 public class SolutionFolders : List<SolutionFolder>
 {

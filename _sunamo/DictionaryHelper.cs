@@ -1,5 +1,5 @@
 
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo;
 using SunamoDevCode;
 using System;
 using System.Collections.Generic;

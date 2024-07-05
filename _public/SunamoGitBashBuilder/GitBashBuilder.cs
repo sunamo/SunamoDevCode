@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._public.SunamoGitBashBuilder;
 
 public class GitBashBuilder : IGitBashBuilder
 {

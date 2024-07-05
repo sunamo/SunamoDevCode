@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode.Constants;
 
 public class TsTypes
 {

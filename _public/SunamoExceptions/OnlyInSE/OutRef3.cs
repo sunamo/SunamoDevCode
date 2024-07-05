@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._public.SunamoExceptions.OnlyInSE;
 
 
 public class OutRef3<T, U, V> : OutRefDC<T, U>

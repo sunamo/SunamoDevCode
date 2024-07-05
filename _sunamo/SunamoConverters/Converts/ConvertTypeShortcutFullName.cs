@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoConverters.Converts;
 
 
 internal static class ConvertTypeShortcutFullName //: IConvertShortcutFullName

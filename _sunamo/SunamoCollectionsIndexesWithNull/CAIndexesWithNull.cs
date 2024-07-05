@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoCollectionsIndexesWithNull;
 internal class CAIndexesWithNull
 {
     internal static List<int> IndexesWithNull(IList times)

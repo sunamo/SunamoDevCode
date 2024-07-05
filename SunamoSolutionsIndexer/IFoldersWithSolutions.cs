@@ -1,7 +1,7 @@
 
 
 
-namespace SunamoDevCode;
+namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 public interface IFoldersWithSolutionsInstance
 {

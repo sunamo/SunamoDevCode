@@ -1,6 +1,6 @@
 
 
-namespace SunamoDevCode;
+namespace SunamoDevCode.Data;
 
 
 public class UnindexableFiles

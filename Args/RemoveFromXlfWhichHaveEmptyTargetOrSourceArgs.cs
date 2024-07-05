@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode.Args;
 
 public class RemoveFromXlfWhichHaveEmptyTargetOrSourceArgs
 {

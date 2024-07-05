@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._public.SunamoInterfaces.Interfaces;
 
 using System.Xml;
 

@@ -1,6 +1,6 @@
 
 
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoStringTrim;
 internal class SHTrim
 {
     internal static string TrimLeadingNumbersAtStart(string nameSolution)

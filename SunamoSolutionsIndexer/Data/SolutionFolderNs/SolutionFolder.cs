@@ -1,5 +1,5 @@
 
-namespace SunamoDevCode;
+namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 
 
 

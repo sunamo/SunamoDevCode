@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode.Enums;
 
 public enum MarvinReposTypes
 {

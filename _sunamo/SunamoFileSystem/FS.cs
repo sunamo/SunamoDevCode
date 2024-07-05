@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoFileSystem;
 internal class FS
 {
     internal static byte[] StreamToArrayBytes(System.IO.Stream stream)

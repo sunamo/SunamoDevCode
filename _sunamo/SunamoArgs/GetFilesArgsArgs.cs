@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoArgs;
 
 
 // todo nemělo by to dědit z GetFoldersEveryFolderArgs? ve vs2 to tak mám

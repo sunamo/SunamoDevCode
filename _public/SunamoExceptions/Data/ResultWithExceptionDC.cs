@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._public.SunamoExceptions.Data;
 
 
 public class ResultWithExceptionDC<T>

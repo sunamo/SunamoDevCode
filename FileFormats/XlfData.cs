@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode.FileFormats;
 
 /// <summary>
 /// Trans-units in *.xlf file and others

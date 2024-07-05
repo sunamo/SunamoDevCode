@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoInterfaces.Interfaces;
 
 
 internal interface IDumpAsString

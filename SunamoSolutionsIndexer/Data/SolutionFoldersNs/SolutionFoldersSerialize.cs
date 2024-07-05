@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFoldersNs;
 
 public class SolutionFoldersSerialize
 {

@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoBts;
 internal class BTS
 {
     internal static bool Is(bool binFp, bool n)

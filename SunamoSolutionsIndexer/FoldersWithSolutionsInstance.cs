@@ -6,7 +6,7 @@
 
 
 
-namespace SunamoDevCode;
+namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 {

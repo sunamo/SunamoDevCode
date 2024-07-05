@@ -1,6 +1,6 @@
 
 
-namespace SunamoDevCode;
+namespace SunamoDevCode.Helpers;
 
 
 public class TypeScriptHelper

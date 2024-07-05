@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode.SunamoCSharp.Values;
 
 public class CSharpConsts
 {

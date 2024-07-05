@@ -1,7 +1,7 @@
 
 
 
-namespace SunamoDevCode;
+namespace SunamoDevCode.SunamoCSharp;
 
 public static class CSharpHelper
 {

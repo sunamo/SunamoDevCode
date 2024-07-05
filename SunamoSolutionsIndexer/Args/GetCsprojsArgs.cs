@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode.SunamoSolutionsIndexer.Args;
 
 public class GetCsprojsArgs
 {

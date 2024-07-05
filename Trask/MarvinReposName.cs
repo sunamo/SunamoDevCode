@@ -1,5 +1,5 @@
 
-namespace SunamoDevCode;
+namespace SunamoDevCode.Trask;
 using System;
 using System.Collections.Generic;
 using System.Linq;

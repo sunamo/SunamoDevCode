@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode.CodeGenerator;
 
 public class GeneratorCpp : GeneratorCodeAbstract
 {

@@ -1,4 +1,4 @@
-namespace SunamoDevCode;
+namespace SunamoDevCode._sunamo.SunamoTwoWayDictionary;
 
 
 internal class TwoWayDictionary<T, U>
