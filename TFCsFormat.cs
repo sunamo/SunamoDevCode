@@ -1,6 +1,6 @@
 ﻿using FileMs = System.IO.File;
 
-namespace CommandsToAllCsFiles.Cmd;
+namespace SunamoDevCode;
 
 public partial class TFCsFormat
 {
