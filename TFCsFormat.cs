@@ -29,9 +29,19 @@ public partial class TFCsFormat
         return toFirstCodeElement;
     }
 
+    public static void WriteAllText(string p, string c)
+    {
+        WriteAllTextAsync(p, c).GetAwaiter().GetResult();
+    }
+
+    public static void WriteAllLines(string p, List<string> l)
+    {
+        WriteAllLinesAsync(p, l).GetAwaiter().GetResult();
+    }
+
     public static async Task WriteAllTextAsync(string p, string c)
     {
-        if (p.EndsWith(".cs"))
+        if (!p.EndsWith(".cs") || p.EndsWith("GlobalUsings.cs"))
         {
             await FileMs.WriteAllTextAsync(p, c);
             return;
@@ -43,7 +53,7 @@ public partial class TFCsFormat
 
     public static async Task WriteAllLinesAsync(string p, List<string> l)
     {
-        if (p.EndsWith(".cs"))
+        if (!p.EndsWith(".cs") || p.EndsWith("GlobalUsings.cs"))
         {
             await FileMs.WriteAllLinesAsync(p, l);
             return;
