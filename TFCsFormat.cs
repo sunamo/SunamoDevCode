@@ -1,8 +1,11 @@
-﻿
+
+using
 #if SunamoRoslyn
-using SunamoRoslyn._sunamo;
+SunamoRoslyn._sunamo
 #else
+SunamoDevCode
 #endif
+    ;
 
 using FileMs = System.IO.File;
 

@@ -14,6 +14,10 @@ public class GlobalUsingsInstance
     public async Task Init(string path)
     {
         this.path = path;
+        if (!File.Exists(path))
+        {
+            await File.WriteAllTextAsync(path, "");
+        }
         var l = await File.ReadAllLinesAsync(path);
 
         r = GlobalUsingsHelper.Parse(l.ToList());
