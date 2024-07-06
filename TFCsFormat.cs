@@ -1,8 +1,26 @@
-﻿using FileMs = System.IO.File;
+﻿
+#if SunamoRoslyn
+using SunamoRoslyn._sunamo;
+#else
+#endif
 
-namespace SunamoDevCode;
+using FileMs = System.IO.File;
 
-public partial class TFCsFormat
+namespace
+#if SunamoRoslyn
+    SunamoRoslyn
+#else
+    SunamoDevCode
+#endif
+    ;
+
+
+#if SunamoRoslyn
+internal
+#else
+public
+#endif
+ partial class TFCsFormat
 {
     static readonly List<string> classCodeElements = new List<string>() { "class ", "interface ", "enum ", "struct ", "delegate " };
 
