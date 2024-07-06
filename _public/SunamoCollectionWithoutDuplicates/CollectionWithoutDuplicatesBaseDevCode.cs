@@ -1,7 +1,7 @@
 namespace SunamoDevCode._public.SunamoCollectionWithoutDuplicates;
 
 
-public abstract class CollectionWithoutDuplicatesBase<T> 
+public abstract class CollectionWithoutDuplicatesBaseDevCode<T> 
 {
     public List<T> c = null;
     public List<string> sr = null;
@@ -25,7 +25,7 @@ public abstract class CollectionWithoutDuplicatesBase<T>
     }
     public static bool br = false;
     int count = 10000;
-    public CollectionWithoutDuplicatesBase()
+    public CollectionWithoutDuplicatesBaseDevCode()
     {
         if (br)
         {
@@ -33,12 +33,12 @@ public abstract class CollectionWithoutDuplicatesBase<T>
         }
         c = new List<T>();
     }
-    public CollectionWithoutDuplicatesBase(int count)
+    public CollectionWithoutDuplicatesBaseDevCode(int count)
     {
         this.count = count;
         c = new List<T>(count);
     }
-    public CollectionWithoutDuplicatesBase(IList<T> l)
+    public CollectionWithoutDuplicatesBaseDevCode(IList<T> l)
     {
         c = new List<T>(l.ToList());
     }

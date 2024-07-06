@@ -1,4 +1,4 @@
-namespace SunamoDevCode._sunamo.SunamoEnums.Enums;
+namespace SunamoDevCode._public.SunamoEnums.Enums;
 public enum FromToUseDevCode
 {
     DateTime,

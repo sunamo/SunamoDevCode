@@ -488,6 +488,13 @@ public static class CSharpHelper
         return SHJoin.JoinNL(RemoveComments(SHGetLines.GetLines(listOrString), line, block));
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="listOrString"></param>
+    /// <param name="line"></param>
+    /// <param name="block"></param>
+    /// <returns></returns>
     public static List<string> RemoveComments(List<string> listOrString, bool line = true, bool block = true)
     {
         if (line)
@@ -501,7 +508,8 @@ public static class CSharpHelper
         }
 
         //var list = CastHelper.ToListString(listOrString);
-        CA.Trim(listOrString);
+        //jak jsem mohl být takový debil a dát to tady - na co tady trimovat?
+        //CA.Trim(listOrString);
         return listOrString;
     }
 

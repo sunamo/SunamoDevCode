@@ -1,9 +1,9 @@
 namespace SunamoDevCode._public.SunamoExceptions.OnlyInSE;
 
 
-public class OutRef3<T, U, V> : OutRefDC<T, U>
+public class OutRef3DC<T, U, V> : OutRefDC<T, U>
 {
-    public OutRef3(T t, U u, V v) : base(t, u)
+    public OutRef3DC(T t, U u, V v) : base(t, u)
     {
         Item3 = v;
     }

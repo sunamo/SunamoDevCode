@@ -1,7 +1,7 @@
 namespace SunamoDevCode._public.SunamoCollectionWithoutDuplicates;
 
 
-public class CollectionWithoutDuplicatesDevCode<T> : CollectionWithoutDuplicatesBase<T>
+public class CollectionWithoutDuplicatesDevCode<T> : CollectionWithoutDuplicatesBaseDevCode<T>
 {
     public CollectionWithoutDuplicatesDevCode() : base()
     {
