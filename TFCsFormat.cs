@@ -36,7 +36,19 @@ public
             var line = d[i];
             if (classCodeElements.Any(d => line.Contains(d)))
             {
-                toFirstCodeElement = d.Take(i + 1).ToList();
+                for (int y = i - 1; y >= 0; y--)
+                {
+                    if (d[y].StartsWith("//"))
+                    {
+                        i--;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                toFirstCodeElement = d.Take(i).ToList();
 
                 for (var j = toFirstCodeElement.Count - 1; j >= 0; j--)
                 {
@@ -100,10 +112,14 @@ public
             }
         }
 
-        usings.Add("");
+        if (usings.Count != 0)
+        {
+            usings.Add("");
+        }
+
         usings.Add(ns);
         usings.Add("");
-        usings.AddRange(l);
+        usings.AddRange(l2);
 
         await FileMs.WriteAllTextAsync(p, SHJoin.JoinNL(usings));
     }
