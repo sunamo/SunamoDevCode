@@ -89,7 +89,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 
             var fnwoe = Path.GetFileNameWithoutExtension(solutionFolder);
 
-            if ((fnwoe == "sunamo" || fnwoe == "sunamoWithoutLocalDep") && sunamoAndSunamoWithoutDepProjectsAsFirst)
+            if ((fnwoe == "sunamo" || fnwoe == "PlatformIndependentNuGetPackages") && sunamoAndSunamoWithoutDepProjectsAsFirst)
             {
                 List<string> f = new List<string>(); //FSND.FoldersWithSubfolder(solutionFolder, ".git");
                 foreach (var item in f)

@@ -42,10 +42,10 @@ public class GitBashBuilder : IGitBashBuilder
         AppendLine(arg);
         AppendLine();
     }
-    
-    
-    
-    
+
+
+
+
     public void Init()
     {
         Git("init");
@@ -63,15 +63,15 @@ public class GitBashBuilder : IGitBashBuilder
         Append(v);
         AppendLine();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
     public void Clean(string v)
     {
         Git("clean");
@@ -83,13 +83,13 @@ public class GitBashBuilder : IGitBashBuilder
         sb.Append("git " + remainCommand);
         return sb.ToString();
     }
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     private void Git(string remainCommand)
     {
         sb.Append((GitForDebug ? "GitForDebug " : "git ") + remainCommand);
@@ -136,43 +136,39 @@ public class GitBashBuilder : IGitBashBuilder
 
     private static Type type = typeof(GitBashBuilder);
     public TextBuilderDC sb = null;
-    
-    
-    
-    
-    
+
+
+
+
+
     public GitBashBuilder(TextBuilderDC sb)
     {
         this.sb = sb;
-        
+
     }
     public bool GitForDebug = false;
     public List<string> Commands { get => SHGetLines.GetLines(ToString()); }
-    
-    
-    
-    
-    
+
     public static string CreateGitAddForFiles(StringBuilder sb, List<string> linesFiles)
     {
         return CreateGitCommandForFiles("add", sb, linesFiles);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public static string GenerateCommandForGit( object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string command, string basePathIfA2SolutionsWontExistsOnFilesystem)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public static string GenerateCommandForGit(object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string command, string basePathIfA2SolutionsWontExistsOnFilesystem)
     {
         var filesToCommit = GitBashBuilder.PrepareFilesToSimpleGitFormat(tlb, solution, linesFiles, out anyError, searchOnlyWithExtension, basePathIfA2SolutionsWontExistsOnFilesystem);
         if (filesToCommit == null || filesToCommit.Count == 0)
@@ -180,15 +176,15 @@ public class GitBashBuilder : IGitBashBuilder
             return "";
         }
         string result = GitBashBuilder.CreateGitCommandForFiles(command, new StringBuilder(), filesToCommit);
-        
+
         return result;
     }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     public static string CheckoutWithExtension(string folder, string typedExt, List<string> files, string basePathIfA2SolutionsWontExistsOnFilesystem, TextBuilderDC ci)
     {
         ThrowEx.IsNull("typedExt", typedExt);
@@ -197,29 +193,29 @@ public class GitBashBuilder : IGitBashBuilder
         var filesToCommit = GitBashBuilder.PrepareFilesToSimpleGitFormat(null, folder, files, out anyError, typedExt, basePathIfA2SolutionsWontExistsOnFilesystem);
         if (filesToCommit == null)
         {
-            
+
         }
-        
+
         string result = GitBashBuilder.GenerateCommandForGit(null, folder, files, out anyError, typedExt, "checkout", basePathIfA2SolutionsWontExistsOnFilesystem);
         return result;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public static List<string> PrepareFilesToSimpleGitFormat( object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string basePathIfA2SolutionsWontExistsOnFilesystem)
+
+
+
+
+
+
+
+
+
+
+
+    public static List<string> PrepareFilesToSimpleGitFormat(object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string basePathIfA2SolutionsWontExistsOnFilesystem)
     {
         searchOnlyWithExtension = searchOnlyWithExtension.TrimStart(AllChars.asterisk);
         anyError = false;
-        
-        
+
+
         string pathSearchForFiles = null;
         if (Directory.Exists(solution))
         {
@@ -232,10 +228,10 @@ public class GitBashBuilder : IGitBashBuilder
         string pathRepository = pathSearchForFiles;
         if (solution == Consts.Cz)
         {
-            
+
             pathSearchForFiles += AllStrings.bs + solution;
         }
-        
+
         FS.WithEndSlash(ref pathRepository);
         var files = Directory.GetFiles(pathSearchForFiles, "*.*", System.IO.SearchOption.AllDirectories).ToList();
         files = files.Where(d => !d.Contains(@"\.git\")).ToList();
@@ -248,15 +244,15 @@ public class GitBashBuilder : IGitBashBuilder
         var linesFilesOnlyFilename = FS.OnlyNamesNoDirectEdit(linesFiles);
         anyError = false;
         List<string> filesToCommit = new List<string>();
-        
+
         Dictionary<string, List<string>> dictPsychicallyExistsFiles = FS.GetDictionaryByFileNameWithExtension(files);
         CA.Replace(files, AllStrings.bs, AllStrings.slash);
         pathRepository = FS.Slash(pathRepository, false);
-        
+
         for (int i = 0; i < linesFiles.Count; i++)
         {
             var item = linesFilesOnlyFilename[i];
-            
+
             var itemWithoutTrim = linesFiles[i];
             #region Directory\*
             if (item[item.Length - 1] == AllChars.asterisk)
@@ -270,7 +266,7 @@ public class GitBashBuilder : IGitBashBuilder
                 else
                 {
                     anyError = true;
-                    
+
                 }
             }
             #endregion
@@ -296,7 +292,7 @@ public class GitBashBuilder : IGitBashBuilder
                 if (!dictPsychicallyExistsFiles.ContainsKey(item))
                 {
                     anyError = true;
-                    
+
                 }
                 #endregion
                 else
@@ -312,7 +308,7 @@ public class GitBashBuilder : IGitBashBuilder
                         else
                         {
                             anyError = true;
-                            
+
                         }
                     }
                     #endregion
@@ -326,7 +322,7 @@ public class GitBashBuilder : IGitBashBuilder
                         else
                         {
                             anyError = true;
-                            
+
                         }
                     }
                     #endregion
@@ -336,7 +332,7 @@ public class GitBashBuilder : IGitBashBuilder
         }
         if (anyError)
         {
-            
+
             return null;
         }
         return filesToCommit;
@@ -345,7 +341,7 @@ public class GitBashBuilder : IGitBashBuilder
     public static string CreateGitCommandForFiles(string command, StringBuilder sb, List<string> linesFiles)
     {
         return null;
-        
+
     }
     public void Cd(string key)
     {
