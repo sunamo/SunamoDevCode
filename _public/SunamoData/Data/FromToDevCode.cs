@@ -1,12 +1,13 @@
 namespace SunamoDevCode._public.SunamoData.Data;
+
 /// <summary>
 ///     Must have always entered both from and to
 ///     None of event could have unlimited time!
 /// </summary>
 public class FromToDevCode : FromToTSHDevCode<long>
 {
-    internal static FromToDevCode Empty = new(true);
-    internal FromToDevCode()
+    public static FromToDevCode Empty = new(true);
+    public FromToDevCode()
     {
     }
     /// <summary>
@@ -24,7 +25,7 @@ public class FromToDevCode : FromToTSHDevCode<long>
     /// <param name="from"></param>
     /// <param name="to"></param>
     /// <param name="ftUse"></param>
-    internal FromToDevCode(long from, long to, FromToUseDevCode ftUse = FromToUseDevCode.DateTime)
+    public FromToDevCode(long from, long to, FromToUseDevCode ftUse = FromToUseDevCode.DateTime)
     {
         this.from = from;
         this.to = to;

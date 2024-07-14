@@ -1,7 +1,7 @@
-namespace SunamoDevCode._sunamo.SunamoInterfaces.Interfaces;
+namespace SunamoDevCode._public;
 
 
-internal interface IPercentCalculatorDC
+public interface IPercentCalculatorDC
 {
     double _overallSum { get; set; }
     double last { get; set; }

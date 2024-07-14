@@ -1,11 +1,12 @@
 namespace SunamoDevCode._public.SunamoData.Data;
+
 public class FromToTSHDevCode<T>
 {
-    internal bool empty;
+    public bool empty;
     protected long fromL;
-    internal FromToUseDevCode ftUse = FromToUseDevCode.DateTime;
+    public FromToUseDevCode ftUse = FromToUseDevCode.DateTime;
     protected long toL;
-    internal FromToTSHDevCode()
+    public FromToTSHDevCode()
     {
         var t = typeof(T);
         if (t == Types.tInt) ftUse = FromToUseDevCode.None;
@@ -25,22 +26,22 @@ public class FromToTSHDevCode<T>
     /// <param name="from"></param>
     /// <param name="to"></param>
     /// <param name="ftUse"></param>
-    internal FromToTSHDevCode(T from, T to, FromToUseDevCode ftUse = FromToUseDevCode.DateTime) : this()
+    public FromToTSHDevCode(T from, T to, FromToUseDevCode ftUse = FromToUseDevCode.DateTime) : this()
     {
         this.from = from;
         this.to = to;
         this.ftUse = ftUse;
     }
-    internal T from
+    public T from
     {
         get => (T)(dynamic)fromL;
         set => fromL = (long)(dynamic)value;
     }
-    internal T to
+    public T to
     {
         get => (T)(dynamic)toL;
         set => toL = (long)(dynamic)value;
     }
-    internal long FromL => fromL;
-    internal long ToL => toL;
+    public long FromL => fromL;
+    public long ToL => toL;
 }

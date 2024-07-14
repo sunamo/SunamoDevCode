@@ -1,7 +1,7 @@
-namespace SunamoDevCode._sunamo.SunamoInterfaces.Interfaces;
+namespace SunamoDevCode._public;
 
 
-internal interface IProgressBarDC
+public interface IProgressBarDC
 {
     bool isRegistered { get; set; }
     int writeOnlyDividableBy { get; set; }

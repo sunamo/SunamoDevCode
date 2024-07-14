@@ -236,6 +236,20 @@ public static class CSharpHelper
     }
     #endregion
 
+    public static async Task<bool> IsEmptyOrCommented(string path)
+    {
+        var l = await File.ReadAllLinesAsync(path);
+        foreach (var item in l)
+        {
+            var d = item.Trim();
+            if (!d.StartsWith("//") && d != string.Empty)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /// <summary>
     /// Direct edit
     /// </summary>
