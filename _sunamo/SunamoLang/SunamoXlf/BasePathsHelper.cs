@@ -1,7 +1,8 @@
-namespace SunamoDevCode._sunamo.SunamoLang.SunamoXlf;
+﻿namespace SunamoDevCode._sunamo.SunamoLang.SunamoXlf;
 internal class BasePathsHelper
 {
-    internal static string bp = null;
+    // Tohle už nepoužívat. předávat v parametrech. ať to mám co nejjednodušší
+    //internal static string bp = null;
     internal static string vsProjects = null;
     internal static string actualPlatform;
     internal static string vs;

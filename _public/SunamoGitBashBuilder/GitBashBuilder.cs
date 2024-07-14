@@ -84,14 +84,12 @@ public class GitBashBuilder : IGitBashBuilder
         return sb.ToString();
     }
 
-
-
-
-
-
-
     private void Git(string remainCommand)
     {
+        if (remainCommand[remainCommand.Length - 1] != ' ')
+        {
+            remainCommand += " ";
+        }
         sb.Append((GitForDebug ? "GitForDebug " : "git ") + remainCommand);
     }
     #endregion

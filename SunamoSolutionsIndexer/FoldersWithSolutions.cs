@@ -118,7 +118,7 @@ public class FoldersWithSolutions
     /// <param name="documentsFolder"></param>
     public List<SolutionFolder> Reload(string documentsFolder, PpkOnDriveDC toSelling, bool ignorePartAfterUnderscore = false)
     {
-        PairProjectFolderWithEnum();
+        PairProjectFolderWithEnum(documentsFolder);
 
         // Get all projects in A1(Visual Studio Projects *) and GitHub folder
         List<string> solutionFolders = ReturnAllProjectFolders(documentsFolder /*, Path.Combine(documentsFolder, SolutionsIndexerStrings.GitHubMy)*/);
@@ -134,7 +134,7 @@ public class FoldersWithSolutions
         {
             var solutionFolder = solutionFolders[i];
 
-            SolutionFolder sf = CreateSolutionFolder(solutionFolder, toSelling, projOnlyNames[i]);
+            SolutionFolder sf = CreateSolutionFolder(documentsFolder, solutionFolder, toSelling, projOnlyNames[i]);
 
             solutions.Add(sf);
         }
@@ -144,18 +144,19 @@ public class FoldersWithSolutions
 
     static TwoWayDictionary<ProjectsTypes, string> projectTypes = new TwoWayDictionary<ProjectsTypes, string>();
 
-    public static void PairProjectFolderWithEnum()
+    public static void PairProjectFolderWithEnum(string documentsFolder)
     {
         if (projectTypes._d1.Count > 0)
         {
             return;
         }
 
-        var p2 = BasePathsHelper.bp;
-        if (!Directory.Exists(p2))
-        {
-            return;
-        }
+        var p2 = documentsFolder;
+        //var p2 = BasePathsHelper.bp;
+        //if (!Directory.Exists(p2))
+        //{
+        //    return;
+        //}
 
         var folders = Directory.GetDirectories(p2, "*", SearchOption.TopDirectoryOnly);
 
@@ -193,11 +194,6 @@ public class FoldersWithSolutions
     }
 
     public static List<string> onlyRealLoadedSolutionsFolders = new List<string>();
-
-    public static void AllCsprojs()
-    {
-
-    }
 
     /// <summary>
     /// In key is fn without .csproj, in value is full path
@@ -300,9 +296,9 @@ public class FoldersWithSolutions
         return vr;
     }
 
-    public static SolutionFolder CreateSolutionFolder(SolutionFolderSerialize solutionFolder, PpkOnDriveDC toSelling, string projName = null)
+    public static SolutionFolder CreateSolutionFolder(string documentsFolder, SolutionFolderSerialize solutionFolder, PpkOnDriveDC toSelling, string projName = null)
     {
-        return CreateSolutionFolder(null, solutionFolder.fullPathFolder, toSelling, projName);
+        return CreateSolutionFolder(documentsFolder, null, solutionFolder.fullPathFolder, toSelling, projName);
     }
 
     /// <summary>
@@ -312,9 +308,9 @@ public class FoldersWithSolutions
     /// <param name="toSelling"></param>
     /// <param name="projName"></param>
     /// <returns></returns>
-    public static SolutionFolder CreateSolutionFolder(string solutionFolder, PpkOnDriveDC toSelling, string projName = null)
+    public static SolutionFolder CreateSolutionFolder(string documentsFolder, string solutionFolder, PpkOnDriveDC toSelling, string projName = null)
     {
-        return CreateSolutionFolder(null, solutionFolder, toSelling, projName);
+        return CreateSolutionFolder(documentsFolder, null, solutionFolder, toSelling, projName);
     }
 
     /// <summary>
@@ -325,7 +321,7 @@ public class FoldersWithSolutions
     /// <param name="toSelling"></param>
     /// <param name="projName"></param>
     /// <returns></returns>
-    public static SolutionFolder CreateSolutionFolder(SolutionFolderSerialize sfs, string solutionFolder, PpkOnDriveDC toSelling, string projName = null)
+    public static SolutionFolder CreateSolutionFolder(string documentsFolder, SolutionFolderSerialize sfs, string solutionFolder, PpkOnDriveDC toSelling, string projName = null)
     {
 
         if (projName == null)
@@ -342,7 +338,7 @@ public class FoldersWithSolutions
             sf = new SolutionFolder();
         }
         sf.repository = RepositoryFromFullPath(solutionFolder);
-        IdentifyProjectType(solutionFolder, sf);
+        IdentifyProjectType(documentsFolder, solutionFolder, sf);
         sf.displayedText = GetDisplayedName(solutionFolder);
         sf.fullPathFolder = solutionFolder;
 
@@ -355,7 +351,7 @@ public class FoldersWithSolutions
         return sf;
     }
 
-    protected static void IdentifyProjectType(string solutionFolder, SolutionFolder sf)
+    protected static void IdentifyProjectType(string documentsFolder, string solutionFolder, SolutionFolder sf)
     {
         // SolutionFolderSerialize doesn't have InVsFolder or typeProjectFolder
         sf.InVsFolder = solutionFolder.Contains(SolutionsIndexerStrings.VisualStudio2017);
@@ -363,7 +359,7 @@ public class FoldersWithSolutions
         {
 
 
-            solutionFolder = SHTrim.TrimStart(solutionFolder, BasePathsHelper.bp);
+            solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
             var p = SHSplit.SplitChar(solutionFolder, AllChars.bs);
             //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
 

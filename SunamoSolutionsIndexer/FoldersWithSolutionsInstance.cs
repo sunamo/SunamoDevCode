@@ -69,7 +69,12 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
     /// <param name="documentsFolder"></param>
     public List<SolutionFolder> Reload(string documentsFolder, PpkOnDriveDC toSelling, bool useBp = true, bool ignorePartAfterUnderscore = false, bool sunamoAndSunamoWithoutDepProjectsAsFirst = true)
     {
-        FoldersWithSolutions.PairProjectFolderWithEnum();
+        if (documentsFolder.Contains("Project"))
+        {
+            throw new Exception("Takto to zatím nefunguje (jako sln se předávají poté složky .git atd., typy projektů jsou Aps atd.) ale mohlo by");
+        }
+
+        FoldersWithSolutions.PairProjectFolderWithEnum(documentsFolder);
 
         // Get all projects in A1(Visual Studio Projects *) and GitHub folder
         List<string> solutionFolders = ReturnAllProjectFolders(documentsFolder, useBp /*, Path.Combine(documentsFolder, SolutionsIndexerStrings.GitHubMy)*/);

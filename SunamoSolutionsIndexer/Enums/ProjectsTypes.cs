@@ -33,6 +33,7 @@ public enum ProjectsTypes
     Ruby,
     Scripts,
     Sql,
+    Telmax,
     TypeScript,
     Vue,
     Xamarin,
