@@ -18,8 +18,8 @@ internal class SHReplace
         return vstup;
     }
 
-    internal static string ReplaceOnce(string a, string v, string empty)
+    internal static string ReplaceOnce(string input, string what, string zaco)
     {
-        return a.Replace(v, empty);
+        return new Regex(what).Replace(input, zaco, 1);
     }
 }

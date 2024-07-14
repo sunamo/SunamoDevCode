@@ -115,7 +115,7 @@ internal class CAChangeContent
     {
         if (a == null)
         {
-            a = null;
+            a = new();
         }
         if (a.switchFirstAndSecondArg)
         {
