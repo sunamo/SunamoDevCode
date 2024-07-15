@@ -236,9 +236,26 @@ public static class CSharpHelper
     }
     #endregion
 
-    public static async Task<bool> IsEmptyOrCommented(string path)
+    public static string GetInnerContentOfCodeElementClass(List<string> l)
     {
-        var l = await File.ReadAllLinesAsync(path);
+        if (IsEmptyOrCommented(l))
+        {
+            return string.Empty;
+        }
+        //var first = l.First(d => d == "{");
+        //var last = l.Last(d => d == "}");
+
+        var dxF = l.IndexOf("{"); ;
+        var dxL = l.LastIndexOf("}");
+
+        return SHJoin.JoinNL(l.Skip(dxF + 1).Take(dxL - dxF).ToList());
+    }
+
+
+
+
+    public static bool IsEmptyOrCommented(List<string> l)
+    {
         foreach (var item in l)
         {
             var d = item.Trim();
