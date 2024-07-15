@@ -1,6 +1,5 @@
 namespace SunamoDevCode;
 
-
 public class CSharpGenerator : GeneratorCodeAbstract//, ICSharpGenerator
 {
     static Type type = typeof(CSharpGenerator);
@@ -737,7 +736,7 @@ public class CSharpGenerator : GeneratorCodeAbstract//, ICSharpGenerator
         {
             if (split)
             {
-                var splitted = keys[i].ToString().Split(new string[] { s }, StringSplitOptions.RemoveEmptyEntries); //SHSplit.Split(, s);
+                var splitted = keys[i].ToString().Split(new string[] { s }, StringSplitOptions.RemoveEmptyEntries); //SHSplit.SplitMore(, s);
                 foreach (var item in splitted)
                 {
                     dict.Add((Key)(dynamic)item, values[i]);

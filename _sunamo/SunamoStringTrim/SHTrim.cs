@@ -70,7 +70,7 @@ internal class SHTrim
         return v;
     }
 
-    internal static List<string> Split(StringSplitOptions stringSplitOptions, string text, params string[] deli)
+    internal static List<string> SplitMore(StringSplitOptions stringSplitOptions, string text, params string[] deli)
     {
         if (deli == null || deli.Count() == 0)
         {

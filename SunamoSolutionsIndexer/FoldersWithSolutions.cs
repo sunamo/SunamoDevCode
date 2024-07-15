@@ -31,7 +31,7 @@ public class FoldersWithSolutions
 
 
         solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
-        var p = SHSplit.SplitChar(solutionFolder, AllChars.bs);
+        var p = SHSplit.SplitCharMore(solutionFolder, AllChars.bs);
         //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
 
         var pr = p[0];
@@ -360,7 +360,7 @@ public class FoldersWithSolutions
 
 
             solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
-            var p = SHSplit.SplitChar(solutionFolder, AllChars.bs);
+            var p = SHSplit.SplitCharMore(solutionFolder, AllChars.bs);
             //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
 
             var pr = p[0];

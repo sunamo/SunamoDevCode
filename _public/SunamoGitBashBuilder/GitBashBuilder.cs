@@ -2,7 +2,6 @@
 
 public class GitBashBuilder : IGitBashBuilder
 {
-    // todo přeměnit to tady na InstantSb. Protože často zapomínám mezery a pak to musím znovu pushovat jako nuget
     public void Pull()
     {
         Git("pull");
