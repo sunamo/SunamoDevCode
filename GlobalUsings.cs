@@ -80,7 +80,6 @@ global using SunamoDevCode._public.SunamoInterfaces.Interfaces;
 global using SunamoDevCode._sunamo.SunamoConverters.Converts;
 global using SunamoDevCode._sunamo.SunamoData.Data;
 global using SunamoDevCode._sunamo.SunamoEnums.Enums;
-
 global using SunamoDevCode._sunamo.SunamoExceptions.OnlyInSE;
 global using SunamoDevCode._sunamo.SunamoExceptions._AddedToAllCsproj;
 global using SunamoDevCode._sunamo.SunamoHtml.Html;
