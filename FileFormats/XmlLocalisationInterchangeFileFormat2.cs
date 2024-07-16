@@ -1038,7 +1038,7 @@ void
     public static string ReplaceSunamoStringsWithSessI18n(string c)
     {
         var from = GetSunamoStrings();
-        _sunamo.SunamoCollections.CA.Prepend("SunamoStrings.", from);
+        CA.Prepend("SunamoStrings.", from);
         var to = sunamoStrings;
 
         for (int i = 0; i < from.Count; i++)
@@ -1069,7 +1069,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
         var addToNotToTranslateStrings = new List<string>();
         solutionsExcludeWhileWorkingOnSourceCode.Add("AllProjectsSearchTestFiles");
 
-        _sunamo.SunamoCollections.CA.WrapWith(solutionsExcludeWhileWorkingOnSourceCode, @"\");
+        CA.WrapWith(solutionsExcludeWhileWorkingOnSourceCode, @"\");
 
         Dictionary<string, string> filesWithXlf = new Dictionary<string, string>();
 
@@ -1179,7 +1179,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
     {
         var b1 = !SystemWindowsControls.StartingWithShortcutOfControl(key);
         var b2 = !key.StartsWith("Resources\\");
-        var b3 = !_sunamo.SunamoCollections.CA.HasPostfix(key, ".PlaceholderText", ".Content");
+        var b3 = !CA.HasPostfix(key, ".PlaceholderText", ".Content");
         var b4 = !key.Contains(AllStrings.dot);
         var b5 = !key.Contains(AllStrings.bs);
         return b1 && b2 && b3 && b4 && b5;

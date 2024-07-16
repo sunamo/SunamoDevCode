@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>24.7.15.2</Version>
+    <Version>24.7.16.2</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with SunamoCode and SunamoCSharp.</Description>
     <PackageReleaseNotes>Added IsEmptyOrCommented()</PackageReleaseNotes>
     <Authors>www.sunamo.cz</Authors>
@@ -25,6 +25,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TextCopy" Version="6.2.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_sunamo\SunamoExceptions\InSunamoIsDerivedFrom\" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>$(DefineConstants);ASYNC;SunamoDevCode;SunamoDevCode.csproj</DefineConstants>

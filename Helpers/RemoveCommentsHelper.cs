@@ -10,8 +10,8 @@ public class RemoveCommentsHelper
     public static string Powershell(string s)
     {
         var l = SHGetLines.GetLines(s);
-        _sunamo.SunamoCollections.CA.Trim(l);
-        _sunamo.SunamoCollections.CA.RemoveStartingWith("#", l);
+        CA.Trim(l);
+        CA.RemoveStartingWith("#", l);
         return string.Join(Environment.NewLine, l);
     }
 }

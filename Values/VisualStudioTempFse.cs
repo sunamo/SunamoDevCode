@@ -7,7 +7,7 @@ public class VisualStudioTempFse
 
     static VisualStudioTempFse()
     {
-        ignoredForIndexing = _sunamo.SunamoCollections.CA.JoinIList<string>(foldersInSolutionToDelete,
+        ignoredForIndexing = CA.JoinIList<string>(foldersInSolutionToDelete,
 foldersInProjectToDelete,
 foldersInSolutionDownloaded,
 foldersAnywhereToDelete,

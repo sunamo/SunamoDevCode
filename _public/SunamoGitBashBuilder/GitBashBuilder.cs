@@ -233,9 +233,9 @@ public class GitBashBuilder : IGitBashBuilder
         FS.WithEndSlash(ref pathRepository);
         var files = Directory.GetFiles(pathSearchForFiles, "*.*", System.IO.SearchOption.AllDirectories).ToList();
         files = files.Where(d => !d.Contains(@"\.git\")).ToList();
-        _sunamo.SunamoCollections.CA.Replace(linesFiles, solution, string.Empty);
+        CA.Replace(linesFiles, solution, string.Empty);
         CAChangeContent.ChangeContent1(null, linesFiles, SHParts.RemoveAfterFirst, AllStrings.swd);
-        _sunamo.SunamoCollections.CA.Trim(linesFiles);
+        CA.Trim(linesFiles);
         CAChangeContent.ChangeContent1(null, linesFiles, FS.AddExtensionIfDontHave, searchOnlyWithExtension);
         CAChangeContent.ChangeContent<bool>(null, linesFiles, FS.Slash, true);
         CAChangeContent.ChangeContent1(null, linesFiles, SHTrim.TrimStart, AllStrings.slash);
@@ -244,7 +244,7 @@ public class GitBashBuilder : IGitBashBuilder
         List<string> filesToCommit = new List<string>();
 
         Dictionary<string, List<string>> dictPsychicallyExistsFiles = FS.GetDictionaryByFileNameWithExtension(files);
-        _sunamo.SunamoCollections.CA.Replace(files, AllStrings.bs, AllStrings.slash);
+        CA.Replace(files, AllStrings.bs, AllStrings.slash);
         pathRepository = FS.Slash(pathRepository, false);
 
         for (int i = 0; i < linesFiles.Count; i++)

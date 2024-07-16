@@ -1,8 +1,8 @@
+
+namespace SunamoDevCode;
 using FileMs = System.IO.File;
 
-
-
- partial class TFCsFormat
+public class TFCsFormat
 {
     static readonly List<string> classCodeElements = new List<string>() { "class ", "interface ", "enum ", "struct ", "delegate " };
 
@@ -91,13 +91,18 @@ using FileMs = System.IO.File;
             }
         }
 
+        if (ns == string.Empty)
+        {
+            // todo doplnit ns
+        }
+
         if (usings.Count != 0)
         {
             usings.Add("");
         }
 
-        usings.Add(ns);
-        usings.Add("");
+        usings.Insert(0, ns);
+        usings.Insert(0, "");
         usings.AddRange(l2);
 
         await FileMs.WriteAllTextAsync(p, SHJoin.JoinNL(usings));

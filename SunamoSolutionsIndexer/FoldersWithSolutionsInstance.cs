@@ -356,7 +356,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 
         if (prioritize != ProjectsTypes.None)
         {
-            var sorted = _sunamo.SunamoCollections.CA.SortSetFirst<SolutionFolder, SolutionFolders, ProjectsTypes>(result, GetProjectType, prioritize);
+            var sorted = CA.SortSetFirst<SolutionFolder, SolutionFolders, ProjectsTypes>(result, GetProjectType, prioritize);
             result = new SolutionFolders(sorted);
         }
 
@@ -561,7 +561,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
         List<string> spec, norm;
         ReturnNormalAndSpecialFolders(slozka, out spec, out norm);
 
-        norm = _sunamo.SunamoCollections.CA.EnsureBackslash(norm);
+        norm = CA.EnsureBackslash(norm);
         proj.AddRange(norm);
         foreach (string var2 in spec)
         {

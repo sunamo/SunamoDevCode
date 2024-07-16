@@ -121,7 +121,7 @@ public class ConstsManager
 
 
 
-        _sunamo.SunamoCollections.CA.RemoveStringsEmpty2(lines);
+        CA.RemoveStringsEmpty2(lines);
 
         File.WriteAllLinesAsync(pathXlfKeys, lines);
     }

@@ -294,7 +294,7 @@ public static class CSharpHelper
             }
         }
 
-        _sunamo.SunamoCollections.CA.RemoveEmptyLinesToFirstNonEmpty(l2);
+        CA.RemoveEmptyLinesToFirstNonEmpty(l2);
     }
 
     public static CollectionWithoutDuplicatesDevCode<string> Usings(List<string> lines, bool remove = false)
@@ -339,7 +339,7 @@ public static class CSharpHelper
 
         if (remove)
         {
-            _sunamo.SunamoCollections.CA.RemoveLines(lines, removeLines);
+            CA.RemoveLines(lines, removeLines);
         }
 
         return usings;
@@ -506,10 +506,10 @@ public static class CSharpHelper
         {
             list[i] = SHParts.RemoveAfterFirst(list[i], "///");
         }
-        _sunamo.SunamoCollections.CA.TrimWhereIsOnlyWhitespace(list);
+        CA.TrimWhereIsOnlyWhitespace(list);
         var s = string.Join(Environment.NewLine, list);
 
-        _sunamo.SunamoCollections.CA.DoubleOrMoreMultiLinesToSingle(ref s);
+        CA.DoubleOrMoreMultiLinesToSingle(ref s);
 
         return s;
     }
@@ -559,7 +559,7 @@ public static class CSharpHelper
             list[i] = SHParts.RemoveAfterFirst(list[i], CSharpConsts.lc);
         }
 
-        _sunamo.SunamoCollections.CA.RemoveStringsEmpty2(list);
+        CA.RemoveStringsEmpty2(list);
 
         return list;
     }
@@ -821,9 +821,9 @@ public static class CSharpHelper
     /// <returns></returns>
     public static Dictionary<string, string> ParseFields(List<string> l)
     {
-        _sunamo.SunamoCollections.CA.RemoveStringsEmpty2(l);
+        CA.RemoveStringsEmpty2(l);
         CAChangeContent.ChangeContent0(null, l, e => SHParts.RemoveAfterFirst(e, AllChars.equals));
-        _sunamo.SunamoCollections.CA.TrimEnd(l, AllChars.sc);
+        CA.TrimEnd(l, AllChars.sc);
         Dictionary<string, string> r = new Dictionary<string, string>();
         foreach (var item in l)
         {

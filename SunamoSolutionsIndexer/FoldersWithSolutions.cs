@@ -628,7 +628,7 @@ public class FoldersWithSolutions
         List<string> spec, norm;
         ReturnNormalAndSpecialFolders(slozka, out spec, out norm);
 
-        norm = _sunamo.SunamoCollections.CA.EnsureBackslash(norm);
+        norm = CA.EnsureBackslash(norm);
         proj.AddRange(norm);
         foreach (string var2 in spec)
         {
