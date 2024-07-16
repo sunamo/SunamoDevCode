@@ -252,6 +252,14 @@ public static class CSharpHelper
     }
 
 
+    /// <summary>
+    /// Vrátí true i když obsahuje kód bez středníku (např. prázdnou třídu)
+    /// </summary>
+    /// <param name="fnwoe"></param>
+    /// <param name="lines"></param>
+    /// <param name="RemoveBetweenIfAndEndif"></param>
+    /// <param name="csWithSharpIf"></param>
+    /// <returns></returns>
     public static bool IsEmptyCommentedOrOnlyWithNamespace(string fnwoe, List<string> lines, Action<List<string>> RemoveBetweenIfAndEndif, List<string> csWithSharpIf)
     {
         //var l = await GetFileContentLines(v, true);
@@ -267,9 +275,12 @@ public static class CSharpHelper
 
         CA.Trim(lines);
         CA.RemoveNullEmptyWs(lines);
+
+        lines = RemoveComments(lines);
+
         lines = lines.Where(d => !d.StartsWith("namespace")).ToList();
         lines = lines.Where(d => !d.StartsWith("using")).ToList();
-        lines = lines.Where(d => !d.StartsWith(";")).ToList();
+        lines = lines.Where(d => d.EndsWith(";")).ToList();
         if (!lines.Any())
         {
             return true;
