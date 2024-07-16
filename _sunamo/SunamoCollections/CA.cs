@@ -1,7 +1,17 @@
-//namespace SunamoDevCode._sunamo.SunamoCollections;
+namespace SunamoDevCode._sunamo.SunamoCollections;
 
 internal class CA
 {
+    internal static void RemoveNullEmptyWs(List<string> l)
+    {
+        for (int i = l.Count - 1; i >= 0; i--)
+        {
+            if (string.IsNullOrWhiteSpace(l[i]))
+            {
+                l.RemoveAt(i);
+            }
+        }
+    }
 
     internal static bool IsListStringWrappedInArray<T>(List<T> v2)
     {

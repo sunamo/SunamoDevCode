@@ -252,7 +252,30 @@ public static class CSharpHelper
     }
 
 
+    public static bool IsEmptyCommentedOrOnlyWithNamespace(string fnwoe, List<string> lines, Action<List<string>> RemoveBetweenIfAndEndif, List<string> csWithSharpIf)
+    {
+        //var l = await GetFileContentLines(v, true);
+        //var fnwoe = Path.GetFileNameWithoutExtension(v);
+        if (csWithSharpIf.Contains(fnwoe))
+        {
+            return false;
+        }
+        if (RemoveBetweenIfAndEndif != null)
+        {
+            RemoveBetweenIfAndEndif(lines);
+        }
 
+        CA.Trim(lines);
+        CA.RemoveNullEmptyWs(lines);
+        lines = lines.Where(d => !d.StartsWith("namespace")).ToList();
+        lines = lines.Where(d => !d.StartsWith("using")).ToList();
+        lines = lines.Where(d => !d.StartsWith(";")).ToList();
+        if (!lines.Any())
+        {
+            return true;
+        }
+        return false;
+    }
 
     public static bool IsEmptyOrCommented(List<string> l)
     {
