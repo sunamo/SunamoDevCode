@@ -85,9 +85,9 @@ public class SolutionsIndexerHelper
     {
         if (removeVsFolders)
         {
-            VisualStudioTempFse.foldersInSolutionDownloaded.ToList().ForEach(folder => CA.RemoveWildcard(d, folder));
+            VisualStudioTempFse.foldersInSolutionDownloaded.ToList().ForEach(folder => _sunamo.SunamoCollections.CA.RemoveWildcard(d, folder));
             //
-            VisualStudioTempFse.foldersInProjectDownloaded.ToList().ForEach(folder => CA.RemoveWildcard(d, folder));
+            VisualStudioTempFse.foldersInProjectDownloaded.ToList().ForEach(folder => _sunamo.SunamoCollections.CA.RemoveWildcard(d, folder));
         }
     }
 
@@ -98,7 +98,7 @@ public class SolutionsIndexerHelper
         while (true)
         {
             item = Path.GetDirectoryName(item);
-            if (CA.ContainsElement<string>(FoldersWithSolutions.onlyRealLoadedSolutionsFolders, item))
+            if (_sunamo.SunamoCollections.CA.ContainsElement<string>(FoldersWithSolutions.onlyRealLoadedSolutionsFolders, item))
             {
                 break;
             }

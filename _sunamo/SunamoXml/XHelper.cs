@@ -1,10 +1,3 @@
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-
-
 namespace SunamoDevCode._sunamo.SunamoXml;
 
 internal class XHelper
@@ -277,7 +270,7 @@ string
 #if ASYNC
             await
 #endif
-            TFSE.ReadAllText(pathOrContent);
+            File.ReadAllTextAsync(pathOrContent);
         }
 
         XmlNamespacesHolder h = new XmlNamespacesHolder();
@@ -292,7 +285,7 @@ string
 #if ASYNC
             await
 #endif
-            TFSE.WriteAllText(pathOrContent, formatted);
+            File.WriteAllTextAsync(pathOrContent, formatted);
             //ThisApp.Success(sess.i18n(XlfKeys.ChangesSavedToFile));
             return null;
         }

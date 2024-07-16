@@ -1,6 +1,5 @@
 namespace SunamoDevCode.CodeGenerator;
 
-
 public class TypeScriptGenerator
 {
     StringBuilder sb = new StringBuilder();

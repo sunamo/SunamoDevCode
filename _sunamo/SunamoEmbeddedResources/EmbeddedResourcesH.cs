@@ -1,4 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoEmbeddedResources;
+
 /// <summary>
 ///
 /// Require assembly and default namespace.

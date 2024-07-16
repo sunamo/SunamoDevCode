@@ -1,5 +1,3 @@
-//using TextBuilder = SunamoTextBuilder.TextBuilder;
-
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 public class VpsHelperDevCode

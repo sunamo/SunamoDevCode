@@ -17,7 +17,7 @@ public class ReplacerXlf
         val = AllLists.htmlEntitiesFullNames.Values.ToList();
 
         //val.Sort(SunamoComparer.StringLength.Instance.Desc);
-        CA.Prepend("_", val);
+        _sunamo.SunamoCollections.CA.Prepend("_", val);
     }
 
     public string WithoutUnderscore(string s)

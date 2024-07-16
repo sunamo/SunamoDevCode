@@ -96,7 +96,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 
             if ((fnwoe == "sunamo" || fnwoe == "PlatformIndependentNuGetPackages") && sunamoAndSunamoWithoutDepProjectsAsFirst)
             {
-                List<string> f = new List<string>(); //FSND.FoldersWithSubfolder(solutionFolder, ".git");
+                List<string> f = new List<string>(); //FS.FoldersWithSubfolder(solutionFolder, ".git");
                 foreach (var item in f)
                 {
                     SolutionFolder sf2 = CreateSolutionFolder(documentsFolder, item, toSelling, useBp, projOnlyNames[i]);
@@ -356,7 +356,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 
         if (prioritize != ProjectsTypes.None)
         {
-            var sorted = CA.SortSetFirst<SolutionFolder, SolutionFolders, ProjectsTypes>(result, GetProjectType, prioritize);
+            var sorted = _sunamo.SunamoCollections.CA.SortSetFirst<SolutionFolder, SolutionFolders, ProjectsTypes>(result, GetProjectType, prioritize);
             result = new SolutionFolders(sorted);
         }
 
@@ -561,7 +561,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
         List<string> spec, norm;
         ReturnNormalAndSpecialFolders(slozka, out spec, out norm);
 
-        norm = CA.EnsureBackslash(norm);
+        norm = _sunamo.SunamoCollections.CA.EnsureBackslash(norm);
         proj.AddRange(norm);
         foreach (string var2 in spec)
         {

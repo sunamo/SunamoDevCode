@@ -93,7 +93,7 @@ ResultWithException<XmlDocument>
             xml = xml.Replace(debugTypeNone, string.Empty);
             save = true;
         }
-        if (save) await TFSE.WriteAllText(path, xml);
+        if (save) await TF.WriteAllText(path, xml);
         xml = FormatXml(xml);
         if (xml.StartsWith(Consts.Exception)) return new ResultWithExceptionDC<XmlDocument>(xml);
         try
@@ -192,7 +192,7 @@ void
 #if ASYNC
             await
 #endif
-                TFSE.WriteAllText(path, v.OuterXml);
+                _sunamo.SunamoFileIO.TF.WriteAllText(path, v.OuterXml);
         }
         DictionaryHelper.AddOrSet(cache, path, v);
     }

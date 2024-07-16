@@ -1,4 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoString;
+
 internal class SH
 {
     internal static bool ContainsAtLeastOne(string p, List<string> aggregate)

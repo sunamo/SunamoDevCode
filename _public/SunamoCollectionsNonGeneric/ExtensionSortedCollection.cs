@@ -1,11 +1,5 @@
 namespace SunamoDevCode._public.SunamoCollectionsNonGeneric;
 
-
-
-
-
-
-
 public class ExtensionSortedCollection
 {
     public Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();

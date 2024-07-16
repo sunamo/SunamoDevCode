@@ -1,7 +1,5 @@
 namespace SunamoDevCode;
 
-
-
 /// <summary>
 /// Must be in Win because use powershell
 /// In shared cannot because win derife from shared.

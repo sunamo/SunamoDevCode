@@ -1,6 +1,5 @@
 namespace SunamoDevCode.CodeGenerator;
 
-
 /// <summary>
 /// Generate of single element is in CSharpHelper
 /// </summary>

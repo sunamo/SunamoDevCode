@@ -1,18 +1,5 @@
 namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 public class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
 {
     public static Type type = typeof(SolutionFolder);
@@ -122,7 +109,7 @@ public class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     /// Only name without path
     /// Is filled in ctor with CreateSolutionFolder()
     /// Only subfolders. csproj files must be find out manually
-    /// Csproj are available to get with APSH.GetCsprojs()
+    /// Csproj are available to get with AP.GetCsprojs()
     /// </summary>
     public List<string> projectsInSolution
     {

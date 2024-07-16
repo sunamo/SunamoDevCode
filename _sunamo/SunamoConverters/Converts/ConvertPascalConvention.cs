@@ -1,8 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoConverters.Converts;
 
-
-
-
 internal class ConvertPascalConvention //: IConvertConvention
 {
     /// <summary>
@@ -81,7 +78,7 @@ internal class ConvertPascalConvention //: IConvertConvention
         var result = sb.ToString().Trim();
         StringBuilder sb2 = new StringBuilder(result);
         sb2[0] = char.ToUpper(sb2[0]);
-        //result = SHSH.FirstCharUpper(result);
+        //result = SH.FirstCharUpper(result);
         return result;
     }
 }

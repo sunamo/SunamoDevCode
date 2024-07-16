@@ -64,7 +64,7 @@ public static class CSharpHelper
                 //#if ASYNC
                 //    await
                 //#endif
-                // SH.ContainsInShared(item, mustContains, shared1))
+                // .ContainsInShared(item, mustContains, shared1))
                 //                {
                 //                    continue;
                 //                }
@@ -72,7 +72,7 @@ public static class CSharpHelper
                 //#if ASYNC
                 //                await
                 //#endif
-                //             SH.ContainsInShared(item, mustContains, shared2))
+                //             .ContainsInShared(item, mustContains, shared2))
                 //                {
                 //                    continue;
                 //                }
@@ -116,7 +116,7 @@ public static class CSharpHelper
 
                             if (pi.Contains("<"))
                             {
-                                start += pi.Count((ch) => ch == '<'); //SH.CountOf(pi, '<');
+                                start += pi.Count((ch) => ch == '<'); //.CountOf(pi, '<');
                                 end += pi.Count((ch) => ch == '>');
 
 
@@ -294,7 +294,7 @@ public static class CSharpHelper
             }
         }
 
-        CA.RemoveEmptyLinesToFirstNonEmpty(l2);
+        _sunamo.SunamoCollections.CA.RemoveEmptyLinesToFirstNonEmpty(l2);
     }
 
     public static CollectionWithoutDuplicatesDevCode<string> Usings(List<string> lines, bool remove = false)
@@ -339,7 +339,7 @@ public static class CSharpHelper
 
         if (remove)
         {
-            CA.RemoveLines(lines, removeLines);
+            _sunamo.SunamoCollections.CA.RemoveLines(lines, removeLines);
         }
 
         return usings;
@@ -506,10 +506,10 @@ public static class CSharpHelper
         {
             list[i] = SHParts.RemoveAfterFirst(list[i], "///");
         }
-        CA.TrimWhereIsOnlyWhitespace(list);
+        _sunamo.SunamoCollections.CA.TrimWhereIsOnlyWhitespace(list);
         var s = string.Join(Environment.NewLine, list);
 
-        CA.DoubleOrMoreMultiLinesToSingle(ref s);
+        _sunamo.SunamoCollections.CA.DoubleOrMoreMultiLinesToSingle(ref s);
 
         return s;
     }
@@ -559,7 +559,7 @@ public static class CSharpHelper
             list[i] = SHParts.RemoveAfterFirst(list[i], CSharpConsts.lc);
         }
 
-        CA.RemoveStringsEmpty2(list);
+        _sunamo.SunamoCollections.CA.RemoveStringsEmpty2(list);
 
         return list;
     }
@@ -821,9 +821,9 @@ public static class CSharpHelper
     /// <returns></returns>
     public static Dictionary<string, string> ParseFields(List<string> l)
     {
-        CA.RemoveStringsEmpty2(l);
+        _sunamo.SunamoCollections.CA.RemoveStringsEmpty2(l);
         CAChangeContent.ChangeContent0(null, l, e => SHParts.RemoveAfterFirst(e, AllChars.equals));
-        CA.TrimEnd(l, AllChars.sc);
+        _sunamo.SunamoCollections.CA.TrimEnd(l, AllChars.sc);
         Dictionary<string, string> r = new Dictionary<string, string>();
         foreach (var item in l)
         {

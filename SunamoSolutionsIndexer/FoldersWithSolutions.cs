@@ -538,7 +538,7 @@ public class FoldersWithSolutions
         //                continue;
         //            }
 
-        //            slozkySJazykyOutsideVs17.Leading(Path.Combine(folderWithVisualStudioFolders.Replace("E:\\", "D:\\"), SolutionsIndexerConsts.BitBucket));
+        //            slozkySJazykyOutsideVs17SH.Leading(Path.Combine(folderWithVisualStudioFolders.Replace("E:\\", "D:\\"), SolutionsIndexerConsts.BitBucket));
 
         //            foreach (var item2 in slozkySJazyky)
         //            {
@@ -628,7 +628,7 @@ public class FoldersWithSolutions
         List<string> spec, norm;
         ReturnNormalAndSpecialFolders(slozka, out spec, out norm);
 
-        norm = CA.EnsureBackslash(norm);
+        norm = _sunamo.SunamoCollections.CA.EnsureBackslash(norm);
         proj.AddRange(norm);
         foreach (string var2 in spec)
         {

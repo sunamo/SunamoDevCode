@@ -38,25 +38,25 @@ public class VisualStudioTempFseWrapped
     static VisualStudioTempFseWrapped()
     {
         #region 1) To delete
-        foldersInSolutionToDelete = CA.WrapWith(VisualStudioTempFse.foldersInSolutionToDelete, AllStrings.bs);
-        foldersInProjectToDelete = CA.WrapWith(VisualStudioTempFse.foldersInProjectToDelete, AllStrings.bs);
-        foldersAnywhereToDelete = CA.WrapWith(VisualStudioTempFse.foldersAnywhereToDelete, AllStrings.bs);
+        foldersInSolutionToDelete = _sunamo.SunamoCollections.CA.WrapWith(VisualStudioTempFse.foldersInSolutionToDelete, AllStrings.bs);
+        foldersInProjectToDelete = _sunamo.SunamoCollections.CA.WrapWith(VisualStudioTempFse.foldersInProjectToDelete, AllStrings.bs);
+        foldersAnywhereToDelete = _sunamo.SunamoCollections.CA.WrapWith(VisualStudioTempFse.foldersAnywhereToDelete, AllStrings.bs);
         #endregion
 
         #region 2) To keep
-        foldersInSolutionToKeep = CA.WrapWith(VisualStudioTempFse.foldersInSolutionToKeep, AllStrings.bs);
-        foldersInProjectToKeep = CA.WrapWith(VisualStudioTempFse.foldersInProjectToKeep, AllStrings.bs);
-        foldersAnywhereToKeep = CA.WrapWith(VisualStudioTempFse.foldersAnywhereToKeep, AllStrings.bs);
+        foldersInSolutionToKeep = _sunamo.SunamoCollections.CA.WrapWith(VisualStudioTempFse.foldersInSolutionToKeep, AllStrings.bs);
+        foldersInProjectToKeep = _sunamo.SunamoCollections.CA.WrapWith(VisualStudioTempFse.foldersInProjectToKeep, AllStrings.bs);
+        foldersAnywhereToKeep = _sunamo.SunamoCollections.CA.WrapWith(VisualStudioTempFse.foldersAnywhereToKeep, AllStrings.bs);
         #endregion
 
         #region 3) Downloaded
-        foldersInSolutionDownloaded = CA.WrapWith(VisualStudioTempFse.foldersInSolutionDownloaded, AllStrings.bs);
-        foldersInProjectDownloaded = CA.WrapWith(VisualStudioTempFse.foldersInProjectDownloaded, AllStrings.bs);
-        foldersAnywhereDownloaded = CA.WrapWith(VisualStudioTempFse.foldersAnywhereDownloaded, AllStrings.bs);
+        foldersInSolutionDownloaded = _sunamo.SunamoCollections.CA.WrapWith(VisualStudioTempFse.foldersInSolutionDownloaded, AllStrings.bs);
+        foldersInProjectDownloaded = _sunamo.SunamoCollections.CA.WrapWith(VisualStudioTempFse.foldersInProjectDownloaded, AllStrings.bs);
+        foldersAnywhereDownloaded = _sunamo.SunamoCollections.CA.WrapWith(VisualStudioTempFse.foldersAnywhereDownloaded, AllStrings.bs);
         #endregion
 
-        filesWeb = CA.WrapWith(VisualStudioTempFse.filesWeb, AllStrings.bs);
-        aggregate = CA.JoinIList(foldersInSolutionToDelete,
+        filesWeb = _sunamo.SunamoCollections.CA.WrapWith(VisualStudioTempFse.filesWeb, AllStrings.bs);
+        aggregate = _sunamo.SunamoCollections.CA.JoinIList(foldersInSolutionToDelete,
 foldersInProjectToDelete,
 foldersInSolutionDownloaded,
 foldersAnywhereToDelete,

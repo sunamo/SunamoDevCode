@@ -1,4 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoStringTrim;
+
 internal class SHTrim
 {
     internal static string TrimLeadingNumbersAtStart(string nameSolution)
@@ -79,7 +80,7 @@ internal class SHTrim
         //var ie = CA.OneElementCollectionToMulti(deli);
         //var deli3 = new List<string>IEnumerable2(ie);
         var result = text.Split(deli, stringSplitOptions).ToList();
-        CASE.Trim(result);
+        SunamoCollections.CA.Trim(result);
         if (stringSplitOptions == StringSplitOptions.RemoveEmptyEntries)
         {
             result = result.Where(d => d.Trim() != string.Empty).ToList();

@@ -1,28 +1,7 @@
-
-using
-#if SunamoRoslyn
-SunamoRoslyn._sunamo
-#else
-SunamoDevCode
-#endif
-    ;
-
 using FileMs = System.IO.File;
 
-namespace
-#if SunamoRoslyn
-    SunamoRoslyn
-#else
-    SunamoDevCode
-#endif
-    ;
 
 
-#if SunamoRoslyn
-internal
-#else
-public
-#endif
  partial class TFCsFormat
 {
     static readonly List<string> classCodeElements = new List<string>() { "class ", "interface ", "enum ", "struct ", "delegate " };

@@ -1,9 +1,5 @@
 namespace SunamoDevCode._public.SunamoTextOutputGenerator;
 
-
-
-
-
 public class TextBuilderDC
 {
     private static Type type = typeof(TextBuilderDC);

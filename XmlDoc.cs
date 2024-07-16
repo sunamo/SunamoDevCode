@@ -1,4 +1,5 @@
 namespace SunamoDevCode;
+
 public class XmlDoc
 {
     InstantSB sb = null;

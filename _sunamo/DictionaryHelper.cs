@@ -1,6 +1,5 @@
 namespace SunamoDevCode._sunamo;
 
-
 internal class DictionaryHelper
 {
     internal static void AddOrCreateIfDontExists<Key, Value>(Dictionary<Key, List<Value>> sl, Key key, Value value)

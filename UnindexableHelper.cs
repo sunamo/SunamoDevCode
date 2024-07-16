@@ -1,6 +1,5 @@
 namespace SunamoDevCode;
 
-
 public class UnindexableHelper
 {
     public static Unindexable unindexable = null;

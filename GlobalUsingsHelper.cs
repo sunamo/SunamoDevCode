@@ -1,4 +1,5 @@
 namespace SunamoDevCode;
+
 /// <summary>
 /// Druhá část je v ToNugets
 /// Vložit sem jak toto šílenství s nugety skončí

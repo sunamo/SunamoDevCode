@@ -104,18 +104,18 @@ public class SunamoDevCodeHelper
         // todo list je zde List<string>, chce jen string, později to analyzovat 
 
         //As foldersInProjectToDelete dont have contains WildCard, set false
-        CA.RemoveWhichContainsList(files, list, false);
+        _sunamo.SunamoCollections.CA.RemoveWhichContainsList(files, list, false);
         list = VisualStudioTempFseWrapped.foldersInProjectToDelete;
-        CA.RemoveWhichContainsList(files, list, false);
+        _sunamo.SunamoCollections.CA.RemoveWhichContainsList(files, list, false);
         list = VisualStudioTempFseWrapped.foldersAnywhereToDelete;
-        CA.RemoveWhichContainsList(files, list, false);
+        _sunamo.SunamoCollections.CA.RemoveWhichContainsList(files, list, false);
 
         list = VisualStudioTempFseWrapped.foldersInSolutionDownloaded;
-        CA.RemoveWhichContainsList(files, list, false);
+        _sunamo.SunamoCollections.CA.RemoveWhichContainsList(files, list, false);
         list = VisualStudioTempFseWrapped.foldersInProjectDownloaded;
-        CA.RemoveWhichContainsList(files, list, false);
+        _sunamo.SunamoCollections.CA.RemoveWhichContainsList(files, list, false);
         list = VisualStudioTempFseWrapped.foldersAnywhereDownloaded;
-        CA.RemoveWhichContainsList(files, list, false);
+        _sunamo.SunamoCollections.CA.RemoveWhichContainsList(files, list, false);
 
     }
 
@@ -132,7 +132,7 @@ public class SunamoDevCodeHelper
     public static bool IsNameOfHtmlTag(string between, bool add)
     {
         string element = null;
-        var startWithTag = CA.StartWith(AllHtmlTags.list, between, out element);
+        var startWithTag = _sunamo.SunamoCollections.CA.StartWith(AllHtmlTags.list, between, out element);
         startWithTag = element;
         if (startWithTag != null)
         {

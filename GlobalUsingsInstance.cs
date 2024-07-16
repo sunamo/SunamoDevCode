@@ -1,6 +1,5 @@
 namespace SunamoDevCode;
 
-
 public class GlobalUsingsInstance
 {
     ParseGlobalUsingsResult r = null;

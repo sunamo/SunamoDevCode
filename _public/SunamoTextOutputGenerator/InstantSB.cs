@@ -1,11 +1,5 @@
 namespace SunamoDevCode._public.SunamoTextOutputGenerator;
 
-
-
-
-
-
-
 public class InstantSB 
 {
     public StringBuilder sb = new StringBuilder();

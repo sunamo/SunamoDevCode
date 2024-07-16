@@ -1,6 +1,5 @@
 namespace SunamoDevCode;
 
-
 public class ConstsManager
 {
     /// <summary>
@@ -122,7 +121,7 @@ public class ConstsManager
 
 
 
-        CA.RemoveStringsEmpty2(lines);
+        _sunamo.SunamoCollections.CA.RemoveStringsEmpty2(lines);
 
         File.WriteAllLinesAsync(pathXlfKeys, lines);
     }

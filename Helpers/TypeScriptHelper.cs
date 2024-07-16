@@ -1,6 +1,5 @@
 namespace SunamoDevCode.Helpers;
 
-
 public class TypeScriptHelper
 {
     static Dictionary<string, string> types = new Dictionary<string, string>();
@@ -73,9 +72,9 @@ public class TypeScriptHelper
         var l2 = l.ToList();
 
         CAChangeContent.ChangeContent(new ChangeContentArgsDevCode { }, l, SHParts.RemoveAfterFirst, ':');
-        CA.Trim(l);
-        CA.TrimEnd(l, '?');
-        CA.Trim(l);
+        _sunamo.SunamoCollections.CA.Trim(l);
+        _sunamo.SunamoCollections.CA.TrimEnd(l, '?');
+        _sunamo.SunamoCollections.CA.Trim(l);
 
         CAChangeContent.ChangeContent(new ChangeContentArgsDevCode { }, l2, SHParts.KeepAfterFirst, ":", false);
         for (int i = 0; i < l2.Count; i++)
