@@ -51,7 +51,7 @@ internal class ConvertSnakeConvention
         ThrowEx.Custom("Zkusit knihovnu třetích stran");
         return null;
     //    var pa = p.Split(AllChars.lowbar); //SHSplit.SplitCharMore(p, new Char[] { AllChars.lowbar });
-    //CASunamoExceptions.ToLower(pa);
+    //CA.ToLower(pa);
     //    CAChangeContent.ChangeContent0(null, pa, SH.FirstCharUpper);
     //    return string.Join(AllStrings.space, pa);
 }
