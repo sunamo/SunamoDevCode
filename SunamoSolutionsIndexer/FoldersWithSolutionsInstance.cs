@@ -1,5 +1,5 @@
-namespace SunamoDevCode.SunamoSolutionsIndexer;
 
+namespace SunamoDevCode.SunamoSolutionsIndexer;
 public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 {
     public static FoldersWithSolutionsInstance Instance = null;

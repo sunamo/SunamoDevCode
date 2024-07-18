@@ -1,5 +1,5 @@
-namespace SunamoDevCode.SunamoSolutionsIndexer;
 
+namespace SunamoDevCode.SunamoSolutionsIndexer;
 public class VpsHelperDevCode
 {
     public static bool IsVps

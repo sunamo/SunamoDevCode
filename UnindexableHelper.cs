@@ -1,5 +1,5 @@
-namespace SunamoDevCode;
 
+namespace SunamoDevCode;
 public class UnindexableHelper
 {
     public static Unindexable unindexable = null;
@@ -17,7 +17,7 @@ public class UnindexableHelper
     {
         unindexable = new Unindexable();
 
-        ClipboardService.SetText(f.fileUnindexablePathParts);
+        ClipboardHelper.SetText(f.fileUnindexablePathParts);
         //PD.ShowMb(f.fileUnindexablePathParts);
 
         unindexable.unindexablePathParts = new PpkOnDriveDC(f.fileUnindexablePathParts);

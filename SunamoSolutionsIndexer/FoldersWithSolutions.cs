@@ -1,5 +1,5 @@
-namespace SunamoDevCode.SunamoSolutionsIndexer;
 
+namespace SunamoDevCode.SunamoSolutionsIndexer;
 public class FoldersWithSolutions
 {
     #region data fields
