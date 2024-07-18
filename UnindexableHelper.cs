@@ -17,7 +17,7 @@ public class UnindexableHelper
     {
         unindexable = new Unindexable();
 
-        ClipboardHelper.SetText(f.fileUnindexablePathParts);
+        //ClipboardService.SetText(f.fileUnindexablePathParts);
         //PD.ShowMb(f.fileUnindexablePathParts);
 
         unindexable.unindexablePathParts = new PpkOnDriveDC(f.fileUnindexablePathParts);

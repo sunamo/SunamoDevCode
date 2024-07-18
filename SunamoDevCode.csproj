@@ -2,9 +2,9 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>24.7.16.6</Version>
+    <Version>24.7.18.1</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with SunamoCode and SunamoCSharp.</Description>
-    <PackageReleaseNotes>Added IsEmptyCommentedOrOnlyWithNamespace</PackageReleaseNotes>
+    <PackageReleaseNotes>Comment debug code</PackageReleaseNotes>
     <Authors>www.sunamo.cz</Authors>
     <Copyright>www.sunamo.cz</Copyright>
     <PackageProjectUrl>https://sunamo.cz/</PackageProjectUrl>
