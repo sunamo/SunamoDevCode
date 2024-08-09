@@ -1,8 +1,8 @@
 namespace SunamoDevCode;
 
 /// <summary>
-/// Druhá část je v ToNugets
-/// Vložit sem jak toto šílenství s nugety skončí
+///     Druhá část je v ToNugets
+///     Vložit sem jak toto šílenství s nugety skončí
 /// </summary>
 public class GlobalUsingsHelper
 {
@@ -11,9 +11,8 @@ public class GlobalUsingsHelper
 
     public static ParseGlobalUsingsResult Parse(List<string> content)
     {
-        ParseGlobalUsingsResult result = new ParseGlobalUsingsResult();
+        var result = new ParseGlobalUsingsResult();
         foreach (var item in content)
-        {
             if (item.StartsWith(globalUsing))
             {
                 result.GlobalUsings.Add(item.Replace(globalUsing, "").Replace(";", ""));
@@ -23,7 +22,6 @@ public class GlobalUsingsHelper
                 var kvp = ParseSymbol(item);
                 result.GlobalSymbols.Add(kvp.Key, kvp.Value);
             }
-        }
 
         return result;
     }

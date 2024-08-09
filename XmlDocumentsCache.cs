@@ -6,11 +6,13 @@ public class XmlDocumentsCache
     private const string debugTypeNone = "<DebugType>none</DebugType>";
     public static Type type = typeof(XmlDocumentsCache);
     public static Dictionary<string, XmlDocument> cache = new();
+
     /// <summary>
     ///     In key is csproj path
     ///     In value is absolute path of references (recursive)
     /// </summary>
     public static Dictionary<string, List<string>> projectDeps = new();
+
     public static Func<string, Dictionary<string, XmlDocument>,
 #if ASYNC
             Task<List<string>>
@@ -19,9 +21,11 @@ List<string>
 #endif
         >
         buildProjectsDependencyTreeList;
+
     public static int nulled;
     public static IProgressBarDC clpb = null;
     public static List<string> cantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull = new();
+
     public static
         /// <summary>
         ///     Nemůže se volat společně s .Result! viz. https://stackoverflow.com/a/65820543/9327173 Způsobí to deadlock! Musím to
@@ -50,8 +54,9 @@ ResultWithException<XmlDocument>
         {
             cache.Add(path, null);
             nulled++;
-            return new ResultWithExceptionDC<XmlDocument>() { exc = "csproj is ignored: " + path };
+            return new ResultWithExceptionDC<XmlDocument> { exc = "csproj is ignored: " + path };
         }
+
         // Load the XML document
         var doc = new XmlDocument();
         // HACK: XmlStreamReader will fail if the file is encoded in UTF-8 but has <?xml version="1.0" encoding="utf-16"?>
@@ -82,17 +87,20 @@ ResultWithException<XmlDocument>
             nulled++;
             return new ResultWithExceptionDC<XmlDocument>();
         }
+
         var save = false;
         if (xml.Contains(nullable))
         {
             xml = xml.Replace(nullable, string.Empty);
             save = true;
         }
+
         if (xml.Contains(debugTypeNone))
         {
             xml = xml.Replace(debugTypeNone, string.Empty);
             save = true;
         }
+
         if (save) await TF.WriteAllText(path, xml);
         xml = FormatXml(xml);
         if (xml.StartsWith(Consts.Exception)) return new ResultWithExceptionDC<XmlDocument>(xml);
@@ -116,6 +124,7 @@ ResultWithException<XmlDocument>
             //ThrowEx.NotValidXml(path, ex);
             return new ResultWithExceptionDC<XmlDocument>();
         }
+
         //lock (_lock)
         //{
         // Toto bych měl dělat mimo Parallel
@@ -128,14 +137,16 @@ ResultWithException<XmlDocument>
                     buildProjectsDependencyTreeList(path, null);
             projectDeps.Add(path, l);
         }
+
         //}
         return new ResultWithExceptionDC<XmlDocument>(doc);
     }
+
     private static string FormatXml(string xml)
     {
         try
         {
-            XDocument doc = XDocument.Parse(xml);
+            var doc = XDocument.Parse(xml);
             return doc.ToString();
         }
         catch (Exception)
@@ -144,6 +155,7 @@ ResultWithException<XmlDocument>
             return xml;
         }
     }
+
     public static Dictionary<string, XmlDocument> BuildProjectDeps()
     {
         var xd = new Dictionary<string, XmlDocument>();
@@ -155,6 +167,7 @@ ResultWithException<XmlDocument>
                 xd.Add(item.Key, item.Value);
         return xd;
     }
+
     public static List<string> BadXml()
     {
         var withNull = cache.Where(s => s.Value == null);
@@ -162,6 +175,7 @@ ResultWithException<XmlDocument>
         foreach (var item in withNull) bx.Add(item.Key);
         return bx;
     }
+
     public static
 #if ASYNC
         async Task
@@ -178,6 +192,7 @@ void
 #endif
             Set(path, xd, saveToFile);
     }
+
     public static
 #if ASYNC
         async Task
@@ -192,8 +207,9 @@ void
 #if ASYNC
             await
 #endif
-                _sunamo.SunamoFileIO.TF.WriteAllText(path, v.OuterXml);
+                TF.WriteAllText(path, v.OuterXml);
         }
+
         DictionaryHelper.AddOrSet(cache, path, v);
     }
 }

@@ -12,7 +12,9 @@ public class VueConsts
     // name, inject, mixins, extends, watch
     // https://github.com/pablohpsilva/vuejs-component-style-guide
     public static List<string> sStartWith = new List<string>(["name:", "inject:", "mixins:", "extends:", "watch:"]);
+
     public static List<string> dontAddRcub = new List<string>([methodsRcub, propsRcub]);
+
     //List<string> sContains = new List<string>("data():", "methods:{");
     public static List<string> containsList = new List<string>([cl]);
 

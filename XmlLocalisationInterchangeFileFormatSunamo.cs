@@ -1,7 +1,25 @@
-
 namespace SunamoDevCode;
+
 public class XmlLocalisationInterchangeFileFormatSunamo
 {
+    public const string cs = "const string ";
+    private const string eqBs = " = \"";
+
+    /// <summary>
+    ///     sess.i18n(
+    /// </summary>
+    public const string RLDataEn = SunamoNotTranslateAble.RLDataEn;
+
+    public const string RLDataCs = SunamoNotTranslateAble.RLDataCs;
+    public const string RLDataEn2 = SunamoNotTranslateAble.RLDataEn2;
+    public const string SessI18n = SunamoNotTranslateAble.SessI18n;
+    public const string XlfKeysDot = SunamoNotTranslateAble.XlfKeysDot;
+    public const string SessI18nShort = SunamoNotTranslateAble.SessI18nShort;
+
+    public static string pathXlfKeys = BasePathsHelper.vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
+    private static Type type = typeof(XmlLocalisationInterchangeFileFormatSunamo);
+    public static string SunamoStringsDot = "SunamoStrings.";
+
     public static
 #if ASYNC
         async Task
@@ -16,28 +34,25 @@ public class XmlLocalisationInterchangeFileFormatSunamo
             await
 #endif
                 File.ReadAllTextAsync(path);
+
         #region
-        List<string> consts = new List<string>();
+
+        var consts = new List<string>();
         AllLists.InitHtmlEntitiesFullNames();
 
         var val = AllLists.htmlEntitiesFullNames.Values.ToList();
         int i;
-        for (i = 0; i < val.Count; i++)
-        {
-            val[i] = "_" + val[i];
-        }
+        for (i = 0; i < val.Count; i++) val[i] = "_" + val[i];
 
 
-        foreach (var item in val)
-        {
-            content = content.Replace(item, string.Empty);
-        }
+        foreach (var item in val) content = content.Replace(item, string.Empty);
 
 
 #if ASYNC
         await
 #endif
             File.WriteAllTextAsync(path, content);
+
         #endregion
     }
 
@@ -52,8 +67,11 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         int i;
 
         #region MyRegion
+
         string replacePairs = null;
+
         #endregion
+
         var p = SHSplit.SplitFromReplaceManyFormatList(replacePairs);
         var to = p.Item1;
         var from = p.Item2;
@@ -75,10 +93,8 @@ public class XmlLocalisationInterchangeFileFormatSunamo
                 File.ReadAllTextAsync(path);
 
         for (i = from.Count - 1; i >= 0; i--)
-        {
             //Debug.WriteLine(i);
             content = content.Replace(from[i], to[i]);
-        }
 
 
 #if ASYNC
@@ -89,7 +105,8 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 
     public static void ConstsFromClipboard(string input)
     {
-        var l = input.Split(new string[] { input.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        var l = input.Split(new[] { input.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries)
+            .ToList();
 
         //StringBuilder sb = new StringBuilder();
         //foreach (var item in l)
@@ -101,9 +118,8 @@ public class XmlLocalisationInterchangeFileFormatSunamo
     }
 
 
-
     /// <summary>
-    /// Compare to whole line
+    ///     Compare to whole line
     /// </summary>
     public static
 #if ASYNC
@@ -121,21 +137,17 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 #endif
                 File.ReadAllTextAsync(pathXlfKeys)).ToList();
 
-        for (i = 0; i < l.Count(); i++)
-        {
-            l[i] = l[i].Trim();
-        }
+        for (i = 0; i < l.Count(); i++) l[i] = l[i].Trim();
 
         // only consts
-        List<string> consts = new List<string>();
+        var consts = new List<string>();
         // all lines
-        List<string> constsAllLines = new List<string>();
+        var constsAllLines = new List<string>();
 
         var c = "const ";
 
 
         i = 0;
-
 
 
         foreach (var item in l)
@@ -155,18 +167,16 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         }
 
         List<string> foundedDuplicities;
-        CAG.RemoveDuplicitiesList<string>(constsAllLines, out foundedDuplicities);
+        CAG.RemoveDuplicitiesList(constsAllLines, out foundedDuplicities);
 
         foundedDuplicities.Reverse();
 
         foreach (var item in foundedDuplicities)
-        {
             if (item != string.Empty)
             {
                 var dx = constsAllLines.IndexOf(item);
                 l.RemoveAt(dx);
             }
-        }
 
         await File.WriteAllLinesAsync(pathXlfKeys, l);
     }
@@ -191,29 +201,52 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         int first;
         var consts = CSharpParser.ParseConsts(ls, out first);
         List<string> ls3;
-        var ls2 = CAG.GetDuplicities<string>(consts, out ls3);
+        var ls2 = CAG.GetDuplicities(consts, out ls3);
 
         //string t = CSharpHelper.GetConsts(ls, false);
         //var tl = SHGetLines.GetLines(t);
         for (i = ls2.Count - 1; i >= 0; i--)
-        {
-            for (y = 0; y < ls.Count; y++)
+        for (y = 0; y < ls.Count; y++)
+            if (ls[y].Contains(AllStrings.space + ls2[i] + AllStrings.space))
             {
-
-                if (ls[y].Contains(AllStrings.space + ls2[i] + AllStrings.space))
-                {
-                    ls2.RemoveAt(i);
-                    ls.RemoveAt(y);
-                    i = ls2.Count - 1;
-                    break;
-                }
+                ls2.RemoveAt(i);
+                ls.RemoveAt(y);
+                i = ls2.Count - 1;
+                break;
             }
-        }
 
         await File.WriteAllLinesAsync(path, ls);
     }
 
+    public static string GetConstsFromLine(string d4)
+    {
+        return SH.GetTextBetweenSimple(d4, cs, eqBs, false);
+    }
+
+    public static LangsDC GetLangFromFilename(string s)
+    {
+        return LangsDC.cs;
+        //return XmlLocalisationInterchangeFileFormatXlf.GetLangFromFilename(s);
+    }
+
+
+    /// <summary>
+    ///     return code for getting from RLData.en
+    /// </summary>
+    /// <param name="key2"></param>
+    public static string TextFromRLData(string pathOrExt, string key2)
+    {
+        var ext = Path.GetExtension(pathOrExt);
+        ext = SH.PrefixIfNotStartedWith(ext, ".");
+        if (ext == AllExtensions.cs)
+            return SessI18n + XlfKeysDot + key2 + ")";
+        if (ext == AllExtensions.ts) return "su.en(\"" + key2 + "\")";
+        ThrowEx.NotImplementedCase(ext);
+        return null;
+    }
+
     #region Mám už tady metodu GetKeysInCsWithRLDataEn, proto je toto zbytečné
+
     //public static List<string> UsedXlfKeysInCs(string c)
     //{
     //    List<string> usedKeys = new List<string>();
@@ -240,57 +273,6 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 
     //    return usedKeys;
     //}
+
     #endregion
-
-    public static string pathXlfKeys = BasePathsHelper.vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
-    static Type type = typeof(XmlLocalisationInterchangeFileFormatSunamo);
-    public const string cs = "const string ";
-    const string eqBs = " = \"";
-    public static string SunamoStringsDot = "SunamoStrings.";
-
-    public static string GetConstsFromLine(string d4)
-    {
-        return SH.GetTextBetweenSimple(d4, cs, eqBs, false);
-    }
-
-    public static LangsDC GetLangFromFilename(string s)
-    {
-        return LangsDC.cs;
-        //return XmlLocalisationInterchangeFileFormatXlf.GetLangFromFilename(s);
-    }
-
-    /// <summary>
-    /// sess.i18n(
-    /// </summary>
-    public const string RLDataEn = SunamoNotTranslateAble.RLDataEn;
-    public const string RLDataCs = SunamoNotTranslateAble.RLDataCs;
-    public const string RLDataEn2 = SunamoNotTranslateAble.RLDataEn2;
-    public const string SessI18n = SunamoNotTranslateAble.SessI18n;
-    public const string XlfKeysDot = SunamoNotTranslateAble.XlfKeysDot;
-    public const string SessI18nShort = SunamoNotTranslateAble.SessI18nShort;
-
-
-
-
-
-
-    /// <summary>
-    /// return code for getting from RLData.en
-    /// </summary>
-    /// <param name="key2"></param>
-    public static string TextFromRLData(string pathOrExt, string key2)
-    {
-        var ext = Path.GetExtension(pathOrExt);
-        ext = SH.PrefixIfNotStartedWith(ext, ".");
-        if (ext == AllExtensions.cs)
-        {
-            return SessI18n + XlfKeysDot + key2 + ")";
-        }
-        else if (ext == AllExtensions.ts)
-        {
-            return "su.en(\"" + key2 + "\")";
-        }
-        ThrowEx.NotImplementedCase(ext);
-        return null;
-    }
 }

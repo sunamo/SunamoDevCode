@@ -20,12 +20,12 @@ namespace SunamoDevCode;
 
 public static class SystemWindowsControls
 {
-    private static Type type = typeof(SystemWindowsControls);
-    private static bool s_initialized = false;
-    private static Dictionary<string, List<string>> s_controls = new Dictionary<string, List<string>>();
-    private static EmbeddedResourcesH s_embeddedResourcesH = null;
+    private static readonly Type type = typeof(SystemWindowsControls);
+    private static bool s_initialized;
+    private static readonly Dictionary<string, List<string>> s_controls = new();
+    private static EmbeddedResourcesH s_embeddedResourcesH;
 
-    static Dictionary<string, string> controlsShortLong = null;
+    private static Dictionary<string, string> controlsShortLong;
 
     public static void InitControlsShortLong()
     {
@@ -36,12 +36,8 @@ public static class SystemWindowsControls
             controlsShortLong = new Dictionary<string, string>();
 
             foreach (var item in s_controls)
-            {
-                foreach (var item2 in item.Value)
-                {
-                    controlsShortLong.Add(item2, item.Key);
-                }
-            }
+            foreach (var item2 in item.Value)
+                controlsShortLong.Add(item2, item.Key);
         }
     }
 
@@ -65,18 +61,10 @@ public static class SystemWindowsControls
     public static bool StartingWithShortcutOfControl(string r)
     {
         foreach (var item in s_controls)
-        {
-            foreach (var item2 in item.Value)
-            {
-                if (item2.Length > 2)
-                {
-                    if (r.StartsWith(item2))
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
+        foreach (var item2 in item.Value)
+            if (item2.Length > 2)
+                if (r.StartsWith(item2))
+                    return true;
 
         return false;
     }
@@ -84,15 +72,9 @@ public static class SystemWindowsControls
     public static bool IsShortcutOfControl(string r)
     {
         foreach (var item in s_controls)
-        {
-            foreach (var item2 in item.Value)
-            {
-                if (item2 == r)
-                {
-                    return true;
-                }
-            }
-        }
+        foreach (var item2 in item.Value)
+            if (item2 == r)
+                return true;
 
         return false;
     }

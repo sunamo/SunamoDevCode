@@ -1188,39 +1188,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
     /// <summary>
     /// was collection with previously existed properties in SunamoStrings class like sess.i18n(XlfKeys.EditUserAccount)
     /// </summary>
-    static readonly List<string> sunamoStrings = SHGetLines.GetLines(@"sess.i18n(XlfKeys.AddAsRsvp)
-sess.i18n(XlfKeys.EditUserAccount)
-sess.i18n(XlfKeys.UserDetail)
-sess.i18n(XlfKeys.ErrorSerie255)
-sess.i18n(XlfKeys.ErrorSerie0)
-sess.i18n(XlfKeys.ViewLastWeek)
-sess.i18n(XlfKeys.YouAreNotLogged)
-sess.i18n(XlfKeys.YouAreBlocked)
-sess.i18n(XlfKeys.TurnOnSelectingPhotos)
-sess.i18n(XlfKeys.TurnOffSelectingPhotos)
-sess.i18n(XlfKeys.StringNotFound)
-sess.i18n(XlfKeys.NoRightArgumentsToPage)
-sess.i18n(XlfKeys.YouAreNotLoggedAsWebAdmin)
-sess.i18n(XlfKeys.YouHaveNotValidIPv4Address)
-sess.i18n(XlfKeys.UriTooShort)
-sess.i18n(XlfKeys.UriTooLong)
-sess.i18n(XlfKeys.CustomShortUriOccupatedYet)
-sess.i18n(XlfKeys.LinkSuccessfullyShorted)
-sess.i18n(XlfKeys.UnauthorizedOperation)
-sess.i18n(XlfKeys.Error)
-sess.i18n(XlfKeys.Success)
-sess.i18n(XlfKeys.RemoveFromFavoritesSuccess)
-sess.i18n(XlfKeys.AddToFavoritesSuccess)
-sess.i18n(XlfKeys.RemoveFromFavorites)
-sess.i18n(XlfKeys.AddToFavorites)
-sess.i18n(XlfKeys.RemoveAsRsvpSuccess)
-sess.i18n(XlfKeys.RemoveAsRsvp)
-sess.i18n(XlfKeys.AddAsRsvp)
-sess.i18n(XlfKeys.DetailsClickSurveyAspxLabel)
-sess.i18n(XlfKeys.UnvalidSession)
-sess.i18n(XlfKeys.ScIsNotTheSame)
-sess.i18n(XlfKeys.NotImplementedPleaseContactWebAdmin)
-sess.i18n(XlfKeys.IsNotInRange)");
+    static readonly List<string> sunamoStrings = SHGetLines.GetLines(@"");
 
 
     /// <summary>

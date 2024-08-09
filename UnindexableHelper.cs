@@ -1,8 +1,8 @@
-
 namespace SunamoDevCode;
+
 public class UnindexableHelper
 {
-    public static Unindexable unindexable = null;
+    public static Unindexable unindexable;
 
     public static PpkOnDriveDC unindexablePathParts => unindexable.unindexablePathParts;
     public static PpkOnDriveDC unindexableFileNames => unindexable.unindexableFileNames;
@@ -10,7 +10,7 @@ public class UnindexableHelper
     public static PpkOnDriveDC unindexablePathStarts => unindexable.unindexablePathStarts;
 
     /// <summary>
-    /// Into A1 insert SearchCodeElementsUC .ufp
+    ///     Into A1 insert SearchCodeElementsUC .ufp
     /// </summary>
     /// <param name="f"></param>
     public static void Load(UnindexableFilesPaths f)
@@ -33,24 +33,20 @@ public class UnindexableHelper
 #if DEBUG
         if (d == @"E:\vs\Projects\AllProjectsSearch\Aps.Projs\_\")
         {
-
         }
 #endif
 
         if (unindexablePathStarts != null && unindexablePathParts != null)
         {
             if (unindexablePathParts.TrueForAll(e => !d.Contains(e)))
-            {
                 if (unindexablePathStarts.TrueForAll(e => !d.StartsWith(e)))
-                {
                     return true;
-                }
-            }
         }
         else
         {
             return true;
         }
+
         return false;
     }
 
@@ -60,24 +56,18 @@ public class UnindexableHelper
         {
             //Checking for sth for which is checking in SourceCodeIndexerRoslyn.ProcessFile
             if (unindexablePathEnds.TrueForAll(e => !d.EndsWith(e)))
-            {
                 if (unindexableFileNames.TrueForAll(e => !fn.Contains(e)))
                 {
                     if (sci_IsIndexed == null)
-                    {
                         return true;
-                    }
-                    else
-                    {
-                        return sci_IsIndexed(d);
-                    }
+                    return sci_IsIndexed(d);
                 }
-            }
         }
         else
         {
             return true;
         }
+
         return false;
     }
 }

@@ -1,38 +1,30 @@
-
 namespace SunamoDevCode;
-using FileMs = System.IO.File;
+
+using FileMs = File;
 
 public class TFCsFormat
 {
-    static readonly List<string> classCodeElements = new List<string>() { "class ", "interface ", "enum ", "struct ", "delegate " };
+    private static readonly List<string> classCodeElements = new()
+        { "class ", "interface ", "enum ", "struct ", "delegate " };
 
-    static List<string> OnlyToFirst(List<string> d)
+    private static List<string> OnlyToFirst(List<string> d)
     {
-        List<string> toFirstCodeElement = new List<string>();
+        var toFirstCodeElement = new List<string>();
 
-        for (int i = 0; i < d.Count; i++)
+        for (var i = 0; i < d.Count; i++)
         {
             var line = d[i];
             if (classCodeElements.Any(d => line.Contains(d)))
             {
-                for (int y = i - 1; y >= 0; y--)
-                {
+                for (var y = i - 1; y >= 0; y--)
                     if (d[y].StartsWith("//"))
-                    {
                         i--;
-                    }
                     else
-                    {
                         break;
-                    }
-                }
 
                 toFirstCodeElement = d.Take(i).ToList();
 
-                for (var j = toFirstCodeElement.Count - 1; j >= 0; j--)
-                {
-                    d.RemoveAt(0);
-                }
+                for (var j = toFirstCodeElement.Count - 1; j >= 0; j--) d.RemoveAt(0);
 
                 break;
             }
@@ -75,31 +67,21 @@ public class TFCsFormat
 
         var toFirstCodeElement = OnlyToFirst(l2);
 
-        List<string> usings = new List<string>();
-        string ns = string.Empty;
+        var usings = new List<string>();
+        var ns = string.Empty;
 
 
         foreach (var item in toFirstCodeElement)
-        {
             if (item.StartsWith("using "))
-            {
                 usings.Add(item);
-            }
-            else if (item.StartsWith("namespace "))
-            {
-                ns = item;
-            }
-        }
+            else if (item.StartsWith("namespace ")) ns = item;
 
         if (ns == string.Empty)
         {
             // todo doplnit ns
         }
 
-        if (usings.Count != 0)
-        {
-            usings.Add("");
-        }
+        if (usings.Count != 0) usings.Add("");
 
         usings.Insert(0, ns);
         usings.Insert(0, "");

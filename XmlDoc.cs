@@ -2,7 +2,7 @@ namespace SunamoDevCode;
 
 public class XmlDoc
 {
-    InstantSB sb = null;
+    private readonly InstantSB sb;
 
     public XmlDoc(InstantSB sb)
     {
@@ -17,21 +17,15 @@ public class XmlDoc
     private void Prefix(string v)
     {
         v = v.Replace("\r", "");
-        var p = v.Split('\n', StringSplitOptions.None);
+        var p = v.Split('\n');
 
-        foreach (var item in p)
-        {
-            sb.AppendLine("/// " + item);
-        }
+        foreach (var item in p) sb.AppendLine("/// " + item);
     }
 
     public void SummaryEnd(bool appendLine = true)
     {
         Prefix("</summary>");
-        if (appendLine)
-        {
-            sb.AppendLine();
-        }
+        if (appendLine) sb.AppendLine();
     }
 
     public void Raw(string r)

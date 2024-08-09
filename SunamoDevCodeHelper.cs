@@ -4,10 +4,7 @@ public class SunamoDevCodeHelper
 {
     public static bool TryDeleteDirectory(string v)
     {
-        if (!Directory.Exists(v))
-        {
-            return true;
-        }
+        if (!Directory.Exists(v)) return true;
 
         try
         {
@@ -16,7 +13,6 @@ public class SunamoDevCodeHelper
         }
         catch (Exception ex)
         {
-
             // Je to try takže nevím co tu dělá tohle a
             //ThrowEx.FolderCannotBeDeleted(v, ex);
             //var result = InvokePs(v);
@@ -27,10 +23,7 @@ public class SunamoDevCodeHelper
         }
 
         var files = FSGetFiles.GetFiles(v, "*", SearchOption.AllDirectories);
-        foreach (var item in files)
-        {
-            File.SetAttributes(item, FileAttributes.Normal);
-        }
+        foreach (var item in files) File.SetAttributes(item, FileAttributes.Normal);
 
         try
         {
@@ -68,7 +61,8 @@ public class SunamoDevCodeHelper
         //ThisApp.Info("Archive was created successfully, is important create archive because first open with VS because will create folders package,obj,bin");
     }
 
-    public static void RemoveGitFiles(List<string> files, bool alsoGitFiles = true, bool alsoDownloadedFolders = false, bool alsoFoldersToDelete = false)
+    public static void RemoveGitFiles(List<string> files, bool alsoGitFiles = true, bool alsoDownloadedFolders = false,
+        bool alsoFoldersToDelete = false)
     {
         string wr = null;
 
@@ -79,22 +73,18 @@ public class SunamoDevCodeHelper
         }
 
         if (!alsoDownloadedFolders)
-        {
             foreach (var item in VisualStudioTempFse.foldersInSolutionDownloaded)
             {
                 wr = SH.WrapWithBs(item);
                 files.RemoveAll(d => d.Contains(wr));
             }
-        }
 
         if (!alsoFoldersToDelete)
-        {
             foreach (var item in VisualStudioTempFse.foldersInSolutionToDelete)
             {
                 wr = SH.WrapWithBs(item);
                 files.RemoveAll(d => d.Contains(wr));
             }
-        }
     }
 
     public static void RemoveTemporaryFilesVS(List<string> files)
@@ -116,7 +106,6 @@ public class SunamoDevCodeHelper
         CA.RemoveWhichContainsList(files, list, false);
         list = VisualStudioTempFseWrapped.foldersAnywhereDownloaded;
         CA.RemoveWhichContainsList(files, list, false);
-
     }
 
     private static bool IsNameOfHtmlAttrValue(string between)
@@ -151,26 +140,20 @@ public class SunamoDevCodeHelper
     }
 
     /// <summary>
-    /// A1 normal, not lower
+    ///     A1 normal, not lower
     /// </summary>
-    /// <param name = "between"></param>
+    /// <param name="between"></param>
     public static bool IsNameOfControl(string between)
     {
         var add = false;
         add = IsNameOfHtmlTag(between, add);
-        if (!add)
-        {
-            add = IsNameOfHtmlAttr(between);
-        }
+        if (!add) add = IsNameOfHtmlAttr(between);
+
+        if (!add) add = IsNameOfHtmlAttrValue(between);
 
         if (!add)
         {
-            add = IsNameOfHtmlAttrValue(between);
-        }
-
-        if (!add)
-        {
-            int firstInt = -1;
+            var firstInt = -1;
             var i = 0;
             foreach (var item in between)
             {
@@ -184,10 +167,7 @@ public class SunamoDevCodeHelper
                 }
                 else if (char.IsNumber(item))
                 {
-                    if (firstInt == -1)
-                    {
-                        firstInt = i;
-                    }
+                    if (firstInt == -1) firstInt = i;
                 }
                 else
                 {
@@ -198,11 +178,8 @@ public class SunamoDevCodeHelper
                 i++;
             }
 
-            string prefix = between;
-            if (firstInt != -1)
-            {
-                prefix = between.Substring(0, firstInt);
-            }
+            var prefix = between;
+            if (firstInt != -1) prefix = between.Substring(0, firstInt);
 
             add = SystemWindowsControls.IsShortcutOfControl(prefix);
         }

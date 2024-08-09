@@ -16,13 +16,15 @@ public class Boilerplate
     }
 }";
 
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
         // If it not working, try Format3. Dont use any try-catch! 
         sb.AppendLine(SHFormat.Format4(c, innerMain));
 
         return sb.ToString();
     }
-    public static string CSharpClass(string addNamespacesLines, string className, string fields, string contentOfInitMethod)
+
+    public static string CSharpClass(string addNamespacesLines, string className, string fields,
+        string contentOfInitMethod)
     {
         var c = @"using System;
 {0}
@@ -38,7 +40,7 @@ public class Boilerplate
         }
     }";
 
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
 
         // If it not working, try Format3. Dont use any try-catch! 
         sb.AppendLine(SHFormat.Format4(c, addNamespacesLines, className, fields, contentOfInitMethod));

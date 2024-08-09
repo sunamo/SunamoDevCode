@@ -1,13 +1,13 @@
-
 namespace SunamoDevCode;
+
 public class SunamoFramework
 {
     public void HtmlEntitiesForNonDigitsOrLetterChars()
     {
         AllLists.InitHtmlEntitiesFullNames();
 
-        Dictionary<char, string> charEntity = new Dictionary<char, string>();
-        List<string> constsToCreate = new List<string>();
+        var charEntity = new Dictionary<char, string>();
+        var constsToCreate = new List<string>();
 
         //foreach (var item in RLData.en)
         //{

@@ -236,6 +236,47 @@ public static class CSharpHelper
     }
     #endregion
 
+    public static void SetValuesAsNamesToConsts(List<string> s)
+    {
+        for (int i = 0; i < s.Count; i++)
+        {
+            var line = s[i];
+            var d = IsFieldVariableConst(line);
+            if (d.Item1)
+            {
+                if (line.EndsWith(";") && !line.Contains("="))
+                {
+                    s[i] = s[i].Replace("readonly ", "");
+                    s[i] = s[i].Replace("static ", "const ");
+                    s[i] = s[i].TrimEnd(';') + " = " + SH.WrapWithQm(d.Item2) + ";";
+                }
+            }
+        }
+    }
+
+
+    public static (bool, string) IsFieldVariableConst(string line)
+    {
+        CsKeywordsList.Init();
+
+        var s = line;
+        s = s.Replace("readonly ", "");
+        s = s.Replace("static ", "");
+        s = s.Replace("const ", "");
+
+        foreach (var item in CsKeywordsList.accessModifier)
+        {
+            s = s.Replace(item + " ", "");
+        }
+
+        var p = SHSplit.SplitMore(s, " ");
+        if (p.Count == 2 && p[0] == "string")
+        {
+            return (true, p[1].Trim().TrimEnd(';'));
+        }
+        return (false, null);
+    }
+
     public static string GetInnerContentOfCodeElementClass(List<string> l)
     {
         if (IsEmptyOrCommented(l))

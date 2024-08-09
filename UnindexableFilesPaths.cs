@@ -2,10 +2,10 @@ namespace SunamoDevCode;
 
 public class UnindexableFilesPaths
 {
-    public string fileUnindexablePathParts;
     public string fileUnindexableFileNames;
     public string fileUnindexableFileNamesExactly;
     public string fileUnindexablePathEnds;
+    public string fileUnindexablePathParts;
     public string fileUnindexablePathStarts;
 
     public UnindexableFilesPaths(string p)
