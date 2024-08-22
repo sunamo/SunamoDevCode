@@ -254,7 +254,6 @@ public static class CSharpHelper
         }
     }
 
-
     public static (bool, string) IsFieldVariableConst(string line)
     {
         CsKeywordsList.Init();
