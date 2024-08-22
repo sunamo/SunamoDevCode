@@ -20,18 +20,6 @@ internal class sess
     /// <returns></returns>
     internal static string i18n(string k)
     {
-        switch (k)
-        {
-            case XlfKeys.isNotInWindowsPathFormat:
-                return "is not in Windows Path format";
-            case XlfKeys.NotImplementedCasePublicProgramErrorPleaseContactDeveloper:
-                return "Not implemented case. internal program error. Please contact developer";
-            case XlfKeys.DifferentCountElementsInCollection:
-                return "Different count elements in collection";
-            default:
-                ThrowEx.NotImplementedCase(k);
-                break;
-        }
-        return null;
+        return k;
     }
 }
