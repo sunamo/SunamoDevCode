@@ -156,7 +156,7 @@ public class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     public int countOfImages = 0;
 
     public bool InVsFolder = false;
-    public Repository repository;
+    public RepositoryLocal repository;
     public string slnNameWoExt = null;
 
     public override string ToString()

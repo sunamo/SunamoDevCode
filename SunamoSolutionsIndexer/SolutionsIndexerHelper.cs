@@ -27,7 +27,7 @@ public class SolutionsIndexerHelper
 
         foreach (var item in FoldersWithSolutions.fwss)
         {
-            var slns = item.Solutions(Repository.All);
+            var slns = item.Solutions(RepositoryLocal.All);
             //wpf = slns.Where(d => d.nameSolution.StartsWith(name[0].ToString().ToUpper()));
 
             foreach (var sln in slns)

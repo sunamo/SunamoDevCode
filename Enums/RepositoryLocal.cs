@@ -1,6 +1,6 @@
 namespace SunamoDevCode.Enums;
 
-public enum Repository
+public enum RepositoryLocal
 {
     All = 0,
     Vs17 = 1,

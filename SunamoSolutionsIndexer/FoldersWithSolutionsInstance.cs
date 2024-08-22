@@ -13,7 +13,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
     #endregion
     Type type = typeof(FoldersWithSolutions);
 
-    public Repository usedRepository = Repository.Vs17;
+    public RepositoryLocal usedRepository = RepositoryLocal.Vs17;
 
     /// <summary>
     /// Složka ve které se má hledat na složku Projects a složky Visual Studia
@@ -272,29 +272,29 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
         return sf;
     }
 
-    private Repository RepositoryFromFullPath(string fullPathFolder, bool useBp)
+    private RepositoryLocal RepositoryFromFullPath(string fullPathFolder, bool useBp)
     {
         if (useBp)
         {
             if (fullPathFolder.Contains(SolutionsIndexerStrings.VisualStudio2017))
             {
-                return Repository.Vs17;
+                return RepositoryLocal.Vs17;
             }
             else if (fullPathFolder.Contains(SolutionsIndexerConsts.BitBucket))
             {
-                return Repository.BitBucket;
+                return RepositoryLocal.BitBucket;
             }
             else if (fullPathFolder.Contains(BasePathsHelper.cRepos))
             {
-                return Repository.Vs17;
+                return RepositoryLocal.Vs17;
             }
             else if (fullPathFolder.Contains(BasePathsHelper.bpVps))
             {
-                return Repository.Vs17;
+                return RepositoryLocal.Vs17;
             }
             ThrowEx.NotImplementedCase(fullPathFolder);
         }
-        return Repository.All;
+        return RepositoryLocal.All;
     }
 
 
@@ -310,7 +310,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 
     public IList<SolutionFolder> SolutionsUap(IList<string> skipThese = null)
     {
-        var slns = Solutions(Repository.Vs17, false, skipThese);
+        var slns = Solutions(RepositoryLocal.Vs17, false, skipThese);
         var uap = slns.Where(d => d.fullPathFolder.Contains(@"\_Uap\")).ToList();
         return uap;
     }
@@ -321,7 +321,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
     /// <param name="vs17"></param>
     /// <param name="toFind"></param>
     /// <returns></returns>
-    public IList<SolutionFolder> SolutionsWildcard(Repository r, string mayWildcard)
+    public IList<SolutionFolder> SolutionsWildcard(RepositoryLocal r, string mayWildcard)
     {
         var result = Solutions(r);
 
@@ -350,7 +350,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
     /// A3 - can use wildcard
     /// </summary>
     // , bool sunamoAndSunamoWithoutDepProjectsAsFirst = true
-    public SolutionFolders Solutions(Repository r, bool loadAll = true, IList<string> skipThese = null, ProjectsTypes prioritize = ProjectsTypes.None)
+    public SolutionFolders Solutions(RepositoryLocal r, bool loadAll = true, IList<string> skipThese = null, ProjectsTypes prioritize = ProjectsTypes.None)
     {
         SolutionFolders result = new SolutionFolders(solutions);
 
@@ -569,14 +569,14 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
         }
     }
 
-    public List<string> FullPathFolders(Repository usedRepository, List<string> returnOnlyThese = null, ProjectsTypes prioritize = ProjectsTypes.None)
+    public List<string> FullPathFolders(RepositoryLocal usedRepository, List<string> returnOnlyThese = null, ProjectsTypes prioritize = ProjectsTypes.None)
     {
         Dictionary<string, SolutionFolder> sf = null;
 
         return FullPathFolders(usedRepository, sf, returnOnlyThese, prioritize);
     }
 
-    public List<string> FullPathFolders(Repository usedRepository, Dictionary<string, SolutionFolder> sf, List<string> returnOnlyThese = null, ProjectsTypes prioritize = ProjectsTypes.None)
+    public List<string> FullPathFolders(RepositoryLocal usedRepository, Dictionary<string, SolutionFolder> sf, List<string> returnOnlyThese = null, ProjectsTypes prioritize = ProjectsTypes.None)
     {
         // TODO: dodělat to podle ProjectsTypes prioritize, ale otázka je jestli to vůbec potřebuji
 

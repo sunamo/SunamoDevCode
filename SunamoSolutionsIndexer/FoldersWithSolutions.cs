@@ -15,7 +15,7 @@ public class FoldersWithSolutions
     static Type type = typeof(FoldersWithSolutions);
     static FoldersWithSolutionsInstance _fws = null;
     static FoldersWithSolutionsInstance fws = _fws == null ? FoldersWithSolutionsInstance.Instance : _fws;
-    public static Repository usedRepository = Repository.Vs17;
+    public static RepositoryLocal usedRepository = RepositoryLocal.Vs17;
 
     public static void IdentifyProjectType(string documentsFolder, string solutionFolder, SolutionFolder sf, bool useBp)
     {
@@ -376,26 +376,26 @@ public class FoldersWithSolutions
         }
     }
 
-    private static Repository RepositoryFromFullPath(string fullPathFolder)
+    private static RepositoryLocal RepositoryFromFullPath(string fullPathFolder)
     {
         if (fullPathFolder.Contains(SolutionsIndexerStrings.VisualStudio2017))
         {
-            return Repository.Vs17;
+            return RepositoryLocal.Vs17;
         }
         else if (fullPathFolder.Contains(SolutionsIndexerConsts.BitBucket))
         {
-            return Repository.BitBucket;
+            return RepositoryLocal.BitBucket;
         }
         else if (fullPathFolder.Contains(BasePathsHelper.cRepos))
         {
-            return Repository.Vs17;
+            return RepositoryLocal.Vs17;
         }
         else if (fullPathFolder.Contains(BasePathsHelper.bpVps))
         {
-            return Repository.Vs17;
+            return RepositoryLocal.Vs17;
         }
         ThrowEx.NotImplementedCase(fullPathFolder);
-        return Repository.All;
+        return RepositoryLocal.All;
     }
 
 
@@ -411,7 +411,7 @@ public class FoldersWithSolutions
 
     public List<SolutionFolder> SolutionsUap(IList<string> skipThese = null)
     {
-        var slns = Solutions(Repository.Vs17, false, skipThese);
+        var slns = Solutions(RepositoryLocal.Vs17, false, skipThese);
         var uap = slns.Where(d => d.fullPathFolder.Contains(@"\_Uap\")).ToList();
         return uap;
     }
@@ -422,7 +422,7 @@ public class FoldersWithSolutions
     /// <param name="vs17"></param>
     /// <param name="toFind"></param>
     /// <returns></returns>
-    public IList<SolutionFolder> SolutionsWildcard(Repository r, string mayWildcard)
+    public IList<SolutionFolder> SolutionsWildcard(RepositoryLocal r, string mayWildcard)
     {
         var result = Solutions(r);
 
@@ -445,11 +445,11 @@ public class FoldersWithSolutions
     /// Exclude from SolutionsIndexerConsts.SolutionsExcludeWhileWorkingOnSourceCode if Debugger is attached and !A2
     /// A3 - can use wildcard
     /// </summary>
-    public List<SolutionFolder> Solutions(Repository r, bool loadAll = true, IList<string> skipThese = null, ProjectsTypes cs = ProjectsTypes.Cs)
+    public List<SolutionFolder> Solutions(RepositoryLocal r, bool loadAll = true, IList<string> skipThese = null, ProjectsTypes cs = ProjectsTypes.Cs)
     {
         var result = new List<SolutionFolder>(solutions);
 
-        if (r != Repository.All)
+        if (r != RepositoryLocal.All)
         {
             result.RemoveAll(d => d.repository != r);
         }
@@ -636,14 +636,14 @@ public class FoldersWithSolutions
         }
     }
 
-    public static List<string> FullPathFolders(Repository usedRepository, List<string> returnOnlyThese = null)
+    public static List<string> FullPathFolders(RepositoryLocal usedRepository, List<string> returnOnlyThese = null)
     {
         Dictionary<string, SolutionFolder> sf = null;
 
         return FullPathFolders(usedRepository, sf, returnOnlyThese);
     }
 
-    public static List<string> FullPathFolders(Repository usedRepository, Dictionary<string, SolutionFolder> sf, List<string> returnOnlyThese = null)
+    public static List<string> FullPathFolders(RepositoryLocal usedRepository, Dictionary<string, SolutionFolder> sf, List<string> returnOnlyThese = null)
     {
         List<string> ls = new List<string>();
         foreach (var item in fwss)
