@@ -55,7 +55,6 @@ global using SunamoDevCode._sunamo.SunamoStringTrim;
 global using SunamoDevCode._sunamo.SunamoTextOutputGenerator;
 global using SunamoDevCode._sunamo.SunamoTwoWayDictionary;
 global using SunamoDevCode._sunamo.SunamoValues;
-
 global using SunamoDevCode._sunamo.SunamoXml;
 global using SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 global using SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFoldersNs;

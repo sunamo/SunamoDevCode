@@ -1,10 +1,11 @@
-﻿using System;
+
+namespace SunamoDevCode;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SunamoDevCode;
 public class FSGetFilesDC
 {
     public static List<string> GetFilesDC(string slnFolder, string masc, SearchOption so, GetFilesDCArgs a)
