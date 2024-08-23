@@ -38,5 +38,7 @@ public enum ProjectsTypes
     Vue,
     Xamarin,
 
+    ForkedGithub,
+
     None
 }
