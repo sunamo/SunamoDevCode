@@ -39,6 +39,9 @@ public enum ProjectsTypes
     Xamarin,
 
     ForkedGithub,
+    NotMine,
+    NovantaOld,
+    Novanta,
 
     None
 }
