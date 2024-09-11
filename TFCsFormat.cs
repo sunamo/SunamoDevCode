@@ -70,7 +70,6 @@ public class TFCsFormat
         var usings = new List<string>();
         var ns = string.Empty;
 
-
         foreach (var item in toFirstCodeElement)
             if (item.StartsWith("using "))
                 usings.Add(item);
@@ -83,10 +82,39 @@ public class TFCsFormat
 
         if (usings.Count != 0) usings.Add("");
 
-        usings.Insert(0, ns);
+        var wasBlockScopedNs = !ns.EndsWith(";");
+
+        usings.Insert(0, ns + (wasBlockScopedNs ? ";" : ":"));
+
         usings.Insert(0, "");
+
+        if (wasBlockScopedNs)
+        {
+            TrimWhiteSpaceRowFromEnd(l2);
+            if (l2[l2.Count - 1] == "}")
+            {
+                l2.RemoveAt(l2.Count - 1);
+            }
+            else
+            {
+                throw new Exception("The last line is not }");
+            }
+        }
+
         usings.AddRange(l2);
 
         await FileMs.WriteAllTextAsync(p, SHJoin.JoinNL(usings));
+    }
+
+    public static void TrimWhiteSpaceRowFromEnd(List<string> s)
+    {
+        for (int i = s.Count - 1; i >= 0; i--)
+        {
+            if (!string.IsNullOrWhiteSpace(s[i]))
+            {
+                break;
+            }
+            s.RemoveAt(i);
+        }
     }
 }
