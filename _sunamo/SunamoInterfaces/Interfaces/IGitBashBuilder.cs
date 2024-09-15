@@ -13,7 +13,7 @@ internal interface IGitBashBuilder
     void Checkout(string arg);
     void Clean(string v);
     void Clear();
-    void Clone(string repoUri, string args);
+    void Clone(string args);
     void Commit(bool addAllUntrackedFiles, string commitMessage);
     void Config(string v);
     void Fetch(string s = "");

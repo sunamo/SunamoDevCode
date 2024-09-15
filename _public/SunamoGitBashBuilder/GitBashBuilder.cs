@@ -8,11 +8,17 @@ public class GitBashBuilder : IGitBashBuilder
         AppendLine();
     }
     #region Git commands
-    public void Clone(string repoUri, string args)
+    /// <summary>
+    /// 11-9 the repoUrl attribute has been removed because it is fully replaceable with args
+    /// 
+    /// </summary>
+    /// <param name="args"></param>
+    public void Clone(string args)
     {
-        Git("clone " + repoUri + " " + args);
+        Git("clone " + args);
         AppendLine();
     }
+
     public void Commit(bool addAllUntrackedFiles, string commitMessage)
     {
         ThrowEx.IsNullOrWhitespace("commitMessage", commitMessage);
@@ -39,7 +45,7 @@ public class GitBashBuilder : IGitBashBuilder
     public void Push(string arg)
     {
         Git("push");
-        AppendLine(arg);
+        Append(arg);
         AppendLine();
     }
 
