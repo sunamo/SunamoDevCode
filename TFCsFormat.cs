@@ -73,8 +73,10 @@ public class TFCsFormat
         foreach (var item in toFirstCodeElement)
             if (item.StartsWith("using "))
                 usings.Add(item);
-            else if (item.StartsWith("namespace ")) ns = item;
+            else if (item.StartsWith("namespace "))
+                ns = item;
 
+        ns = ns.TrimEnd(';') + ";";
         if (ns == string.Empty)
         {
             // todo doplnit ns
@@ -84,9 +86,12 @@ public class TFCsFormat
 
         var wasBlockScopedNs = !ns.EndsWith(";");
 
-        usings.Insert(0, ns + (wasBlockScopedNs ? ";" : ":"));
+        if (wasBlockScopedNs)
+        {
+            ThrowEx.Custom("Block scoped namespace is not allowed.");
+        }
 
-        usings.Insert(0, "");
+        usings.Insert(0, ns);
 
         if (wasBlockScopedNs)
         {
