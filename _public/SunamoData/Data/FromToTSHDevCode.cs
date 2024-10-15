@@ -9,7 +9,7 @@ public class FromToTSHDevCode<T>
     public FromToTSHDevCode()
     {
         var t = typeof(T);
-        if (t == Types.tInt) ftUse = FromToUseDevCode.None;
+        if (t == typeof(int)) ftUse = FromToUseDevCode.None;
     }
     /// <summary>
     ///     Use Empty contstant outside of class

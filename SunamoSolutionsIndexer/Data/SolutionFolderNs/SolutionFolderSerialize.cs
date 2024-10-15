@@ -49,7 +49,7 @@ public class SolutionFolderSerialize : IListBoxHelperItem, ISolutionFolderSerial
         }
         set
         {
-            ThrowEx.CheckBackslashEnd(Exc.GetStackTrace(), value);
+            //ThrowEx.CheckBackslashEnd(Exceptions.GetStackTrace(), value);
             _fullPathFolder = value;
             _nameSolution = Path.GetFileName(value.TrimEnd(AllChars.bs));
             if (SolutionsIndexerSettings.ignorePartAfterUnderscore)

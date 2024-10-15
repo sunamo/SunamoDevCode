@@ -101,7 +101,7 @@ ResultWithException<XmlDocument>
             save = true;
         }
 
-        if (save) await TF.WriteAllText(path, xml);
+        if (save) await File.WriteAllTextAsync(path, xml);
         xml = FormatXml(xml);
         if (xml.StartsWith(Consts.Exception)) return new ResultWithExceptionDC<XmlDocument>(xml);
         try
@@ -207,7 +207,7 @@ void
 #if ASYNC
             await
 #endif
-                TF.WriteAllText(path, v.OuterXml);
+                File.WriteAllTextAsync(path, v.OuterXml);
         }
 
         DictionaryHelper.AddOrSet(cache, path, v);

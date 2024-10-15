@@ -1,4 +1,3 @@
-
 namespace SunamoDevCode;
 using System.Runtime.Versioning;
 

@@ -1,4 +1,3 @@
-
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 public class VpsHelperDevCode
 {

@@ -1,4 +1,3 @@
-
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 {
@@ -148,7 +147,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 #endif
                         XmlDocumentsCache.Get(item2);
 
-                        if (MayExcHelper.MayExc(xml))
+                        if (MayExcHelper.MayExc(xml.exc))
                         {
                             continue;
                         }
