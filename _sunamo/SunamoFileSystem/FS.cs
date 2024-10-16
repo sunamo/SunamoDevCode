@@ -102,11 +102,11 @@ nad
         string result = null;
         if (slash)
         {
-            result = path.Replace(AllStrings.bs, AllStrings.slash); //SHReplace.ReplaceAll2(path, AllStrings.slash, AllStrings.bs);
+            result = path.Replace("\"", "/"); //SHReplace.ReplaceAll2(path, "/", "\"");
         }
         else
         {
-            result = path.Replace(AllStrings.slash, AllStrings.bs); //SHReplace.ReplaceAll2(path, AllStrings.bs, AllStrings.slash);
+            result = path.Replace("/", "\""); //SHReplace.ReplaceAll2(path, "\"", "/");
         }
 
         SH.FirstCharUpper(ref result);
@@ -127,7 +127,7 @@ nad
     internal static string AddExtensionIfDontHave(string file, string ext)
     {
         // For *.* and git paths {dir}/*
-        if (file[file.Length - 1] == AllChars.asterisk)
+        if (file[file.Length - 1] == '*')
         {
             return file;
         }
@@ -195,7 +195,7 @@ nad
     {
         if (v != string.Empty)
         {
-            v = v.TrimEnd(AllChars.bs) + AllChars.bs;
+            v = v.TrimEnd('\\') + '\\';
         }
 
         SH.FirstCharUpper(ref v);
@@ -216,7 +216,7 @@ nad
         string fn = Path.GetFileNameWithoutExtension(origS);
         string e = Path.GetExtension(origS);
 
-        if (origS.Contains(AllChars.slash) || origS.Contains(AllChars.bs))
+        if (origS.Contains('/') || origS.Contains('\\'))
         {
             string p = Path.GetDirectoryName(origS);
 

@@ -10,7 +10,7 @@ public static class CSharpHelper
     {
         foreach (var r in removed.c)
         {
-            text = SHReplace.ReplaceOnce(text, "using " + r + AllStrings.sc, string.Empty);
+            text = SHReplace.ReplaceOnce(text, "using " + r + ";", string.Empty);
         }
         return text;
     }
@@ -191,10 +191,10 @@ public static class CSharpHelper
         {
             if (removed != null)
             {
-                var line = cLines[nsDx].Trim().TrimEnd(AllChars.lcub).Substring(startWith.Length);
+                var line = cLines[nsDx].Trim().TrimEnd('{').Substring(startWith.Length);
                 removed.Add(line);
             }
-            if (!cLines[nsDx].Contains(AllStrings.lcub))
+            if (!cLines[nsDx].Contains("{"))
             {
                 cLines.RemoveAt(nsDx + 1);
             }
@@ -202,9 +202,9 @@ public static class CSharpHelper
 
             for (int i = cLines.Count - 1; i >= 0; i--)
             {
-                if (cLines[i].Contains(AllStrings.rcub))
+                if (cLines[i].Contains("}"))
                 {
-                    cLines[i] = cLines[i].Trim().TrimEnd(AllChars.rcub);
+                    cLines[i] = cLines[i].Trim().TrimEnd('}');
                     // break = remove only first
                     break;
                 }
@@ -404,7 +404,7 @@ public static class CSharpHelper
                     removeLines.Add(i);
                     usings.Add(line);
                 }
-                else //if (line.Contains(AllStrings.lcub))
+                else //if (line.Contains("{"))
                 {
                     break;
                 }
@@ -651,7 +651,7 @@ public static class CSharpHelper
 
         //for (int i = list.Count - 1; i >= 0; i--)
         //{
-        //    list[i] = SHParts.RemoveAfterFirst(list[i], CSharpConsts.lc);
+        //    list[i] = SHParts.RemoveAfterFirst(list[i], CSharp""");
         //}
 
         str = Regex.Replace(str,
@@ -694,14 +694,14 @@ public static class CSharpHelper
 
     public static string DefaultValueForTypeSqLite(string type)
     {
-        if (type.Contains(AllStrings.dot))
+        if (type.Contains("."))
         {
             type = ConvertTypeShortcutFullName.ToShortcut(type);
         }
         switch (type)
         {
             case "TEXT":
-                return AllStrings.qm;
+                return "\"";
             case "INTEGER":
                 return int.MaxValue.ToString();
             case "REAL":
@@ -896,8 +896,8 @@ public static class CSharpHelper
     public static Dictionary<string, string> ParseFields(List<string> l)
     {
         CA.RemoveStringsEmpty2(l);
-        CAChangeContent.ChangeContent0(null, l, e => SHParts.RemoveAfterFirst(e, AllChars.equals));
-        CA.TrimEnd(l, AllChars.sc);
+        CAChangeContent.ChangeContent0(null, l, e => SHParts.RemoveAfterFirst(e, '='));
+        CA.TrimEnd(l, ';');
         Dictionary<string, string> r = new Dictionary<string, string>();
         foreach (var item in l)
         {
@@ -963,7 +963,7 @@ public static class CSharpHelper
             {
                 if (mustDerive)
                 {
-                    if (item.Contains(AllStrings.colon))
+                    if (item.Contains(":"))
                     {
                         return item;
                     }
@@ -976,7 +976,7 @@ public static class CSharpHelper
     static Type type = typeof(CSharpHelper);
     public static object DefaultValueForTypeObject(string type)
     {
-        if (type.Contains(AllStrings.dot))
+        if (type.Contains("."))
         {
             type = ConvertTypeShortcutFullName.ToShortcut(type);
         }
@@ -984,7 +984,7 @@ public static class CSharpHelper
         switch (type)
         {
             case "string":
-                return AllStrings.qm + AllStrings.qm;
+                return "\"" + "\"";
             case "bool":
                 return false;
             case "float":
@@ -1002,7 +1002,7 @@ public static class CSharpHelper
                 return 0;
             case "DateTime":
                 // Původně tu bylo MinValue kvůli SQLite ale dohodl jsem se že SQLite už nebudu používat a proto si ušetřím v kódu práci s MSSQL
-                return Consts.DateTimeMinVal;
+                return "new(1900, 1, 1)";
             case "char":
                 throw new Exception(type);
                 return 0;
@@ -1088,9 +1088,9 @@ public static class CSharpHelper
         {
             var v = item.ToString();
             WrapWithQuote(tValue, ref v);
-            sb.Append(v + AllStrings.comma);
+            sb.Append(v + ",");
         }
-        return sb.ToString().TrimEnd(AllChars.comma);
+        return sb.ToString().TrimEnd(',');
     }
 
     public static void WrapWithQuote(Type tKey, ref string keyS)

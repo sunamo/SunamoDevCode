@@ -22,7 +22,7 @@ internal class AllHtmlTags
                 withLeftArrow = new List<string>(list.Count);
                 for (int i = 0; i < list.Count; i++)
                 {
-                    withLeftArrow.Add(AllStrings.lt + list[i] + AllStrings.space);
+                    withLeftArrow.Add("<" + list[i] + "");
                 }
             }
             return withLeftArrow;

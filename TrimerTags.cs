@@ -12,7 +12,7 @@ public static class TrimerTags
         fromEnd.Clear();
 
         html = html.Trim();
-        if (!html.StartsWith(AllStrings.lt)) return html;
+        if (!html.StartsWith("<")) return html;
 
         var changed = false;
 
@@ -32,7 +32,7 @@ public static class TrimerTags
             var item = tagsWrapping[i];
             if (html.StartsWith(item))
             {
-                endingTag = item.Replace(AllStrings.lt, AllStrings.lt + AllStrings.slash);
+                endingTag = item.Replace("<", "<" + "/");
 
                 if (!html.EndsWith(endingTag)) continue;
 
@@ -62,6 +62,6 @@ public static class TrimerTags
 
     private static void WrapWithBracket(List<string> tagsWrapping)
     {
-        for (var i = 0; i < tagsWrapping.Count; i++) tagsWrapping[i] = AllStrings.lt + tagsWrapping[i] + AllStrings.gt;
+        for (var i = 0; i < tagsWrapping.Count; i++) tagsWrapping[i] = "<" + tagsWrapping[i] + ">";
     }
 }

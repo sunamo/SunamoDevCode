@@ -1,5 +1,6 @@
 namespace SunamoDevCode._sunamo.SunamoStringSplit;
 
+
 internal class SHSplit
 {
     internal static List<string> SplitMore(string p, params string[] newLine)
@@ -37,7 +38,8 @@ internal class SHSplit
 
     internal static List<string> SplitByWhiteSpaces(string innerText)
     {
-        return innerText.Split(AllChars.whiteSpacesChars.ToArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+        WhitespaceCharService whitespaceChar = new();
+        return innerText.Split(whitespaceChar.whiteSpaceChars.ToArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
     internal static Tuple<string, string> SplitFromReplaceManyFormat(string input)
@@ -45,7 +47,7 @@ internal class SHSplit
         StringBuilder to = new StringBuilder();
         StringBuilder from = new StringBuilder();
 
-        if (input.Contains(Consts.transformTo))
+        if (input.Contains("->"))
         {
             var lines = SHGetLines.GetLines(input);
 
@@ -53,7 +55,7 @@ internal class SHSplit
 
             foreach (var item in lines)
             {
-                var p = SHSplit.SplitMore(item, Consts.transformTo);
+                var p = SHSplit.SplitMore(item, "->");
                 from.AppendLine(p[0]);
                 to.AppendLine(p[1]);
             }

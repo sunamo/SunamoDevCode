@@ -33,13 +33,13 @@ public class SolutionFolderWithFiles : SolutionFolder
         sizeOfExtensionTypes = new Dictionary<TypeOfExtensionDevCode, long>();
         sizeOfExtension = new Dictionary<string, long>();
 
-        files = Directory.GetFiles(fullPathFolder, AllStrings.asterisk, SearchOption.AllDirectories).ToList();
+        files = Directory.GetFiles(fullPathFolder, "*", SearchOption.AllDirectories).ToList();
         filesOfExtension = new Dictionary<string, List<string>>();
 
         for (int i = 0; i < files.Count; i++)
         {
             var item = files[i];
-            string ext = Path.GetExtension(item).TrimStart(AllChars.dot);
+            string ext = Path.GetExtension(item).TrimStart('.');
 
             DictionaryHelper.AddOrCreate(filesOfExtension, ext, item);
         }
@@ -56,7 +56,7 @@ public class SolutionFolderWithFiles : SolutionFolder
         //    overallSize += fs;
         //    filesAndSizes.Add(i, fs);
 
-        //    string ext = Path.GetExtension(item).TrimStart(AllChars.dot);
+        //    string ext = Path.GetExtension(item).TrimStart('.');
         //    TypeOfExtension extType = AllExtensionsHelper.FindTypeWithDot(ext);
 
         //    if (!sizeOfExtensionTypes.ContainsKey(extType))
@@ -78,7 +78,7 @@ public class SolutionFolderWithFiles : SolutionFolder
         //    }
         //}
 
-        //displayedText += " (" + FS.GetSizeInAutoString(overallSize, ComputerSizeUnits.MB) + AllStrings.rb;
+        //displayedText += " (" + FS.GetSizeInAutoString(overallSize, ComputerSizeUnits.MB) + ")";
     }
 
     public void CreateFileInfoLiteObjects(string extensionWithoutDot, string item)

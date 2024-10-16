@@ -26,7 +26,7 @@ internal class SH
     internal static string NullToStringOrDefault(object n)
     {
 
-        return n == null ? " " + Consts.nulled : AllStrings.space + n;
+        return n == null ? " " + "(null)" : "" + n;
     }
     internal static string TrimEnd(string name, string ext)
     {
@@ -180,7 +180,7 @@ internal class SH
 
     internal static bool MatchWildcard(string name, string mask)
     {
-        return IsMatchRegex(name, mask, AllChars.q, AllChars.asterisk);
+        return IsMatchRegex(name, mask, '?', '*');
     }
 
     private static bool IsMatchRegex(string str, string pat, char singleWildcard, char multipleWildcard)
@@ -194,7 +194,7 @@ internal class SH
         string escapedSingle = Regex.Escape(new string(singleWildcard, 1));
         string escapedMultiple = Regex.Escape(new string(multipleWildcard, 1));
         pat = Regex.Escape(pat);
-        pat = pat.Replace(escapedSingle, AllStrings.dot);
+        pat = pat.Replace(escapedSingle, ".");
         pat = "^" + pat.Replace(escapedMultiple, ".*") + "$";
         Regex reg = new Regex(pat);
         return reg.IsMatch(str);
@@ -246,7 +246,7 @@ internal class SH
             // 32 space
             char ch = subs[0];
             char ch2 = co[0];
-            if (subs == AllStrings.space)
+            if (subs == "")
             {
             }
             if (subs == co)
@@ -257,14 +257,14 @@ internal class SH
 
     internal static string NormalizeString(string s)
     {
-        if (s.Contains(AllChars.nbsp))
+        if (s.Contains((char)160))
         {
             StringBuilder sb = new StringBuilder();
             foreach (var item in s)
             {
-                if (item == AllChars.nbsp)
+                if (item == (char)160)
                 {
-                    sb.Append(AllChars.space);
+                    sb.Append(' ');
                 }
                 else
                 {

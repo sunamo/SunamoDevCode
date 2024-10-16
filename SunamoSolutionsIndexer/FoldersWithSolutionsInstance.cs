@@ -535,7 +535,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
             foreach (string var in slo)
             {
                 string nazev = Path.GetFileName(var);
-                if (nazev.StartsWith(AllStrings.lowbar))
+                if (nazev.StartsWith("_"))
                 {
                     spec.Add(var);
                 }

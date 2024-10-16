@@ -83,10 +83,10 @@ public class CSharpHelperSunamo
 
     public static FromToList DetectFromToString(string s)
     {
-        List<int> oc = null;// SH.ReturnOccurencesOfString(s, AllStrings.qm);
+        List<int> oc = null;// SH.ReturnOccurencesOfString(s, "\"");
         for (int i = oc.Count - 1; i >= 0; i--)
         {
-            if (s[oc[i] - 1] == AllChars.bs)
+            if (s[oc[i] - 1] == '\\')
             {
                 oc.RemoveAt(i);
             }
@@ -150,7 +150,7 @@ public class CSharpHelperSunamo
 
     public static string ReplaceNulled(string s)
     {
-        return s.Replace(Consts.nulled, string.Empty).Trim();
+        return s.Replace("(null)", string.Empty).Trim();
     }
 
     public static string ShortcutForControl(string name)
@@ -176,7 +176,7 @@ public class CSharpHelperSunamo
     public static object DefaultValueForTypeT<T>(T t, Func<string, string> ConvertTypeShortcutFullNameToShortcut)
     {
         var type = t.GetType().FullName;
-        if (type.Contains(AllStrings.dot))
+        if (type.Contains("."))
         {
             type = ConvertTypeShortcutFullNameToShortcut(type);
         }
@@ -202,7 +202,7 @@ public class CSharpHelperSunamo
                 return 0;
             case "DateTime":
                 // Původně tu bylo MinValue kvůli SQLite ale dohodl jsem se že SQLite už nebudu používat a proto si ušetřím v kódu práci s MSSQL
-                return Consts.DateTimeMinVal;
+                return "new(1900, 1, 1)";
             case "byte[]":
                 // Podporovaný typ pouze v desktopových aplikacích, kde není lsožka sbf
                 return null;
@@ -220,14 +220,14 @@ public class CSharpHelperSunamo
     static Type type = typeof(CSharpHelperSunamo);
     public static string DefaultValueForType(string type, Func<string, string> ConvertTypeShortcutFullNameToShortcut)
     {
-        if (type.Contains(AllStrings.dot))
+        if (type.Contains("."))
         {
             type = ConvertTypeShortcutFullNameToShortcut(type);
         }
         switch (type)
         {
             case "string":
-                return AllStrings.qm + AllStrings.qm;
+                return "\"" + "\"";
             case "bool":
                 return "false";
             case "float":

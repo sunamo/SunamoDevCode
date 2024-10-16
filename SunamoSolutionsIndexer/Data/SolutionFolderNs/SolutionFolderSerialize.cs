@@ -51,10 +51,10 @@ public class SolutionFolderSerialize : IListBoxHelperItem, ISolutionFolderSerial
         {
             //ThrowEx.CheckBackslashEnd(Exceptions.GetStackTrace(), value);
             _fullPathFolder = value;
-            _nameSolution = Path.GetFileName(value.TrimEnd(AllChars.bs));
+            _nameSolution = Path.GetFileName(value.TrimEnd('\\'));
             if (SolutionsIndexerSettings.ignorePartAfterUnderscore)
             {
-                _nameSolution = SHParts.RemoveAfterLast(_nameSolution, AllChars.lowbar);
+                _nameSolution = SHParts.RemoveAfterLast(_nameSolution, '_');
             }
         }
     }

@@ -81,7 +81,7 @@ public class TypeScriptHelper
         {
             var t = l2[i];
             t = t.Trim();
-            t = t.TrimEnd(AllChars.sc);
+            t = t.TrimEnd(';');
             t = t.Trim('2');
             l2[i] = t;
         }

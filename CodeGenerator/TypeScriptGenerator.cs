@@ -12,12 +12,12 @@ public class TypeScriptGenerator
         }
         sb.Append("interface ");
         sb.AppendLine(name);
-        sb.AppendLine(AllStrings.lcub);
+        sb.AppendLine("{");
         foreach (var item in vars)
         {
-            sb.AppendLine(item.name + ": " + item.t + AllStrings.sc);
+            sb.AppendLine(item.name + ": " + item.t + ";");
         }
-        sb.AppendLine(AllStrings.rcub);
+        sb.AppendLine("}");
         sb.AppendLine();
     }
 
@@ -38,7 +38,7 @@ public class TypeScriptGenerator
             sb.Append("export ");
         }
 
-        sb.Append(type.ToString().TrimStart(AllChars.lowbar) + " ");
+        sb.Append(type.ToString().TrimStart('_') + " ");
 
         sb.Append(name);
         sb.Append(" = ");
@@ -47,7 +47,7 @@ public class TypeScriptGenerator
             value = SH.WrapWithQm(value);
         }
         sb.Append(value);
-        sb.Append(AllStrings.sc);
+        sb.Append(";");
     }
 
     public void ArrayWithKeyValueObjectStart(string innerType, params string[] values)

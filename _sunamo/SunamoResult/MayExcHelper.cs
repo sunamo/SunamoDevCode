@@ -1,7 +1,7 @@
 namespace SunamoDevCode._sunamo.SunamoResult;
-public class MayExcHelper
+internal class MayExcHelper
 {
-    public static bool MayExc(string exc)
+    internal static bool MayExc(string exc)
     {
         if (exc != null)
         {

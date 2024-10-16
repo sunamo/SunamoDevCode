@@ -30,7 +30,7 @@ public class FoldersWithSolutions
 
 
         solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
-        var p = SHSplit.SplitCharMore(solutionFolder, AllChars.bs);
+        var p = SHSplit.SplitCharMore(solutionFolder, '\\');
         //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
 
         var pr = p[0];
@@ -167,7 +167,7 @@ public class FoldersWithSolutions
                 ProjectsTypes p = ProjectsTypes.None;
 
                 var l = fn.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
-                var l2 = l.Replace(AllStrings.lowbar, string.Empty).Trim();
+                var l2 = l.Replace("_", string.Empty).Trim();
                 switch (l2)
                 {
                     case "C++":
@@ -359,7 +359,7 @@ public class FoldersWithSolutions
 
 
             solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
-            var p = SHSplit.SplitCharMore(solutionFolder, AllChars.bs);
+            var p = SHSplit.SplitCharMore(solutionFolder, '\\');
             //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
 
             var pr = p[0];
@@ -600,7 +600,7 @@ public class FoldersWithSolutions
             foreach (string var in slo)
             {
                 string nazev = Path.GetFileName(var);
-                if (nazev.StartsWith(AllStrings.lowbar))
+                if (nazev.StartsWith("_"))
                 {
                     spec.Add(var);
                 }

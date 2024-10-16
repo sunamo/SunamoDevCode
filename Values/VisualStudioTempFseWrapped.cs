@@ -38,24 +38,24 @@ public class VisualStudioTempFseWrapped
     static VisualStudioTempFseWrapped()
     {
         #region 1) To delete
-        foldersInSolutionToDelete = CA.WrapWith(VisualStudioTempFse.foldersInSolutionToDelete, AllStrings.bs);
-        foldersInProjectToDelete = CA.WrapWith(VisualStudioTempFse.foldersInProjectToDelete, AllStrings.bs);
-        foldersAnywhereToDelete = CA.WrapWith(VisualStudioTempFse.foldersAnywhereToDelete, AllStrings.bs);
+        foldersInSolutionToDelete = CA.WrapWith(VisualStudioTempFse.foldersInSolutionToDelete, "\"");
+        foldersInProjectToDelete = CA.WrapWith(VisualStudioTempFse.foldersInProjectToDelete, "\"");
+        foldersAnywhereToDelete = CA.WrapWith(VisualStudioTempFse.foldersAnywhereToDelete, "\"");
         #endregion
 
         #region 2) To keep
-        foldersInSolutionToKeep = CA.WrapWith(VisualStudioTempFse.foldersInSolutionToKeep, AllStrings.bs);
-        foldersInProjectToKeep = CA.WrapWith(VisualStudioTempFse.foldersInProjectToKeep, AllStrings.bs);
-        foldersAnywhereToKeep = CA.WrapWith(VisualStudioTempFse.foldersAnywhereToKeep, AllStrings.bs);
+        foldersInSolutionToKeep = CA.WrapWith(VisualStudioTempFse.foldersInSolutionToKeep, "\"");
+        foldersInProjectToKeep = CA.WrapWith(VisualStudioTempFse.foldersInProjectToKeep, "\"");
+        foldersAnywhereToKeep = CA.WrapWith(VisualStudioTempFse.foldersAnywhereToKeep, "\"");
         #endregion
 
         #region 3) Downloaded
-        foldersInSolutionDownloaded = CA.WrapWith(VisualStudioTempFse.foldersInSolutionDownloaded, AllStrings.bs);
-        foldersInProjectDownloaded = CA.WrapWith(VisualStudioTempFse.foldersInProjectDownloaded, AllStrings.bs);
-        foldersAnywhereDownloaded = CA.WrapWith(VisualStudioTempFse.foldersAnywhereDownloaded, AllStrings.bs);
+        foldersInSolutionDownloaded = CA.WrapWith(VisualStudioTempFse.foldersInSolutionDownloaded, "\"");
+        foldersInProjectDownloaded = CA.WrapWith(VisualStudioTempFse.foldersInProjectDownloaded, "\"");
+        foldersAnywhereDownloaded = CA.WrapWith(VisualStudioTempFse.foldersAnywhereDownloaded, "\"");
         #endregion
 
-        filesWeb = CA.WrapWith(VisualStudioTempFse.filesWeb, AllStrings.bs);
+        filesWeb = CA.WrapWith(VisualStudioTempFse.filesWeb, "\"");
         aggregate = CA.JoinIList(foldersInSolutionToDelete,
 foldersInProjectToDelete,
 foldersInSolutionDownloaded,

@@ -124,7 +124,7 @@ public class GitHelper
 
                 if (pushSolutionsData.mergeAndFetch) gitBashBuilder.Fetch();
 
-                gitBashBuilder.Add(AllStrings.asterisk);
+                gitBashBuilder.Add("*");
 
                 gitBashBuilder.Commit(false, commitMessage);
 
@@ -165,7 +165,7 @@ public class GitHelper
         else if (s.StartsWith(b4))
         {
             s = s.Replace(b4, string.Empty);
-            s = SHTrim.TrimEnd(s, Consts.gitFolderName);
+            s = SHTrim.TrimEnd(s, ".git");
         }
         else if (s.StartsWith(b5))
         {
@@ -176,7 +176,7 @@ public class GitHelper
             s = s.Replace(b6, string.Empty);
         }
 
-        if (s.Contains(AllStrings.slash)) throw new Exception(s + " - name of repo contains still /");
+        if (s.Contains("/")) throw new Exception(s + " - name of repo contains still /");
 
         return s;
     }

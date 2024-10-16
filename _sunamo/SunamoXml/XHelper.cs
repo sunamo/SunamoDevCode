@@ -28,9 +28,9 @@ internal class XHelper
     {
         List<XElement> vr = new List<XElement>();
 
-        if (nazev.Contains(AllStrings.colon))
+        if (nazev.Contains(":"))
         {
-            var (p, z) = SH.GetPartsByLocationNoOut(nazev, AllChars.colon);
+            var (p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
             p = XHelper.ns[p];
             foreach (XElement item in node.DescendantsAndSelf())
             {
@@ -70,9 +70,9 @@ internal class XHelper
     internal static XElement GetElementOfNameWithAttr(XElement node, string nazev, string attr, string value)
     {
 
-        if (nazev.Contains(AllStrings.colon))
+        if (nazev.Contains(":"))
         {
-            var (p, z) = SH.GetPartsByLocationNoOut(nazev, AllChars.colon);
+            var (p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
             p = XHelper.ns[p];
             foreach (XElement item in node.Elements())
             {
@@ -142,7 +142,7 @@ internal class XHelper
     internal static bool IsRightTag(XName xName, string nazev)
     {
 
-        var (p, z) = SH.GetPartsByLocationNoOut(nazev, AllChars.colon);
+        var (p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
         p = XHelper.ns[p];
         if (xName.LocalName == z && xName.NamespaceName == p)
         {
@@ -155,7 +155,7 @@ internal class XHelper
     internal static List<XElement> GetElementsOfName(XElement node, string nazev)
     {
         List<XElement> result = new List<XElement>();
-        if (nazev.Contains(AllStrings.colon))
+        if (nazev.Contains(":"))
         {
             foreach (XElement item in node.Elements())
             {
@@ -197,9 +197,9 @@ internal class XHelper
     internal static XElement GetElementOfName(XContainer node, string nazev)
     {
 
-        if (nazev.Contains(AllStrings.colon))
+        if (nazev.Contains(":"))
         {
-            var (p, z) = SH.GetPartsByLocationNoOut(nazev, AllChars.colon);
+            var (p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
             p = XHelper.ns[p];
             foreach (XElement item in node.Elements())
             {

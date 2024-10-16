@@ -19,5 +19,5 @@ public class VueConsts
     public static List<string> containsList = new List<string>([cl]);
 
     public static List<string> startWithList = new List<string>([constructor, import, "//", export]);
-    public static List<char> equal = new List<char>([AllChars.equals]);
+    public static List<char> equal = new List<char>(['=']);
 }

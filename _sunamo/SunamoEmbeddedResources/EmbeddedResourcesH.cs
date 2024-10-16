@@ -50,7 +50,7 @@ GetString(uri.ToString()) - the same string as passed in ctor Uri
 
     internal string GetResourceName(string name)
     {
-        name = string.Join(".", _defaultNamespace, name.TrimStart(AllChars.slash).Replace(AllStrings.slash, AllStrings.dot));
+        name = string.Join(".", _defaultNamespace, name.TrimStart('/').Replace("/", "."));
         return name;
     }
 

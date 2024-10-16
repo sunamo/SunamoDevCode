@@ -439,7 +439,7 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
     {
         if (!usings.StartsWith("using "))
             usings = "using " + usings + ";";
-        else if (!usings.Trim().EndsWith(AllStrings.sc)) usings += ";";
+        else if (!usings.Trim().EndsWith(";")) usings += ";";
 
         sb.AddItem(usings);
 
@@ -511,30 +511,30 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
     {
         if (a == null) a = new CSharpGeneratorArgs { addHyphens = true };
 
-        var cn = "List<" + genericType + AllStrings.gt;
+        var cn = "List<" + genericType + ">";
         NewVariable(tabCount, AccessModifiers.Private, cn, listName, a);
         if (a.addHyphens)
             for (var i = 0; i < list.Count; i++)
                 list[i] = SH.WrapWithQm(list[i]);
-        //list = CA.WrapWith(list, AllStrings.qm);
+        //list = CA.WrapWith(list, "\"");
         if (genericType == "string")
         {
             if (a.useCA)
-                AppendLine(tabCount, listName + " = new List<string>(@" + string.Join(AllChars.comma, list) + ");");
+                AppendLine(tabCount, listName + " = new List<string>(@" + string.Join(',', list) + ");");
             else
                 AppendLine(tabCount,
-                    listName + " = new List<string>(new string[] {" + string.Join(AllChars.comma, list) + "});");
+                    listName + " = new List<string>(new string[] {" + string.Join(',', list) + "});");
         }
         else
         {
             if (a.useCA)
                 AppendLine(tabCount,
-                    listName + " = new List<" + genericType + ">(CA.ToEnumerable(" + string.Join(AllChars.comma, list) +
+                    listName + " = new List<" + genericType + ">(CA.ToEnumerable(" + string.Join(',', list) +
                     "));");
             else
                 AppendLine(tabCount,
                     listName + " = new List<" + genericType + ">(new " + genericType + "[] }" +
-                    string.Join(AllChars.comma, list) + "});");
+                    string.Join(',', list) + "});");
         }
     }
 
@@ -559,7 +559,7 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
         sb.AddItem(name);
         if (a.createInstance)
         {
-            sb.EndLine(AllChars.sc);
+            sb.EndLine(';');
             AppendLine();
             CreateInstance(cn, name);
         }
@@ -711,7 +711,7 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
         {
             var list = CAChangeContent.ChangeContent0(null, item.Value, SH.WrapWithQm);
             AppendLine(tabCount,
-                nameDictionary + ".Add(\"" + item.Key + "\", new List<string>(" + string.Join(AllChars.comma, list) +
+                nameDictionary + ".Add(\"" + item.Key + "\", new List<string>(" + string.Join(",", list) +
                 "));");
         }
     }

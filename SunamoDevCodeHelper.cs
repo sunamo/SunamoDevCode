@@ -68,7 +68,7 @@ public class SunamoDevCodeHelper
 
         if (!alsoGitFiles)
         {
-            wr = SH.WrapWith(VisualStudioTempFse.gitFolderName, AllStrings.bs);
+            wr = SH.WrapWith(VisualStudioTempFse.gitFolderName, "\"");
             files.RemoveAll(d => d.Contains(wr));
         }
 

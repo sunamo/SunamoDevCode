@@ -20,7 +20,7 @@ internal class CA
         first == "System.Collections.Generic.List`1[System.Object]")) return true;
         return false;
     }
-    internal static void InitFillWith(List<string> datas, int pocet, string initWith = Consts.stringEmpty)
+    internal static void InitFillWith(List<string> datas, int pocet, string initWith = "")
     {
         InitFillWith<string>(datas, pocet, initWith);
     }
@@ -213,7 +213,7 @@ internal class CA
     {
         if (wildcard)
         {
-            //item = SH.WrapWith(item, AllChars.asterisk);
+            //item = SH.WrapWith(item, '*');
             for (int i = files1.Count - 1; i >= 0; i--)
             {
                 if (WildcardIsMatch(files1[i], item))
@@ -348,9 +348,9 @@ internal class CA
         for (int i = 0; i < eb.Count; i++)
         {
             string r = eb[i];
-            if (r[r.Length - 1] != AllChars.bs)
+            if (r[r.Length - 1] != '\\')
             {
-                eb[i] = r + Consts.bs;
+                eb[i] = r + "\\";
             }
         }
 

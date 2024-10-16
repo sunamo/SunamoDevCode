@@ -206,14 +206,14 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         //string t = CSharpHelper.GetConsts(ls, false);
         //var tl = SHGetLines.GetLines(t);
         for (i = ls2.Count - 1; i >= 0; i--)
-        for (y = 0; y < ls.Count; y++)
-            if (ls[y].Contains(AllStrings.space + ls2[i] + AllStrings.space))
-            {
-                ls2.RemoveAt(i);
-                ls.RemoveAt(y);
-                i = ls2.Count - 1;
-                break;
-            }
+            for (y = 0; y < ls.Count; y++)
+                if (ls[y].Contains("" + ls2[i] + ""))
+                {
+                    ls2.RemoveAt(i);
+                    ls.RemoveAt(y);
+                    i = ls2.Count - 1;
+                    break;
+                }
 
         await File.WriteAllLinesAsync(path, ls);
     }
@@ -256,7 +256,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 
     //    foreach (var item in occ)
     //    {
-    //        ending.Add(c.IndexOf(AllChars.rb, item));
+    //        ending.Add(c.IndexOf(')', item));
     //    }
 
     //    var l = SessI18n.Length;

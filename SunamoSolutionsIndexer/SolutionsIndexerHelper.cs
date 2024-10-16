@@ -94,7 +94,7 @@ public class SolutionsIndexerHelper
     public static string GetDisplayedSolutionName(string item)
     {
         List<string> tokens = new List<string>();
-        tokens.Add(Path.GetFileName(item.TrimEnd(AllChars.bs)));
+        tokens.Add(Path.GetFileName(item.TrimEnd('\\')));
         while (true)
         {
             item = Path.GetDirectoryName(item);
@@ -111,20 +111,20 @@ public class SolutionsIndexerHelper
             var fn = Path.GetFileName(item);
             if (fn.StartsWith(SolutionsIndexerConsts.VisualStudio + " "))
             {
-                tokens.Add(Path.GetFileName(item.TrimEnd(AllChars.bs)).Replace(SolutionsIndexerConsts.VisualStudio + " ", ""));
+                tokens.Add(Path.GetFileName(item.TrimEnd('\\')).Replace(SolutionsIndexerConsts.VisualStudio + " ", ""));
                 break;
             }
 
-            if (fn == AllStrings.lowbar)
+            if (fn == "_")
             {
                 break;
             }
 
-            tokens.Add(Path.GetFileName(item.TrimEnd(AllChars.bs)));
+            tokens.Add(Path.GetFileName(item.TrimEnd('\\')));
         }
 
         tokens.Reverse();
-        return string.Join(AllChars.slash, tokens.ToArray());
+        return string.Join('/', tokens.ToArray());
     }
 
     public static List<string> ModulesInSolution(List<string> projects, string fullPathFolder, bool selling, PpkOnDriveDC toSelling)
@@ -152,7 +152,7 @@ public class SolutionsIndexerHelper
     private static string AddModules(bool selling, PpkOnDriveDC toSelling, List<string> result, string slnName, string projectName, string path, string nameFolder)
     {
         var path2 = Path.Combine(path, nameFolder);
-        AddModules(path2, slnName + AllStrings.bs + projectName, result, selling, toSelling);
+        AddModules(path2, slnName + "\"" + projectName, result, selling, toSelling);
         return path2;
     }
 
@@ -178,7 +178,7 @@ public class SolutionsIndexerHelper
             foreach (var item in files)
             {
                 var module = Path.GetFileName(item);
-                var s = SlnProject + AllStrings.bs + module;
+                var s = SlnProject + "\"" + module;
                 if (toSelling.Contains(s))
                 {
                     if (selling)

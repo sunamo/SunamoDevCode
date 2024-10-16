@@ -103,7 +103,7 @@ ResultWithException<XmlDocument>
 
         if (save) await File.WriteAllTextAsync(path, xml);
         xml = FormatXml(xml);
-        if (xml.StartsWith(Consts.Exception)) return new ResultWithExceptionDC<XmlDocument>(xml);
+        if (xml.StartsWith("Exception:")) return new ResultWithExceptionDC<XmlDocument>(xml);
         try
         {
             doc.PreserveWhitespace = true;

@@ -204,7 +204,7 @@ TranslateEngine");
         foreach (var dx in occ)
         {
             var start = dx + XmlLocalisationInterchangeFileFormatSunamo.RLDataEn.Length + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot.Length;
-            var end = content.IndexOf(AllChars.rsqb, start);
+            var end = content.IndexOf(']', start);
 
             key = content.Substring(start, end - start);
 
@@ -223,7 +223,7 @@ TranslateEngine");
         foreach (var dx in occ)
         {
             var start = dx + XmlLocalisationInterchangeFileFormatSunamo.SessI18n.Length + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot.Length;
-            var end = content.IndexOf(AllChars.rb, start);
+            var end = content.IndexOf(')', start);
 
             key = content.Substring(start, end - start);
 
@@ -265,7 +265,7 @@ Into A1 insert:
 / - always path
          */
 
-        list = CAChangeContent.ChangeContent0(null, list, t => SHParts.RemoveAfterFirst(t, AllChars.space));
+        list = CAChangeContent.ChangeContent0(null, list, t => SHParts.RemoveAfterFirst(t, ' '));
 
         var idsEndingOn = new List<string>();
         Dictionary<string, StringBuilder> result = new Dictionary<string, StringBuilder>();
@@ -350,7 +350,7 @@ void
 
                 foreach (var item2 in withWithoutUnderscore)
                 {
-                    content = content.Replace(item2.Key + AllChars.lsqb, item2.Value + AllChars.lsqb);
+                    content = content.Replace(item2.Key + '[', item2.Value + '[');
                 }
 
                 await File.WriteAllTextAsync(item, content);
@@ -1002,7 +1002,7 @@ void
     public static string ReplaceStringKeysWithXlfKeysWorker(ref string key, string content)
     {
 
-        var occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.SessI18n + AllStrings.qm);
+        var occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.SessI18n + "\"");
 
         occ.Reverse();
 
@@ -1011,7 +1011,7 @@ void
         foreach (var dx in occ)
         {
             var start = dx + 1 + XmlLocalisationInterchangeFileFormatSunamo.SessI18n.Length;
-            var end = content.IndexOf(AllChars.qm, start);
+            var end = content.IndexOf('"', start);
 
             key = content.Substring(start, end - start);
 
@@ -1029,7 +1029,7 @@ void
         var l = sunamoStrings.ToList();
         for (int i = 0; i < l.Count; i++)
         {
-            l[i] = SHReplace.ReplaceOnce(l[i], SunamoNotTranslateAble.SessI18n + SunamoNotTranslateAble.XlfKeysDot, string.Empty).TrimEnd(AllChars.rb);
+            l[i] = SHReplace.ReplaceOnce(l[i], SunamoNotTranslateAble.SessI18n + SunamoNotTranslateAble.XlfKeysDot, string.Empty).TrimEnd(')');
         }
         return l;
     }
@@ -1179,8 +1179,8 @@ OutRef<object, CollectionWithoutDuplicates<string>>
         var b1 = !SystemWindowsControls.StartingWithShortcutOfControl(key);
         var b2 = !key.StartsWith("Resources\\");
         var b3 = !CA.HasPostfix(key, ".PlaceholderText", ".Content");
-        var b4 = !key.Contains(AllStrings.dot);
-        var b5 = !key.Contains(AllStrings.bs);
+        var b4 = !key.Contains(".");
+        var b5 = !key.Contains("\"");
         return b1 && b2 && b3 && b4 && b5;
     }
 
@@ -1266,7 +1266,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
 
         foreach (var item in occ)
         {
-            ending.Add(c.IndexOf(AllChars.rb, item));
+            ending.Add(c.IndexOf(')', item));
         }
 
         var l = sessI18n.Length;
@@ -1293,12 +1293,12 @@ OutRef<object, CollectionWithoutDuplicates<string>>
         var SessI18n = SunamoNotTranslateAble.SessI18nShort;
         var RLDataCs = SunamoNotTranslateAble.RLDataCs;
 
-        char endingChar = AllChars.rsqb;
-        string newEndingChar = AllStrings.rb;
+        char endingChar = ']';
+        string newEndingChar = ")";
         if (from == SessI18n)
         {
-            endingChar = AllChars.rb;
-            newEndingChar = AllStrings.rsqb;
+            endingChar = ')';
+            newEndingChar = "]";
         }
         else if (from == RLDataCs || from == RLDataEn)
         {

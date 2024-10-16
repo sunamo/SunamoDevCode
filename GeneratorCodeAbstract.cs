@@ -7,7 +7,7 @@ public abstract class GeneratorCodeAbstract
     /// </summary>
     protected string Final = "";
 
-    protected InstantSB sb = new(AllStrings.space);
+    protected InstantSB sb = new("");
     public XmlDoc xmlDoc;
 
     public GeneratorCodeAbstract()
@@ -30,7 +30,7 @@ public abstract class GeneratorCodeAbstract
         //sb.AppendLine();
         AddTab(tabCount);
         //sb.AppendLine();
-        sb.AppendLine(AllStrings.rcub);
+        sb.AppendLine("}");
     }
 
     /// <summary>
@@ -42,18 +42,18 @@ public abstract class GeneratorCodeAbstract
         // Line always ending previous command
         //sb.AppendLine();
         AddTab(tabCount);
-        sb.AppendLine(AllStrings.lcub);
+        sb.AppendLine("{");
         //sb.AppendLine();
     }
 
     public void StartParenthesis()
     {
-        sb.AddItem(AllStrings.lb);
+        sb.AddItem("(");
     }
 
     public void EndParenthesis()
     {
-        sb.AddItem(AllStrings.rb);
+        sb.AddItem(")");
     }
 
     public void AppendLine()
@@ -91,14 +91,14 @@ public abstract class GeneratorCodeAbstract
     public override string ToString()
     {
         var vr = sb.ToString();
-        sb = new InstantSB(AllStrings.space);
+        sb = new InstantSB("");
         return vr;
     }
 
     public void AddTab(int tabCount)
     {
         //tabCount += 1;
-        for (var i = 0; i < tabCount; i++) sb.AddRaw(Consts.tab);
+        for (var i = 0; i < tabCount; i++) sb.AddRaw("\t");
     }
 
     public static string AddTab(int tabCount, string text)
@@ -107,7 +107,7 @@ public abstract class GeneratorCodeAbstract
         for (var i = 0; i < radky.Count; i++)
         {
             radky[i] = radky[i].Trim();
-            for (var y = 0; y < tabCount; y++) radky[i] = Consts.tab + radky[i];
+            for (var y = 0; y < tabCount; y++) radky[i] = "\t" + radky[i];
         }
 
         var vr = string.Join(Environment.NewLine, radky);

@@ -1,6 +1,6 @@
 namespace SunamoDevCode._sunamo.SunamoResult;
-public class OutRef<T, U>(T t, U u)
+internal class OutRef<T, U>(T t, U u)
 {
-    public T Item1 { get; set; } = t;
-    public U Item2 { get; set; } = u;
+    internal T Item1 { get; set; } = t;
+    internal U Item2 { get; set; } = u;
 }

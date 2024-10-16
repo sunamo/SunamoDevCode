@@ -101,7 +101,7 @@ public class GitBashBuilder : IGitBashBuilder
     #endregion
     private void Arg(string v)
     {
-        Append(AllStrings.dash + v);
+        Append("-" + v);
     }
     public void Remote(string arg)
     {
@@ -114,7 +114,7 @@ public class GitBashBuilder : IGitBashBuilder
         Git("status");
         AppendLine();
     }
-    public void Fetch(string s = Consts.se)
+    public void Fetch(string s = "")
     {
         Git("fetch " + s);
         AppendLine();
@@ -216,7 +216,7 @@ public class GitBashBuilder : IGitBashBuilder
 
     public static List<string> PrepareFilesToSimpleGitFormat(object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string basePathIfA2SolutionsWontExistsOnFilesystem)
     {
-        searchOnlyWithExtension = searchOnlyWithExtension.TrimStart(AllChars.asterisk);
+        searchOnlyWithExtension = searchOnlyWithExtension.TrimStart('*');
         anyError = false;
 
 
@@ -230,27 +230,27 @@ public class GitBashBuilder : IGitBashBuilder
             pathSearchForFiles = Path.Combine(basePathIfA2SolutionsWontExistsOnFilesystem, solution);
         }
         string pathRepository = pathSearchForFiles;
-        if (solution == Consts.Cz)
+        if (solution == "sunamo.cz")
         {
 
-            pathSearchForFiles += AllStrings.bs + solution;
+            pathSearchForFiles += "\"" + solution;
         }
 
         FS.WithEndSlash(ref pathRepository);
         var files = Directory.GetFiles(pathSearchForFiles, "*.*", System.IO.SearchOption.AllDirectories).ToList();
         files = files.Where(d => !d.Contains(@"\.git\")).ToList();
         CA.Replace(linesFiles, solution, string.Empty);
-        CAChangeContent.ChangeContent1(null, linesFiles, SHParts.RemoveAfterFirst, AllStrings.swd);
+        CAChangeContent.ChangeContent1(null, linesFiles, SHParts.RemoveAfterFirst, "-");
         CA.Trim(linesFiles);
         CAChangeContent.ChangeContent1(null, linesFiles, FS.AddExtensionIfDontHave, searchOnlyWithExtension);
         CAChangeContent.ChangeContent<bool>(null, linesFiles, FS.Slash, true);
-        CAChangeContent.ChangeContent1(null, linesFiles, SHTrim.TrimStart, AllStrings.slash);
+        CAChangeContent.ChangeContent1(null, linesFiles, SHTrim.TrimStart, "/");
         var linesFilesOnlyFilename = FS.OnlyNamesNoDirectEdit(linesFiles);
         anyError = false;
         List<string> filesToCommit = new List<string>();
 
         Dictionary<string, List<string>> dictPsychicallyExistsFiles = FS.GetDictionaryByFileNameWithExtension(files);
-        CA.Replace(files, AllStrings.bs, AllStrings.slash);
+        CA.Replace(files, "\"", "/");
         pathRepository = FS.Slash(pathRepository, false);
 
         for (int i = 0; i < linesFiles.Count; i++)
@@ -259,13 +259,13 @@ public class GitBashBuilder : IGitBashBuilder
 
             var itemWithoutTrim = linesFiles[i];
             #region Directory\*
-            if (item[item.Length - 1] == AllChars.asterisk)
+            if (item[item.Length - 1] == '*')
             {
-                item = itemWithoutTrim.TrimEnd(AllChars.asterisk);
+                item = itemWithoutTrim.TrimEnd('*');
                 string itemWithoutTrimBackslashed = Path.Combine(pathRepository, FS.Slash(item, false));
                 if (Directory.Exists(itemWithoutTrimBackslashed))
                 {
-                    filesToCommit.Add(item + AllStrings.asterisk);
+                    filesToCommit.Add(item + "*");
                 }
                 else
                 {
@@ -275,7 +275,7 @@ public class GitBashBuilder : IGitBashBuilder
             }
             #endregion
             #region *File - add all files without specify root directory
-            else if (item[0] == AllChars.asterisk)
+            else if (item[0] == '*')
             {
                 string file = item.Substring(1);
                 if (dictPsychicallyExistsFiles.ContainsKey(file))
@@ -303,7 +303,7 @@ public class GitBashBuilder : IGitBashBuilder
                 {
                     string itemWithoutTrimBackslashed = Path.Combine(pathRepository, FS.Slash(itemWithoutTrim, false));
                     #region Add as relative file
-                    if (itemWithoutTrim.Contains(AllStrings.slash))
+                    if (itemWithoutTrim.Contains("/"))
                     {
                         if (File.Exists(itemWithoutTrimBackslashed))
                         {
@@ -349,7 +349,7 @@ public class GitBashBuilder : IGitBashBuilder
     }
     public void Cd(string key)
     {
-        sb.AppendLine("cd " + SH.WrapWith(key, AllStrings.qm));
+        sb.AppendLine("cd " + SH.WrapWith(key, "\""));
     }
     public void Clear()
     {
