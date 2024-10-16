@@ -76,3 +76,4 @@ global using System.Xml;
 global using SunamoDevCode._sunamo.SunamoCollections;
 global using SunamoDevCode._sunamo.SunamoFileSystem;
 global using SunamoDevCode._sunamo.SunamoValues;
+global using System.Diagnostics.CodeAnalysis;
