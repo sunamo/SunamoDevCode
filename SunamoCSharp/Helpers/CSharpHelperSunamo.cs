@@ -92,7 +92,7 @@ public class CSharpHelperSunamo
             }
         }
 
-        ThrowEx.IsOdd("oc", oc);
+        ThrowEx.HasOddNumberOfElements("oc", oc);
 
         var ft = new FromToList();
         for (int i = 0; i < oc.Count; i++)
