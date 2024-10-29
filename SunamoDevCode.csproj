@@ -2,9 +2,9 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>24.10.13.2</Version>
+    <Version>24.10.29.1</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with SunamoCode and SunamoCSharp.</Description>
-    <PackageReleaseNotes>Fixed saving formatted cs file</PackageReleaseNotes>
+    <PackageReleaseNotes>Added service </PackageReleaseNotes>
     <Authors>www.sunamo.cz</Authors>
     <Copyright>www.sunamo.cz</Copyright>
     <PackageProjectUrl>https://sunamo.cz/</PackageProjectUrl>
@@ -28,6 +28,7 @@
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="_sunamo\NewFolder\" />
     <Folder Include="_sunamo\SunamoExceptions\InSunamoIsDerivedFrom\" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
