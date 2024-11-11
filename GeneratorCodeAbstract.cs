@@ -7,7 +7,7 @@ public abstract class GeneratorCodeAbstract
     /// </summary>
     protected string Final = "";
 
-    protected InstantSB sb = new("");
+    protected InstantSB sb = new(" ");
     public XmlDoc xmlDoc;
 
     public GeneratorCodeAbstract()
@@ -91,7 +91,7 @@ public abstract class GeneratorCodeAbstract
     public override string ToString()
     {
         var vr = sb.ToString();
-        sb = new InstantSB("");
+        sb = new InstantSB(" ");
         return vr;
     }
 

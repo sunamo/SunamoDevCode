@@ -88,3 +88,5 @@ global using SunamoDevCode.MsBuild.Values;
 global using SunamoDevCode._sunamo.SunamoDelegates;
 global using SunamoDevCode.SunamoSolutionsIndexer.Data.Project;
 global using SunamoDevCode._sunamo.SunamoData.Data;
+global using SunamoDevCode.MsBuild.Enums;
+global using SunamoDevCode._sunamo.SunamoFileIO;

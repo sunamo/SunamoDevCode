@@ -20,10 +20,9 @@ public class CSharpClassesGenerator
 
     public static string Dictionary(string nameClass, List<string> keys, List<string> values)
     {
-        if (keys.Count != values.Count)
-        {
-            ThrowEx.DifferentCountInLists("", keys.Count, "", values.Count);
-        }
+
+        ThrowEx.DifferentCountInLists(nameof(keys), keys.Count, nameof(values), values.Count);
+
 
         CSharpGenerator genCS = new CSharpGenerator();
         genCS.StartClass(0, AccessModifiers.Private, false, nameClass);

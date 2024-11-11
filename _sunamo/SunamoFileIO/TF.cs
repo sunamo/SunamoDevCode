@@ -1,4 +1,5 @@
-﻿//namespace SunamoDevCode._sunamo.SunamoFileIO;
+namespace SunamoDevCode._sunamo.SunamoFileIO;
+//namespace SunamoDevCode._sunamo.SunamoFileIO;
 //internal class TF
 //{
 

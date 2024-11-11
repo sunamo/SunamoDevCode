@@ -227,7 +227,7 @@ internal class TextOutputGenerator //: ITextOutputGenerator
         Header(header);
         foreach (var item in ordered)
         {
-            sb.AppendLine(item.Key + "" + item.Value);
+            sb.AppendLine(item.Key + " " + item.Value);
         }
     }
     internal void IGrouping(IEnumerable<IGrouping<string, string>> g)
@@ -258,7 +258,7 @@ internal class TextOutputGenerator //: ITextOutputGenerator
             List<string> d = new List<string>(ls.Count);
             foreach (var item in ls)
             {
-                d.Add(item.Key + "" + item.Value.Count());
+                d.Add(item.Key + " " + item.Value.Count());
             }
             List(d);
         }
@@ -311,7 +311,7 @@ internal class TextOutputGenerator //: ITextOutputGenerator
     {
         sb.AppendLine(key + ": " + v);
     }
-    internal string DictionaryBothToStringToSingleLine<Key, Value>(Dictionary<Key, Value> sorted, bool putValueAsFirst, string delimiter = "")
+    internal string DictionaryBothToStringToSingleLine<Key, Value>(Dictionary<Key, Value> sorted, bool putValueAsFirst, string delimiter = " ")
     {
         foreach (var item in sorted)
         {

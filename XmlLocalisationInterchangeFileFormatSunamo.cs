@@ -207,7 +207,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         //var tl = SHGetLines.GetLines(t);
         for (i = ls2.Count - 1; i >= 0; i--)
             for (y = 0; y < ls.Count; y++)
-                if (ls[y].Contains("" + ls2[i] + ""))
+                if (ls[y].Contains(" " + ls2[i] + " "))
                 {
                     ls2.RemoveAt(i);
                     ls.RemoveAt(y);

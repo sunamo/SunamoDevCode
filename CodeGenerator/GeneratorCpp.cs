@@ -14,7 +14,7 @@ public class GeneratorCpp : GeneratorCodeAbstract
 
     private void NewVariable(int tabCount, AccessModifiers _public, string cn, string name, bool createInstance)
     {
-        AddTab2(tabCount, "");
+        AddTab2(tabCount, " ");
         sb.AddItem(cn);
         sb.AppendLine(name + ";");
     }
@@ -44,7 +44,7 @@ public class GeneratorCpp : GeneratorCodeAbstract
 
     public void Array(int tabsCount, string arrayName, string customType, Dictionary<string, string> dict)
     {
-        AddTab2(tabsCount, "");
+        AddTab2(tabsCount, " ");
         sb.AddItem(customType);
         Append(tabsCount, arrayName + "[" + dict.Count + "]=");
         Append(0, "{");
