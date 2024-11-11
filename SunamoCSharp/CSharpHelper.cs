@@ -297,8 +297,8 @@ public static class CSharpHelper
     /// </summary>
     /// <param name="fnwoe"></param>
     /// <param name="lines"></param>
-    /// <param name="RemoveBetweenIfAndEndif"></param>
-    /// <param name="csWithSharpIf"></param>
+    /// <param name="RemoveBetweenIfAndEndif">Can be null</param>
+    /// <param name="csWithSharpIf">Can't be null</param>
     /// <returns></returns>
     public static bool IsEmptyCommentedOrOnlyWithNamespace(string fnwoe, List<string> lines, Action<List<string>> RemoveBetweenIfAndEndif, List<string> csWithSharpIf)
     {

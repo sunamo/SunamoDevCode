@@ -7,10 +7,19 @@ using System.Threading.Tasks;
 
 public class AddOrEditNamespaceService
 {
-    // Automatically save to file
-    public async Task<string> AddOrEditNamespaceForSingleFileAndSave(string pathToCsprojFolder, string projectName
+    public async Task<string?> AddOrEditNamespaceForSingleFileAndSave(string pathToCsprojFolder, string projectName
         , string csPath, List<string> linesFile = null, string pathToSave = null)
     {
+        if (linesFile == null)
+        {
+            linesFile = (await File.ReadAllLinesAsync(csPath)).ToList();
+        }
+
+        if (CSharpHelper.IsEmptyCommentedOrOnlyWithNamespace(Path.GetFileNameWithoutExtension(csPath), linesFile, null, [null]))
+        {
+            return null;
+        }
+
         var fnwoe = Path.GetFileNameWithoutExtension(csPath);
 
         if (csPath.EndsWith(".xaml.cs")) return null;
@@ -22,10 +31,7 @@ public class AddOrEditNamespaceService
 
         if (fn == "GlobalUsings") return null;
 
-        if (linesFile == null)
-        {
-            linesFile = (await File.ReadAllLinesAsync(csPath)).ToList();
-        }
+
 
         if (pathToSave != null)
         {
