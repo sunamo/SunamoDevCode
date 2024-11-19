@@ -26,15 +26,16 @@ List<string>
     public static IProgressBarDC clpb = null;
     public static List<string> cantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull = new();
 
+    /// <summary>
+    ///     Nemůže se volat společně s .Result! viz. https://stackoverflow.com/a/65820543/9327173 Způsobí to deadlock! Musím to
+    ///     dělat přes ThisApp.async_
+    ///     Can return null during many situations
+    ///     For example when ignored => must always checking for null
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+
     public static
-        /// <summary>
-        ///     Nemůže se volat společně s .Result! viz. https://stackoverflow.com/a/65820543/9327173 Způsobí to deadlock! Musím to
-        ///     dělat přes ThisApp.async_
-        ///     Can return null during many situations
-        ///     For example when ignored => must always checking for null
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
 #if ASYNC
         async Task<ResultWithExceptionDC<XmlDocument>>
 #else
