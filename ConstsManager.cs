@@ -51,8 +51,6 @@ public class ConstsManager
     /// <summary>
     ///     Get consts which exists in XlfKeys.cs
     /// </summary>
-    /// <param name="first"></param>
-    /// <param name="lines"></param>
     public
 #if ASYNC
         async Task<OutRef3DC<List<string>, int, List<string>>>

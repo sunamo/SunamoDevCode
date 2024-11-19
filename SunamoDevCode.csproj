@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>24.11.19.2</Version>
+    <Version>24.11.19.3</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with SunamoCode and SunamoCSharp.</Description>
     <PackageReleaseNotes>Tidy up</PackageReleaseNotes>
     <Authors>www.sunamo.cz</Authors>
