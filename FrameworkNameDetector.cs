@@ -56,15 +56,4 @@ to jen znamená že to byla sračka a nikdo to nevyužíval, když se to nikde n
 
         return null;
     }
-
-    public static
-#if ASYNC
-        async Task<Version>
-#else
-Version
-#endif
-        Detect(string path)
-    {
-        return null;
-    }
 }

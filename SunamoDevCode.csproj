@@ -2,9 +2,9 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>24.11.19.3</Version>
+    <Version>24.11.20.1</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with SunamoCode and SunamoCSharp.</Description>
-    <PackageReleaseNotes>Tidy up</PackageReleaseNotes>
+    <PackageReleaseNotes>Fix empty string for spaces</PackageReleaseNotes>
     <Authors>www.sunamo.cz</Authors>
     <Copyright>www.sunamo.cz</Copyright>
     <PackageProjectUrl>https://sunamo.cz/</PackageProjectUrl>
