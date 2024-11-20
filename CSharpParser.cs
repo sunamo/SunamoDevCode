@@ -50,16 +50,13 @@ public class CSharpParser
             }
         }
 
-        //var d3 = lines.Where(d => d.Contains(d2));
-
         await File.WriteAllLinesAsync(file, lines);
         if (remove.Count > 0)
         {
-            //throw new Exception( "Cant be deleted in XlfKeys: " + string.Join(",", remove));
+            throw new Exception("Cant be deleted in XlfKeys: " + string.Join(",", remove));
         }
     }
 
-    //public const string d2 = "YouCameToThisPageBecauseYouTriedToLoadThePageOrToPerformAnotherOperationThatYouDoNotHavePermissionToDoOrThatIsNotApplicableInThisContext";
     public static List<string> ParseConsts(List<string> lines, out int first)
     {
         var keys = new List<string>();
