@@ -4,10 +4,10 @@ public class CSharpParser
 {
     public const string p = "public ";
 
-    private static Type type = typeof(CSharpParser);
+
     //public const string c = "const string";
 
-    public static string c => XmlLocalisationInterchangeFileFormatSunamo.cs;
+    //public static string c => XmlLocalisationInterchangeFileFormatSunamo.cs;
 
 
 
@@ -38,7 +38,7 @@ public class CSharpParser
         for (var i = lines.Count - 1; i >= 0; i--)
         {
             var text = lines[i].Trim();
-            if (text.Contains(c))
+            if (text.Contains(XmlLocalisationInterchangeFileFormatSunamo.cs))
             {
                 var key = XmlLocalisationInterchangeFileFormatSunamo.GetConstsFromLine(text);
                 var dx = remove.IndexOf(key);
@@ -67,7 +67,7 @@ public class CSharpParser
         for (var i = 0; i < lines.Count; i++)
         {
             var text = lines[i].Trim();
-            if (text.Contains(c))
+            if (text.Contains(XmlLocalisationInterchangeFileFormatSunamo.cs))
             {
                 if (first == -1) first = i;
 
