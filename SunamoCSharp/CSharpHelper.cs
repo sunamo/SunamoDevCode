@@ -296,12 +296,14 @@ public static class CSharpHelper
     /// Vrátí true i když obsahuje kód bez středníku (např. prázdnou třídu)
     /// </summary>
     /// <param name="fnwoe"></param>
-    /// <param name="lines"></param>
+    /// <param name="linesOriginal"></param>
     /// <param name="RemoveBetweenIfAndEndif">Can be null</param>
     /// <param name="csWithSharpIf">Can't be null</param>
     /// <returns></returns>
-    public static bool IsEmptyCommentedOrOnlyWithNamespace(string fnwoe, List<string> lines, Action<List<string>> RemoveBetweenIfAndEndif, List<string> csWithSharpIf)
+    public static bool IsEmptyCommentedOrOnlyWithNamespace(string fnwoe, List<string> linesOriginal, Action<List<string>> RemoveBetweenIfAndEndif, List<string> csWithSharpIf)
     {
+        var lines = linesOriginal.ToList();
+
         //var l = await GetFileContentLines(v, true);
         //var fnwoe = Path.GetFileNameWithoutExtension(v);
         if (csWithSharpIf.Contains(fnwoe))

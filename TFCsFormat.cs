@@ -93,9 +93,11 @@ public class TFCsFormat
 
         usings.Insert(0, ns);
 
+        TrimWhiteSpaceRowFromEnd(l2);
+
         if (wasBlockScopedNs)
         {
-            TrimWhiteSpaceRowFromEnd(l2);
+
             if (l2[l2.Count - 1] == "}")
             {
                 l2.RemoveAt(l2.Count - 1);
