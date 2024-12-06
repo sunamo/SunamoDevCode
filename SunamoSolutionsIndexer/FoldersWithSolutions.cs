@@ -1,4 +1,6 @@
 namespace SunamoDevCode.SunamoSolutionsIndexer;
+using Microsoft.Extensions.Logging;
+
 public class FoldersWithSolutions
 {
     #region data fields
@@ -61,7 +63,7 @@ public class FoldersWithSolutions
     /// This class should be instaniate only once and then call reload by needs
     /// A1 toSelling can be null
     /// </summary>
-    public FoldersWithSolutions(string documentsFolder, PpkOnDriveDC toSelling, bool addAlsoSolutions = true)
+    public FoldersWithSolutions(ILogger logger, string documentsFolder, PpkOnDriveDC toSelling, bool addAlsoSolutions = true)
     {
         // documentsFolder může být null / SE, stejně to poté doplňuji z actualPlatform
         ThrowEx.DirectoryExists(documentsFolder);
@@ -69,7 +71,7 @@ public class FoldersWithSolutions
         this.documentsFolder = documentsFolder;
         if (addAlsoSolutions)
         {
-            solutions = Reload(documentsFolder, toSelling);
+            solutions = Reload(logger, documentsFolder, toSelling);
 
             //if (fwss.Count == 0)
             //{
@@ -115,9 +117,9 @@ public class FoldersWithSolutions
     /// A1 toSelling must be null
     /// </summary>
     /// <param name="documentsFolder"></param>
-    public List<SolutionFolder> Reload(string documentsFolder, PpkOnDriveDC toSelling, bool ignorePartAfterUnderscore = false)
+    public List<SolutionFolder> Reload(ILogger logger, string documentsFolder, PpkOnDriveDC toSelling, bool ignorePartAfterUnderscore = false)
     {
-        PairProjectFolderWithEnum(documentsFolder);
+        PairProjectFolderWithEnum(logger, documentsFolder);
 
         // Get all projects in A1(Visual Studio Projects *) and GitHub folder
         List<string> solutionFolders = ReturnAllProjectFolders(documentsFolder /*, Path.Combine(documentsFolder, SolutionsIndexerStrings.GitHubMy)*/);
@@ -143,7 +145,7 @@ public class FoldersWithSolutions
 
     static TwoWayDictionary<ProjectsTypes, string> projectTypes = new TwoWayDictionary<ProjectsTypes, string>();
 
-    public static void PairProjectFolderWithEnum(string documentsFolder)
+    public static void PairProjectFolderWithEnum(ILogger logger, string documentsFolder)
     {
         if (projectTypes._d1.Count > 0)
         {
@@ -183,7 +185,17 @@ public class FoldersWithSolutions
 
                 if (p == ProjectsTypes.None)
                 {
-                    throw new Exception(sess.i18n(XlfKeys.CanTAssignToEnumTypeOfFolder) + " " + item);
+                    /* 
+                     * Toto byl nesmysl. Když vytvořím novou složku (což vytvářím často, protože se furt něco nového učím)
+                     * musím upravit i SunamoDevCode. Vytvořit nový nuget. 
+                     * Pak ho updatovat do různých apps. Jen CommandsToAll* mám 3. 
+                     * Zbuildit, zkopírovat, teprve pak to funguje. 
+                     * 
+                     * Navíc si nepamatuji že bych toto kdekoliv použil.
+                     */
+                    //throw new Exception(sess.i18n(XlfKeys.CanTAssignToEnumTypeOfFolder) + " " + item);
+
+                    logger.LogWarning(sess.i18n(XlfKeys.CanTAssignToEnumTypeOfFolder) + " " + item);
                 }
 
                 projectTypes.Add(p, l);

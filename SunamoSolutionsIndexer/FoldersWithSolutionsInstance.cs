@@ -1,4 +1,6 @@
 namespace SunamoDevCode.SunamoSolutionsIndexer;
+using Microsoft.Extensions.Logging;
+
 public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 {
     public static FoldersWithSolutionsInstance Instance = null;
@@ -25,7 +27,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
     /// This class should be instaniate only once and then call reload by needs
     /// A1 toSelling can be null
     /// </summary>
-    public FoldersWithSolutionsInstance(string documentsFolder, PpkOnDriveDC toSelling, bool addAlsoSolutions = true, bool notSaveToInstance = false)
+    public FoldersWithSolutionsInstance(ILogger logger, string documentsFolder, PpkOnDriveDC toSelling, bool addAlsoSolutions = true, bool notSaveToInstance = false)
     {
         if (!notSaveToInstance)
         {
@@ -39,7 +41,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
         if (addAlsoSolutions)
         {
             // !notSaveToInstance - useBp
-            Reload(documentsFolder, toSelling, !notSaveToInstance);
+            Reload(logger, documentsFolder, toSelling, !notSaveToInstance);
         }
 
         // musím nastavit až na konci když přiřadím veškeré proměnné
@@ -66,14 +68,14 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
     /// A1 toSelling must be null
     /// </summary>
     /// <param name="documentsFolder"></param>
-    public List<SolutionFolder> Reload(string documentsFolder, PpkOnDriveDC toSelling, bool useBp = true, bool ignorePartAfterUnderscore = false, bool sunamoAndSunamoWithoutDepProjectsAsFirst = true)
+    public List<SolutionFolder> Reload(ILogger logger, string documentsFolder, PpkOnDriveDC toSelling, bool useBp = true, bool ignorePartAfterUnderscore = false, bool sunamoAndSunamoWithoutDepProjectsAsFirst = true)
     {
         if (documentsFolder.Contains("Project"))
         {
             throw new Exception("Takto to zatím nefunguje (jako sln se předávají poté složky .git atd., typy projektů jsou Aps atd.) ale mohlo by");
         }
 
-        FoldersWithSolutions.PairProjectFolderWithEnum(documentsFolder);
+        FoldersWithSolutions.PairProjectFolderWithEnum(logger, documentsFolder);
 
         // Get all projects in A1(Visual Studio Projects *) and GitHub folder
         List<string> solutionFolders = ReturnAllProjectFolders(documentsFolder, useBp /*, Path.Combine(documentsFolder, SolutionsIndexerStrings.GitHubMy)*/);
