@@ -2,9 +2,9 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>24.12.6.1</Version>
+    <Version>24.12.14.1</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with SunamoCode and SunamoCSharp.</Description>
-    <PackageReleaseNotes>Log instead of exceptions</PackageReleaseNotes>
+    <PackageReleaseNotes>Added #nullable context</PackageReleaseNotes>
     <Authors>www.sunamo.cz</Authors>
     <Copyright>www.sunamo.cz</Copyright>
     <PackageProjectUrl>https://sunamo.cz/</PackageProjectUrl>
@@ -13,6 +13,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CaseDotNet" Version="0.3.36" />
