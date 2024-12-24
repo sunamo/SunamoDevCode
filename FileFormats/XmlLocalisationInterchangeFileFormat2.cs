@@ -184,7 +184,7 @@ TranslateEngine");
 
 
     /// <summary>
-    /// To be able to found with this method must be wrapped with XlfKeys and sess.i18n or RLData.en
+    /// To be able to found with this method must be wrapped with XlfKeys and Translate.FromKey or RLData.en
     ///
     /// A3 is here only due to breakpoint for certain files
     /// </summary>
@@ -1185,7 +1185,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
     }
 
     /// <summary>
-    /// was collection with previously existed properties in SunamoStrings class like sess.i18n(XlfKeys.EditUserAccount)
+    /// was collection with previously existed properties in SunamoStrings class like Translate.FromKey(XlfKeys.EditUserAccount)
     /// </summary>
     static readonly List<string> sunamoStrings = SHGetLines.GetLines(@"");
 

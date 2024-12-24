@@ -6,7 +6,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
     private const string eqBs = " = \"";
 
     /// <summary>
-    ///     sess.i18n(
+    ///     Translate.FromKey(
     /// </summary>
     public const string RLDataEn = SunamoNotTranslateAble.RLDataEn;
 

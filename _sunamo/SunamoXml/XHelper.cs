@@ -286,12 +286,12 @@ string
             await
 #endif
             File.WriteAllTextAsync(pathOrContent, formatted);
-            //ThisApp.Success(sess.i18n(XlfKeys.ChangesSavedToFile));
+            //ThisApp.Success(Translate.FromKey(XlfKeys.ChangesSavedToFile));
             return null;
         }
         else
         {
-            //ThisApp.Success(sess.i18n(XlfKeys.ChangesSavedToClipboard));
+            //ThisApp.Success(Translate.FromKey(XlfKeys.ChangesSavedToClipboard));
             return formatted;
         }
     }

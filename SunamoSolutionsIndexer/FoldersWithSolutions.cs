@@ -193,9 +193,9 @@ public class FoldersWithSolutions
                      * 
                      * Navíc si nepamatuji že bych toto kdekoliv použil.
                      */
-                    //throw new Exception(sess.i18n(XlfKeys.CanTAssignToEnumTypeOfFolder) + " " + item);
+                    //throw new Exception(Translate.FromKey(XlfKeys.CanTAssignToEnumTypeOfFolder) + " " + item);
 
-                    logger.LogWarning(sess.i18n(XlfKeys.CanTAssignToEnumTypeOfFolder) + " " + item);
+                    logger.LogWarning(Translate.FromKey(XlfKeys.CanTAssignToEnumTypeOfFolder) + " " + item);
                 }
 
                 projectTypes.Add(p, l);

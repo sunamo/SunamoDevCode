@@ -18,7 +18,7 @@ internal class sess
     /// </summary>
     /// <param name="k"></param>
     /// <returns></returns>
-    internal static string i18n(string k)
+    internal static string FromKey(string k)
     {
         return k;
     }
