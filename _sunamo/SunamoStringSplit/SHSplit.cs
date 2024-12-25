@@ -8,7 +8,51 @@ internal class SHSplit
         return p.Split(newLine, StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
+    /// <summary>
+    ///     Get null if count of getted parts was under A2.
+    ///     Automatically add empty padding items at end if got lower than A2
+    ///     Automatically join overloaded items to last by A2.
+    /// </summary>
+    /// <param name="p"></param>
+    /// <param name="p_2"></param>
+    public static List<string> SplitToParts(string what, int parts, string deli)
+    {
+        var s = SplitMore(what.RemoveInvisibleChars(), deli);
+        if (s.Count < parts)
+        {
+            // Pokud je pocet ziskanych partu mensi, vlozim do zbytku prazdne retezce
+            if (s.Count > 0)
+            {
+                var vr2 = new List<string>();
+                for (var i = 0; i < parts; i++)
+                    if (i < s.Count)
+                        vr2.Add(s[i]);
+                    else
+                        vr2.Add("");
+                return vr2;
+                //return new string[] { s[0] };
+            }
 
+            return null;
+        }
+
+        if (s.Count == parts)
+            // Pokud pocet ziskanych partu souhlasim presne, vratim jak je
+            return s;
+        // Pokud je pocet ziskanych partu vetsi nez kolik ma byt, pripojim ty co josu navic do zbytku
+        parts--;
+        var vr = new List<string>();
+        for (var i = 0; i < s.Count; i++)
+            if (i < parts)
+                vr.Add(s[i]);
+            else if (i == parts)
+                vr.Add(s[i] + deli);
+            else if (i != s.Count - 1)
+                vr[parts] += s[i] + deli;
+            else
+                vr[parts] += s[i];
+        return vr;
+    }
 
     internal static List<string> SplitCharMore(string parametry, char deli)
     {

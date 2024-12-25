@@ -10,9 +10,9 @@ namespace SunamoDevCode._sunamo.SunamoLang.SunamoI18N;
 //SunamoLang
 //#endif
 //;
-internal class sess
+internal class Translate
 {
-    private static readonly Type type = typeof(sess);
+    private static readonly Type type = typeof(Translate);
     /// <summary>
     ///     Usage: Exceptions.IsNotWindowsPathFormat
     /// </summary>

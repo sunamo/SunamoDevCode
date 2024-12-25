@@ -1,8 +1,6 @@
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 public class VpsHelperDevCode
 {
-
-
     static PushSolutionsData pushSolutionsData = new PushSolutionsData();
     //public static PpkOnDrive list = new PpkOnDrive(AppData.ci.GetFile(AppFolders.Data, "SlnVps.txt"));
     //public static PpkOnDrive listMain = new PpkOnDrive(AppData.ci.GetFile(AppFolders.Data, "SlnVpsMain.txt"));
@@ -63,6 +61,4 @@ public class VpsHelperDevCode
         //ClipboardHelper.SetText(pullAllResult);
         return pullAllResult;
     }
-
-
 }
