@@ -515,7 +515,7 @@ public class FoldersWithSolutionsInstance : IFoldersWithSolutionsInstance
 
     public Tuple<List<string>, List<string>> ReturnNormalAndSpecialFolders(string sloz)
     {
-        List<string> special = null;
+        List<string>? special = null;
         List<string> normal = null;
         ReturnNormalAndSpecialFolders(sloz, out special, out normal);
         return new Tuple<List<string>, List<string>>(normal, special);
