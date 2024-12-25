@@ -357,7 +357,7 @@ public class GitBashBuilder : IGitBashBuilder
     }
     public void Append(string text)
     {
-        sb.Append(text);
+        sb.Append(text + " ");
     }
     public void AppendLine(string text)
     {
