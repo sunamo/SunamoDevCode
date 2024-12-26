@@ -92,6 +92,7 @@ public class TFCsFormat
         }
 
         usings.Insert(0, ns);
+        usings.Insert(1, "");
 
         TrimWhiteSpaceRowFromEnd(l2);
 
