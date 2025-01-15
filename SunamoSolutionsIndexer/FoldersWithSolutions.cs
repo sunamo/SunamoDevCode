@@ -13,9 +13,9 @@ public class FoldersWithSolutions
     /// </summary>
     public string documentsFolder = null;
     #endregion
+
     static Type type = typeof(FoldersWithSolutions);
-    static FoldersWithSolutionsInstance _fws = null;
-    static FoldersWithSolutionsInstance fws = _fws == null ? FoldersWithSolutionsInstance.Instance : _fws;
+    static FoldersWithSolutions _fws = null;
     public static RepositoryLocal usedRepository = RepositoryLocal.Vs17;
 
     public static void IdentifyProjectType(string documentsFolder, string solutionFolder, SolutionFolder sf, bool useBp)
@@ -51,11 +51,16 @@ public class FoldersWithSolutions
     /// <summary>
     /// Složka ve které se má hledat na složku Projects a složky Visual Studia
     ///
-    /// přidává se mi zde když volám ctor FoldersWithSolutionsInstance
+    /// přidává se mi zde když volám ctor FoldersWithSolutions
     ///
     /// pokud nemám sln, zavolat new FoldersWithSolutions(BasePathsHelper.vs, null);
     /// </summary>
     public static FoldersWithSolutionsList fwss = new FoldersWithSolutionsList();
+
+    public static void InsertIntoFwss(ILogger logger, string documentsFolder, PpkOnDriveDC toSelling, bool addAlsoSolutions = true)
+    {
+        new FoldersWithSolutions(logger, documentsFolder, toSelling, addAlsoSolutions);
+    }
 
     #region ctor
     /// <summary>
@@ -81,20 +86,19 @@ public class FoldersWithSolutions
 
 
         fwss.Add(this);
-        //    FoldersWithSolutions.fwss.Add(new FoldersWithSolutionsInstance());
+        //    FoldersWithSolutions.fwss.Add(new FoldersWithSolutions());
 
 
-        // Nemůžu použít, FoldersWithSolutions není odvozené od FoldersWithSolutionsInstance
+        // Nemůžu použít, FoldersWithSolutions není odvozené od FoldersWithSolutions
         //fwss.Add(new FoldersWithSolutions(this));
     }
 
-    public FoldersWithSolutions(FoldersWithSolutionsInstance fws2)
+    public FoldersWithSolutions(FoldersWithSolutions fws2)
     {
-        fws = fws2;
         solutions = fws2.solutions;
         documentsFolder = fws2.documentsFolder;
-        fwss = fws2.fwss;
-        onlyRealLoadedSolutionsFolders = fws2.onlyRealLoadedSolutionsFolders;
+        fwss = FoldersWithSolutions.fwss;
+        onlyRealLoadedSolutionsFolders = FoldersWithSolutions.onlyRealLoadedSolutionsFolders;
     }
     #endregion
 
@@ -519,62 +523,64 @@ public class FoldersWithSolutions
     /// <param name="alsoAdd"></param>
     private List<string> ReturnAllProjectFolders(string folderWithVisualStudioFolders, params string[] alsoAdd)
     {
-        throw new Exception("Tady to upravit abych měl jen 1 cestu a ne 3 pro vps,, mb, q");
-        //List<string> projs = new List<string>();
-        //var bp = BasePathsHelper.actualPlatform;
+
+        List<string> projs = new List<string>();
+        var bp = BasePathsHelper.bpMb;
 
         //if (Directory.Exists(bp))
         //{
-        //    if (BasePathsHelper.bpVps == bp)
-        //    {
-        //        AddProjectsFolder(projs, bp);
-        //    }
-        //    else
-        //    {
-        //        List<string> visualStudioFolders = new List<string>([bp]); // Directory.GetDirectories(folderWithVisualStudioFolders, VpsHelperSunamo.IsQ ? "_" : SolutionsIndexerStrings.VisualStudio2017, SearchOption.TopDirectoryOnly));
-        //        foreach (var item in alsoAdd)
-        //        {
-        //            AddProjectsFolder(projs, item);
-        //        }
-        //        foreach (var item in visualStudioFolders)
-        //        {
-        //            List<string> slozkySJazyky = null;
-        //            List<string> slozkySJazykyOutsideVs17 = new List<string>();
-        //            try
-        //            {
-        //                slozkySJazyky = Directory.GetDirectories(item).ToList();
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                continue;
-        //            }
+        //if (BasePathsHelper.bpVps == bp)
+        //{
+        //    AddProjectsFolder(projs, bp);
+        //}
+        //else
+        //{
+        List<string> visualStudioFolders = new List<string>([bp]); // Directory.GetDirectories(folderWithVisualStudioFolders, VpsHelperSunamo.IsQ ? "_" : SolutionsIndexerStrings.VisualStudio2017, SearchOption.TopDirectoryOnly));
+        foreach (var item in alsoAdd)
+        {
+            AddProjectsFolder(projs, item);
+        }
 
-        //            slozkySJazykyOutsideVs17SH.Leading(Path.Combine(folderWithVisualStudioFolders.Replace("E:\\", "D:\\"), SolutionsIndexerConsts.BitBucket));
+        foreach (var item in visualStudioFolders)
+        {
+            List<string> slozkySJazyky = null;
+            List<string> slozkySJazykyOutsideVs17 = new List<string>();
+            try
+            {
+                slozkySJazyky = Directory.GetDirectories(item).ToList();
+            }
+            catch (Exception ex)
+            {
+                continue;
+            }
 
-        //            foreach (var item2 in slozkySJazyky)
-        //            {
-        //                #region New
-        //                string pfn = Path.GetFileName(item2);
-        //                if (SolutionsIndexerHelper.IsTheSolutionsFolder(pfn))
-        //                {
-        //                    AddProjectsFolder(projs, item2);
-        //                }
-        //                #endregion
-        //            }
 
-        //            foreach (var item2 in slozkySJazykyOutsideVs17)
-        //            {
-        //                #region New
-        //                if (Directory.Exists(item2))
-        //                {
-        //                    string pfn = Path.GetFileName(item2);
+            //slozkySJazykyOutsideVs17SH.Leading(Path.Combine(folderWithVisualStudioFolders.Replace("E:\\", "D:\\"), SolutionsIndexerConsts.BitBucket));
 
-        //                    AddProjectsFolder(projs, item2);
-        //                }
-        //                #endregion
-        //            }
-        //        }
-        //    }
+            foreach (var item2 in slozkySJazyky)
+            {
+                #region New
+                string pfn = Path.GetFileName(item2);
+                if (SolutionsIndexerHelper.IsTheSolutionsFolder(pfn))
+                {
+                    AddProjectsFolder(projs, item2);
+                }
+                #endregion
+            }
+
+            foreach (var item2 in slozkySJazykyOutsideVs17)
+            {
+                #region New
+                if (Directory.Exists(item2))
+                {
+                    string pfn = Path.GetFileName(item2);
+
+                    AddProjectsFolder(projs, item2);
+                }
+                #endregion
+            }
+        }
+        //}
         //}
         //else if (VpsHelperSunamo.IsVps)
         //{
@@ -584,8 +590,8 @@ public class FoldersWithSolutions
         //{
         //    throw new Exception(folderWithVisualStudioFolders + " not exists, therefore will be return none slsn");
         //}
-        //CAChangeContent.ChangeContent0(null, projs, SH.FirstCharUpper);
-        //return projs;
+        CAChangeContent.ChangeContent0(null, projs, SH.FirstCharUpper);
+        return projs;
     }
 
     public static Tuple<List<string>, List<string>> ReturnNormalAndSpecialFolders(string sloz)

@@ -1,14 +1,14 @@
-namespace SunamoDevCode.SunamoSolutionsIndexer;
+//namespace SunamoDevCode.SunamoSolutionsIndexer;
 
-public interface IFoldersWithSolutions
-{
-    FoldersWithSolutionsList fwss { get; }
+//public interface IFoldersWithSolutions
+//{
+//    FoldersWithSolutionsList fwss { get; }
 
 
-    /*
-#region IMainWindowAps
-    public static IMainWindowAps fws = null;
-    public FoldersWithSolutionsList fwss => fws.fwss; 
-    #endregion
-     */
-}
+//    /*
+//#region IMainWindowAps
+//    public static IMainWindowAps fws = null;
+//    public FoldersWithSolutionsList fwss => fws.fwss; 
+//    #endregion
+//     */
+//}
