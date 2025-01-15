@@ -230,8 +230,8 @@ public class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
 
         #region MyRegion
         var baseReleaseFolder = Path.Combine(projectFolderPath, @"bin\Release\");
-        var net7 = Path.Combine(baseReleaseFolder, "net8.0\\");
-        var net7Windows = Path.Combine(baseReleaseFolder, "net8.0-windows\\");
+        var net7 = Path.Combine(baseReleaseFolder, "net9.0\\");
+        var net7Windows = Path.Combine(baseReleaseFolder, "net9.0-windows\\");
 
         if (publish)
         {
