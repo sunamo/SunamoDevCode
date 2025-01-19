@@ -1,4 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoHtml.Html;
+
 internal class HtmlAssistant
 {
     internal static string TrimInnerHtml(string value)

@@ -2,6 +2,23 @@ namespace SunamoDevCode._sunamo;
 
 internal class DictionaryHelper
 {
+    public static IList<string> GetIfExists(Dictionary<string, List<string>> filesInSolutionReal, string prefix,
+       string v, bool postfixWithA2)
+    {
+        if (filesInSolutionReal.ContainsKey(v))
+        {
+            var r = filesInSolutionReal[v];
+            if (postfixWithA2)
+            {
+                if (!string.IsNullOrEmpty(v)) r = CA.PostfixIfNotEnding(v, r);
+                CA.Prepend(prefix, r);
+            }
+
+            return r;
+        }
+
+        return new List<string>();
+    }
     internal static void AddOrCreateIfDontExists<Key, Value>(Dictionary<Key, List<Value>> sl, Key key, Value value)
     {
         if (sl.ContainsKey(key))

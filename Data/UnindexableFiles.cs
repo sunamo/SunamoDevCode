@@ -9,9 +9,9 @@ public class UnindexableFiles
     {
     }
 
-    public CollectionWithoutDuplicatesDevCode<string> unindexablePathPartsFiles = new CollectionWithoutDuplicatesDevCode<string>();
-    public CollectionWithoutDuplicatesDevCode<string> unindexableFileNamesFiles = new CollectionWithoutDuplicatesDevCode<string>();
-    public CollectionWithoutDuplicatesDevCode<string> unindexableFileNamesExactlyFiles = new CollectionWithoutDuplicatesDevCode<string>();
-    public CollectionWithoutDuplicatesDevCode<string> unindexablePathEndsFiles = new CollectionWithoutDuplicatesDevCode<string>();
-    public CollectionWithoutDuplicatesDevCode<string> unindexablePathStartsFiles = new CollectionWithoutDuplicatesDevCode<string>();
+    public CollectionWithoutDuplicatesDC<string> unindexablePathPartsFiles = new CollectionWithoutDuplicatesDC<string>();
+    public CollectionWithoutDuplicatesDC<string> unindexableFileNamesFiles = new CollectionWithoutDuplicatesDC<string>();
+    public CollectionWithoutDuplicatesDC<string> unindexableFileNamesExactlyFiles = new CollectionWithoutDuplicatesDC<string>();
+    public CollectionWithoutDuplicatesDC<string> unindexablePathEndsFiles = new CollectionWithoutDuplicatesDC<string>();
+    public CollectionWithoutDuplicatesDC<string> unindexablePathStartsFiles = new CollectionWithoutDuplicatesDC<string>();
 }

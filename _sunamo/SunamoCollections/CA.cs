@@ -2,6 +2,48 @@ namespace SunamoDevCode._sunamo.SunamoCollections;
 
 internal class CA
 {
+    public static List<string> PostfixIfNotEnding(string pre, List<string> l)
+    {
+        for (var i = 0; i < l.Count; i++) l[i] = pre + l[i];
+        return l;
+    }
+    public static List<List<string>> Split(List<string> s, string determining)
+    {
+        var ls = new List<List<string>>();
+        var actual = new List<string>();
+        foreach (var item in s)
+            if (item == determining)
+            {
+                ls.Add(actual);
+                actual.Clear();
+            }
+
+        return ls;
+    }
+
+    internal static List<string> RemoveStringsEmptyTrimBefore(List<string> mySites)
+    {
+        for (var i = mySites.Count - 1; i >= 0; i--)
+            if (mySites[i].Trim() == string.Empty)
+                mySites.RemoveAt(i);
+        return mySites;
+    }
+
+
+    public static bool ContainsAnyFromElementBool(string s, IList<string> list,
+        bool acceptAsteriskForPassingAll = false)
+    {
+        if (list.Count() == 1 && list.First() == "*") return true;
+
+        var result = new List<int>();
+
+        foreach (var item in list)
+            if (s.Contains(item))
+                return true;
+
+        return false;
+    }
+
     internal static void RemoveNullEmptyWs(List<string> l)
     {
         for (int i = l.Count - 1; i >= 0; i--)
@@ -417,5 +459,8 @@ internal class CA
         return toReplace;
     }
 
-
+    internal static List<string> ToListString(params string[] v)
+    {
+        return v.ToList();
+    }
 }

@@ -7,6 +7,11 @@ namespace SunamoDevCode._sunamo.SunamoRegex;
 /// </summary>
 internal class Wildcard : Regex
 {
+    public static Regex CreateInstance(string pattern)
+    {
+        return new Regex(WildcardToRegex(pattern));
+    }
+
     /// <summary>
     /// Initializes a wildcard with the given search pattern.
     /// </summary>

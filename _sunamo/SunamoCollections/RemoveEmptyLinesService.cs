@@ -1,9 +1,4 @@
 namespace SunamoDevCode._sunamo.SunamoCollections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 internal class RemoveEmptyLinesService
 {
@@ -12,7 +7,6 @@ internal class RemoveEmptyLinesService
         RemoveEmptyLinesToFirstNonEmpty(c);
         RemoveEmptyLinesFromBack(c);
     }
-
     internal void RemoveEmptyLinesToFirstNonEmpty(List<string> content)
     {
         for (var i = 0; i < content.Count; i++)
@@ -29,7 +23,6 @@ internal class RemoveEmptyLinesService
             }
         }
     }
-
     internal void RemoveEmptyLinesFromBack(List<string> c)
     {
         for (var i = c.Count - 1; i >= 0; i--)

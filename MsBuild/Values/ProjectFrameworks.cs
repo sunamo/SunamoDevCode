@@ -1,4 +1,5 @@
 namespace SunamoDevCode.MsBuild.Values;
+
 public class ProjectFrameworks
 {
     public static List<string> uapFwVersions = new List<string>(["10.0.10240.0", "10.0.10586.0", "10.0.14393.0", "10.0.15063.0", "10.0.16299.0", "10.0.17134.1", "10.0.17763.0", "10.0.18362.0"]);

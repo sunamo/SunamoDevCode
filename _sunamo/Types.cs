@@ -1,7 +1,4 @@
 namespace SunamoDevCode._sunamo;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 internal class Types
 {

@@ -1,4 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoEnumsHelper;
+
 internal class EnumHelper
 {
     internal static T Parse<T>(string web, T _def, bool returnDefIfNull = false)

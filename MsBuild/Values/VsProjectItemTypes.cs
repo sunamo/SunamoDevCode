@@ -1,4 +1,5 @@
 namespace SunamoDevCode.MsBuild.Values;
+
 public class VsProjectItemTypes
 {
     public const string Content = "Content";

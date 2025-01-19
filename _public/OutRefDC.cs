@@ -1,4 +1,5 @@
 namespace SunamoDevCode._public;
+
 public class OutRefDC<T, U>
 {
     public OutRefDC(T t, U u)

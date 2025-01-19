@@ -2,7 +2,7 @@ namespace SunamoDevCode;
 
 public class SunamoDevCodeHelper
 {
-    public static bool TryDeleteDirectory(string v)
+    public static bool TryDeleteDirectory(ILogger logger, string v)
     {
         if (!Directory.Exists(v)) return true;
 
@@ -22,7 +22,7 @@ public class SunamoDevCodeHelper
             //}
         }
 
-        var files = FSGetFiles.GetFiles(v, "*", SearchOption.AllDirectories);
+        var files = FSGetFiles.GetFiles(logger, v, "*", SearchOption.AllDirectories);
         foreach (var item in files) File.SetAttributes(item, FileAttributes.Normal);
 
         try
@@ -54,7 +54,7 @@ public class SunamoDevCodeHelper
         {
             var np = item.Replace(b, folderTo);
             FS.CreateUpfoldersPsysicallyUnlessThere(np);
-            //FS.CopyFile(item, np, FileMoveCollisionOption.DontManipulate);
+            //FS.CopyFile(item, np, FileMoveCollisionOptionDC.DontManipulate);
         }
 
         archive(slnFolderTo);

@@ -8,9 +8,9 @@ public class TextBuilderDC
     private string _lastText = "";
     public StringBuilder sb = null;
     public string prependEveryNoWhite { get; set; } = string.Empty;
-    
-    
-    
+
+
+
     public List<string> list { get; set; }
     private bool _useList = false;
     public void Clear()
@@ -28,13 +28,13 @@ public class TextBuilderDC
     {
         return new TextBuilderDC(useList);
     }
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     public TextBuilderDC(bool useList = false)
     {
         _useList = useList;
@@ -136,10 +136,10 @@ public class TextBuilderDC
             sb.Append(prependEveryNoWhite + s + Environment.NewLine);
         }
     }
-    
-    
-    
-    
+
+
+
+
     public override string ToString()
     {
         if (_useList)

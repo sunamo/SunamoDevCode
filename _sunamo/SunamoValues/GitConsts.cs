@@ -1,4 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoValues;
+
 internal class GitConsts
 {
     internal const string startingHead = "<<<<<<<";

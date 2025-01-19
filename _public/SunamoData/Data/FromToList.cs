@@ -3,7 +3,7 @@ namespace SunamoDevCode._public.SunamoData.Data;
 
 public class FromToList
 {
-    public List<FromToDevCode> c = new();
+    public List<FromToDC> c = new();
     public bool IsInRange(int i)
     {
         foreach (var item in c)

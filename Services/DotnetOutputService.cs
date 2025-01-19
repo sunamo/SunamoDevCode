@@ -1,9 +1,4 @@
 namespace SunamoDevCode.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public class DotnetOutputService
 {
@@ -14,18 +9,15 @@ public class DotnetOutputService
             // MSBuild version 17.8.3+195e7f5a3 for .NET
             return null;
         }
-
         if (line2.Trim() == string.Empty)
         {
             return null;
         }
-
         var p = SHSplit.SplitToParts(line2, 4, ":");
         var p1Trim = p[1].Trim();
         string path = null;
         int line = -1;
         int column = -1;
-
         if (p1Trim.Contains("("))
         {
             var p3 = SHSplit.SplitMore(p1Trim, "(");
@@ -40,7 +32,6 @@ public class DotnetOutputService
         {
             path = p[0] + ":" + p1Trim;
         }
-
         var p2 = SHSplit.SplitMore(p[2].Trim(), " ");
         string type = null;
         string errorCode = null;
@@ -53,7 +44,6 @@ public class DotnetOutputService
         {
             return null;
         }
-
         var message = p[3].Trim();
         return new DotnetBuildOutputLine { Path = path, Line = line, Column = column, Type = type, ErrorCode = errorCode, Message = message };
     }

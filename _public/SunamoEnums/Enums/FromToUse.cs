@@ -1,5 +1,6 @@
 namespace SunamoDevCode._public.SunamoEnums.Enums;
-public enum FromToUseDevCode
+
+public enum FromToUseDC
 {
     DateTime,
     Unix,

@@ -1,4 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoString;
+
 internal class SHNotTranslateAble
 {
     internal static string DecodeSlashEncodedString(string value)

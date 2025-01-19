@@ -1,6 +1,4 @@
 namespace SunamoDevCode._sunamo;
-using System;
-using System.Collections.Generic;
 
 internal class WhitespaceCharService
 {
@@ -10,10 +8,8 @@ internal class WhitespaceCharService
 9, 10, 11, 12, 13, 32, 133, 160, 5760, 6158, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200, 8201, 8202,
 8232, 8233, 8239, 8287, 12288
 });
-
     internal void ConvertWhiteSpaceCodesToChars()
     {
-
         whiteSpaceChars = new List<char>(whiteSpacesCodes.Count);
         foreach (var item in whiteSpacesCodes)
         {
@@ -22,5 +18,4 @@ internal class WhitespaceCharService
             whiteSpaceChars.Add(ch);
         }
     }
-
 }

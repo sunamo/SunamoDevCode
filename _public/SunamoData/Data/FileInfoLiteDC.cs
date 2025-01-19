@@ -3,13 +3,13 @@ namespace SunamoDevCode._public.SunamoData.Data;
 
 public class FileInfoLiteDC
 {
-    
-    
-    
+
+
+
     public string Path = null;
-    
-    
-    
+
+
+
     public string Name = null;
     public string FileName
     {

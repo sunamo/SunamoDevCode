@@ -1,4 +1,5 @@
 namespace SunamoDevCode._sunamo;
+
 internal class XlfKeys
 {
     internal const string CanTAssignToEnumTypeOfFolder = "CanTAssignToEnumTypeOfFolder";

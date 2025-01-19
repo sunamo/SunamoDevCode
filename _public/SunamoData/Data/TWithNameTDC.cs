@@ -3,9 +3,9 @@ namespace SunamoDevCode._public.SunamoData.Data;
 
 public class TWithNameTDC<T>
 {
-    
-    
-    
+
+
+
     public string name = string.Empty;
     public T t;
     public TWithNameTDC()

@@ -52,7 +52,7 @@ internal class CAG
     internal static List<T> GetDuplicities<T>(List<T> clipboardL, out List<T> alreadyProcessed)
     {
         alreadyProcessed = new List<T>(clipboardL.Count);
-        CollectionWithoutDuplicatesDevCode<T> duplicated = new CollectionWithoutDuplicatesDevCode<T>();
+        CollectionWithoutDuplicatesDC<T> duplicated = new CollectionWithoutDuplicatesDC<T>();
         foreach (var item in clipboardL)
         {
             if (alreadyProcessed.Contains(item))

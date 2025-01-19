@@ -1,4 +1,5 @@
 ﻿namespace SunamoDevCode._sunamo.SunamoLang.SunamoXlf;
+
 internal class BasePathsHelper
 {
     // Tohle už nepoužívat. předávat v parametrech. ať to mám co nejjednodušší

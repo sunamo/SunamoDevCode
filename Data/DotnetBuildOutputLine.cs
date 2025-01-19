@@ -1,4 +1,5 @@
 namespace SunamoDevCode.Data;
+
 public class DotnetBuildOutputLine
 {
     public string Path { get; set; }

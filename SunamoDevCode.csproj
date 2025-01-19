@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
@@ -15,6 +15,11 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Aps\Projs\Values\**" />
+    <EmbeddedResource Remove="Aps\Projs\Values\**" />
+    <None Remove="Aps\Projs\Values\**" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CaseDotNet" Version="0.3.36" />
     <PackageReference Include="CaseDotNet.Extensions" Version="0.2.46" />

@@ -14,10 +14,10 @@ public class InstantSB
         string vratit = sb.ToString();
         return vratit;
     }
-    
-    
-    
-    
+
+
+
+
     public void AddItem(string var)
     {
         string s = var.ToString();
@@ -30,7 +30,7 @@ public class InstantSB
     {
         sb.Append(tab.ToString());
     }
-    
+
     public void AddItems(params string[] polozky)
     {
         foreach (var var in polozky)
@@ -38,10 +38,10 @@ public class InstantSB
             AddItem(var);
         }
     }
-    
-    
-    
-    
+
+
+
+
     public void EndLine(object o)
     {
         string s = o.ToString();
@@ -50,10 +50,10 @@ public class InstantSB
             sb.Append(s);
         }
     }
-    
-    
-    
-    
+
+
+
+
     public void AppendLine(string p)
     {
         EndLine(p + Environment.NewLine);

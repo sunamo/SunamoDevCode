@@ -1,7 +1,16 @@
 namespace SunamoDevCode._sunamo.SunamoExceptions;
+
 internal partial class ThrowEx
 {
+    public static bool FolderCantBeRemoved(string folder)
+    { return ThrowIsNotNull(Exceptions.FolderCantBeRemoved(FullNameOfExecutedCode(), folder)); }
+    public static bool IsEmpty(IEnumerable folders, string colName, string additionalMessage = "")
+    { return ThrowIsNotNull(Exceptions.IsEmpty(FullNameOfExecutedCode(), folders, colName, additionalMessage)); }
 
+    internal static void UseNonDummyCollection()
+    {
+        throw new NotImplementedException();
+    }
     internal static bool HasOddNumberOfElements(string listName, ICollection list)
     {
         var f = Exceptions.HasOddNumberOfElements;

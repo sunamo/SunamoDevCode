@@ -10,7 +10,7 @@ public class XlfData
     public XDocument xd = null;
     public List<XElement> trans_units = null;
     public List<string> allids = null;
-            
+        
     public void FillIds()
     {
         allids = new List<string>(trans_units.Count);

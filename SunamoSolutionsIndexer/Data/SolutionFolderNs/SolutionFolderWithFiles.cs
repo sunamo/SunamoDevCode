@@ -9,7 +9,7 @@ public class SolutionFolderWithFiles : SolutionFolder
     public Dictionary<string, List<string>> filesOfExtension = null;
     #region Filled in CheckSize()
     public Dictionary<int, long> filesAndSizes = null;
-    public Dictionary<TypeOfExtensionDevCode, long> sizeOfExtensionTypes = null;
+    public Dictionary<TypeOfExtensionDC, long> sizeOfExtensionTypes = null;
     /// <summary>
     /// All extensions is lower and without dot
     /// </summary>
@@ -30,7 +30,7 @@ public class SolutionFolderWithFiles : SolutionFolder
         nameSolutionWithoutDiacritic = sf.nameSolutionWithoutDiacritic;
 
         filesAndSizes = new Dictionary<int, long>();
-        sizeOfExtensionTypes = new Dictionary<TypeOfExtensionDevCode, long>();
+        sizeOfExtensionTypes = new Dictionary<TypeOfExtensionDC, long>();
         sizeOfExtension = new Dictionary<string, long>();
 
         files = Directory.GetFiles(fullPathFolder, "*", SearchOption.AllDirectories).ToList();

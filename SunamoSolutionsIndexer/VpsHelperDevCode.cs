@@ -1,4 +1,5 @@
 namespace SunamoDevCode.SunamoSolutionsIndexer;
+
 public class VpsHelperDevCode
 {
     static PushSolutionsData pushSolutionsData = new PushSolutionsData();

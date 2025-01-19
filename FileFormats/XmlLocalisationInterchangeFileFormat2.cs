@@ -1,4 +1,5 @@
 namespace SunamoDevCode.FileFormats;
+
 public static class XmlLocalisationInterchangeFileFormat
 {
     static List<string> xlfSolutions = new List<string>();

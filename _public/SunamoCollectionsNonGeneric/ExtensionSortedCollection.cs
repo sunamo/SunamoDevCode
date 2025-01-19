@@ -3,10 +3,10 @@ namespace SunamoDevCode._public.SunamoCollectionsNonGeneric;
 public class ExtensionSortedCollection
 {
     public Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
-    
-    
-    
-    
+
+
+
+
     public ExtensionSortedCollection(params string[] d)
     {
         d.ToList().ForEach(fileName => AddOnlyFileName(fileName));

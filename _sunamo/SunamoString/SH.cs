@@ -2,7 +2,35 @@ namespace SunamoDevCode._sunamo.SunamoString;
 
 internal class SH
 {
+    #region SH.FirstCharUpper
 
+
+    #endregion
+    internal static bool IsContained(string item, string contains)
+    {
+        var (negation, contains2) = IsNegationTuple(contains);
+        contains = contains2;
+
+        if (negation && item.Contains(contains))
+            return false;
+        if (!negation && !item.Contains(contains)) return false;
+
+        return true;
+    }
+    internal static (bool, string) IsNegationTuple(string contains)
+    {
+        if (contains[0] == '!')
+        {
+            contains = contains.Substring(1);
+            return (true, contains);
+        }
+
+        return (false, contains);
+    }
+    internal static int OccurencesOfStringIn(string source, string p_2)
+    {
+        return source.Split(new[] { p_2 }, StringSplitOptions.None).Length - 1;
+    }
     internal static string JoinNL(List<string> l)
     {
         StringBuilder sb = new();
@@ -160,9 +188,10 @@ internal class SH
     }
 
     #region SH.FirstCharUpper
-    internal static void FirstCharUpper(ref string nazevPP)
+    internal static string FirstCharUpper(ref string nazevPP)
     {
         nazevPP = FirstCharUpper(nazevPP);
+        return nazevPP;
     }
 
 
@@ -285,5 +314,10 @@ internal class SH
     internal static bool ContainsDiacritic(string target)
     {
         return target.HasDiacritics();
+    }
+
+    internal static string GetTextBetween(string content, string start, string end, bool v)
+    {
+        return GetTextBetweenSimple(content, start, end, v);
     }
 }

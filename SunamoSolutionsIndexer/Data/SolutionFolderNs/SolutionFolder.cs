@@ -14,7 +14,7 @@ public class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     /// </summary>
     /// <param name="sf"></param>
     /// <param name="onlyNames"></param>
-    public static void GetCsprojs(SolutionFolder sf, GetCsprojsArgs a = null)
+    public static void GetCsprojs(ILogger logger, SolutionFolder sf, GetCsprojsArgs a = null)
     {
         if (a == null)
         {
@@ -38,7 +38,7 @@ public class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
 
             foreach (var projectFolder in projectsFolder)
             {
-                var files = FSGetFiles.GetFiles(projectFolder, "*.csproj", SearchOption.TopDirectoryOnly, new GetFilesArgsArgs { _trimA1AndLeadingBs = a.onlyNames });
+                var files = FSGetFiles.GetFiles(logger, projectFolder, "*.csproj", SearchOption.TopDirectoryOnly, new GetFilesArgsDC { _trimA1AndLeadingBs = a.onlyNames });
                 foreach (var item in files)
                 {
                     csprojs.Add(item);
@@ -86,12 +86,12 @@ public class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     /// </summary>
     public ProjectsTypes typeProjectFolder { get; set; } = ProjectsTypes.None;
 
-    public void UpdateModules(PpkOnDriveDC toSelling)
+    public void UpdateModules(ILogger logger, PpkOnDriveDC toSelling)
     {
         if (toSelling != null)
         {
-            modulesSelling = SolutionsIndexerHelper.ModulesInSolution(projectsInSolution, fullPathFolder, true, toSelling);
-            modulesNotSelling = SolutionsIndexerHelper.ModulesInSolution(projectsInSolution, fullPathFolder, false, toSelling);
+            modulesSelling = SolutionsIndexerHelper.ModulesInSolution(logger, projectsInSolution, fullPathFolder, true, toSelling);
+            modulesNotSelling = SolutionsIndexerHelper.ModulesInSolution(logger, projectsInSolution, fullPathFolder, false, toSelling);
         }
     }
 

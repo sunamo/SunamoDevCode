@@ -1,4 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoStringReplace;
+
 internal class SHReplace
 {
     internal static string ReplaceAll(string vstup, string zaCo, params string[] co)

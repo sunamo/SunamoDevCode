@@ -1,5 +1,4 @@
 namespace SunamoDevCode;
-using System.Collections.Generic;
 
 public class FSGetFilesDC
 {
@@ -22,7 +21,6 @@ public class FSGetFilesDC
                 result.AddRange(Directory.GetFiles(item, masc, SearchOption.AllDirectories));
             }
         }
-
         return result;
     }
 }

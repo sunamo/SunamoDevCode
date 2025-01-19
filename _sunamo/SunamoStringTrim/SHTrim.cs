@@ -2,6 +2,13 @@ namespace SunamoDevCode._sunamo.SunamoStringTrim;
 
 internal class SHTrim
 {
+    public static string Trim(string s, string args)
+    {
+        s = TrimStart(s, args);
+        s = TrimEnd(s, args);
+
+        return s;
+    }
     internal static string TrimLeadingNumbersAtStart(string nameSolution)
     {
         for (int i = 0; i < nameSolution.Length; i++)

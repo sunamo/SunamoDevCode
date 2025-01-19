@@ -6,7 +6,7 @@ public static class CSharpHelper
     public const string Import = "import ";
 
     #region Cs files
-    public static string RemoveUsing(string text, CollectionWithoutDuplicatesDevCode<string> removed)
+    public static string RemoveUsing(string text, CollectionWithoutDuplicatesDC<string> removed)
     {
         foreach (var r in removed.c)
         {
@@ -170,7 +170,7 @@ public static class CSharpHelper
     }
 
     /// <param name="lines"></param>
-    public static void RemoveNamespace(List<string> lines, CollectionWithoutDuplicatesDevCode<string> removed, bool removeRegions = true)
+    public static void RemoveNamespace(List<string> lines, CollectionWithoutDuplicatesDC<string> removed, bool removeRegions = true)
     {
 
 
@@ -373,25 +373,25 @@ public static class CSharpHelper
         CA.RemoveEmptyLinesToFirstNonEmpty(l2);
     }
 
-    public static CollectionWithoutDuplicatesDevCode<string> Usings(List<string> lines, bool remove = false)
+    public static CollectionWithoutDuplicatesDC<string> Usings(List<string> lines, bool remove = false)
     {
         return Usings(lines, Using, remove);
     }
 
-    public static CollectionWithoutDuplicatesDevCode<string> Imports(List<string> lines, bool remove = false)
+    public static CollectionWithoutDuplicatesDC<string> Imports(List<string> lines, bool remove = false)
     {
         return Usings(lines, Import, remove);
     }
 
-    public static CollectionWithoutDuplicatesDevCode<string> Usings(List<string> lines, string keyword, bool remove = false)
+    public static CollectionWithoutDuplicatesDC<string> Usings(List<string> lines, string keyword, bool remove = false)
     {
         List<int> removeLines = null;
         return Usings(lines, keyword, out removeLines, remove);
     }
 
-    public static CollectionWithoutDuplicatesDevCode<string> Usings(List<string> lines, string keyword, out List<int> removeLines, bool remove = false)
+    public static CollectionWithoutDuplicatesDC<string> Usings(List<string> lines, string keyword, out List<int> removeLines, bool remove = false)
     {
-        CollectionWithoutDuplicatesDevCode<string> usings = new CollectionWithoutDuplicatesDevCode<string>();
+        CollectionWithoutDuplicatesDC<string> usings = new CollectionWithoutDuplicatesDC<string>();
         removeLines = new List<int>();
 
         int i = -1;
