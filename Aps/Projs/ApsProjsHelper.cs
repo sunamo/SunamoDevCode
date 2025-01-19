@@ -1,6 +1,7 @@
 
 using Microsoft.Extensions.Logging;
-using SunamoPaths;
+using SunamoDevCode.Aps.Projs;
+
 
 public class ApsProjsHelper
 {
@@ -98,7 +99,7 @@ public class ApsProjsHelper
 #endif
  SaveEmptyFullNetProject(string csProj, string projectName)
     {
-        string c = SHFormat.Format3(
+        string c = SHFormat.Format4(
 #if ASYNC
     await
 #endif

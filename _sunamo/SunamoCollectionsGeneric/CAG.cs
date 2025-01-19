@@ -101,4 +101,9 @@ internal class CAG
 
         return h;
     }
+
+    internal static List<T> ToList<T>(params T[] old)
+    {
+        return new List<T>(old);
+    }
 }

@@ -1,5 +1,5 @@
 
-namespace Aps.Projs._;
+namespace SunamoDevCode.Aps.Projs;
 /// <summary>
 /// Metodoy které se přesunuli do SunamoMicrosoftBuild
 /// Zde nemohli zůstat kvůli transitive deps

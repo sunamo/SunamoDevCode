@@ -1,5 +1,4 @@
-
-namespace Aps.Projs._;
+namespace SunamoDevCode.Aps.Projs;
 public partial class VsProjectsFileHelper
 {
     const string sdkAttrName = "Sdk";

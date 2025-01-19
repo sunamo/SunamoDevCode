@@ -1,6 +1,6 @@
 using SunamoDevCode.Aps.Enums;
 
-namespace Aps.Projs._;
+namespace SunamoDevCode.Aps.Projs;
 
 public partial class VsProjectsFileHelper
 {

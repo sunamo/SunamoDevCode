@@ -2,6 +2,14 @@ namespace SunamoDevCode._sunamo.SunamoFileSystem;
 
 internal class FS
 {
+    public static bool IsAbsolutePath(string path)
+    {
+        return !String.IsNullOrWhiteSpace(path)
+            && path.IndexOfAny(System.IO.Path.GetInvalidPathChars()) == -1
+            && Path.IsPathRooted(path)
+            && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal);
+    }
+
     public static string GetAbsolutePath2(string relativePath, string dir)
     {
         var ap = GetAbsolutePath(dir, relativePath);

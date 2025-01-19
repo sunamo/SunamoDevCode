@@ -1,4 +1,9 @@
 
+using SunamoDevCode._public.SunamoCollectionWithoutDuplicates;
+using SunamoDevCode.Aps.Helpers;
+using SunamoDevCode.Aps.Projs;
+using SunamoDevCode.Aps.Projs.Results;
+
 public class SunamoCsprojHelper
 {
     /// <summary>
@@ -30,7 +35,7 @@ public class SunamoCsprojHelper
 #if ASYNC
     await
 #endif
- FS.ReadAllText(fileOrContent);
+ TF.ReadAllText(fileOrContent);
             }
         }
         // bez ukončení závorkama protože může být i <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop"> atd.
@@ -185,13 +190,13 @@ public class SunamoCsprojHelper
     }
     static
 #if ASYNC
-        async Task<CollectionWithoutDuplicates<string>>
+        async Task<CollectionWithoutDuplicatesDC<string>>
 #else
         CollectionWithoutDuplicates<string>
 #endif
         BuildProjectsDependencyTree2(string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
     {
-        CollectionWithoutDuplicates<string> p = new CollectionWithoutDuplicates<string>();
+        CollectionWithoutDuplicatesDC<string> p = new CollectionWithoutDuplicatesDC<string>();
 #if ASYNC
         await
 #endif
@@ -204,7 +209,7 @@ public class SunamoCsprojHelper
 #else
         void
 #endif
-        BuildProjectsDependencyTree(CollectionWithoutDuplicates<string> p, string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
+        BuildProjectsDependencyTree(CollectionWithoutDuplicatesDC<string> p, string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
     {
         //E:\vs\Projects\PhotosSczClientCmd\PhotosSczClientCmd\PhotosSczClientCmd.csproj
         if (Ignored.IsIgnored(csproj))

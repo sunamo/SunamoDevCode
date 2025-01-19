@@ -1,4 +1,4 @@
-namespace Aps.Projs._;
+namespace SunamoDevCode.Aps.Projs;
 
 /// <summary>
 /// Only commented

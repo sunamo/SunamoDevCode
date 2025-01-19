@@ -1,3 +1,6 @@
+using SunamoDevCode.Aps.Enums;
+using SunamoDevCode.Aps.Projs;
+using SunamoDevCode.Aps.Projs.Data.ItemGroup;
 using SunamoDevCode.Aps.Projs.Results;
 
 ;
@@ -65,7 +68,7 @@ public partial class MoveToNet5
             {
                 var rig = new ReferenceItemGroup(item2, item, null);
                 // Toto tu muselo být zřejmě kvůli užívání AddItemGroupNoSdkStyle. Teď mi to dělá problémy protože .dll tam nepatří
-                VsProjectsFileHelper.AddItemGroupSdkStyle(item, AllProjectsSearch.Enums.ItemGroups.Reference, rig, true);
+                await VsProjectsFileHelper.AddItemGroupSdkStyle(item, ItemGroups.Reference, rig, true);
             }
         }
         // 1 = sdk style, not netstandard2.0
@@ -150,7 +153,7 @@ public partial class MoveToNet5
     }
     public
 #if ASYNC
-    async Task
+    async Task<string>
 #else
     void
 #endif
@@ -172,8 +175,9 @@ public partial class MoveToNet5
         {
             tog.ListSB(item.Value, item.Key.ToString());
         }
-        Output = tog.ToString();
-        OutputOpen();
+        //Output = tog.ToString();
+        //OutputOpen();
+        return tog.ToString();
     }
     public void ConvertAlLWebNetStandardProjectsToNet48()
     {
@@ -246,7 +250,7 @@ public partial class MoveToNet5
     }
     public
 #if ASYNC
-    async Task
+    async Task<string>
 #else
     void
 #endif
@@ -261,8 +265,9 @@ public partial class MoveToNet5
         tog.List(r.csprojSdkStyleList, nameof(r.csprojSdkStyleList));
         tog.List(r.netstandardList, nameof(r.netstandardList));
         tog.List(r.nonCsprojSdkStyleList, nameof(r.nonCsprojSdkStyleList));
-        ProgramShared.Output = tog.ToString();
-        ProgramShared.OutputOpen();
+        //ProgramShared.Output = tog.ToString();
+        //ProgramShared.OutputOpen();
+        return tog.ToString();
     }
     /// <summary>
     /// 1 = sdk style, not netstandard2.0
@@ -333,7 +338,7 @@ public partial class MoveToNet5
     }
     public
 #if ASYNC
-    async Task
+    async Task<string>
 #else
     void
 #endif
@@ -344,11 +349,11 @@ public partial class MoveToNet5
     await
 #endif
  FindProjectsWhichIsSdkStyle(true);
-        ProgramShared.Output = SHJoin.JoinNL(u.nonCsprojSdkStyleList);
-        ProgramShared.OutputOpen();
+        return SHJoin.JoinNL(u.nonCsprojSdkStyleList);
+
     }
     string nameProject = null;
-    public void ReplaceProjectReferenceForWeb(string n, string ns)
+    public async void ReplaceProjectReferenceForWeb(string n, string ns)
     {
         Console.WriteLine("Solution old & new must be in same root folder");
         n = SHTrim.TrimEnd(n, ".web");
@@ -362,7 +367,7 @@ public partial class MoveToNet5
             Console.WriteLine(item);
             //DebugLogger.Instance.WriteLine(item);
             //var dx =
-            ReplaceOrRemoveFile(WithWebEnd, ElementsItemGroup.ProjectReference, CAG.ToList<string>(old), item, nuova);
+            await ReplaceOrRemoveFile(WithWebEnd, ElementsItemGroup.ProjectReference, CAG.ToList<string>(old), item, nuova);
             //if (dx != -1)
             //{
             //    //break;

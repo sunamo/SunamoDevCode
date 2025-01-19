@@ -1,7 +1,6 @@
-
 using Microsoft.Extensions.Logging;
 
-namespace Aps.Projs._;
+namespace SunamoDevCode.Aps.Projs;
 public partial class VsProjectsFileHelper
 {
     static Type type = typeof(VsProjectsFileHelper);

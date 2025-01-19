@@ -1,6 +1,6 @@
 
 
-public partial class MoveToNet5
+public partial class MoveToNet5 //: ProgramShared
 {
     public List<FoldersWithSolutions> fwss => FoldersWithSolutions.fwss;
 

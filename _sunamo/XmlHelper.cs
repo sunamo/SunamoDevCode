@@ -7,6 +7,25 @@ using System.Threading.Tasks;
 namespace SunamoDevCode._sunamo;
 internal class XmlHelper
 {
+    public static void SetAttribute(XmlNode node, string include, string rel)
+    {
+        var xe = (XmlElement)node;
+        if (xe != null)
+        {
+            xe.SetAttribute(include, rel);
+            return;
+        }
+
+        // Working only when attribute
+        var atrValue = Attr(node, include);
+        if (atrValue == null)
+        {
+            var xa = node.OwnerDocument.CreateAttribute(include);
+            node.Attributes.Append(xa);
+        }
+
+        node.Attributes[include].Value = rel;
+    }
     internal static string Attr(XmlNode d, string v)
     {
         var a = GetAttributeWithName(d, v);
