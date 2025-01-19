@@ -55,7 +55,7 @@ ResultWithException<XmlDocument>
         {
             cache.Add(path, null);
             nulled++;
-            return new ResultWithExceptionDC<XmlDocument> { exc = "csproj is ignored: " + path };
+            return new ResultWithExceptionDC<XmlDocument> { Exc = "csproj is ignored: " + path };
         }
 
         // Load the XML document

@@ -1,5 +1,3 @@
-
-
 namespace SunamoDevCode._sunamo;
 
 internal class TF
@@ -12,6 +10,11 @@ internal class TF
     internal static async Task<string?> ReadAllText(string f)
     {
         return await File.ReadAllTextAsync(f);
+    }
+
+    internal static async Task WriteAllLines(string item2, List<string> l)
+    {
+        await File.WriteAllLinesAsync(item2, l);
     }
 
     internal static async Task WriteAllText(string csProj, string c)

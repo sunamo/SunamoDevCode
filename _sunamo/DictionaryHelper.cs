@@ -2,6 +2,19 @@ namespace SunamoDevCode._sunamo;
 
 internal class DictionaryHelper
 {
+    public static void AppendLineOrCreate<T>(Dictionary<T, StringBuilder> sb, T n, string item)
+    {
+        if (sb.ContainsKey(n))
+        {
+            sb[n].AppendLine(item);
+        }
+        else
+        {
+            var sb2 = new StringBuilder();
+            sb2.AppendLine(item);
+            sb.Add(n, sb2);
+        }
+    }
     public static IList<string> GetIfExists(Dictionary<string, List<string>> filesInSolutionReal, string prefix,
        string v, bool postfixWithA2)
     {

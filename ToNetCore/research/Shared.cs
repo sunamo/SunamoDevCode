@@ -1,4 +1,4 @@
-
+namespace SunamoDevCode.ToNetCore.research;
 
 public class Shared
 {
@@ -37,7 +37,7 @@ public class Shared
 
             if (b1 && b2)
             {
-                var b = SH.GetTextBetween(f, start, end);
+                var b = SH.GetTextBetween(f, start, end, false);
 
                 if (b != replaceFor)
                 {
@@ -108,7 +108,7 @@ public class Shared
 #else
     string
 #endif
- PlaformTargetTo(string replaceFor, string folderNonRec, bool throwEx = false)
+ PlaformTargetTo(ILogger logger, string replaceFor, string folderNonRec, bool throwEx = false)
     {
         if (ExtractArchive != null)
         {
@@ -116,7 +116,7 @@ public class Shared
             ExtractArchive(zf, true);
         }
 
-        var gf = FSGetFiles.GetFiles(folderNonRec, "*.csproj", false);
+        var gf = FSGetFiles.GetFiles(logger, folderNonRec, "*.csproj", false);
         return
 #if ASYNC
     await

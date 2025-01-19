@@ -1,6 +1,7 @@
+namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
+
 using SunamoDevCode.Aps.Enums;
 
-namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
 public class ProjectReferenceItemGroup : ItemGroupElement
 {
     public static Type type = typeof(ProjectReferenceItemGroup);

@@ -1,5 +1,6 @@
-using SunamoDevCode.Aps.Projs.Data.ItemGroup;
+namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
 
+using SunamoDevCode.Aps.Projs.Data.ItemGroup;
 
 public class NoneItemGroup : ItemGroupElement
 {

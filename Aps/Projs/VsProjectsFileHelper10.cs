@@ -1,7 +1,9 @@
+namespace SunamoDevCode.Aps.Projs;
+
+using SunamoDevCode._public;
 using SunamoDevCode.Aps.Enums;
 using SunamoDevCode.Aps.Projs.Data.ItemGroup;
 
-namespace SunamoDevCode.Aps.Projs;
 /// <summary>
 /// Use VsProjectFile, 
 /// </summary>
@@ -71,7 +73,7 @@ FS.ExistsFile(csprojPath))
         }
         else if (uri == UriKind.Relative)
         {
-            CAChangeContent.ChangeContent(new ChangeContentArgs { switchFirstAndSecondArg = true }, projectReferences, null, dr, Path.GetRelativePath);
+            CAChangeContent.ChangeContent(new ChangeContentArgsDC { switchFirstAndSecondArg = true }, projectReferences, null, dr, Path.GetRelativePath);
         }
         var pr = new ProjectReferences { projs = projectReferences, nodes = nodes };
         if (!cacheProjectReferences.ContainsKey(csprojPath))

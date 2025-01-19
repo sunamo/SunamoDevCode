@@ -1,3 +1,5 @@
+namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
+
 using SunamoDevCode.Aps.Projs.Data.ItemGroup;
 
 public class IncludedInVsProjectFile

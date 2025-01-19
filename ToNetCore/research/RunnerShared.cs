@@ -1,4 +1,4 @@
-
+namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
 {
@@ -8,9 +8,9 @@ public partial class MoveToNet5
     /// Dont use XmlDocumentsCache 
     /// </summary>
     /// <returns></returns>
-    public Tuple<List<string>, List<string>> WebAndNonWebProjects(bool withCsprojs = true)
+    public Tuple<List<string>, List<string>> WebAndNonWebProjects(ILogger logger, bool withCsprojs = true)
     {
-       return ApsHelper.WebAndNonWebProjects(withCsprojs);
+        return ApsHelper.WebAndNonWebProjects(logger, withCsprojs);
     }
 
     public Tuple<List<string>, List<string>> WebAndNonWebSlns()
@@ -23,20 +23,20 @@ public partial class MoveToNet5
             var s = item.Solutions(RepositoryLocal.Vs17);
             foreach (var sln in s)
             {
-               var slnFullPathFolder = sln.fullPathFolder;
-                    if (ApsHelper.IsWeb(slnFullPathFolder))
-                    {
-                        webProjects.Add(slnFullPathFolder);
-                    }
-                    else
-                    {
-                        notWebProjects.Add(slnFullPathFolder);
-                    }
+                var slnFullPathFolder = sln.fullPathFolder;
+                if (ApsHelper.IsWeb(slnFullPathFolder))
+                {
+                    webProjects.Add(slnFullPathFolder);
+                }
+                else
+                {
+                    notWebProjects.Add(slnFullPathFolder);
+                }
             }
         }
 
         return new Tuple<List<string>, List<string>>(webProjects, notWebProjects);
     }
 
-    
+
 }

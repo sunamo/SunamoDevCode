@@ -1,7 +1,7 @@
+namespace SunamoDevCode.Aps.Projs;
 
 using Microsoft.Extensions.Logging;
 using SunamoDevCode.Aps.Projs;
-
 
 public class ApsProjsHelper
 {
@@ -39,7 +39,7 @@ public class ApsProjsHelper
             await
 #endif
         XmlDocumentsCache.Get(x);
-        if (MayExcHelper.MayExc(xd.exc))
+        if (MayExcHelper.MayExc(xd.Exc))
         {
             return null;
         }
@@ -116,9 +116,9 @@ public class ApsProjsHelper
     }
     #endregion
     #region Uap
-    public static void ChangeUapFramework(SolutionFolder solutionFolder, string target, string min)
+    public static void ChangeUapFramework(ILogger logger, SolutionFolder solutionFolder, string target, string min)
     {
-        SolutionFolder.GetCsprojs(solutionFolder);
+        SolutionFolder.GetCsprojs(logger, solutionFolder);
         foreach (var item in solutionFolder.projectsGetCsprojs)
         {
             VsProjectsFileHelper.SetTargetFrameworksUap(item, target, min);

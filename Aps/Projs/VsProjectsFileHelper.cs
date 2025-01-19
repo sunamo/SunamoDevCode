@@ -1,6 +1,7 @@
+namespace SunamoDevCode.Aps.Projs;
+
 using Microsoft.Extensions.Logging;
 
-namespace SunamoDevCode.Aps.Projs;
 public partial class VsProjectsFileHelper
 {
     static Type type = typeof(VsProjectsFileHelper);
@@ -19,7 +20,6 @@ public partial class VsProjectsFileHelper
         var dupl = CAG.GetDuplicities(allCsproj);
         if (dupl.Count > 0)
         {
-            ClipboardHelper.SetLines(dupl);
             ThrowEx.Custom("Some csprojs have duplicated file names: " + SHJoin.JoinNL(dupl) + ". List was also copied to clipboard.");
         }
         return result;

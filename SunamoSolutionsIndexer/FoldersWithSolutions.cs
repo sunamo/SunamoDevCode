@@ -203,7 +203,7 @@ public class FoldersWithSolutions
                             await
 #endif
                          XmlDocumentsCache.Get(item2);
-                        if (MayExcHelper.MayExc(xml.exc))
+                        if (MayExcHelper.MayExc(xml.Exc))
                         {
                             continue;
                         }

@@ -2,6 +2,20 @@ namespace SunamoDevCode._sunamo.SunamoStringReplace;
 
 internal class SHReplace
 {
+    public static string ReplaceWithIndex(string n, string v, string empty, ref int dx)
+    {
+        if (dx == -1)
+        {
+            dx = n.IndexOf(v);
+            if (dx != -1)
+            {
+                n = n.Remove(dx, v.Length);
+                n = n.Insert(dx, empty);
+            }
+        }
+
+        return n;
+    }
     internal static string ReplaceAll(string vstup, string zaCo, params string[] co)
     {
         foreach (var item in co)

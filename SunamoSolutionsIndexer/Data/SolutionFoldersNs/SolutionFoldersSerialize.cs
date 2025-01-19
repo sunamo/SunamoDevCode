@@ -67,7 +67,7 @@ public class SolutionFoldersSerialize
             {
                 if (!canMissing)
                 {
-                    result.exc = Exceptions.ElementCantBeFound("", "solutionNamesFounded", item);
+                    result.Exc = Exceptions.ElementCantBeFound("", "solutionNamesFounded", item);
                 }
             }
             else

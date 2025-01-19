@@ -1,3 +1,5 @@
+namespace SunamoDevCode.ToNetCore.Consts;
+
 public class ElementsItemGroup
 {
     public const string ProjectReference = "ProjectReference";

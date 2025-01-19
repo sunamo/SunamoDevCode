@@ -1,9 +1,12 @@
-
 namespace SunamoDevCode._sunamo.SunamoGetFiles;
-
 
 internal class FSGetFiles
 {
+    internal static List<string> GetFiles(ILogger logger, string folder2, string mask, bool b, GetFilesArgsDC getFilesArgs = null)
+    {
+        return GetFiles(logger, folder2, mask, b ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, getFilesArgs);
+    }
+
     internal static List<string> GetFiles(ILogger logger, string folder2, string mask, SearchOption searchOption, GetFilesArgsDC getFilesArgs = null)
     {
         if (getFilesArgs != null)

@@ -1,3 +1,4 @@
+namespace SunamoDevCode.Aps.Projs;
 
 using SunamoDevCode._public.SunamoCollectionWithoutDuplicates;
 using SunamoDevCode.Aps.Helpers;
@@ -103,7 +104,7 @@ public class SunamoCsprojHelper
         await
 #endif
         XmlDocumentsCache.Get(path);
-        if (MayExcHelper.MayExc(xml.exc))
+        if (MayExcHelper.MayExc(xml.Exc))
         {
             return null;
         }

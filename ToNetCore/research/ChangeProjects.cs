@@ -1,4 +1,4 @@
-
+namespace SunamoDevCode.ToNetCore.research;
 
 using SunamoDevCode.ToNetCore.Results;
 
@@ -29,9 +29,9 @@ public class ChangeProjects
 
     }
 
-    public static void ChangeProjectsTo(string to2, bool web)
+    public static void ChangeProjectsTo(ILogger logger, string to2, bool web)
     {
-        var s = MoveToNet5.ci.WebAndNonWebProjects(true);
+        var s = MoveToNet5.ci.WebAndNonWebProjects(logger, true);
 
         ChangeProjectsTo(net70Windows, s.Item2);
     }
@@ -48,7 +48,7 @@ public class ChangeProjects
             return null;
         }
 
-        if (BTS.IsInt(moniker[3].ToString()) && moniker[4] == AllChars.dot && BTS.IsInt(moniker[5].ToString()))
+        if (BTS.IsInt(moniker[3].ToString()) && moniker[4] == '.' && BTS.IsInt(moniker[5].ToString()))
         {
             return new IsNetCore5UpMonikerResult { targetFramework = moniker.Substring(0, 6), platformTfm = SHSubstring.SubstringIfAvailableStart(moniker, 6) };
         }
@@ -117,7 +117,7 @@ public class ChangeProjects
     await
 #endif
  XmlDocumentsCache.Get(path);
-        if (MayExcHelper.MayExc(xd))
+        if (MayExcHelper.MayExc(xd.Exc))
         {
             return;
         }

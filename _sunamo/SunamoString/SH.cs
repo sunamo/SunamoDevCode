@@ -316,8 +316,8 @@ internal class SH
         return target.HasDiacritics();
     }
 
-    internal static string GetTextBetween(string content, string start, string end, bool v)
+    internal static string GetTextBetween(string content, string start, string end, bool throwExceptionIfNotContains = true)
     {
-        return GetTextBetweenSimple(content, start, end, v);
+        return GetTextBetweenSimple(content, start, end, throwExceptionIfNotContains);
     }
 }

@@ -1,9 +1,9 @@
+namespace SunamoDevCode.ToNetCore.research;
+
 using SunamoDevCode.Aps.Enums;
 using SunamoDevCode.Aps.Projs;
 using SunamoDevCode.Aps.Projs.Data.ItemGroup;
 using SunamoDevCode.Aps.Projs.Results;
-
-;
 
 public partial class MoveToNet5
 {
@@ -22,9 +22,9 @@ public partial class MoveToNet5
 #else
     void
 #endif
- PlatformTargetToWeb(string replaceFor)
+ PlatformTargetToWeb(ILogger logger, string replaceFor)
     {
-        var t = WebAndNonWebProjects();
+        var t = WebAndNonWebProjects(logger);
         var tt = t.Item1;
         replaceFor =
 #if ASYNC
@@ -43,14 +43,14 @@ public partial class MoveToNet5
 #else
     void
 #endif
- AddEssentialWebReferencesToAllWebProjects()
+ AddEssentialWebReferencesToAllWebProjects(ILogger logger)
     {
         var l = SHGetLines.GetLines(neededWebReferences);
         var t =
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(false);
+ FindProjectsWhichIsSdkStyle(logger, false);
         StringBuilder sb = new StringBuilder();
         if (t.netstandardList.Count > 0)
         {
@@ -84,38 +84,33 @@ public partial class MoveToNet5
                 }
 #endif
                 var rig = new ReferenceItemGroup(item2, item, null);
-                VsProjectsFileHelper.AddItemGroupSdkStyle(item, AllProjectsSearch.Enums.ItemGroups.Reference, rig, true);
+                VsProjectsFileHelper.AddItemGroupSdkStyle(item, ItemGroups.Reference, rig, true);
             }
         }
     }
-    public void ReplaceProjectReferenceForWeb()
-    {
-        var n = CL.UserMustType("name project");
-        var ns = CL.UserMustType("name of solution");
-        ReplaceProjectReferenceForWeb(n, ns);
-    }
+
     public
 #if ASYNC
     async Task
 #else
     void
 #endif
- ChangeProjectsToNetStandard()
+ ChangeProjectsToNetStandard(ILogger logger)
     {
         var l =
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(false);
+ FindProjectsWhichIsSdkStyle(logger, false);
         ChangeProjects.ChangeProjectsTo(ChangeProjects.netstandard20, l.csprojSdkStyleList);
     }
     public
 #if ASYNC
-    async Task
+    async Task<string>
 #else
     void
 #endif
- WebProjectsWhichIsNotSdkStyleFindTheirBackup()
+ WebProjectsWhichIsNotSdkStyleFindTheirBackup(ILogger logger)
     {
         List<string> haveBackupSdkStyle = new List<string>();
         List<string> dontHaveBackupSdkStyle = new List<string>();
@@ -124,7 +119,7 @@ public partial class MoveToNet5
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(false);
+ FindProjectsWhichIsSdkStyle(logger, false);
         foreach (var item in l.csprojSdkStyleList)
         {
             throw new Exception("žádné koncovky old v csproj tu nemám. tak tedy nevím co jsem tu chtěl dělat ");
@@ -149,7 +144,7 @@ public partial class MoveToNet5
         tog.List(haveBackupSdkStyle, nameof(haveBackupSdkStyle));
         tog.List(dontHaveBackupSdkStyle, nameof(dontHaveBackupSdkStyle));
         tog.List(dontHaveBackup, nameof(dontHaveBackup));
-        ProgramShared.Output = tog.ToString();
+        return tog.ToString();
     }
     public
 #if ASYNC
@@ -157,11 +152,11 @@ public partial class MoveToNet5
 #else
     void
 #endif
- DetectFrameworkForWebProjectsOnlySupported()
+ DetectFrameworkForWebProjectsOnlySupported(ILogger logger)
     {
         TextOutputGenerator tog = new TextOutputGenerator();
         Dictionary<SupportedNetFw, StringBuilder> sb = new Dictionary<SupportedNetFw, StringBuilder>();
-        var t = WebAndNonWebProjects();
+        var t = WebAndNonWebProjects(logger);
         foreach (var item in t.Item1)
         {
             var n =
@@ -179,17 +174,17 @@ public partial class MoveToNet5
         //OutputOpen();
         return tog.ToString();
     }
-    public void ConvertAlLWebNetStandardProjectsToNet48()
+    public void ConvertAlLWebNetStandardProjectsToNet48(ILogger logger)
     {
-        var t = WebAndNonWebProjects();
+        var t = WebAndNonWebProjects(logger);
         foreach (var item in t.Item1)
         {
             ChangeProjects.ChangeProjectTo(ChangeProjects.net48, item, null, ChangeProjects.netstandard20);
         }
     }
-    public string WebProjectsWhichNotEndWithDotEnd()
+    public string WebProjectsWhichNotEndWithDotEnd(ILogger logger)
     {
-        var t = WebAndNonWebProjects(true);
+        var t = WebAndNonWebProjects(logger, true);
         StringBuilder sb = new StringBuilder();
         foreach (var item in t.Item1)
         {
@@ -213,7 +208,7 @@ public partial class MoveToNet5
 #else
       Tuple<List<TWithStringDC<string>>, List<TWithStringDC<string>>>
 #endif
- DetectFrameworkForWebProjects(bool appendHeader)
+ DetectFrameworkForWebProjects(ILogger logger, bool appendHeader)
     {
         List<TWithStringDC<string>> l = new List<TWithStringDC<string>>();
         List<TWithStringDC<string>> l2 = new List<TWithStringDC<string>>();
@@ -222,7 +217,7 @@ public partial class MoveToNet5
             l.Add(new TWithStringDC<string>("", "Web but in SDK style:"));
         }
         bool netstandard = false;
-        var t = WebAndNonWebProjects();
+        var t = WebAndNonWebProjects(logger);
         Tuple<bool, string> t3 = null;
         foreach (var item2 in t.Item1)
         {
@@ -254,13 +249,13 @@ public partial class MoveToNet5
 #else
     void
 #endif
- FindProjectsWhichIsSdkStyleList(bool appendHeaderForWeb, bool web = true)
+ FindProjectsWhichIsSdkStyleList(ILogger logger, bool appendHeaderForWeb, bool web = true)
     {
         var r =
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(appendHeaderForWeb, web);
+ FindProjectsWhichIsSdkStyle(logger, appendHeaderForWeb, web);
         TextOutputGenerator tog = new TextOutputGenerator();
         tog.List(r.csprojSdkStyleList, nameof(r.csprojSdkStyleList));
         tog.List(r.netstandardList, nameof(r.netstandardList));
@@ -282,7 +277,7 @@ public partial class MoveToNet5
 #else
       FindProjectsWhichIsSdkStyleResult
 #endif
- FindProjectsWhichIsSdkStyle(bool appendHeaderForWeb, bool web = true)
+ FindProjectsWhichIsSdkStyle(ILogger logger, bool appendHeaderForWeb, bool web = true)
     {
         List<string> csprojSdkStyleList = new List<string>();
         List<string> netstandardList = new List<string>();
@@ -291,7 +286,7 @@ public partial class MoveToNet5
         {
             csprojSdkStyleList.Add("Web but in SDK style:");
         }
-        var t = WebAndNonWebProjects();
+        var t = WebAndNonWebProjects(logger);
         List<string> ls = null;
         if (web)
         {
@@ -342,18 +337,18 @@ public partial class MoveToNet5
 #else
     void
 #endif
- WebProjectsWhichIsNotSdkStyle()
+ WebProjectsWhichIsNotSdkStyle(ILogger logger)
     {
         var u =
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(true);
+ FindProjectsWhichIsSdkStyle(logger, true);
         return SHJoin.JoinNL(u.nonCsprojSdkStyleList);
 
     }
     string nameProject = null;
-    public async void ReplaceProjectReferenceForWeb(string n, string ns)
+    public async void ReplaceProjectReferenceForWeb(ILogger logger, string n, string ns)
     {
         Console.WriteLine("Solution old & new must be in same root folder");
         n = SHTrim.TrimEnd(n, ".web");
@@ -361,7 +356,7 @@ public partial class MoveToNet5
         nameProject = n;
         string old = @"..\..\" + ns + @"\" + n + @"\" + n + ".csproj";
         string nuova = @"..\..\" + SolutionNameFor(ns) + @"\" + n + @".web\" + n + ".web.csproj";
-        var t = WebAndNonWebProjects();
+        var t = WebAndNonWebProjects(logger);
         foreach (var item in t.Item1)
         {
             Console.WriteLine(item);

@@ -1,4 +1,4 @@
-
+namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
 {
@@ -24,9 +24,9 @@ public partial class MoveToNet5
 #else
     void
 #endif
- ChangeConvertNonWebPlatformTargetTo(string replaceFor)
+ ChangeConvertNonWebPlatformTargetTo(ILogger logger, string replaceFor)
     {
-        var t = WebAndNonWebProjects();
+        var t = WebAndNonWebProjects(logger);
         var tt = t.Item2;
 
         replaceFor =
@@ -38,29 +38,12 @@ public partial class MoveToNet5
 
     public static Type type = typeof(MoveToNet5);
 
-    private void RemoveIncludeWhichEndOfCs()
-    {
-        var t = WebAndNonWebProjects();
 
-        foreach (var item in t.Item2)
-        {
-            XmlAgilityDocument x = new XmlAgilityDocument();
-            x.Load(item);
-            var nodes = HtmlAgilityHelper.NodesWithAttrWildCard(x.hd.DocumentNode, true, "Compile", ItemGroupAttrsConsts.Include, "*.cs", true);
-
-            foreach (var item2 in nodes)
-            {
-                item2.Remove();
-            }
-
-            x.Save();
-        }
-    }
 
     /// <summary>
     /// Vyčistí od dočasných souborů z NonWeb
     /// </summary>
-    public void ClearUnnecessaryFromNonWeb()
+    public void ClearUnnecessaryFromNonWeb(ILogger logger)
     {
         Console.WriteLine("ClearUnnecessaryFromNonWeb");
         var t = WebAndNonWebSlns();
@@ -69,7 +52,7 @@ public partial class MoveToNet5
 
         foreach (var item in t.Item2)
         {
-            DeleteTemporaryFilesFromSolution.ClearSolution(item, true);
+            DeleteTemporaryFilesFromSolution.ClearSolution(logger, item, true);
         }
     }
 
@@ -91,7 +74,7 @@ public partial class MoveToNet5
         List<string> toComm1 = new List<string>(toComm.Count);
         List<string> toComm2 = new List<string>(toComm.Count);
 
-        const string cm = CSharpConsts.lc;
+        const string cm = "//";
 
         foreach (var item in toComm)
         {
@@ -239,7 +222,7 @@ System.Net.Http.Primitives
 #endif
  XmlDocumentsCache.Get(pathCsproj);
 
-        if (MayExcHelper.MayExc(xd))
+        if (MayExcHelper.MayExc(xd.Exc))
         {
             return;
         }
@@ -347,15 +330,15 @@ System.Net.Http.Primitives
 #else
     void
 #endif
- CommentAssemblyInfoCsFiles()
+ CommentAssemblyInfoCsFiles(ILogger logger)
     {
-        var d = WebAndNonWebProjects();
-        var lc = CSharpConsts.lc;
+        var d = WebAndNonWebProjects(logger);
+        var lc = "//";
 
         foreach (var item in d.Item2)
         {
             var d2 = FS.GetDirectoryName(item);
-            var ass = FSGetFiles.GetFiles(d2, "AssemblyInfo.cs", true);
+            var ass = FSGetFiles.GetFiles(logger, d2, "AssemblyInfo.cs", true);
             foreach (var item2 in ass)
             {
                 var l =

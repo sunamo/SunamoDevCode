@@ -1,4 +1,4 @@
-
+namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
 {
@@ -7,9 +7,9 @@ public partial class MoveToNet5
     /// Čili když něco bude i ve web musím mu nechat netstandard
     /// </summary>
     /// <returns></returns>
-    public bool TableWebAndNonWeb()
+    public bool TableWebAndNonWeb(ILogger logger)
     {
-        var v = WebAndNonWebProjects();
+        var v = WebAndNonWebProjects(logger);
         var web = v.Item1;
         var nonWeb = v.Item2;
 
@@ -47,22 +47,14 @@ public partial class MoveToNet5
 #else
     void  
 #endif
- RestoreFromBackup()
+ RestoreFromBackup(List<string> k)
     {
-        CmdApp.openAndWaitForChangeContentOfInputFile = true;
-        CmdApp.WaitForSaving(ProgramShared.inputFile, PHWin.Code);
-
-        var k =
-#if ASYNC
-    await
-#endif
- TF.ReadAllLines(ProgramShared.inputFile);
         foreach (var item in k)
         {
             var old = item + AllExtensions.old;
             if (FS.ExistsFile(old))
             {
-                FS.MoveFile(old, item, FileMoveCollisionOption.Overwrite);
+                FS.MoveFile(old, item, FileMoveCollisionOptionDC.Overwrite);
             }
             else
             {
@@ -71,31 +63,30 @@ public partial class MoveToNet5
         }
     }
 
-    public void ListOfAllWebAndNonWeb()
+    public string ListOfAllWebAndNonWeb(ILogger logger)
     {
-        var t = WebAndNonWebProjects(false);
+        var t = WebAndNonWebProjects(logger, false);
         TextOutputGenerator tog = new TextOutputGenerator();
         tog.List(t.Item1, "Web");
         tog.List(t.Item2, "NonWeb");
 
-        Output = tog.ToString();
-        OutputOpen();
+        return tog.ToString();
     }
 
     public
 #if ASYNC
-    async Task
+    async Task<string>
 #else
     void  
 #endif
- ReplaceUnneedReferencesInCsprojsNotSdKStyle(bool web = true)
+ ReplaceUnneedReferencesInCsprojsNotSdKStyle(ILogger logger, bool web = true)
     {
         StringBuilder sb = new StringBuilder();
         var f =
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(false, web);
+ FindProjectsWhichIsSdkStyle(logger, false, web);
         foreach (var item in f.nonCsprojSdkStyleList)
         {
             if (item.EndsWith("_b.csproj"))
@@ -106,8 +97,7 @@ public partial class MoveToNet5
             sb.AppendLine(GenerateTryConvert(item));
         }
         var sbs = sb.ToString();
-        Output = sbs;
-        OutputOpen();
+        return sbs;
     }
 
     public string GenerateTryConvert(string p)
@@ -122,13 +112,13 @@ public partial class MoveToNet5
 #else
     void  
 #endif
- GetAllTargetFrameworks()
+ GetAllTargetFrameworks(ILogger logger)
     {
         List<string> hasMoreTargetFrameworkElements = new List<string>();
 
         Dictionary<string, List<string>> ls = new Dictionary<string, List<string>>();
 
-        var d = WebAndNonWebProjects(true);
+        var d = WebAndNonWebProjects(logger, true);
 
         foreach (var item in d.Item2)
         {

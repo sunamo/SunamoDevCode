@@ -1,12 +1,26 @@
-﻿using System;
+namespace SunamoDevCode._sunamo;
+
+using SunamoDevCode._sunamo.SunamoExtensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SunamoDevCode._sunamo;
 internal class XmlHelper
 {
+    public static IList<XmlNode> GetElementsOfName(XmlNode e, string v)
+    {
+        return e.ChildNodes.WithName(v);
+    }
+    public static XmlNode GetElementOfName(XmlNode e, string n)
+    {
+        return e.ChildNodes.First(n);
+    }
+    public static string InnerTextOfNode(XmlNode xe, string version2)
+    {
+        return xe.InnerText;
+    }
     public static void SetAttribute(XmlNode node, string include, string rel)
     {
         var xe = (XmlElement)node;

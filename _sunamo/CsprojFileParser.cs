@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class FSGetFolders
+internal class CsprojFileParser
 {
-    internal static IEnumerable<string> GetFolders(string v)
+    internal static object ParseCsproj(string path)
     {
-        return Directory.GetFiles(v);
+        throw new NotImplementedException();
     }
 }

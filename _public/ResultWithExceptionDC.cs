@@ -8,18 +8,18 @@ public class ResultWithExceptionDC<T>
 
 
 
-    public string exc { get; set; }
+    public string Exc { get; set; }
     public ResultWithExceptionDC(T data)
     {
         Data = data;
     }
     public ResultWithExceptionDC(string exc)
     {
-        this.exc = exc;
+        this.Exc = exc;
     }
     public ResultWithExceptionDC(Exception exc)
     {
-        this.exc = Exceptions.TextOfExceptions(exc);
+        this.Exc = Exceptions.TextOfExceptions(exc);
     }
 
 

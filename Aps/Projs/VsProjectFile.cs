@@ -1,7 +1,7 @@
+namespace SunamoDevCode.Aps.Projs;
 
-
+using SunamoDevCode._sunamo.SunamoExtensions;
 using SunamoDevCode.Aps.Enums;
-
 
 /// <summary>
 /// In case when ProjectCollection wont work (like actually dont return any Compile elements)
@@ -49,7 +49,7 @@ public class VsProjectFile
                 await
 #endif
                 XmlDocumentsCache.Get(file);
-            if (MayExcHelper.MayExc(r.exc))
+            if (MayExcHelper.MayExc(r.Exc))
             {
                 return;
             }
@@ -131,6 +131,11 @@ public class VsProjectFile
     public void SetToItemGroup(ItemGroups ig, List<XmlNode> old, List<XmlNode> n)
     {
 
+    }
+
+    public static XmlNode GetElementOfName(XmlNode e, string n)
+    {
+        return e.ChildNodes.First(n);
     }
 
     public List<XmlNode> ReturnAllItemGroup(ItemGroups ig)

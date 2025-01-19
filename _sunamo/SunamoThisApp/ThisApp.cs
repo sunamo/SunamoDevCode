@@ -4,6 +4,8 @@ internal class ThisApp
 {
     internal static string EventLogName;
     internal static string Name;
+    internal static bool check;
+
     //internal static LangsShared l;
     internal static void Success(string v, params string[] o)
     {

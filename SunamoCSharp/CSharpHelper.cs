@@ -84,7 +84,7 @@ public static class CSharpHelper
                 foreach (var item2 in l)
                 {
                     var item3 = item2.Trim();
-                    if (!item.StartsWith(CSharpConsts.lc))
+                    if (!item.StartsWith("//"))
                     {
                         allCommented = false;
                         break;
@@ -632,7 +632,7 @@ public static class CSharpHelper
 
         for (int i = list.Count - 1; i >= 0; i--)
         {
-            list[i] = SHParts.RemoveAfterFirst(list[i], CSharpConsts.lc);
+            list[i] = SHParts.RemoveAfterFirst(list[i], "//");
         }
 
         CA.RemoveStringsEmpty2(list);

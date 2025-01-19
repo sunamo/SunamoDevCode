@@ -2,6 +2,13 @@ namespace SunamoDevCode._sunamo.SunamoCollections;
 
 internal class CA
 {
+    public static List<string> StartingWith(string v, List<string> l)
+    {
+        for (var i = l.Count - 1; i >= 0; i--)
+            if (!l[i].StartsWith(v))
+                l.RemoveAt(i);
+        return l;
+    }
     public static List<string> PostfixIfNotEnding(string pre, List<string> l)
     {
         for (var i = 0; i < l.Count; i++) l[i] = pre + l[i];

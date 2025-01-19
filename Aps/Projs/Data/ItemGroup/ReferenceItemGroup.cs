@@ -19,7 +19,7 @@ public class ReferenceItemGroup : ItemGroupElement
             {
                 if (item.Contains("="))
                 {
-                    var sp = SHSplit.SplitNone(item, "=");
+                    var sp = SHSplit.SplitMore(item, "=");
                     IncludeParts.Add(sp[0], sp[1]);
                 }
             }

@@ -1,4 +1,4 @@
-
+namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5 //: ProgramShared
 {
@@ -8,9 +8,9 @@ public partial class MoveToNet5 //: ProgramShared
 
     #endregion
 
-    private string ListOfProjectsWhichIsWebAndWhichIsNotWeb()
+    private string ListOfProjectsWhichIsWebAndWhichIsNotWeb(ILogger logger)
     {
-        var t = WebAndNonWebProjects();
+        var t = WebAndNonWebProjects(logger);
 
         TextOutputGenerator tog = new TextOutputGenerator();
         tog.List(t.Item1, "Web projects");
