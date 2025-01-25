@@ -2,7 +2,7 @@ namespace SunamoDevCode.Aps;
 
 public partial class AllProjectsSearchConsts
 {
-    public const string InsertIntoXlfAndConstantCsUCSuMenuItems_Folder_TestFiles = @"E:\vs\AllProjectsSearch.Tests\AllProjectsSearchTestFiles\UC\InsertIntoXlfAndConstantCsUCSuMenuItems";
+    
     static AllProjectsSearchConsts()
     {
     }
@@ -28,7 +28,6 @@ public partial class AllProjectsSearchConsts
     //    "BlogsTemplates"
     //    );
     public const string fnLatestClearTempFiles = "LatestClearTempFiles";
-    public static string folderWithTemporaryMovedContentWithoutBackslash = @"E:\code\Temporary moved content\";
     List<string> foldersIgnore = new List<string>(new List<string> { "Addins", "Settings", "Templates", "Visualizers",
     "ArchitectureExplorer", "Backup Files",  "Code Snippets", "StartPages", "Assemblies", "Blend" });
     public static List<string> extCodeElements = new List<string> { ".cs", ".ts", ".dart" };

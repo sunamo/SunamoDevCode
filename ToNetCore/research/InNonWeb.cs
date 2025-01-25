@@ -43,7 +43,7 @@ public partial class MoveToNet5
     /// <summary>
     /// Vyčistí od dočasných souborů z NonWeb
     /// </summary>
-    public void ClearUnnecessaryFromNonWeb(ILogger logger)
+    public void ClearUnnecessaryFromNonWeb(ILogger logger, string folderWithTemporaryMovedContentWithoutBackslash)
     {
         Console.WriteLine("ClearUnnecessaryFromNonWeb");
         var t = WebAndNonWebSlns();
@@ -52,7 +52,7 @@ public partial class MoveToNet5
 
         foreach (var item in t.Item2)
         {
-            DeleteTemporaryFilesFromSolution.ClearSolution(logger, item, true);
+            DeleteTemporaryFilesFromSolution.ClearSolution(logger, item, true, folderWithTemporaryMovedContentWithoutBackslash);
         }
     }
 
@@ -65,7 +65,7 @@ public partial class MoveToNet5
 #else
     void
 #endif
- ReplaceUnneedUsings()
+ ReplaceUnneedUsings(string eVsProjects)
     {
         var linesToCommented = @"//using System.Data;";
 
@@ -82,7 +82,7 @@ public partial class MoveToNet5
             toComm2.Add(cm + cm + item);
         }
 
-        var f2 = Directory.GetFiles(@"E:\vs\Projects\", "*.cs", SearchOption.AllDirectories);
+        var f2 = Directory.GetFiles(eVsProjects, "*.cs", SearchOption.AllDirectories);
         List<string> dontReplaceUsingSystemDataIn = new List<string>() { ".web", "SunamoSqlServer", "SunamoSqlite", "SunamoCsv" };
         foreach (var item in f2)
         {
@@ -167,19 +167,19 @@ System.Net.Http.Primitives
 #else
     void
 #endif
- ReplaceUnneedReferencesInCsprojs()
+ ReplaceUnneedReferencesInCsprojs(string dontReplaceReferencesInPath, string eVsProjects)
     {
         List<string> referenceToReplace = new List<string>();
 
         var refe = SHGetLines.GetLines(refToRemove);
         int dx = -1;
 
-        var f = Directory.GetFiles(@"E:\vs\Projects\", "*.csproj", SearchOption.AllDirectories);
+        var f = Directory.GetFiles(eVsProjects, "*.csproj", SearchOption.AllDirectories);
         List<string> dontReplaceReferencesIn = (
 #if ASYNC
     await
 #endif
- TF.ReadAllLines(@"D:\Documents\sunamo\AllProjectsSearch\Settings\dontReplaceReferencesIn.txt")).ToList();
+ TF.ReadAllLines(dontReplaceReferencesInPath)).ToList();
         foreach (var item in f)
         {
             if (!CA.ContainsAnyFromElementBool(item, dontReplaceReferencesIn))

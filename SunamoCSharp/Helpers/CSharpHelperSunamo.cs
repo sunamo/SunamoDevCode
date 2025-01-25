@@ -14,10 +14,6 @@ public class CSharpHelperSunamo
         {
             var item = sln[i];
 
-            if (item == @"E:\vs\Projects\_ut2\Wpf.Tests\Wpf.Tests.sln")
-            {
-
-            }
 
             if (!IsOnlyInSpecialOrProjectFolders(sln[i]))
             {

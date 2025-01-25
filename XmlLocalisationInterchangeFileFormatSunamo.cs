@@ -26,14 +26,14 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 #else
     void
 #endif
-        ReplaceHtmlEntitiesWithEmpty()
+        ReplaceHtmlEntitiesWithEmpty(string xlfPath)
     {
-        var path = @"D:\a\sunamo.en-US.xlf";
+        
         var content =
 #if ASYNC
             await
 #endif
-                File.ReadAllTextAsync(path);
+                File.ReadAllTextAsync(xlfPath);
 
         #region
 
@@ -51,7 +51,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
         await
 #endif
-            File.WriteAllTextAsync(path, content);
+            File.WriteAllTextAsync(xlfPath, content);
 
         #endregion
     }
@@ -62,7 +62,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 #else
     void
 #endif
-        ReplaceInXlfManuallyEnteredPairsWithPrependXlfKeys()
+        ReplaceInXlfManuallyEnteredPairsWithPrependXlfKeys(string xlfPath)
     {
         int i;
 
@@ -85,12 +85,12 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         from.Reverse();
         to.Reverse();
 
-        var path = @"D:\a\sunamo.en-US.xlf";
+        
         var content =
 #if ASYNC
             await
 #endif
-                File.ReadAllTextAsync(path);
+                File.ReadAllTextAsync(xlfPath);
 
         for (i = from.Count - 1; i >= 0; i--)
             //Debug.WriteLine(i);
@@ -100,7 +100,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
         await
 #endif
-            File.WriteAllTextAsync(path, content);
+            File.WriteAllTextAsync(xlfPath, content);
     }
 
     public static void ConstsFromClipboard(string input)

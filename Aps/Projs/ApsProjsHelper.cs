@@ -28,7 +28,7 @@ public class ApsProjsHelper
 #else
     XmlDocument
 #endif
-         AbsoluteToRelativeCsProj(string x)
+         AbsoluteToRelativeCsProj(string x, string bpBb)
     {
         if (x == null)
         {
@@ -59,7 +59,7 @@ public class ApsProjsHelper
             {
                 var z = pr.projs[i];
                 var y = FS.IsAbsolutePath(z);
-                if (DefaultPaths.IsIgnored(z))
+                if (DefaultPaths.IsIgnored(z, bpBb))
                 {
                     continue;
                 }
@@ -97,13 +97,13 @@ public class ApsProjsHelper
 #else
     void
 #endif
- SaveEmptyFullNetProject(string csProj, string projectName)
+ SaveEmptyFullNetProject(string csProj, string projectName, string eVsProjectsPinp)
     {
         string c = SHFormat.Format4(
 #if ASYNC
     await
 #endif
- TF.ReadAllText(Path.Combine(DefaultPaths.eVsProjectsPinp, @"SunamoDevCode\Templates\FullNet.xml")), projectName);
+ TF.ReadAllText(Path.Combine(eVsProjectsPinp, @"SunamoDevCode\Templates\FullNet.xml")), projectName);
 #if ASYNC
         await
 #endif

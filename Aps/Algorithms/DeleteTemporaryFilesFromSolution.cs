@@ -9,9 +9,9 @@ public class DeleteTemporaryFilesFromSolution
     /// 
     /// </summary>
     /// <param name="folder"></param>
-    public static bool DeleteFolderWithTemporaryMovedFiles()
+    public static bool DeleteFolderWithTemporaryMovedFiles(string folderWithTemporaryMovedContentWithoutBackslash)
     {
-        string folder = AllProjectsSearchConsts.folderWithTemporaryMovedContentWithoutBackslash;
+        string folder = folderWithTemporaryMovedContentWithoutBackslash;
         if (FS.ExistsDirectory(folder))
         {
             try
@@ -36,7 +36,7 @@ public class DeleteTemporaryFilesFromSolution
     /// <param name="delete"></param>
     /// <param name="clear"></param>
     /// <returns></returns>
-    public static List<string> ClearSolution(ILogger logger, string v, bool delete, bool keepPackageJson = false)
+    public static List<string> ClearSolution(ILogger logger, string v, bool delete, string folderWithTemporaryMovedContentWithoutBackslash, bool keepPackageJson = false)
     {
         // Never use, read doc to gitBashBuilder.Clean() to avoid my data
         //GitBashBuilder gitBashBuilder = new GitBashBuilder(new TextBuilder());
@@ -55,12 +55,12 @@ public class DeleteTemporaryFilesFromSolution
         foreach (var item in VisualStudioTempFse.foldersInSolutionToDelete)
         {
             var item2 = SHTrim.Trim(item, "\\");
-            DeleteFolderIn(logger, v, item2, folderWithProjectsFolders, foundedFiles, delete);
+            DeleteFolderIn(logger, v, item2, folderWithProjectsFolders, foundedFiles, delete, folderWithTemporaryMovedContentWithoutBackslash);
         }
         foreach (var item in VisualStudioTempFse.foldersInSolutionDownloaded)
         {
             var item2 = SHTrim.Trim(item, "\\");
-            DeleteFolderIn(logger, v, item2, folderWithProjectsFolders, foundedFiles, delete);
+            DeleteFolderIn(logger, v, item2, folderWithProjectsFolders, foundedFiles, delete, folderWithTemporaryMovedContentWithoutBackslash);
         }
         Dictionary<string, List<string>> filesInSolutionToDelete = VisualStudioTempFse.filesInSolutionToDelete.dictionary;
         Dictionary<string, List<string>> filesInSolutionDownloaded = VisualStudioTempFse.filesInSolutionDownloaded.dictionary;
@@ -74,7 +74,8 @@ public class DeleteTemporaryFilesFromSolution
                 {
                     if (filesInSolutionDownloaded[ext].Any(d => SH.MatchWildcard(file, d)))
                     {
-                        DeleteFilesIn(v, file + ext, folderWithProjectsFolders, foundedFiles, delete);
+                        DeleteFilesIn(v, file + ext, folderWithProjectsFolders, foundedFiles,
+                            delete, folderWithTemporaryMovedContentWithoutBackslash);
                     }
                 }
             }
@@ -84,7 +85,7 @@ public class DeleteTemporaryFilesFromSolution
                 {
                     if (filesInSolutionDownloaded[ext].Any(d => SH.MatchWildcard(file, d)))
                     {
-                        DeleteFilesIn(v, file + ext, folderWithProjectsFolders, foundedFiles, delete);
+                        DeleteFilesIn(v, file + ext, folderWithProjectsFolders, foundedFiles, delete, folderWithTemporaryMovedContentWithoutBackslash);
                     }
                 }
             }
@@ -97,13 +98,13 @@ public class DeleteTemporaryFilesFromSolution
         var projects = FSGetFolders.GetFolders(v);
         foreach (string project in projects)
         {
-            ClearProject(logger, delete, folderWithProjectsFolders, foundedFiles, project);
+            ClearProject(logger, delete, folderWithProjectsFolders, foundedFiles, project, folderWithTemporaryMovedContentWithoutBackslash);
         }
         // Is not fully implemented - therefore commented
         //FS.DeleteFoldersWhichNotContains(v, "bin", CA.ToListString("node_modules"));
         return foundedFiles;
     }
-    public static List<string> ClearProject(ILogger logger, string project, bool delete)
+    public static List<string> ClearProject(ILogger logger, string project, bool delete, string folderWithTemporaryMovedContentWithoutBackslash)
     {
         List<string> foundedFiles = FSGetFiles.GetFiles(logger, project, true);
 #if DEBUG
@@ -111,12 +112,12 @@ public class DeleteTemporaryFilesFromSolution
         {
         }
 #endif
-        ClearProject(logger, delete, FS.GetDirectoryName(project), foundedFiles, project);
+        ClearProject(logger, delete, FS.GetDirectoryName(project), foundedFiles, project, folderWithTemporaryMovedContentWithoutBackslash);
         return foundedFiles;
     }
-    private static void ClearProject(ILogger logger, bool delete, string folderWithProjectsFolders, List<string> foundedFiles, string project)
+    private static void ClearProject(ILogger logger, bool delete, string folderWithProjectsFolders, List<string> foundedFiles, string project, string folderWithTemporaryMovedContentWithoutBackslash)
     {
-        DeleteTemporaryFiles(logger, folderWithProjectsFolders, project, foundedFiles, delete);
+        DeleteTemporaryFiles(logger, folderWithProjectsFolders, project, foundedFiles, delete, folderWithTemporaryMovedContentWithoutBackslash);
 #if DEBUG
         if (project.Contains("Lyrics"))
         {
@@ -124,7 +125,7 @@ public class DeleteTemporaryFilesFromSolution
 #endif
         foreach (var folderInProject in VisualStudioTempFse.foldersInProjectToDelete)
         {
-            DeleteFolderIn(logger, project, folderInProject, folderWithProjectsFolders, foundedFiles, delete);
+            DeleteFolderIn(logger, project, folderInProject, folderWithProjectsFolders, foundedFiles, delete, folderWithTemporaryMovedContentWithoutBackslash);
         }
     }
     /// <summary>
@@ -132,7 +133,7 @@ public class DeleteTemporaryFilesFromSolution
     /// </summary>
     /// <param name="folderWithProjectsFolders"></param>
     /// <param name="project"></param>
-    private static void DeleteTemporaryFiles(ILogger logger, string folderWithProjectsFolders, string project, List<string> foundedFiles, bool delete)
+    private static void DeleteTemporaryFiles(ILogger logger, string folderWithProjectsFolders, string project, List<string> foundedFiles, bool delete, string folderWithTemporaryMovedContentWithoutBackslash)
     {
         Dictionary<string, List<string>> filesInProjectToDelete = VisualStudioTempFse.filesInProjectToDelete.dictionary;
         Dictionary<string, List<string>> filesInProjectReal = FS.GetDictionaryByExtension(logger, project, "*", SearchOption.TopDirectoryOnly);
@@ -153,7 +154,7 @@ public class DeleteTemporaryFilesFromSolution
                     {
                         if (SH.MatchWildcard(file + ext, item2 + ext))
                         {
-                            DeleteFilesIn(project, file + ext, folderWithProjectsFolders, foundedFiles, delete);
+                            DeleteFilesIn(project, file + ext, folderWithProjectsFolders, foundedFiles, delete, folderWithTemporaryMovedContentWithoutBackslash);
                         }
                     }
                 }
@@ -166,7 +167,7 @@ public class DeleteTemporaryFilesFromSolution
     /// <param name="fullPathToA2"></param>
     /// <param name="nameOfFolder"></param>
     /// <param name="folderWithProjectsFolders"></param>
-    static void DeleteFilesIn(string fullPathToA2, string nameOfFolder, string folderWithProjectsFolders, List<string> foundedFiles, bool delete)
+    static void DeleteFilesIn(string fullPathToA2, string nameOfFolder, string folderWithProjectsFolders, List<string> foundedFiles, bool delete, string folderWithTemporaryMovedContentWithoutBackslash)
     {
         if (folderWithProjectsFolders != null)
         {
@@ -188,7 +189,7 @@ public class DeleteTemporaryFilesFromSolution
                 {
                     try
                     {
-                        string renameTo = p.Replace(folderWithProjectsFolders, AllProjectsSearchConsts.folderWithTemporaryMovedContentWithoutBackslash);
+                        string renameTo = p.Replace(folderWithProjectsFolders, folderWithTemporaryMovedContentWithoutBackslash);
                         FS.CreateUpfoldersPsysicallyUnlessThere(renameTo);
                         File.Move(p, renameTo);
                     }
@@ -210,7 +211,7 @@ public class DeleteTemporaryFilesFromSolution
     /// <param name="fullPathToA2"></param>
     /// <param name="nameOfFolder"></param>
     /// <param name="folderWithProjectsFolders"></param>
-    static void DeleteFolderIn(ILogger logger, string fullPathToA2, string nameOfFolder, string folderWithProjectsFolders, List<string> foundedFiles, bool delete)
+    static void DeleteFolderIn(ILogger logger, string fullPathToA2, string nameOfFolder, string folderWithProjectsFolders, List<string> foundedFiles, bool delete, string folderWithTemporaryMovedContentWithoutBackslash)
     {
         var folders = Directory.GetDirectories(fullPathToA2, nameOfFolder, SearchOption.TopDirectoryOnly);
         foreach (var p in folders)
@@ -243,7 +244,7 @@ public class DeleteTemporaryFilesFromSolution
                     //{
                     try
                     {
-                        FS.MoveAllRecursivelyAndThenDirectory(logger, p, FS.ReplaceDirectoryThrowExceptionIfFromDoesntExists(p, folderWithProjectsFolders, AllProjectsSearchConsts.folderWithTemporaryMovedContentWithoutBackslash), FileMoveCollisionOptionDC.Overwrite);
+                        FS.MoveAllRecursivelyAndThenDirectory(logger, p, FS.ReplaceDirectoryThrowExceptionIfFromDoesntExists(p, folderWithProjectsFolders, folderWithTemporaryMovedContentWithoutBackslash), FileMoveCollisionOptionDC.Overwrite);
                         //FS.DeleteAllRecursivelyAndThenDirectory(p);
                     }
                     catch (Exception ex)

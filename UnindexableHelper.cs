@@ -30,11 +30,7 @@ public class UnindexableHelper
 
     public static bool IsToIndexedFolder(string d)
     {
-#if DEBUG
-        if (d == @"E:\vs\Projects\AllProjectsSearch\Aps.Projs\_\")
-        {
-        }
-#endif
+
 
         if (unindexablePathStarts != null && unindexablePathParts != null)
         {

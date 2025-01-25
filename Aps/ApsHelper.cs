@@ -64,7 +64,7 @@ bool
         return CA.ContainsAnyFromElementBool(csp,
  AllProjectsSearchSettings.DontReplaceReferencesIn);
     }
-    public async Task PushSolutionsContinuouslyWindow_ChangeDialogResult(bool? b, Func<List<string>, Task<List<List<string>>>> psInvoke)
+    public async Task PushSolutionsContinuouslyWindow_ChangeDialogResult(bool? b, Func<List<string>, Task<List<List<string>>>> psInvoke, string eVs, string pathGetMessagesFromGitOutput)
     {
         ThisApp.Appeal("PushSolutionsContinuouslyWindow_ChangeDialogResult");
         //string gitBashBuilderS = null;
@@ -170,7 +170,7 @@ bool
 #if ASYNC
                 await
 #endif
-                CheckForPushInThread(al, psInvoke);
+                CheckForPushInThread(al, psInvoke, eVs, pathGetMessagesFromGitOutput);
             }
             else
             {
@@ -228,7 +228,7 @@ bool
 #else
     void
 #endif
- CheckForPushInThread(object o, Func<List<string>, Task<List<List<string>>>> psInvoke)
+ CheckForPushInThread(object o, Func<List<string>, Task<List<List<string>>>> psInvoke, string eVs, string pathGetMessagesFromGitOutput)
     {
         AsyncPushSolutions a = (AsyncPushSolutions)o;
         ThisApp.Appeal("foldersWithSolutions before " + a.foldersWithSolutions.Count);
@@ -265,7 +265,7 @@ bool
             ClipboardService.SetText(gitBashBuilderS);
             //LoginUc enterOutputOfPowershellGit = new LoginUc();
             pushSolutionsData.checkForGit = GitTypesOfMessages.fatal | GitTypesOfMessages.error;
-            await ShowWindowForEnterOutputOfPowershell(gitBashBuilderS, true);
+            await ShowWindowForEnterOutputOfPowershell(gitBashBuilderS, true, eVs, pathGetMessagesFromGitOutput);
             //uc.Accept(gitBashBuilderS);
         }
         else
@@ -273,7 +273,7 @@ bool
             ThisApp.Appeal("gitBashBuilderS is null");
         }
     }
-    public async Task ShowWindowForEnterOutputOfPowershell(string gitBashBuilder, bool? push)
+    public async Task ShowWindowForEnterOutputOfPowershell(string gitBashBuilder, bool? push, string eVs, string pathGetMessagesFromGitOutput)
     {
         if (cmd)
         {
@@ -292,16 +292,16 @@ bool
             {
                 if (push.Value)
                 {
-                    await EnterOutputOfPowershellGit_ChangeDialogResult(b, gitPushVps);
+                    await EnterOutputOfPowershellGit_ChangeDialogResult(b, gitPushVps, eVs, pathGetMessagesFromGitOutput);
                 }
                 else
                 {
-                    await EnterOutputOfPowershellGit_ChangeDialogResult(b, gitPushVps);
+                    await EnterOutputOfPowershellGit_ChangeDialogResult(b, gitPushVps, eVs, pathGetMessagesFromGitOutput);
                 }
             }
             else
             {
-                await EnterOutputOfPowershellGit_ChangeDialogResult(b, null);
+                await EnterOutputOfPowershellGit_ChangeDialogResult(b, null, eVs, pathGetMessagesFromGitOutput);
             }
         }
         else
@@ -372,7 +372,7 @@ bool
 #else
     IList<string>
 #endif
-GetMessagesFromGitOutput(bool? b)
+GetMessagesFromGitOutput(bool? b, string pathGetMessagesFromGitOutput, string eVs)
     {
         if (cmd)
         {
@@ -384,13 +384,13 @@ GetMessagesFromGitOutput(bool? b)
             //#endif
             if (string.IsNullOrEmpty(typed))
             {
-                var f = @"D:\_Test\AllProjectsSearch\AllProjectsSearch\SearchInSolutionsUC\GetMessagesFromGitOutput.txt";
-                FS.CreateUpfoldersPsysicallyUnlessThere(f);
+                //var pathGetMessagesFromGitOutput = @"D:\_Test\AllProjectsSearch\AllProjectsSearch\SearchInSolutionsUC\GetMessagesFromGitOutput.txt";
+                FS.CreateUpfoldersPsysicallyUnlessThere(pathGetMessagesFromGitOutput);
                 typed =
 #if ASYNC
     await
 #endif
- TF.ReadAllText(f);
+ TF.ReadAllText(pathGetMessagesFromGitOutput);
             }
         }
         else
@@ -409,10 +409,10 @@ GetMessagesFromGitOutput(bool? b)
         //        break;
         //    }
         //}
-        var badSolutions = GetMessagesFromGitOutput(b, ref lines, pushSolutionsData.checkForGit);
+        var badSolutions = GetMessagesFromGitOutput(b, ref lines, pushSolutionsData.checkForGit, eVs);
         return badSolutions;
     }
-    public List<string> GetMessagesFromGitOutput(bool? b, ref List<string> lines, GitTypesOfMessages git)
+    public List<string> GetMessagesFromGitOutput(bool? b, ref List<string> lines, GitTypesOfMessages git, string eVs)
     {
         List<string> badSolutions = new List<string>();
         if (BTS.GetValueOfNullable(b))
@@ -433,7 +433,7 @@ GetMessagesFromGitOutput(bool? b)
                 if (add)
                 {
                     // -1 is in GetNameSolution
-                    string nameSolution = GetNameSolution(lines, i);
+                    string nameSolution = GetNameSolution(lines, i, eVs);
                     string all = nameSolution + " " + item;
                     badSolutions.Add(all);
                 }
@@ -449,10 +449,10 @@ GetMessagesFromGitOutput(bool? b)
     /// </summary>
     /// <param name="lines"></param>
     /// <param name="i"></param>
-    private string GetNameSolution(List<string> lines, int i)
+    private string GetNameSolution(List<string> lines, int i, string eVs)
     {
         i--;
-        var drive = SH.FirstCharUpper(DefaultPaths.eVs);
+        var drive = SH.FirstCharUpper(eVs);
         string start = "PS " + drive;
         var startToLower = start.ToLower();
         for (; i >= 0; i--)
@@ -481,16 +481,16 @@ GetMessagesFromGitOutput(bool? b)
 #else
     void
 #endif
- EnterOutputOfPowershellGit_ChangeDialogResult(bool? b, GitBashBuilder sb)
+ EnterOutputOfPowershellGit_ChangeDialogResult(bool? b, GitBashBuilder sb, string eVs, string pathGetMessagesFromGitOutput)
     {
         var messages = (
 #if ASYNC
     await
 #endif
- GetMessagesFromGitOutput(b)).ToList();
+ GetMessagesFromGitOutput(b, pathGetMessagesFromGitOutput, eVs)).ToList();
         CA.Prepend("#", messages);
         var mess = new StringBuilder();
-        if (messages.Count == 0)
+        if (messages.Count() == 0)
         {
             mess.AppendLine("#no errors");
         }
@@ -508,7 +508,7 @@ GetMessagesFromGitOutput(bool? b)
         }
         if (pushSolutionsData.onlyThese != VpsHelperDevCode.listVpsNew)
         {
-            string vpsPath = DefaultPaths.eVs;
+            string vpsPath = eVs;
             //string localPath = SH.PostfixIfNotEmpty(DefaultPaths.eVsProjects, "\\");
             var l = SHGetLines.GetLines(ts);
             CA.Trim(l);
@@ -631,9 +631,9 @@ GetMessagesFromGitOutput(bool? b)
             return null;
         }
     }
-    public string AbsolutePathOfProject(string project, string sln)
+    public string AbsolutePathOfProject(string project, string sln, string eVsProjects)
     {
-        var path = Path.Combine(DefaultPaths.eVsProjects, sln, project, project + ".csproj");
+        var path = Path.Combine(eVsProjects, sln, project, project + ".csproj");
         return path;
     }
     public string SlnFilePathFromFolder(string fullPathFolder)
