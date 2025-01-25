@@ -1,0 +1,1 @@
+E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\.sonarqube\out\0

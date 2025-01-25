@@ -1,0 +1,6 @@
+projectKey=SunamoDevCode
+serverUrl=http://localhost:9000
+serverVersion=25.1.0.102122
+dashboardUrl=http://localhost:9000/dashboard?id=SunamoDevCode
+ceTaskId=83bb395c-e7ae-4b68-921c-6685a41706b9
+ceTaskUrl=http://localhost:9000/api/ce/task?id=83bb395c-e7ae-4b68-921c-6685a41706b9

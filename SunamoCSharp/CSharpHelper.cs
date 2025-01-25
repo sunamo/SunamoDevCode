@@ -590,9 +590,74 @@ public static class CSharpHelper
         return s;
     }
 
-    public static string RemoveComments(string listOrString, bool line = true, bool block = true)
+    public static string RemoveComments(string listOrString, bool line = true, bool block = true, bool keepLinesNumbers = false)
     {
+        if (keepLinesNumbers)
+        {
+            return RemoveCommentsKeepLines(listOrString);
+        }
+
         return SHJoin.JoinNL(RemoveComments(SHGetLines.GetLines(listOrString), line, block));
+    }
+
+
+
+    private static string RemoveCommentsKeepLines(string input)
+    {
+
+        string output = "";
+        using (StringReader reader = new(input))
+        {
+            bool inSingleLineComment = false;
+            bool inMultiLineComment = false;
+
+            int currentChar;
+            while ((currentChar = reader.Read()) != -1)
+            {
+                char current = (char)currentChar;
+                char next = (char)reader.Peek();
+
+                if (inSingleLineComment)
+                {
+                    if (current == '\n')
+                    {
+                        inSingleLineComment = false;
+                        output += current;
+                    }
+                }
+                else if (inMultiLineComment)
+                {
+                    if (current == '*' && next == '/')
+                    {
+                        inMultiLineComment = false;
+                        reader.Read(); // Přečteme '/'
+                    }
+                    else if (current == '\n')
+                    {
+                        output += current; // Přidáme nový řádek do výstupu
+                    }
+                }
+                else
+                {
+                    if (current == '/' && next == '/')
+                    {
+                        inSingleLineComment = true;
+                        reader.Read(); // Přečteme '/'
+                    }
+                    else if (current == '/' && next == '*')
+                    {
+                        inMultiLineComment = true;
+                        reader.Read(); // Přečteme '*'
+                    }
+                    else
+                    {
+                        output += current;
+                    }
+                }
+            }
+        }
+
+        return output;
     }
 
     /// <summary>
@@ -602,8 +667,13 @@ public static class CSharpHelper
     /// <param name="line"></param>
     /// <param name="block"></param>
     /// <returns></returns>
-    public static List<string> RemoveComments(List<string> listOrString, bool line = true, bool block = true)
+    public static List<string> RemoveComments(List<string> listOrString, bool line = true, bool block = true, bool keepLinesNumbers = false)
     {
+        if (keepLinesNumbers)
+        {
+            return SHGetLines.GetLines(RemoveCommentsKeepLines(SHJoin.JoinNL(listOrString)));
+        }
+
         if (line)
         {
             listOrString = RemoveLineComments(listOrString);
