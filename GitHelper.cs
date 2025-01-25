@@ -66,7 +66,7 @@ public class GitHelper
     {
         // 1. better solution is commented only getting files
         var countFiles = 0;
-        if (release) countFiles = Directory.GetFiles(fullPathFolder, "*.*", SearchOption.AllDirectories).Count();
+        if (release) countFiles = Directory.GetFiles(fullPathFolder, "*.*", SearchOption.AllDirectories).Length;
 
         if (fullPathFolder.Contains("SunamoCzAdmin"))
         {

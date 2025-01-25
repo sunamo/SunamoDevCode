@@ -127,7 +127,7 @@ internal class TextOutputGenerator //: ITextOutputGenerator
     }
     internal void List<Value>(IList<Value> files1, string deli = "\r\n", string whenNoEntries = "")
     {
-        if (files1.Count() == 0)
+        if (files1.Count == 0)
         {
             sb.AppendLine(whenNoEntries);
         }
@@ -258,7 +258,7 @@ internal class TextOutputGenerator //: ITextOutputGenerator
             List<string> d = new List<string>(ls.Count);
             foreach (var item in ls)
             {
-                d.Add(item.Key + " " + item.Value.Count());
+                d.Add(item.Key + " " + item.Value.Count);
             }
             List(d);
         }

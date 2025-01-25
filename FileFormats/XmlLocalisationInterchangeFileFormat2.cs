@@ -99,7 +99,7 @@ TranslateEngine");
     {
         var t = GetTransUnit(item);
         id = t.Item1;
-        if (t.Item2.Count() > 0)
+        if (t.Item2.Length > 0)
         {
             return t.Item2.Last();
         }
@@ -513,7 +513,7 @@ string
 
         //string source =
 
-        for (int i = d.trans_units.Count() - 1; i >= 0; i--)
+        for (int i = d.trans_units.Count - 1; i >= 0; i--)
         {
             var item = d.trans_units[i];
             var el = SourceTarget(item);
@@ -1220,7 +1220,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
     /// <returns></returns>
     public static string RemoveSessI18nIfLineContains(string c, IList<string> lineCont = null)
     {
-        if (lineCont == null || lineCont.Count() == 0)
+        if (lineCont == null || lineCont.Count == 0)
         {
             lineCont = removeSessI18nIfLineContains;
         }
@@ -1322,7 +1322,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
                 var line = SH.GetLineFromCharIndex(content, SHGetLines.GetLines(content), dx);
                 if (line.Contains(SunamoStringsDot))
                 {
-                    content = content.Insert(dx + Enumerable.Count<char>(item)
+                    content = content.Insert(dx + Enumerable.Count(item)
                         , newEndingChar);
                     content = content.Remove(dx, SunamoStringsDot.Length);
                     content = content.Insert(dx, to + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);

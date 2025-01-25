@@ -137,7 +137,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 #endif
                 File.ReadAllTextAsync(pathXlfKeys)).ToList();
 
-        for (i = 0; i < l.Count(); i++) l[i] = l[i].Trim();
+        for (i = 0; i < l.Count; i++) l[i] = l[i].Trim();
 
         // only consts
         var consts = new List<string>();

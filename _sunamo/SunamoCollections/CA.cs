@@ -40,7 +40,7 @@ internal class CA
     public static bool ContainsAnyFromElementBool(string s, IList<string> list,
         bool acceptAsteriskForPassingAll = false)
     {
-        if (list.Count() == 1 && list.First() == "*") return true;
+        if (list.Count == 1 && list.First() == "*") return true;
 
         var result = new List<int>();
 
@@ -408,7 +408,7 @@ internal class CA
 
     internal static bool ContainsElement<T>(IList<T> list, T t)
     {
-        if (list.Count() == 0)
+        if (list.Count == 0)
         {
             return false;
         }

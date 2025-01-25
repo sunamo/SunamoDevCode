@@ -98,7 +98,7 @@ public static class CSharpHelper
 
                 inserted = false;
 
-                for (i = 0; i < l.Count(); i++)
+                for (i = 0; i < l.Count; i++)
                 {
                     if (l[i].Contains("class "))
                     {
@@ -434,7 +434,7 @@ public static class CSharpHelper
     public static string GetSummaryXmlDocumentation(List<string> cs)
     {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < cs.Count(); i++)
+        for (int i = 0; i < cs.Count; i++)
         {
             var line = cs[i];
             if (line.StartsWith(CodeElementsConstants.XmlDocumentationCsharp))

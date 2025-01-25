@@ -65,7 +65,7 @@ internal class SHSplit
 
     internal static List<string> SplitMore(StringSplitOptions stringSplitOptions, string text, params string[] deli)
     {
-        if (deli == null || deli.Count() == 0)
+        if (deli == null || deli.Length == 0)
         {
             throw new Exception("NoDelimiterDetermined");
         }

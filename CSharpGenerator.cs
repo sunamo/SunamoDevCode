@@ -286,7 +286,7 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
 
         EndParenthesis();
         if (!isBase)
-            if (nazevParams.Count() > 0)
+            if (nazevParams.Count > 0)
                 sb.AddItem(": base(" + string.Join(',', nazevParams.ToArray()) + ")");
 
         StartBrace(tabCount);
