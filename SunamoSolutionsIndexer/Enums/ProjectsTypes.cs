@@ -6,6 +6,9 @@ public enum ProjectsTypes
     NotCore_Projects,
     ForkedOnGitHub,
 
+    Azure,
+    Jenkins,
+
     Bobril,
     C,
     Cpp,

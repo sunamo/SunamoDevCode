@@ -163,10 +163,15 @@ public class FoldersWithSolutions
                      * 
                      * Navíc si nepamatuji že bych toto kdekoliv použil.
                      */
-                    //throw new Exception(Translate.FromKey(XlfKeys.CanTAssignToEnumTypeOfFolder) + " " + item);
                     logger.LogWarning(Translate.FromKey(XlfKeys.CanTAssignToEnumTypeOfFolder) + " " + item);
                 }
-                projectTypes.Add(p, l);
+                else
+                {
+                    projectTypes.Add(p, l);
+                }
+
+
+
             }
         }
         projectTypes.Add(ProjectsTypes.Cs, XlfKeys.Projects);
