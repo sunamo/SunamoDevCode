@@ -16,8 +16,6 @@ internal partial class ThrowEx
         var f = Exceptions.HasOddNumberOfElements;
         return ThrowIsNotNull(f, listName, list);
     }
-    internal static bool Custom(Exception ex, bool reallyThrow = true)
-    { return Custom(Exceptions.TextOfExceptions(ex), reallyThrow); }
 
     internal static bool Custom(string message, bool reallyThrow = true, string secondMessage = "")
     {
@@ -131,15 +129,6 @@ internal partial class ThrowEx
     }
 
     #region For avoid FullNameOfExecutedCode
-    internal static bool ThrowIsNotNull(Exception exception, bool reallyThrow = true)
-    {
-        if (exception != null)
-        {
-            ThrowIsNotNull(exception.Message, reallyThrow);
-            return false;
-        }
-        return true;
-    }
 
     internal static bool ThrowIsNotNull<A, B>(Func<string, A, B, string?> f, A ex, B message)
     {

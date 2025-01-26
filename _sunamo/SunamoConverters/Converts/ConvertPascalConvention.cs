@@ -2,25 +2,7 @@ namespace SunamoDevCode._sunamo.SunamoConverters.Converts;
 
 internal class ConvertPascalConvention //: IConvertConvention
 {
-    /// <summary>
-    /// NI
-    /// </summary>
-    /// <param name="p"></param>
-    internal static string FromConvention(string p)
-    {
-        //ThrowEx.NotImplementedMethod();
-        return SH.FirstCharUpper(Regex.Replace(p, "[a-z][A-Z]", m => $"{m.Value[0]} {char.ToLower(m.Value[1])}").ToLower());
-    }
-    internal static bool IsPascal(string r)
-    {
-        var s = ToConvention(r);
-        return r == s;
-    }
-    internal static List<string> FromToWords(string s)
-    {
-        return null;
-    }
-    /// <summary>
+        /// <summary>
     /// Will include numbers
     /// hello world = HelloWorld
     /// Hello world = HelloWorld

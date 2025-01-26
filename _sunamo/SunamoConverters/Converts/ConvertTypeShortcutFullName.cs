@@ -3,48 +3,6 @@ namespace SunamoDevCode._sunamo.SunamoConverters.Converts;
 internal static class ConvertTypeShortcutFullName //: IConvertShortcutFullName
 {
     const string systemDot = "System.";
-    internal static string FromShortcut(string shortcut)
-    {
-        switch (shortcut)
-        {
-            case "string":
-                return "System.String";
-            case "int":
-                return "System.Int32";
-            case "bool":
-                return "System.Boolean";
-            case "float":
-                return "System.Single";
-            case "DateTime":
-                return "System.DateTime";
-            case "double":
-                return "System.Double";
-            case "decimal":
-                return "System.Decimal";
-            case "char":
-                return "System.Char";
-            case "byte":
-                return "System.Byte";
-            case "sbyte":
-                return "System.SByte";
-            case "short":
-                return "System.Int16";
-            case "long":
-                return "System.Int64";
-            case "ushort":
-                return "System.UInt16";
-            case "uint":
-                return "System.UInt32";
-            case "ulong":
-                return "System.UInt64";
-        }
-        throw new Exception("Nepodporovan\u00E9 kl\u00ED\u010Dov\u00E9 slovo");
-        return null;
-    }
-    internal static string ToShortcut(object instance)
-    {
-        return ToShortcut(instance.GetType().FullName, false);
-    }
     internal static string ToShortcut(string fullName)
     {
         return ToShortcut(fullName, true);

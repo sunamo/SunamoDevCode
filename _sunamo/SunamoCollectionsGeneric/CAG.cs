@@ -66,11 +66,6 @@ internal class CAG
         }
         return duplicated.c;
     }
-    internal static List<T> RemoveDuplicitiesList<T>(IList<T> idKesek)
-    {
-        List<T> foundedDuplicities;
-        return RemoveDuplicitiesList<T>(idKesek, out foundedDuplicities);
-    }
 
     /// <summary>
     /// direct edit

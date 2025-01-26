@@ -62,29 +62,11 @@ internal class CA
         }
     }
 
-    internal static bool IsListStringWrappedInArray<T>(List<T> v2)
-    {
-        var first = v2.First().ToString();
-        if (v2.Count == 1 && (first == "System.Collections.Generic.List`1[System.String]" ||
-        first == "System.Collections.Generic.List`1[System.Object]")) return true;
-        return false;
-    }
-    internal static void InitFillWith(List<string> datas, int pocet, string initWith = "")
-    {
-        InitFillWith<string>(datas, pocet, initWith);
-    }
     internal static void InitFillWith<T>(List<T> datas, int pocet, T initWith)
     {
         for (int i = 0; i < pocet; i++)
         {
             datas.Add(initWith);
-        }
-    }
-    internal static void InitFillWith<T>(List<T> arr, int columns)
-    {
-        for (int i = 0; i < columns; i++)
-        {
-            arr.Add(default);
         }
     }
     /// <summary>
@@ -122,13 +104,6 @@ internal class CA
     {
         foreach (var item in v2) return item.ToString();
         return null;
-    }
-    internal static bool IsListStringWrappedInArray(IEnumerable v2)
-    {
-        var first = First(v2);
-        if (Count(v2) == 1 && (first == "System.Collections.Generic.List`1[System.String]" ||
-        first == "System.Collections.Generic.List`1[System.Object]")) return true;
-        return false;
     }
 
 
@@ -243,20 +218,6 @@ internal class CA
         return null;
     }
 
-    internal static string StartWith(string item2, IList<string> v1, out int i)
-    {
-        i = -1;
-        foreach (var item in v1)
-        {
-            i++;
-            if (item.StartsWith(item2))
-            {
-                return item;
-            }
-
-        }
-        return null;
-    }
 
     internal static void RemoveWhichContains(List<string> files1, string item, bool wildcard, Func<string, string, bool> WildcardIsMatch)
     {
@@ -328,25 +289,6 @@ internal class CA
                 break;
             }
         }
-    }
-    internal static List<T> SortSetFirst<T, U, P>(U result, Func<T, P> getProperty, P prioritize) where U : List<T>
-    {
-        List<T> t = new List<T>();
-
-        foreach (var item in result)
-        {
-            var p = getProperty(item);
-            if (EqualityComparer<P>.Default.Equals(p, prioritize))
-            {
-                t.Insert(0, item);
-            }
-            else
-            {
-                t.Add(item);
-            }
-        }
-
-        return t;
     }
 
     internal static void RemoveLines(List<string> lines, List<int> removeLines)
@@ -446,12 +388,6 @@ internal class CA
             }
         }
         return false;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static string WrapWith(string value, string h)
-    {
-        return h + value + h;
     }
 
     internal static List<string> Prepend(string v, List<string> toReplace)

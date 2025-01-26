@@ -45,14 +45,4 @@ internal class ConvertSnakeConvention
         var r = sb.ToString().Replace("", "_");
         return r;
     }
-    internal static string FromConvention(string p)
-
-    {
-        ThrowEx.Custom("Zkusit knihovnu třetích stran");
-        return null;
-    //    var pa = p.Split('_'); //SHSplit.SplitCharMore(p, new Char[] { '_' });
-    //CA.ToLower(pa);
-    //    CAChangeContent.ChangeContent0(null, pa, SH.FirstCharUpper);
-    //    return string.Join("", pa);
-}
 }

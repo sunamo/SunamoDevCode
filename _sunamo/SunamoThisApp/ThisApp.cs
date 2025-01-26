@@ -19,14 +19,6 @@ internal class ThisApp
     {
         SetStatus(TypeOfMessageShared.Error, v, o);
     }
-    internal static void Warning(string v, params string[] o)
-    {
-        SetStatus(TypeOfMessageShared.Warning, v, o);
-    }
-    internal static void Ordinal(string v, params string[] o)
-    {
-        SetStatus(TypeOfMessageShared.Ordinal, v, o);
-    }
     internal static void Appeal(string v, params string[] o)
     {
         SetStatus(TypeOfMessageShared.Appeal, v, o);

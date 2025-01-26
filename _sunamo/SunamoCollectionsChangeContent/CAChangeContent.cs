@@ -55,45 +55,7 @@ internal class CAChangeContent
         var result = ChangeContent<string>(a, files_in, func, a1);
         return result;
     }
-    /// <summary>
-    /// Poslední číslo je počet parametrů jež se předávají do delegátu
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="files_in"></param>
-    /// <param name="func"></param>
-    /// <param name="a1"></param>
-    /// <param name="a2"></param>
-    /// <returns></returns>
-    internal static List<string> ChangeContent2(ChangeContentArgsDC a, List<string> files_in, Func<string, string, string, string> func, string a1, string a2)
-    {
-        for (int i = 0; i < files_in.Count; i++)
-        {
-            files_in[i] = func.Invoke(files_in[i], a1, a2);
-        }
-        RemoveNullOrEmpty(a, files_in);
-        return files_in;
-    }
-    /// <summary>
-    /// Direct edit
-    /// Earlier name was ChangeContent , but has Predicate => ChangeContentWithCondition
-    /// </summary>
-    /// <param name="files_in"></param>
-    /// <param name="func"></param>
-    internal static bool ChangeContentWithCondition(ChangeContentArgsDC a, List<string> files_in, Predicate<string> predicate, Func<string, string> func)
-    {
-        bool changed = false;
-        for (int i = 0; i < files_in.Count; i++)
-        {
-            if (predicate.Invoke(files_in[i]))
-            {
-                files_in[i] = func.Invoke(files_in[i]);
-                changed = true;
-            }
-        }
-        RemoveNullOrEmpty(a, files_in);
-        return changed;
-    }
-    #region Vem obojí
+            #region Vem obojí
     internal static List<string> ChangeContentSwitch12<Arg1>(List<string> files_in, Func<Arg1, string, string> func, Arg1 arg)
     {
         for (int i = 0; i < files_in.Count; i++)
