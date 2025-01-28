@@ -55,14 +55,4 @@ GetString(uri.ToString()) - the same string as passed in ctor Uri
     }
 
     
-    /// <summary>
-    /// Resources/tidy_config.txt (no assembly)
-    /// </summary>
-    /// <param name="name"></param>
-    internal Stream GetStream(string name)
-    {
-        var s = GetResourceName(name);
-        var vr = entryAssembly.GetManifestResourceStream(s);
-        return vr;
     }
-}

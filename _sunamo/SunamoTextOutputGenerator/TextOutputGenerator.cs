@@ -55,15 +55,7 @@ internal class TextOutputGenerator //: ITextOutputGenerator
         Header(v);
         AppendLine(onlyStart);
     }
-    /// <summary>
-    /// If you have StringBuilder, use Paragraph()
-    /// </summary>
-    /// <param name="files1"></param>
-    internal void List(IList<string> files1)
-    {
-        List<string>(files1);
-    }
-    internal void List<Value>(IList<Value> files1, string deli = "\r\n", string whenNoEntries = "")
+        internal void List<Value>(IList<Value> files1, string deli = "\r\n", string whenNoEntries = "")
     {
         if (files1.Count == 0)
         {
@@ -78,18 +70,7 @@ internal class TextOutputGenerator //: ITextOutputGenerator
             //sb.AppendLine();
         }
     }
-    /// <summary>
-    ///  must be where Header : IEnumerable<char> (like is string)
-    /// </summary>
-    /// <typeparam name="Header"></typeparam>
-    /// <typeparam name="Value"></typeparam>
-    /// <param name="files1"></param>
-    /// <param name="header"></param>
-    internal void List<Header, Value>(IList<Value> files1, Header header) where Header : IEnumerable<char>
-    {
-        List<Header, Value>(files1, header, new TextOutputGeneratorArgs { headerWrappedEmptyLines = true, insertCount = false });
-    }
-    internal void List(IList<string> files1, string header)
+        internal void List(IList<string> files1, string header)
     {
         List<string, string>(files1, header, new TextOutputGeneratorArgs { headerWrappedEmptyLines = true, insertCount = false });
     }
