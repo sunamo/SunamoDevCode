@@ -123,15 +123,6 @@ internal class TextOutputGenerator //: ITextOutputGenerator
     }
     #endregion
     #region Dictionary
-    Dictionary<string, List<string>> IGroupingToDictionary(IEnumerable<IGrouping<string, string>> g)
-    {
-        Dictionary<string, List<string>> l = new Dictionary<string, List<string>>();
-        foreach (var item in g)
-        {
-            l.Add(item.Key, item.ToList());
-        }
-        return l;
-    }
     internal void Dictionary(Dictionary<string, List<string>> ls)
     {
         foreach (var item in ls)
