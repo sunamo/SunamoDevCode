@@ -184,7 +184,7 @@ bool fillAlsoFirstTwo = true)
                 notContained.Add(item);
         return notContained.Count == 0
         ? null
-        : CheckBefore(before) + originalText + " dont contains: " + string.Join(",", notContained);
+        : CheckBefore(before) + "Original text dont contains: " + string.Join(",", notContained) + ". Original text: " + originalText;
     }
 
     internal static string? DifferentCountInLists(string before, string namefc, int countfc, string namesc, int countsc)
