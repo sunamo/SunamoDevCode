@@ -2,6 +2,53 @@ namespace SunamoDevCode._sunamo.SunamoCollections;
 
 internal class CA
 {
+
+
+    public enum SearchStrategyCA
+    {
+        FixedSpace,
+        AnySpaces,
+        ExactlyName
+    }
+
+    public static List<int> ReturnWhichContainsIndexes(IList<string> value, string term,
+        SearchStrategyCA searchStrategy = SearchStrategyCA.FixedSpace)
+    {
+        var result = new List<int>();
+        var i = 0;
+        if (value != null)
+            foreach (var item in value)
+            {
+                if (item.Contains(term) /*.Contains(item, term, searchStrategy)*/) result.Add(i);
+                i++;
+            }
+
+        return result;
+    }
+
+    public static List<int> ReturnWhichContainsIndexes(string item, IList<string> terms,
+       SearchStrategyCA searchStrategy = SearchStrategyCA.FixedSpace)
+    {
+        var result = new List<int>();
+        var i = 0;
+        foreach (var term in terms)
+        {
+            if (item.Contains(term) /*.Contains(item, term, searchStrategy)*/) result.Add(i);
+            i++;
+        }
+
+        return result;
+    }
+
+
+    public static IList<int> ReturnWhichContainsIndexes(IList<string> parts, IList<string> mustContains)
+    {
+        var result = new List<int>();
+        foreach (var item in mustContains) result.AddRange(ReturnWhichContainsIndexes(parts, item));
+        result = result.Distinct().ToList();
+        return result;
+    }
+
     public static List<string> StartingWith(string v, List<string> l)
     {
         for (var i = l.Count - 1; i >= 0; i--)
@@ -62,7 +109,7 @@ internal class CA
         }
     }
 
-        /// <summary>
+    /// <summary>
     ///     Direct edit input collection
     /// </summary>
     /// <param name="l"></param>

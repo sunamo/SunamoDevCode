@@ -100,8 +100,8 @@ public class DeleteTemporaryFilesFromSolution
         {
             ClearProject(logger, delete, folderWithProjectsFolders, foundedFiles, project, folderWithTemporaryMovedContentWithoutBackslash);
         }
-        // Is not fully implemented - therefore commented
-        //FS.DeleteFoldersWhichNotContains(v, "bin", CA.ToListString("node_modules"));
+        // todo dělat přes VisualStudioTempFse
+        FS.DeleteFoldersWhichNotContains(v, "bin", CA.ToListString("node_modules"));
         return foundedFiles;
     }
     public static List<string> ClearProject(ILogger logger, string project, bool delete, string folderWithTemporaryMovedContentWithoutBackslash)

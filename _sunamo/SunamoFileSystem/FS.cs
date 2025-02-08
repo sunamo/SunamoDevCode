@@ -2,6 +2,25 @@ namespace SunamoDevCode._sunamo.SunamoFileSystem;
 
 internal class FS
 {
+
+
+
+    public static void DeleteFoldersWhichNotContains(string v, string folder, IList<string> v2)
+    {
+        var f = Directory.GetDirectories(v, folder, SearchOption.AllDirectories).ToList();
+        for (int i = f.Count - 1; i >= 0; i--)
+        {
+            if (CA.ReturnWhichContainsIndexes(f[i], v2).Count != 0)
+            {
+                f.RemoveAt(i);
+            }
+        }
+        foreach (var item in f)
+        {
+            //FS.DeleteF
+        }
+    }
+
     public static bool IsAbsolutePath(string path)
     {
         return !String.IsNullOrWhiteSpace(path)
