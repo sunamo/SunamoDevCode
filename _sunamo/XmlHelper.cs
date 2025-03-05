@@ -1,12 +1,5 @@
 namespace SunamoDevCode._sunamo;
 
-using SunamoDevCode._sunamo.SunamoExtensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 internal class XmlHelper
 {
     public static IList<XmlNode> GetElementsOfName(XmlNode e, string v)
@@ -29,7 +22,6 @@ internal class XmlHelper
             xe.SetAttribute(include, rel);
             return;
         }
-
         // Working only when attribute
         var atrValue = Attr(node, include);
         if (atrValue == null)
@@ -37,7 +29,6 @@ internal class XmlHelper
             var xa = node.OwnerDocument.CreateAttribute(include);
             node.Attributes.Append(xa);
         }
-
         node.Attributes[include].Value = rel;
     }
     internal static string Attr(XmlNode d, string v)
@@ -60,7 +51,6 @@ internal class XmlHelper
                 return item2;
             }
         }
-
         return null;
     }
 }

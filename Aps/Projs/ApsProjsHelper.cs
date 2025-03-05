@@ -1,8 +1,5 @@
 namespace SunamoDevCode.Aps.Projs;
 
-using Microsoft.Extensions.Logging;
-using SunamoDevCode.Aps.Projs;
-
 public class ApsProjsHelper
 {
     public static void ReplacePathWithCsproj(ILogger logger, List<string> projectsToAdd)

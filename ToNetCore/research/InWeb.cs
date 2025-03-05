@@ -1,10 +1,5 @@
 namespace SunamoDevCode.ToNetCore.research;
 
-using SunamoDevCode.Aps.Enums;
-using SunamoDevCode.Aps.Projs;
-using SunamoDevCode.Aps.Projs.Data.ItemGroup;
-using SunamoDevCode.Aps.Projs.Results;
-
 public partial class MoveToNet5
 {
     /// <summary>
@@ -88,7 +83,6 @@ public partial class MoveToNet5
             }
         }
     }
-
     public
 #if ASYNC
     async Task
@@ -345,7 +339,6 @@ public partial class MoveToNet5
 #endif
  FindProjectsWhichIsSdkStyle(logger, true);
         return SHJoin.JoinNL(u.nonCsprojSdkStyleList);
-
     }
     string nameProject = null;
     public async void ReplaceProjectReferenceForWeb(ILogger logger, string n, string ns)

@@ -1,10 +1,5 @@
 namespace SunamoDevCode.Aps.Projs;
 
-using SunamoDevCode._public.SunamoCollectionWithoutDuplicates;
-using SunamoDevCode.Aps.Helpers;
-using SunamoDevCode.Aps.Projs;
-using SunamoDevCode.Aps.Projs.Results;
-
 public class SunamoCsprojHelper
 {
     /// <summary>
@@ -136,9 +131,7 @@ public class SunamoCsprojHelper
             return new Tuple<bool, string>(isNew, /*csp.TargetFramework*/ null);
         }
         var v =
-
             FrameworkNameDetector.Detect(path);
-
         return new Tuple<bool, string>(isNew, VersionHelper.RemovePartsWhichIsZero(v.Version));
     }
     public static
