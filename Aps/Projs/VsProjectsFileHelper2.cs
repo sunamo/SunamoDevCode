@@ -1,8 +1,5 @@
 namespace SunamoDevCode.Aps.Projs;
 
-using SunamoDevCode.Aps.Enums;
-using SunamoDevCode.Aps.Projs.Data.ItemGroup;
-
 public partial class VsProjectsFileHelper
 {
     /// <summary>

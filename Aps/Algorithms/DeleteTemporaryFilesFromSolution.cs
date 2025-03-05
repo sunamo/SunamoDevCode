@@ -1,7 +1,5 @@
 namespace SunamoDevCode.Aps.Algorithms;
 
-using SunamoDevCode._sunamo.SunamoExtensions;
-
 public class DeleteTemporaryFilesFromSolution
 {
     static Type type = typeof(DeleteTemporaryFilesFromSolution);

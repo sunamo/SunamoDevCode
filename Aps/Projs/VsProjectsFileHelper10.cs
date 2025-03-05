@@ -1,9 +1,5 @@
 namespace SunamoDevCode.Aps.Projs;
 
-using SunamoDevCode._public;
-using SunamoDevCode.Aps.Enums;
-using SunamoDevCode.Aps.Projs.Data.ItemGroup;
-
 /// <summary>
 /// Use VsProjectFile, 
 /// </summary>
@@ -19,10 +15,8 @@ public partial class VsProjectsFileHelper
         {
             ThrowEx.NotImplementedCase(relativePath);
         }
-
         return SHSplit.SplitMore(relativePath, deli);
     }
-
     #region Use cacheProjectReferences
     public static Dictionary<string, ProjectReferences> cacheProjectReferences = new Dictionary<string, ProjectReferences>();
     /// <summary>

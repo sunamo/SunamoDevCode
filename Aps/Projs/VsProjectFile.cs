@@ -1,8 +1,5 @@
 namespace SunamoDevCode.Aps.Projs;
 
-using SunamoDevCode._sunamo.SunamoExtensions;
-using SunamoDevCode.Aps.Enums;
-
 /// <summary>
 /// In case when ProjectCollection wont work (like actually dont return any Compile elements)
 /// </summary>
@@ -11,12 +8,10 @@ public class VsProjectFile
     public string file = null;
     XmlDocument xDocument = null;
     XmlNamespacesHolder holder = null;
-
     public bool IsCore
     {
         get; set;
     }
-
     XmlNamespaceManager nsmgr
     {
         get
@@ -24,7 +19,6 @@ public class VsProjectFile
             return holder.nsmgr;
         }
     }
-
     public string Name
     {
         get
@@ -32,7 +26,6 @@ public class VsProjectFile
             return Path.GetFileNameWithoutExtension(file);
         }
     }
-
     public
 #if ASYNC
     async Task
@@ -66,15 +59,11 @@ public class VsProjectFile
                 xDocument = null;
             }
         }
-
         //xDocument = await XmlDocumentsCache.GetAsync(file);
     }
-
     public VsProjectFile()
     {
-
     }
-
     /// <summary>
     /// Before calling must check whether file is exists
     /// </summary>
@@ -84,25 +73,17 @@ public class VsProjectFile
         // async ctor nejde. proto to už nikdy nemůžu načítat v ctoru
         // už navždy budu užívat jen .net core
         //Load(file, null);
-
         //var content = TF.ReadAllText(file);
-
         //IsCore = VsProjectsFileHelper.IsCore(content);
-
         //holder = new XmlNamespacesHolder();
         //holder.ParseAndRemoveNamespacesXmlDocument(content);
-
         //xDocument = XmlHelper.CreateXmlDocument(content);
-
         //XmlHelper.AddXmlNamespaces(holder.nsmgr);
-
     }
-
     public bool IsValidXml
     {
         get => xDocument != null;
     }
-
     #region TODO: working with XmlDocument which is not supported already
     //XmlDocument xd = null;
     //public VsProjectFile(string pathOrXml)
@@ -116,43 +97,31 @@ public class VsProjectFile
     //    {
     //        xd.LoadXml(pathOrXml);
     //    }
-
     //}
-
     //public VsProjectFile(XmlDocument xd, XmlNamespacesHolder holder)
     //{
     //    this.xd = xd;
     //    this.holder = holder;
-
-
     //}
     #endregion
-
     public void SetToItemGroup(ItemGroups ig, List<XmlNode> old, List<XmlNode> n)
     {
-
     }
-
     public static XmlNode GetElementOfName(XmlNode e, string n)
     {
         return e.ChildNodes.First(n);
     }
-
     public List<XmlNode> ReturnAllItemGroup(ItemGroups ig)
     {
         var project = XmlHelper.GetElementOfName(xDocument, "Project");
         var itemGroups = XmlHelper.GetElementsOfName(project, "ItemGroup");
-
         List<XmlNode> xelements = new List<XmlNode>();
         foreach (var item in itemGroups)
         {
             xelements.AddRange(XmlHelper.GetElementsOfName(item, ig.ToString()));
-
         }
-
         return xelements;
     }
-
     public void Delete(List<XmlElement> compile)
     {
         foreach (var item in compile)
@@ -160,7 +129,6 @@ public class VsProjectFile
             item.ParentNode?.RemoveChild(item);
         }
     }
-
     public void Save()
     {
         xDocument.Save(file);

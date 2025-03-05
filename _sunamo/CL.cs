@@ -1,11 +1,5 @@
 namespace SunamoDevCode._sunamo;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 internal class CL
 {
     public static string AskForEnter(string whatOrTextWithoutEndingDot, bool appendAfterEnter,
@@ -21,12 +15,10 @@ internal class CL
         }
         return returnWhenIsNotNull;
     }
-
     private static string FromKey(string v)
     {
         return v;
     }
-
     public static string UserMustTypeMultiLine(string v, params string[] anotherPossibleAftermOne)
     {
         string line = null;
@@ -44,16 +36,12 @@ internal class CL
         var s2 = sb.ToString().Trim();
         return s2;
     }
-
     private static void Information(string value)
     {
         Console.WriteLine(value);
     }
-
     internal static void WriteLine(string message)
     {
         Console.WriteLine(message);
     }
-
-
 }
