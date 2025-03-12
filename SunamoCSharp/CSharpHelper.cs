@@ -322,7 +322,8 @@ public static class CSharpHelper
 
         lines = lines.Where(d => !d.StartsWith("namespace")).ToList();
         lines = lines.Where(d => !d.StartsWith("using")).ToList();
-        lines = lines.Where(d => d.EndsWith(";")).ToList();
+        // "," protože např. v enum souborech nemusí být žádný ;
+        lines = lines.Where(d => d.EndsWith(";") || d.EndsWith(",")).ToList();
         if (!lines.Any())
         {
             return true;
