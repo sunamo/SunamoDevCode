@@ -2,8 +2,6 @@ namespace SunamoDevCode._sunamo.SunamoCollections;
 
 internal class CA
 {
-
-
     public enum SearchStrategyCA
     {
         FixedSpace,
