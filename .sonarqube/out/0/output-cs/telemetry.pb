@@ -1,1 +1,0 @@
-hRRE:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.csproj¢net9.0òCSharp13
