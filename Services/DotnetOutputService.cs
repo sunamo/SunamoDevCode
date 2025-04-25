@@ -20,10 +20,10 @@ public class DotnetOutputService
         int column = -1;
         if (p1Trim.Contains("("))
         {
-            var p3 = SHSplit.SplitMore(p1Trim, "(");
+            var p3 = SHSplit.Split(p1Trim, "(");
             var last = p3[p3.Count - 1];
             p3.RemoveAt(p3.Count - 1);
-            var p4 = SHSplit.SplitMore(last, ",");
+            var p4 = SHSplit.Split(last, ",");
             line = int.Parse(p4[0]);
             column = int.Parse(p4[1].TrimEnd(')'));
             path = p[0] + ":" + string.Join("(", p3);
@@ -32,7 +32,7 @@ public class DotnetOutputService
         {
             path = p[0] + ":" + p1Trim;
         }
-        var p2 = SHSplit.SplitMore(p[2].Trim(), " ");
+        var p2 = SHSplit.Split(p[2].Trim(), " ");
         string type = null;
         string errorCode = null;
         if (p2.Count > 1)

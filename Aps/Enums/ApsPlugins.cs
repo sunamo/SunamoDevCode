@@ -1,3 +1,5 @@
+namespace SunamoDevCode.Aps.Enums;
+
 /// <summary>
 /// Other 0, otherwise serie as in projects in sln
 /// </summary>

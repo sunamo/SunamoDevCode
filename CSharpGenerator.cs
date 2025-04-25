@@ -862,7 +862,7 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
             {
                 var splitted =
                     keys[i].ToString()
-                        .Split(new[] { s }, StringSplitOptions.RemoveEmptyEntries); //SHSplit.SplitMore(, s);
+                        .Split(new[] { s }, StringSplitOptions.RemoveEmptyEntries); //SHSplit.Split(, s);
                 foreach (var item in splitted) dict.Add((Key)(dynamic)item, values[i]);
             }
             else

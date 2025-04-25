@@ -52,8 +52,8 @@ public static class SystemWindowsControls
             //var d = SHGetLines.GetLines(s_embeddedResourcesH.GetString("/Resources/SystemWindowsControls.txt"));
             //foreach (var item in d)
             //{
-            //    var p = SHSplit.SplitMore(item, " ");
-            //    s_controls.Add(p[0], SHSplit.SplitMore(p[1], ","));
+            //    var p = SHSplit.Split(item, " ");
+            //    s_controls.Add(p[0], SHSplit.Split(p[1], ","));
             //}
         }
     }

@@ -1,6 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoStringSplit;
 
-
 internal class SHSplit
 {
     internal static List<string> SplitMore(string p, params string[] newLine)
@@ -54,7 +53,7 @@ internal class SHSplit
         return vr;
     }
 
-    internal static List<string> SplitCharMore(string parametry, char deli)
+    internal static List<string> SplitChar(string parametry, char deli)
     {
         return SplitMore(StringSplitOptions.RemoveEmptyEntries, parametry, (new List<char>([deli]).ConvertAll(d => d.ToString()).ToArray()));
     }
@@ -99,7 +98,7 @@ internal class SHSplit
 
             foreach (var item in lines)
             {
-                var p = SHSplit.SplitMore(item, "->");
+                var p = SHSplit.Split(item, "->");
                 from.AppendLine(p[0]);
                 to.AppendLine(p[1]);
             }

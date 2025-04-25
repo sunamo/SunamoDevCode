@@ -1,4 +1,5 @@
-﻿namespace SunamoCsproj.Enums;
+namespace SunamoDevCode.Enums;
+
 public enum WhatIsExcepted
 {
     Sln,

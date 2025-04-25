@@ -1,6 +1,5 @@
 namespace SunamoDevCode._public;
 
-
 public interface IProgressBarDC
 {
     bool isRegistered { get; set; }
@@ -11,9 +10,9 @@ public interface IProgressBarDC
     ///     A1 is to increment done items after really finished async operation. Can be any.
     /// </summary>
     /// <param name="asyncResult"></param>
-    void LyricsHelper_AnotherSong(object asyncResult);
-    void LyricsHelper_AnotherSong();
-    void LyricsHelper_AnotherSong(int i);
-    void LyricsHelper_OverallSongs(int obj);
-    void LyricsHelper_WriteProgressBarEnd();
+    void DoneOne(object asyncResult);
+    void DoneOne();
+    void DoneOne(int i);
+    void Start(int obj);
+    void Done();
 }

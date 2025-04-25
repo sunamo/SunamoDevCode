@@ -1,3 +1,5 @@
+namespace SunamoDevCode.Aps.Enums;
+
 public enum AspxToEnFiles
 {
     Home,

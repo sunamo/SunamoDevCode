@@ -95,6 +95,8 @@ internal class FS
         return !badFormat;
     }
 
+
+
     public static string FirstCharUpper(ref string result)
     {
         if (IsWindowsPathFormat(result)) result = SH.FirstCharUpper(result);
@@ -157,7 +159,7 @@ internal class FS
             ThrowEx.NotImplementedCase(relativePath);
         }
 
-        return SHSplit.SplitMore(relativePath, deli);
+        return SHSplit.Split(relativePath, deli);
     }
 
     public static List<string> OnlyNamesWithoutExtensionCopy(List<string> p2)

@@ -15,7 +15,7 @@ public partial class VsProjectsFileHelper
         {
             ThrowEx.NotImplementedCase(relativePath);
         }
-        return SHSplit.SplitMore(relativePath, deli);
+        return SHSplit.Split(relativePath, deli);
     }
     #region Use cacheProjectReferences
     public static Dictionary<string, ProjectReferences> cacheProjectReferences = new Dictionary<string, ProjectReferences>();
