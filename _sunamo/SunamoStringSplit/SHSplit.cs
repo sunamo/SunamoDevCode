@@ -2,7 +2,7 @@ namespace SunamoDevCode._sunamo.SunamoStringSplit;
 
 internal class SHSplit
 {
-    internal static List<string> SplitMore(string p, params string[] newLine)
+    internal static List<string> Split(string p, params string[] newLine)
     {
         return p.Split(newLine, StringSplitOptions.RemoveEmptyEntries).ToList();
     }
@@ -16,7 +16,7 @@ internal class SHSplit
     /// <param name="p_2"></param>
     public static List<string> SplitToParts(string what, int parts, string deli)
     {
-        var s = SplitMore(what.RemoveInvisibleChars(), deli);
+        var s = Split(what.RemoveInvisibleChars(), deli);
         if (s.Count < parts)
         {
             // Pokud je pocet ziskanych partu mensi, vlozim do zbytku prazdne retezce
@@ -55,10 +55,10 @@ internal class SHSplit
 
     internal static List<string> SplitChar(string parametry, char deli)
     {
-        return SplitMore(StringSplitOptions.RemoveEmptyEntries, parametry, (new List<char>([deli]).ConvertAll(d => d.ToString()).ToArray()));
+        return Split(StringSplitOptions.RemoveEmptyEntries, parametry, (new List<char>([deli]).ConvertAll(d => d.ToString()).ToArray()));
     }
 
-    internal static List<string> SplitMore(StringSplitOptions stringSplitOptions, string text, params string[] deli)
+    internal static List<string> Split(StringSplitOptions stringSplitOptions, string text, params string[] deli)
     {
         if (deli == null || deli.Length == 0)
         {

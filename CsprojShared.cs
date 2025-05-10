@@ -1,7 +1,6 @@
 namespace SunamoDevCode;
 
 using Microsoft.Extensions.Logging;
-using SunamoCsproj.Enums;
 
 /// <summary>
 /// Toto je sice z CommandsToAllCsprojs.Shared ale hodí se na to všechny CommandsToAll*
