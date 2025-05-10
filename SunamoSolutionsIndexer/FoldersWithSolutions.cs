@@ -26,7 +26,7 @@ public class FoldersWithSolutions
         //if (sf.InVsFolder)
         //{
         solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
-        var p = SHSplit.SplitCharMore(solutionFolder, '\\');
+        var p = SHSplit.SplitChar(solutionFolder, '\\');
         //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
         var pr = p[0];
         pr = pr.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
@@ -321,7 +321,7 @@ public class FoldersWithSolutions
         if (sf.InVsFolder)
         {
             solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
-            var p = SHSplit.SplitCharMore(solutionFolder, '\\');
+            var p = SHSplit.SplitChar(solutionFolder, '\\');
             //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
             var pr = p[0];
             pr = pr.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);

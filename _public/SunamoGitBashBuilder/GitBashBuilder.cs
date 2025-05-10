@@ -103,6 +103,22 @@ public class GitBashBuilder : IGitBashBuilder
     {
         Append("-" + v);
     }
+
+    public void Comment(string s)
+    {
+        AppendLine("#");
+    }
+
+    public void MultilineComment(List<string> s)
+    {
+        AppendLine("<#");
+        foreach (var item in s)
+        {
+            AppendLine(item);
+        }
+        AppendLine("#>");
+    }
+
     public void Remote(string arg)
     {
         Git("remote");

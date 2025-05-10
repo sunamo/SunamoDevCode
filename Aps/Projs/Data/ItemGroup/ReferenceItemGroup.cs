@@ -1,4 +1,5 @@
 namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
+
 public class ReferenceItemGroup : ItemGroupElement
 {
     public static Type type = typeof(ReferenceItemGroup);
@@ -13,13 +14,13 @@ public class ReferenceItemGroup : ItemGroupElement
         Include = XmlHelper.Attr(xe, "Include");
         if (Include.Contains(","))
         {
-            var IncludeParts2 = SHSplit.SplitMore(Include, ",");
+            var IncludeParts2 = SHSplit.Split(Include, ",");
             CA.Trim(IncludeParts2);
             foreach (var item in IncludeParts2)
             {
                 if (item.Contains("="))
                 {
-                    var sp = SHSplit.SplitMore(item, "=");
+                    var sp = SHSplit.Split(item, "=");
                     IncludeParts.Add(sp[0], sp[1]);
                 }
             }

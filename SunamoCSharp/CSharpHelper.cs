@@ -268,7 +268,7 @@ public static class CSharpHelper
             s = s.Replace(item + " ", "");
         }
 
-        var p = SHSplit.SplitMore(s, " ");
+        var p = SHSplit.Split(s, " ");
         if (p.Count == 2 && p[0] == "string")
         {
             return (true, p[1].Trim().TrimEnd(';'));

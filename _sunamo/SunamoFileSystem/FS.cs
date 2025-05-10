@@ -157,7 +157,7 @@ internal class FS
             ThrowEx.NotImplementedCase(relativePath);
         }
 
-        return SHSplit.SplitMore(relativePath, deli);
+        return SHSplit.Split(relativePath, deli);
     }
 
     public static List<string> OnlyNamesWithoutExtensionCopy(List<string> p2)

@@ -517,8 +517,8 @@ GetMessagesFromGitOutput(bool? b, string pathGetMessagesFromGitOutput, string eV
                 var li = l[i];
                 if (li.StartsWith("cd "))
                 {
-                    var p = SHSplit.SplitMore(li, vpsPath);
-                    var p2 = SHSplit.SplitCharMore(p[1], '\\');
+                    var p = SHSplit.Split(li, vpsPath);
+                    var p2 = SHSplit.SplitChar(p[1], '\\');
                     var slnName = p2[0].TrimEnd('"');
                     var sfo = SolutionsIndexerHelper.SolutionWithName(slnName);
                     var dn = FS.GetDirectoryName(sfo.fullPathFolder);

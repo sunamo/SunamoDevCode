@@ -1,3 +1,5 @@
+namespace SunamoDevCode.Aps.Enums;
+
 /// <summary>
 /// Všechny operace co jsou zde se dělají v jediné metodě
 /// </summary>
