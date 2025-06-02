@@ -9,6 +9,7 @@ public class SunamoFramework
         var charEntity = new Dictionary<char, string>();
         var constsToCreate = new List<string>();
 
+
         //foreach (var item in RLData.en)
         //{
         //    foreach (var c in item.Value)
