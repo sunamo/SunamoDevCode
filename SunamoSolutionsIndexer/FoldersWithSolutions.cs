@@ -36,7 +36,9 @@ public class FoldersWithSolutions
         }
         else
         {
-            ThrowEx.KeyNotFound(projectTypes._d2, "projectTypes._d2", pr);
+            //ThrowEx.KeyNotFound(projectTypes._d2, "projectTypes._d2", pr);
+
+            sf.typeProjectFolder = ProjectsTypes.Unknown;
         }
         //}
     }
@@ -331,7 +333,9 @@ public class FoldersWithSolutions
             }
             else
             {
-                ThrowEx.KeyNotFound(projectTypes._d2, "projectTypes._d2", pr);
+                //ThrowEx.KeyNotFound(projectTypes._d2, "projectTypes._d2", pr);
+
+                sf.typeProjectFolder = ProjectsTypes.Unknown;
             }
         }
     }

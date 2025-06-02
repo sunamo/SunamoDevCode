@@ -48,5 +48,9 @@ public enum ProjectsTypes
     NovantaOld,
     Novanta,
 
-    None
+    None,
+    /// <summary>
+    /// Pokud nemám Projects složku spárovanou. 
+    /// </summary>
+    Unknown
 }
