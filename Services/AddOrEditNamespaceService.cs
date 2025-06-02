@@ -13,6 +13,7 @@ public class AddOrEditNamespaceService
         {
             return null;
         }
+
         var fnwoe = Path.GetFileNameWithoutExtension(csPath);
         if (csPath.EndsWith(".xaml.cs")) return null;
         if (csPath.Contains(@"\obj\")) return null;
