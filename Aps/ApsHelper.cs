@@ -568,14 +568,7 @@ GetMessagesFromGitOutput(bool? b, string pathGetMessagesFromGitOutput, string eV
     ///
     /// </summary>
 
-    private void m(string v)
-    {
-        if (!cmd)
-        {
-            MoveToApsWpf();
-            //MessageBox.Show(v);
-        }
-    }
+
     public async Task<bool> IsWebProject(ILogger logger, SolutionFolder sln, GetFileSettings getFileSettings)
     {
         var d = await AllProjectsSearchSettings.GetWebProjectsWildCard(logger, getFileSettings);

@@ -191,8 +191,9 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
         return contentFileNew;
     }
 
-    public void Namespace(int tabCount, string ns)
+    public void Namespace(string ns)
     {
+
         sb.AddItem("namespace" + " " + ns);
         sb.AppendLine();
         sb.AddItem("{");

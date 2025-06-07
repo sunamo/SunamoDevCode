@@ -58,7 +58,11 @@ internal class BTS
             vr = No;
         }
 
-        return vr.ToLower();
+        if (lower)
+        {
+            return vr.ToLower();
+        }
+        return vr;
     }
 
     internal static bool GetValueOfNullable(bool? b)

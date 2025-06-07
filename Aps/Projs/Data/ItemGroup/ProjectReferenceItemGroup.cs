@@ -12,7 +12,7 @@ public class ProjectReferenceItemGroup : ItemGroupElement
     {
         // .net fw vkládá ještě elementy Name a ProjectGuid. Nicméně ty nemusím ani vyplňovat a fungovalo by to úplně stejně. Zkoušeno s rebuildem.
         var x = "<" + ItemGroups.ProjectReference + " Include=\"" + Include + "\" />";
-        XmlNode xn = XH.ReturnXmlNode(x.ToString(), xd);
+        XmlNode xn = XH.ReturnXmlNode(x.ToString());
         return xn;
     }
 }

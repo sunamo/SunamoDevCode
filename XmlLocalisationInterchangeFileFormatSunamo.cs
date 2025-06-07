@@ -28,7 +28,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 #endif
         ReplaceHtmlEntitiesWithEmpty(string xlfPath)
     {
-        
+
         var content =
 #if ASYNC
             await
@@ -85,7 +85,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         from.Reverse();
         to.Reverse();
 
-        
+
         var content =
 #if ASYNC
             await
@@ -223,11 +223,13 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         return SH.GetTextBetweenSimple(d4, cs, eqBs, false);
     }
 
+#pragma warning disable
     public static LangsDC GetLangFromFilename(string s)
     {
         return LangsDC.cs;
         //return XmlLocalisationInterchangeFileFormatXlf.GetLangFromFilename(s);
     }
+#pragma warning restore
 
 
     /// <summary>

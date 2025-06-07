@@ -10,7 +10,7 @@ internal class XmlHelper
     {
         return e.ChildNodes.First(n);
     }
-    public static string InnerTextOfNode(XmlNode xe, string version2)
+    public static string InnerTextOfNode(XmlNode xe)
     {
         return xe.InnerText;
     }

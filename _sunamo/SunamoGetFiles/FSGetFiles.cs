@@ -20,7 +20,9 @@ internal class FSGetFiles
         return GetFiles(logger, folder2, mask, b ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, getFilesArgs);
     }
 
+#pragma warning disable
     internal static List<string> GetFiles(ILogger logger, string folder2, string mask, SearchOption searchOption, GetFilesArgsDC getFilesArgs = null)
+#pragma warning restore
     {
         if (getFilesArgs != null)
         {
@@ -30,7 +32,9 @@ internal class FSGetFiles
         return Directory.GetFiles(folder2, mask, searchOption).ToList();
     }
 
+#pragma warning disable
     internal static List<string> GetFiles(ILogger logger, string p, bool v)
+#pragma warning restore
     {
         return Directory.GetFiles(p, "*", v ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).ToList();
     }

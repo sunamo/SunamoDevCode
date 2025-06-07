@@ -35,15 +35,15 @@ public class ReplacerXlf
         return s;
     }
 
-    public static void AddKeys(List<string> k)
-    {
-    }
+    //public static void AddKeys(List<string> k)
+    //{
+    //}
 
-    public static void AddKeysXlfKeysIds()
-    {
-        List<string> ids = null; // XlfResourcesH.PathToXlfSunamo(Langs.en);
-        var ids2 = new List<string>(ids);
+    //public static void AddKeysXlfKeysIds()
+    //{
+    //    List<string> ids = null; // XlfResourcesH.PathToXlfSunamo(Langs.en);
+    //    var ids2 = new List<string>(ids);
 
-        AddKeys(ids);
-    }
+    //    AddKeys(ids);
+    //}
 }

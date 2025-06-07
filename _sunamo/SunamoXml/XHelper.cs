@@ -4,11 +4,11 @@ internal class XHelper
 {
     internal static Dictionary<string, string> ns = new Dictionary<string, string>();
 
-    internal static IList<XElement> GetElementsOfNameWithAttrContains(XElement group, string tag, string attr, string value, bool caseSensitive = false)
+    internal static IList<XElement> GetElementsOfNameWithAttrContains(XElement group, string tag, string attr, string value/*, bool caseSensitive = false*/)
     {
-        return GetElementsOfNameWithAttrWorker(group, tag, attr, value, true, caseSensitive);
+        return GetElementsOfNameWithAttrWorker(group, tag, attr, value/*, true, caseSensitive*/);
     }
-    internal static List<XElement> GetElementsOfNameWithAttrWorker(System.Xml.Linq.XElement xElement, string tag, string attr, string value, bool enoughIsContainsAttribute, bool caseSensitive)
+    internal static List<XElement> GetElementsOfNameWithAttrWorker(System.Xml.Linq.XElement xElement, string tag, string attr, string value/*, bool enoughIsContainsAttribute, bool caseSensitive*/)
     {
         List<XElement> vr = new List<XElement>();
         List<XElement> e = XHelper.GetElementsOfNameRecursive(xElement, tag);

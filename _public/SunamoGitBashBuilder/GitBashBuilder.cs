@@ -106,7 +106,7 @@ public class GitBashBuilder : IGitBashBuilder
 
     public void Comment(string s)
     {
-        AppendLine("#");
+        AppendLine("#" + s);
     }
 
     public void MultilineComment(List<string> s)
@@ -188,9 +188,9 @@ public class GitBashBuilder : IGitBashBuilder
 
 
 
-    public static string GenerateCommandForGit(object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string command, string basePathIfA2SolutionsWontExistsOnFilesystem)
+    public static string GenerateCommandForGit(/*object tlb,*/ string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string command, string basePathIfA2SolutionsWontExistsOnFilesystem)
     {
-        var filesToCommit = GitBashBuilder.PrepareFilesToSimpleGitFormat(tlb, solution, linesFiles, out anyError, searchOnlyWithExtension, basePathIfA2SolutionsWontExistsOnFilesystem);
+        var filesToCommit = GitBashBuilder.PrepareFilesToSimpleGitFormat(/*tlb,*/ solution, linesFiles, out anyError, searchOnlyWithExtension, basePathIfA2SolutionsWontExistsOnFilesystem);
         if (filesToCommit == null || filesToCommit.Count == 0)
         {
             return "";
@@ -200,23 +200,18 @@ public class GitBashBuilder : IGitBashBuilder
         return result;
     }
 
-
-
-
-
-
     public static string CheckoutWithExtension(string folder, string typedExt, List<string> files, string basePathIfA2SolutionsWontExistsOnFilesystem, TextBuilderDC ci)
     {
         ThrowEx.IsNull("typedExt", typedExt);
         GitBashBuilder bashBuilder = new GitBashBuilder(ci);
         bool anyError = false;
-        var filesToCommit = GitBashBuilder.PrepareFilesToSimpleGitFormat(null, folder, files, out anyError, typedExt, basePathIfA2SolutionsWontExistsOnFilesystem);
+        var filesToCommit = GitBashBuilder.PrepareFilesToSimpleGitFormat(/*null,*/ folder, files, out anyError, typedExt, basePathIfA2SolutionsWontExistsOnFilesystem);
         if (filesToCommit == null)
         {
 
         }
 
-        string result = GitBashBuilder.GenerateCommandForGit(null, folder, files, out anyError, typedExt, "checkout", basePathIfA2SolutionsWontExistsOnFilesystem);
+        string result = GitBashBuilder.GenerateCommandForGit(/*null,*/ folder, files, out anyError, typedExt, "checkout", basePathIfA2SolutionsWontExistsOnFilesystem);
         return result;
     }
 
@@ -230,7 +225,7 @@ public class GitBashBuilder : IGitBashBuilder
 
 
 
-    public static List<string> PrepareFilesToSimpleGitFormat(object tlb, string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string basePathIfA2SolutionsWontExistsOnFilesystem)
+    public static List<string> PrepareFilesToSimpleGitFormat(string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string basePathIfA2SolutionsWontExistsOnFilesystem)
     {
         searchOnlyWithExtension = searchOnlyWithExtension.TrimStart('*');
         anyError = false;
@@ -358,11 +353,14 @@ public class GitBashBuilder : IGitBashBuilder
         return filesToCommit;
     }
     public static string xSomeErrorsOccured = "SomeErrorsOccured";
+
+#pragma warning disable
     public static string CreateGitCommandForFiles(string command, StringBuilder sb, List<string> linesFiles)
     {
         return null;
-
     }
+#pragma warning restore
+
     public void Cd(string key)
     {
         sb.AppendLine("cd " + SH.WrapWith(key, "\""));

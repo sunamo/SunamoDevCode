@@ -52,7 +52,15 @@ public class TypeScriptGenerator
 
     public void ArrayWithKeyValueObjectStart(string innerType, params string[] values)
     {
-        sb.AppendLine("const arr : " + innerType + "[] = [");
+        if (innerType == "string")
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = SH.WrapWithQm(values[i]);
+            }
+        }
+
+        sb.AppendLine("const arr : " + innerType + "[] = [" + string.Join(", ", values) + "]");
     }
 
     public void ArrayWithKeyValueObjectEnd()

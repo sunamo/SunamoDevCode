@@ -317,11 +317,11 @@ Into A1 insert:
 #else
 void
 #endif
-        ReplaceForWithoutUnderscore(string folder)
+        ReplaceForWithoutUnderscore(ILogger logger, string folder)
     {
         Dictionary<string, string> withWithoutUnderscore = new Dictionary<string, string>();
 
-        var files = XmlLocalisationInterchangeFileFormat.GetFilesCs();
+        var files = XmlLocalisationInterchangeFileFormat.GetFilesCs(logger);
 
 
 #if ASYNC
@@ -359,16 +359,10 @@ void
         }
     }
 
-    public static List<string> GetFilesCs(string path = null)
+    public static List<string> GetFilesCs(ILogger logger, string path = null)
     {
-        //if (path == null)
-        //{
-        //    path = BasePathsHelper.vs;
-        //}
-        return null;
-
-        //return FSGetFiles.GetFiles(path, "*.cs", System.IO.SearchOption.AllDirectories, new
-        //{ excludeWithMethod = SunamoDevCodeHelper.RemoveTemporaryFilesVS });
+        return FSGetFiles.GetFiles(logger, path, "*.cs", System.IO.SearchOption.AllDirectories, new GetFilesArgsDC()
+        { /*excludeWithMethod = SunamoDevCodeHelper.RemoveTemporaryFilesVS*/ });
     }
 
     /// <summary>
@@ -381,7 +375,7 @@ void
 #else
 void
 #endif
-        ReplaceInXlfSolutions(string pairsReplace)
+        ReplaceInXlfSolutions(ILogger logger, string pairsReplace)
     {
         if (pairsReplace == string.Empty)
         {
@@ -394,7 +388,7 @@ void
 
         foreach (var item in xlfSolutions)
         {
-            var files = GetFilesCs(item);
+            var files = GetFilesCs(logger, item);
 
             foreach (var item2 in files)
             {
@@ -418,22 +412,22 @@ void
 
 
 
-    public static
-#if ASYNC
-        async Task<XlfData>
-#else
-  XlfData
-#endif
-        GetTransUnits(LangsDC en)
-    {
-        return null;
-        //        return
-        //#if ASYNC
-        //    await
-        //#endif
-        //    GetTransUnits(XlfResourcesH.PathToXlfSunamo(en));
+    //    public static
+    //#if ASYNC
+    //        async Task<XlfData>
+    //#else
+    //  XlfData
+    //#endif
+    //        GetTransUnits(LangsDC en)
+    //    {
+    //        return null;
+    //        //        return
+    //        //#if ASYNC
+    //        //    await
+    //        //#endif
+    //        //    GetTransUnits(XlfResourcesH.PathToXlfSunamo(en));
 
-    }
+    //    }
 
     /// <summary>
     /// Is used nowhere
@@ -641,7 +635,7 @@ void
         XHelper.AddXmlNamespaces(h.nsmgr);
 
         XElement xliff = XHelper.GetElementOfName(d.xd, "xliff");
-        var allElements = XHelper.GetElementsOfNameWithAttrContains(xliff, "file", "target-language", toL.ToString(), false);
+        var allElements = XHelper.GetElementsOfNameWithAttrContains(xliff, "file", "target-language", toL.ToString());
         var resources = allElements.Where(d2 => XHelper.Attr(d2, "original").Contains("/" + "RESOURCES" + "/"));
         XElement file = resources.First();
         XElement body = XHelper.GetElementOfName(file, "body");
@@ -681,13 +675,13 @@ void
             return;
         }
 
-        Append(source, target, pascal, d);
+        Append(/*source,*/ target, pascal, d);
         d.xd.Save(fn);
 
         await XHelper.FormatXml(fn);
     }
 
-    public static void Append(string source, string target, string pascal, XlfData d)
+    public static void Append(/*string source, */string target, string pascal, XlfData d)
     {
         TransUnit tu = new TransUnit();
         tu.id = pascal;

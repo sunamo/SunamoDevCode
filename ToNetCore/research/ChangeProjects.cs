@@ -24,11 +24,11 @@ public class ChangeProjects
         var c = ChangeProjects.IsNetCore5UpMoniker(net70Windows);
         var d = ChangeProjects.IsNetCore5UpMoniker(net7Windows);
     }
-    public static void ChangeProjectsTo(ILogger logger, string to2, bool web)
-    {
-        var s = MoveToNet5.ci.WebAndNonWebProjects(logger, true);
-        ChangeProjectsTo(net70Windows, s.Item2);
-    }
+    //public static void ChangeProjectsTo(ILogger logger, string to2, bool web)
+    //{
+    //    var s = MoveToNet5.ci.WebAndNonWebProjects(logger, true);
+    //    ChangeProjectsTo( to2, web);
+    //}
     public static IsNetCore5UpMonikerResult IsNetCore5UpMoniker(string moniker)
     {
         if (!moniker.StartsWith("net"))
@@ -55,9 +55,7 @@ public class ChangeProjects
             ChangeProjectTo(to2, path, parsedMonikerTo);
         }
     }
-    public static void AllTargetFrameworks(bool web)
-    {
-    }
+
     /// <summary>
     /// Replace only between TargetFramework
     /// </summary>

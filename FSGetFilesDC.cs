@@ -13,12 +13,12 @@ public class FSGetFilesDC
                 var _sunamo = Path.Combine(item, "_sunamo");
                 if (Directory.Exists(_sunamo))
                 {
-                    result.AddRange(Directory.GetFiles(_sunamo, masc, SearchOption.AllDirectories));
+                    result.AddRange(Directory.GetFiles(_sunamo, masc, so));
                 }
             }
             else
             {
-                result.AddRange(Directory.GetFiles(item, masc, SearchOption.AllDirectories));
+                result.AddRange(Directory.GetFiles(item, masc, so));
             }
         }
         return result;

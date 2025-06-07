@@ -9,8 +9,8 @@ internal class CA
         ExactlyName
     }
 
-    public static List<int> ReturnWhichContainsIndexes(IList<string> value, string term,
-        SearchStrategyCA searchStrategy = SearchStrategyCA.FixedSpace)
+    public static List<int> ReturnWhichContainsIndexes(IList<string> value, string term/*,
+        SearchStrategyCA searchStrategy = SearchStrategyCA.FixedSpace*/)
     {
         var result = new List<int>();
         var i = 0;
@@ -24,8 +24,8 @@ internal class CA
         return result;
     }
 
-    public static List<int> ReturnWhichContainsIndexes(string item, IList<string> terms,
-       SearchStrategyCA searchStrategy = SearchStrategyCA.FixedSpace)
+    public static List<int> ReturnWhichContainsIndexes(string item, IList<string> terms/*,
+       SearchStrategyCA searchStrategy = SearchStrategyCA.FixedSpace*/)
     {
         var result = new List<int>();
         var i = 0;
@@ -82,8 +82,8 @@ internal class CA
     }
 
 
-    public static bool ContainsAnyFromElementBool(string s, IList<string> list,
-        bool acceptAsteriskForPassingAll = false)
+    public static bool ContainsAnyFromElementBool(string s, IList<string> list/*,
+        bool acceptAsteriskForPassingAll = false*/)
     {
         if (list.Count == 1 && list.First() == "*") return true;
 

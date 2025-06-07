@@ -21,7 +21,7 @@ public class PackageReferenceItemGroup : ItemGroupElement
     {
         const string Version2 = "Version";
         Include = XmlHelper.Attr(xe, "Include");
-        Version = XmlHelper.InnerTextOfNode(xe, Version2);
+        Version = XmlHelper.InnerTextOfNode(xe);
         if (Version == string.Empty)
         {
             Version = XmlHelper.Attr(xe, Version2);
