@@ -74,6 +74,8 @@ public static partial class AllProjectsSearchSettings
 {
     public static readonly string pathFileSettings = AppPaths.GetFileInStartupPath("settings.ini");
 
+#pragma warning disable
+
     #region sectionSearchFoldersChecked
     /// <summary>
     /// G zda cesta na sérii A1 je zaškrtnutá
@@ -120,5 +122,7 @@ public static partial class AllProjectsSearchSettings
     {
         return 1;
     }
+
+#pragma warning restore
     #endregion
 }

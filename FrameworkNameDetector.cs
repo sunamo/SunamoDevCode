@@ -10,7 +10,9 @@ public class FrameworkNameDetector
     /// </summary>
     /// <param name="project"></param>
     /// <returns></returns>
+#pragma warning disable
     public static FrameworkName Detect(/*MSBuildProject*/ object project)
+#pragma warning restore
     {
         throw new Exception(@"Už ani nevím odkud MSBuildProject je
 Instaloval jsem tyto:

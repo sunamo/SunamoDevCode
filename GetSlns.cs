@@ -10,7 +10,7 @@ public class GetSlns
         var p = @"E:\vs\";
         FoldersWithSolutions.PairProjectFolderWithEnum(logger, p);
         FoldersWithSolutions d = new FoldersWithSolutions(logger, p, null, false);
-        d.Reload(logger, p, null, false);
+        d.Reload(logger, p, null);
 
         List<SolutionFolder> solutionFolders = d.Solutions(SunamoDevCode.Enums.RepositoryLocal.Vs17);
         if (onlyCs)

@@ -36,7 +36,7 @@ public class VpsHelperDevCode
 
     public static string pullAllResult = null;
 
-    public static string PullAll(List<string> forMore = null)
+    public static string PullAll()
     {
 
         // pokračovat s přidáním forMore in close

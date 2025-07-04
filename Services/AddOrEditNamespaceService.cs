@@ -36,7 +36,7 @@ public class AddOrEditNamespaceService
         // případně hledat na CS8954
         // Prvně je nutné odstranit FS NS. druhá metoda musí být 100% správně.
         var linesFileOri = linesFile.ToList();
-        linesFile = await RemoveFileScopedNamespaceWhenIsInSharpIf(linesFile, fnwoe);
+        linesFile = await RemoveFileScopedNamespaceWhenIsInSharpIf(linesFile);
         var newNs2 = projectName + (parts.Count == 0 ? "" : ".") + string.Join(".", parts);
         linesFile = AddNamespaceIfIsMissingInCs(linesFile, newNs2);
         linesFile = RemoveIfContainsMoreNamespace(linesFile);
@@ -169,7 +169,7 @@ public class AddOrEditNamespaceService
     /// </summary>
     /// <param name="item"></param>
     /// <returns></returns>
-    private async Task<List<string>> RemoveFileScopedNamespaceWhenIsInSharpIf(List<string> l, string fnwoe)
+    private async Task<List<string>> RemoveFileScopedNamespaceWhenIsInSharpIf(List<string> l)
     {
         //var l = (await TF.ReadAllLines(item)).ToList();
         List<int> dxNs = new List<int>();

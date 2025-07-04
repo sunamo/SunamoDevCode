@@ -54,7 +54,7 @@ public class ReferenceItemGroup : ItemGroupElement
         XmlGenerator x = new XmlGenerator();
         x.WriteTagWithAttrsCheckNull(VsProjectItemTypes.Reference, "Include", Include);
         x.TerminateTag(VsProjectItemTypes.Reference);
-        XmlNode xn = XH.ReturnXmlNode(x.ToString(), xd);
+        XmlNode xn = XH.ReturnXmlNode(x.ToString());
         return xn;
     }
 }

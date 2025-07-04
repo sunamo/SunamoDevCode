@@ -622,7 +622,7 @@ nad
         return files;
     }
 
-    internal static List<string> GetFiles(string projectFolder, string v, SearchOption topDirectoryOnly, GetFilesArgsDC getFilesArgs = null)
+    internal static List<string> GetFiles(string projectFolder, string v, SearchOption topDirectoryOnly/*, GetFilesArgsDC getFilesArgs = null*/)
     {
         //ThrowEx.NotImplementedMethod();
         return Directory.GetFiles(projectFolder, v, topDirectoryOnly).ToList();

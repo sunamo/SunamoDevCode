@@ -1,6 +1,6 @@
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
-public class FoldersWithSolutions
+public partial class FoldersWithSolutions
 {
     #region data fields
     /// <summary>
@@ -15,32 +15,28 @@ public class FoldersWithSolutions
     static Type type = typeof(FoldersWithSolutions);
     static FoldersWithSolutions _fws = null;
     public static RepositoryLocal usedRepository = RepositoryLocal.Vs17;
-    public static void IdentifyProjectType(string documentsFolder, string solutionFolder, SolutionFolder sf, bool useBp)
+    protected static void IdentifyProjectType(string documentsFolder, string solutionFolder, SolutionFolder sf)
     {
-        //if (!useBp)
-        //{
-        //    return;
-        //}
         // SolutionFolderSerialize doesn't have InVsFolder or typeProjectFolder
-        //sf.InVsFolder = solutionFolder.Contains(SolutionsIndexerStrings.VisualStudio2017);
-        //if (sf.InVsFolder)
-        //{
-        solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
-        var p = SHSplit.SplitChar(solutionFolder, '\\');
-        //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
-        var pr = p[0];
-        pr = pr.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
-        if (projectTypes._d2.ContainsKey(pr))
+        sf.InVsFolder = solutionFolder.Contains(SolutionsIndexerStrings.VisualStudio2017);
+        if (sf.InVsFolder)
         {
-            sf.typeProjectFolder = projectTypes._d2[pr];
-        }
-        else
-        {
-            //ThrowEx.KeyNotFound(projectTypes._d2, "projectTypes._d2", pr);
+            solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
+            var p = SHSplit.SplitChar(solutionFolder, '\\');
+            //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
+            var pr = p[0];
+            pr = pr.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
+            if (projectTypes._d2.ContainsKey(pr))
+            {
+                sf.typeProjectFolder = projectTypes._d2[pr];
+            }
+            else
+            {
+                //ThrowEx.KeyNotFound(projectTypes._d2, "projectTypes._d2", pr);
 
-            sf.typeProjectFolder = ProjectsTypes.Unknown;
+                sf.typeProjectFolder = ProjectsTypes.Unknown;
+            }
         }
-        //}
     }
     /// <summary>
     /// Složka ve které se má hledat na složku Projects a složky Visual Studia
@@ -102,7 +98,7 @@ public class FoldersWithSolutions
     /// A1 toSelling must be null
     /// </summary>
     /// <param name="documentsFolder"></param>
-    public List<SolutionFolder> Reload(ILogger logger, string documentsFolder, PpkOnDriveDC toSelling, bool ignorePartAfterUnderscore = false)
+    public List<SolutionFolder> Reload(ILogger logger, string documentsFolder, PpkOnDriveDC toSelling/*, bool ignorePartAfterUnderscore = false*/)
     {
         PairProjectFolderWithEnum(logger, documentsFolder);
         // Get all projects in A1(Visual Studio Projects *) and GitHub folder
@@ -316,29 +312,7 @@ public class FoldersWithSolutions
         sf.nameSolutionWithoutDiacritic = SH.TextWithoutDiacritic(projName);
         return sf;
     }
-    protected static void IdentifyProjectType(string documentsFolder, string solutionFolder, SolutionFolder sf)
-    {
-        // SolutionFolderSerialize doesn't have InVsFolder or typeProjectFolder
-        sf.InVsFolder = solutionFolder.Contains(SolutionsIndexerStrings.VisualStudio2017);
-        if (sf.InVsFolder)
-        {
-            solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
-            var p = SHSplit.SplitChar(solutionFolder, '\\');
-            //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
-            var pr = p[0];
-            pr = pr.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
-            if (projectTypes._d2.ContainsKey(pr))
-            {
-                sf.typeProjectFolder = projectTypes._d2[pr];
-            }
-            else
-            {
-                //ThrowEx.KeyNotFound(projectTypes._d2, "projectTypes._d2", pr);
 
-                sf.typeProjectFolder = ProjectsTypes.Unknown;
-            }
-        }
-    }
     private static RepositoryLocal RepositoryFromFullPath(string fullPathFolder)
     {
         if (fullPathFolder.Contains(SolutionsIndexerStrings.VisualStudio2017))
@@ -398,7 +372,7 @@ public class FoldersWithSolutions
     /// Exclude from SolutionsIndexerConsts.SolutionsExcludeWhileWorkingOnSourceCode if Debugger is attached and !A2
     /// A3 - can use wildcard
     /// </summary>
-    public List<SolutionFolder> Solutions(RepositoryLocal r, bool loadAll = true, IList<string> skipThese = null, ProjectsTypes cs = ProjectsTypes.Cs)
+    public List<SolutionFolder> Solutions(RepositoryLocal r, bool loadAll = true, IList<string> skipThese = null/*, ProjectsTypes cs = ProjectsTypes.Cs*/)
     {
         var result = new List<SolutionFolder>(solutions);
         if (r != RepositoryLocal.All)
@@ -449,7 +423,7 @@ public class FoldersWithSolutions
     /// </summary>
     /// <param name="folderWithVisualStudioFolders"></param>
     /// <param name="alsoAdd"></param>
-    private List<string> ReturnAllProjectFolders(string folderWithVisualStudioFolders, params string[] alsoAdd)
+    private List<string> ReturnAllProjectFolders(params string[] alsoAdd)
     {
         List<string> projs = new List<string>();
         var bp = BasePathsHelper.bpMb;

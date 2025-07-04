@@ -9,7 +9,7 @@ public class NoneItemGroup : ItemGroupElement
     {
         XmlGenerator x = new XmlGenerator();
         x.WriteNonPairTagWithAttr(VsProjectItemTypes.None, "Include", Include);
-        XmlNode xn = XH.ReturnXmlNode(x.ToString(), xd);
+        XmlNode xn = XH.ReturnXmlNode(x.ToString());
         return xn;
     }
 }

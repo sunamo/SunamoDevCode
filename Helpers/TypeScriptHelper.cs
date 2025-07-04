@@ -28,7 +28,7 @@ public class TypeScriptHelper
         return d;
     }
 
-    public static string DefaultValueForType(string t, string prefixIfString = "", bool isArgNumber = false, string nameArgMethod = "")
+    public static string DefaultValueForType(string t, string prefixIfString = "", /*bool isArgNumber = false,*/ string nameArgMethod = "")
     {
         if (t.EndsWith("[]"))
         {

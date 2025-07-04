@@ -12,7 +12,9 @@ public class GeneratorCpp : GeneratorCodeAbstract
         }
     }
 
+#pragma warning disable
     private void NewVariable(int tabCount, AccessModifiers _public, string cn, string name, bool createInstance)
+#pragma warning restore
     {
         AddTab2(tabCount, " ");
         sb.AddItem(cn);

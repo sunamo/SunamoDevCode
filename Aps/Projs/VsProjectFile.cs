@@ -72,7 +72,7 @@ public class VsProjectFile
     {
         // async ctor nejde. proto to už nikdy nemůžu načítat v ctoru
         // už navždy budu užívat jen .net core
-        //Load(file, null);
+        Load(file, null).RunSynchronously();
         //var content = TF.ReadAllText(file);
         //IsCore = VsProjectsFileHelper.IsCore(content);
         //holder = new XmlNamespacesHolder();
@@ -104,9 +104,10 @@ public class VsProjectFile
     //    this.holder = holder;
     //}
     #endregion
-    public void SetToItemGroup(ItemGroups ig, List<XmlNode> old, List<XmlNode> n)
-    {
-    }
+
+    //public void SetToItemGroup(ItemGroups ig, List<XmlNode> old, List<XmlNode> n)
+    //{
+    //}
     public static XmlNode GetElementOfName(XmlNode e, string n)
     {
         return e.ChildNodes.First(n);
