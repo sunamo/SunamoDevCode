@@ -2,7 +2,7 @@ namespace SunamoDevCode._sunamo;
 
 internal class XH
 {
-    public static XmlNode ReturnXmlNode(string xml)
+    internal static XmlNode ReturnXmlNode(string xml)
     {
         XmlDocument xdoc = null;
         //XmlTextReader xtr = new XmlTextReader(

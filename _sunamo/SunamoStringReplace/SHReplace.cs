@@ -2,7 +2,7 @@ namespace SunamoDevCode._sunamo.SunamoStringReplace;
 
 internal class SHReplace
 {
-    public static string ReplaceWithIndex(string n, string v, string empty, ref int dx)
+    internal static string ReplaceWithIndex(string n, string v, string empty, ref int dx)
     {
         if (dx == -1)
         {

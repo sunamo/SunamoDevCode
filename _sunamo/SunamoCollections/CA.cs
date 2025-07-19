@@ -2,14 +2,14 @@ namespace SunamoDevCode._sunamo.SunamoCollections;
 
 internal class CA
 {
-    public enum SearchStrategyCA
+    internal enum SearchStrategyCA
     {
         FixedSpace,
         AnySpaces,
         ExactlyName
     }
 
-    public static List<int> ReturnWhichContainsIndexes(IList<string> value, string term/*,
+    internal static List<int> ReturnWhichContainsIndexes(IList<string> value, string term/*,
         SearchStrategyCA searchStrategy = SearchStrategyCA.FixedSpace*/)
     {
         var result = new List<int>();
@@ -24,7 +24,7 @@ internal class CA
         return result;
     }
 
-    public static List<int> ReturnWhichContainsIndexes(string item, IList<string> terms/*,
+    internal static List<int> ReturnWhichContainsIndexes(string item, IList<string> terms/*,
        SearchStrategyCA searchStrategy = SearchStrategyCA.FixedSpace*/)
     {
         var result = new List<int>();
@@ -39,7 +39,7 @@ internal class CA
     }
 
 
-    public static IList<int> ReturnWhichContainsIndexes(IList<string> parts, IList<string> mustContains)
+    internal static IList<int> ReturnWhichContainsIndexes(IList<string> parts, IList<string> mustContains)
     {
         var result = new List<int>();
         foreach (var item in mustContains) result.AddRange(ReturnWhichContainsIndexes(parts, item));
@@ -47,19 +47,19 @@ internal class CA
         return result;
     }
 
-    public static List<string> StartingWith(string v, List<string> l)
+    internal static List<string> StartingWith(string v, List<string> l)
     {
         for (var i = l.Count - 1; i >= 0; i--)
             if (!l[i].StartsWith(v))
                 l.RemoveAt(i);
         return l;
     }
-    public static List<string> PostfixIfNotEnding(string pre, List<string> l)
+    internal static List<string> PostfixIfNotEnding(string pre, List<string> l)
     {
         for (var i = 0; i < l.Count; i++) l[i] = pre + l[i];
         return l;
     }
-    public static List<List<string>> Split(List<string> s, string determining)
+    internal static List<List<string>> Split(List<string> s, string determining)
     {
         var ls = new List<List<string>>();
         var actual = new List<string>();
@@ -82,7 +82,7 @@ internal class CA
     }
 
 
-    public static bool ContainsAnyFromElementBool(string s, IList<string> list/*,
+    internal static bool ContainsAnyFromElementBool(string s, IList<string> list/*,
         bool acceptAsteriskForPassingAll = false*/)
     {
         if (list.Count == 1 && list.First() == "*") return true;

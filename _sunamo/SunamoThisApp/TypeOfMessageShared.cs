@@ -1,11 +1,6 @@
 namespace SunamoDevCode._sunamo.SunamoThisApp;
 
-
-
-
-
-
-public enum TypeOfMessageShared
+internal enum TypeOfMessageShared
 {
 
 

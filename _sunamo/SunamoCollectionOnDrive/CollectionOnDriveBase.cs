@@ -1,6 +1,6 @@
 namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive;
 
-public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
+internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
 {
     /// <summary>
     /// whether duplicates should be removed on load and whether duplicate items should not even be saved
@@ -9,27 +9,27 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     protected CollectionOnDriveArgs a = new();
     private bool isSaving;
     private FileSystemWatcher? w;
-    public async Task RemoveAll()
+    internal async Task RemoveAll()
     {
         await ClearWithSave();
         await File.WriteAllTextAsync(a.path, string.Empty);
     }
-    public async Task RemoveWithSave(T t)
+    internal async Task RemoveWithSave(T t)
     {
         Remove(t);
         await Save();
     }
-    public async Task ClearWithSave()
+    internal async Task ClearWithSave()
     {
         Clear();
         await Save();
     }
-    public abstract Task Load(bool removeDuplicates);
+    internal abstract Task Load(bool removeDuplicates);
     /// <summary>
     /// Check whether T is already contained.
     /// </summary>
     /// <param name="t"></param>
-    public virtual void AddWithoutSave(T t)
+    internal virtual void AddWithoutSave(T t)
     {
         if (logger == NullLogger.Instance)
         {
@@ -53,7 +53,7 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// <param name="element"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public virtual async Task<bool> AddWithSave(T? element)
+    internal virtual async Task<bool> AddWithSave(T? element)
     {
         if (logger == NullLogger.Instance)
         {
@@ -87,7 +87,7 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
         }
         return wasChanged;
     }
-    public async Task Save()
+    internal async Task Save()
     {
         isSaving = true;
         await File.WriteAllTextAsync(a.path, SHJoin.JoinNL(this));
@@ -102,7 +102,7 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// optional call only if you want to set by CollectionOnDriveArgs. Calling Load() for already existing records is important.
     /// </summary>
     /// <param name="a"></param>
-    public void Init(CollectionOnDriveArgs a)
+    internal void Init(CollectionOnDriveArgs a)
     {
         this.a = a;
         if (a.loadChangesFromDrive)

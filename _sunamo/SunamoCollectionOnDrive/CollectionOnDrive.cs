@@ -3,10 +3,10 @@ namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive;
 /// <summary>
 ///     
 /// </summary>
-public sealed class CollectionOnDrive(ILogger logger) : CollectionOnDriveBase<string>(logger)
+internal sealed class CollectionOnDrive(ILogger logger) : CollectionOnDriveBase<string>(logger)
 {
-    public static CollectionOnDrive Dummy = new CollectionOnDrive(NullLogger.Instance);
-    public async Task Load(string path, bool removeDuplicates)
+    internal static CollectionOnDrive Dummy = new CollectionOnDrive(NullLogger.Instance);
+    internal async Task Load(string path, bool removeDuplicates)
     {
         if (logger == NullLogger.Instance)
         {
@@ -15,7 +15,7 @@ public sealed class CollectionOnDrive(ILogger logger) : CollectionOnDriveBase<st
         a.path = path;
         await Load(removeDuplicates);
     }
-    public override async Task Load(bool removeDuplicates)
+    internal override async Task Load(bool removeDuplicates)
     {
         if (File.Exists(a.path))
         {

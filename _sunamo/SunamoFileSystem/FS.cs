@@ -5,7 +5,7 @@ internal class FS
 
 
 
-    public static void DeleteFoldersWhichNotContains(string v, string folder, IList<string> v2)
+    internal static void DeleteFoldersWhichNotContains(string v, string folder, IList<string> v2)
     {
         var f = Directory.GetDirectories(v, folder, SearchOption.AllDirectories).ToList();
         for (int i = f.Count - 1; i >= 0; i--)
@@ -21,7 +21,7 @@ internal class FS
         }
     }
 
-    public static bool IsAbsolutePath(string path)
+    internal static bool IsAbsolutePath(string path)
     {
         return !String.IsNullOrWhiteSpace(path)
             && path.IndexOfAny(System.IO.Path.GetInvalidPathChars()) == -1
@@ -29,18 +29,18 @@ internal class FS
             && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal);
     }
 
-    public static string GetAbsolutePath2(string relativePath, string dir)
+    internal static string GetAbsolutePath2(string relativePath, string dir)
     {
         var ap = GetAbsolutePath(dir, relativePath);
         return Path.GetFullPath(ap);
     }
 
-    public static void FileToDirectory(ref string dir)
+    internal static void FileToDirectory(ref string dir)
     {
         if (!dir.EndsWith("\"")) dir = GetDirectoryName(dir);
     }
 
-    public static string GetAbsolutePath(string dir, string relativePath)
+    internal static string GetAbsolutePath(string dir, string relativePath)
     {
 
 
@@ -76,7 +76,7 @@ internal class FS
 
     #region FirstCharUpper
 
-    public static bool IsWindowsPathFormat(string argValue)
+    internal static bool IsWindowsPathFormat(string argValue)
     {
         if (string.IsNullOrWhiteSpace(argValue)) return false;
 
@@ -97,14 +97,14 @@ internal class FS
 
 
 
-    public static string FirstCharUpper(ref string result)
+    internal static string FirstCharUpper(ref string result)
     {
         if (IsWindowsPathFormat(result)) result = SH.FirstCharUpper(result);
 
         return result;
     }
 
-    public static string FirstCharUpper(string nazevPP, bool only = false)
+    internal static string FirstCharUpper(string nazevPP, bool only = false)
     {
         if (nazevPP != null)
         {
@@ -119,7 +119,7 @@ internal class FS
 
     #endregion
 
-    public static string GetFullPath(string vr)
+    internal static string GetFullPath(string vr)
     {
         var result = Path.GetFullPath(vr);
         FirstCharUpper(ref result);
@@ -142,13 +142,13 @@ internal class FS
         return result;
     }
 
-    public static string Combine(params string[] s)
+    internal static string Combine(params string[] s)
     {
         //return Path.Combine(s);
         return CombineWorker(true, false, s);
     }
 
-    public static List<string> GetTokens(string relativePath)
+    internal static List<string> GetTokens(string relativePath)
     {
         var deli = "";
         if (relativePath.Contains("\""))
@@ -162,14 +162,14 @@ internal class FS
         return SHSplit.Split(relativePath, deli);
     }
 
-    public static List<string> OnlyNamesWithoutExtensionCopy(List<string> p2)
+    internal static List<string> OnlyNamesWithoutExtensionCopy(List<string> p2)
     {
         var p = new List<string>(p2.Count);
         //CA.InitFillWith(p, p2.Count);
         for (var i = 0; i < p2.Count; i++) p[i] = Path.GetFileNameWithoutExtension(p2[i]);
         return p;
     }
-    public static string ReplaceDirectoryThrowExceptionIfFromDoesntExists(string p, string folderWithProjectsFolders,
+    internal static string ReplaceDirectoryThrowExceptionIfFromDoesntExists(string p, string folderWithProjectsFolders,
         string folderWithTemporaryMovedContentWithoutBackslash)
     {
         p = SH.FirstCharUpper(p);
@@ -186,7 +186,7 @@ internal class FS
     }
 
 
-    public static string MakeUncLongPath(ref string path)
+    internal static string MakeUncLongPath(ref string path)
     {
         if (!path.StartsWith(@"\\?\"))
         {
@@ -200,12 +200,12 @@ internal class FS
 
         return path;
     }
-    public static string MakeUncLongPath(string path)
+    internal static string MakeUncLongPath(string path)
     {
         return MakeUncLongPath(ref path);
     }
 
-    public static bool CopyMoveFilePrepare(ref string item, ref string fileTo, FileMoveCollisionOptionDC co)
+    internal static bool CopyMoveFilePrepare(ref string item, ref string fileTo, FileMoveCollisionOptionDC co)
     {
         //var fileTo = fileTo2.ToString();
         item = @"\\?\" + item;
@@ -278,9 +278,9 @@ internal class FS
         return true;
     }
 
-    public static Action<string> DeleteFileMaybeLocked;
+    internal static Action<string> DeleteFileMaybeLocked;
 
-    public static void MoveFile(string item, string fileTo, FileMoveCollisionOptionDC co)
+    internal static void MoveFile(string item, string fileTo, FileMoveCollisionOptionDC co)
     {
         if (CopyMoveFilePrepare(ref item, ref fileTo, co))
             try
@@ -297,9 +297,9 @@ internal class FS
             }
     }
 
-    public static Func<string, bool, List<Process>> fileUtilWhoIsLocking = null;
+    internal static Func<string, bool, List<Process>> fileUtilWhoIsLocking = null;
 
-    public static void CopyFile(string jsFiles, string v, bool terminateProcessIfIsInUsed = false)
+    internal static void CopyFile(string jsFiles, string v, bool terminateProcessIfIsInUsed = false)
     {
         try
         {
@@ -342,7 +342,7 @@ internal class FS
             CopyFile(item, fileTo, co);
     }
 
-    public static void CopyFile(string item, string fileTo2, FileMoveCollisionOptionDC co)
+    internal static void CopyFile(string item, string fileTo2, FileMoveCollisionOptionDC co)
     {
         var fileTo = fileTo2;
         if (CopyMoveFilePrepare(ref item, ref fileTo, co))
@@ -373,14 +373,14 @@ internal class FS
         }
     }
 
-    public static void MoveAllRecursivelyAndThenDirectory(ILogger logger, string p, string to, FileMoveCollisionOptionDC co)
+    internal static void MoveAllRecursivelyAndThenDirectory(ILogger logger, string p, string to, FileMoveCollisionOptionDC co)
     {
         CopyMoveAllFilesRecursively(logger, p, to, co, true, null, SearchOption.TopDirectoryOnly);
         var dirs = Directory.GetDirectories(p, "*", SearchOption.AllDirectories);
         for (var i = dirs.Length - 1; i >= 0; i--) TryDeleteDirectory(dirs[i]);
         TryDeleteDirectory(p);
     }
-    public static Dictionary<string, List<string>> GetDictionaryByExtension(ILogger logger, string folder, string mask,
+    internal static Dictionary<string, List<string>> GetDictionaryByExtension(ILogger logger, string folder, string mask,
         SearchOption searchOption)
     {
         var extDict = new Dictionary<string, List<string>>();
@@ -401,7 +401,7 @@ internal class FS
         return extDict;
     }
 
-    public static string AddUpfoldersToRelativePath(int i2, string file, char delimiter)
+    internal static string AddUpfoldersToRelativePath(int i2, string file, char delimiter)
     {
         var jumpUp = ".." + delimiter;
         var sb = new StringBuilder();

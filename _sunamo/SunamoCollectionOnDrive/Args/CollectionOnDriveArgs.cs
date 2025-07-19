@@ -1,7 +1,7 @@
 namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive.Args;
 
-public class CollectionOnDriveArgs
+internal class CollectionOnDriveArgs
 {
-    public string path;
-    public bool loadChangesFromDrive = true;
+    internal string path;
+    internal bool loadChangesFromDrive = true;
 }

@@ -2,7 +2,7 @@ namespace SunamoDevCode._sunamo;
 
 internal class FSGetFolders
 {
-    public static List<string> GetFoldersEveryFolderWhichContainsFiles(ILogger logger, string d, string masc, SearchOption topDirectoryOnly)
+    internal static List<string> GetFoldersEveryFolderWhichContainsFiles(ILogger logger, string d, string masc, SearchOption topDirectoryOnly)
     {
         try
         {

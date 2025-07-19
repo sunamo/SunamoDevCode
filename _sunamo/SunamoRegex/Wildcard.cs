@@ -1,13 +1,12 @@
 namespace SunamoDevCode._sunamo.SunamoRegex;
 
-
 /// <summary>
 /// Represents a wildcard running on the
 /// <see cref="System.Text.RegularExpressions"/> engine.
 /// </summary>
 internal class Wildcard : Regex
 {
-    public static Regex CreateInstance(string pattern)
+    internal static Regex CreateInstance(string pattern)
     {
         return new Regex(WildcardToRegex(pattern));
     }

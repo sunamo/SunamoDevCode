@@ -2,7 +2,7 @@ namespace SunamoDevCode._sunamo;
 
 internal class CL
 {
-    public static string AskForEnter(string whatOrTextWithoutEndingDot, bool appendAfterEnter,
+    internal static string AskForEnter(string whatOrTextWithoutEndingDot, bool appendAfterEnter,
         string returnWhenIsNotNull)
     {
         if (returnWhenIsNotNull == null)
@@ -19,7 +19,7 @@ internal class CL
     {
         return v;
     }
-    public static string UserMustTypeMultiLine(string v, params string[] anotherPossibleAftermOne)
+    internal static string UserMustTypeMultiLine(string v, params string[] anotherPossibleAftermOne)
     {
         string line = null;
         Information(AskForEnter(v, true, ""));

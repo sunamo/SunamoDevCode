@@ -2,7 +2,7 @@ namespace SunamoDevCode._sunamo;
 
 internal class SF
 {
-    public static List<string> RemoveComments(List<string> tf)
+    internal static List<string> RemoveComments(List<string> tf)
     {
         //CA.RemoveStringsEmpty2(tf);
         tf = tf.Where(d => !string.IsNullOrWhiteSpace(d)).ToList();

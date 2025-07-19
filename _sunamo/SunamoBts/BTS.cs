@@ -2,17 +2,17 @@ namespace SunamoDevCode._sunamo.SunamoBts;
 
 internal class BTS
 {
-    public static string Replace(ref string id, bool replaceCommaForDot)
+    internal static string Replace(ref string id, bool replaceCommaForDot)
     {
         if (replaceCommaForDot) id = id.Replace(",", ".");
 
         return id;
     }
-    public static int lastInt = -1;
-    public static long lastLong = -1;
-    public static float lastFloat = -1;
-    public static double lastDouble = -1;
-    public static bool IsFloat(string id, bool replace = false)
+    internal static int lastInt = -1;
+    internal static long lastLong = -1;
+    internal static float lastFloat = -1;
+    internal static double lastDouble = -1;
+    internal static bool IsFloat(string id, bool replace = false)
     {
         if (id == null) return false;
 
@@ -20,7 +20,7 @@ internal class BTS
         return float.TryParse(id.Replace(",", "."), out lastFloat);
     }
 
-    public static bool IsInt(string id, bool excIfIsFloat = false, bool replaceCommaForDot = false)
+    internal static bool IsInt(string id, bool excIfIsFloat = false, bool replaceCommaForDot = false)
     {
         if (id == null) return false;
 

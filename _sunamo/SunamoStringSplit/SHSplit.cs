@@ -14,7 +14,7 @@ internal class SHSplit
     /// </summary>
     /// <param name="p"></param>
     /// <param name="p_2"></param>
-    public static List<string> SplitToParts(string what, int parts, string deli)
+    internal static List<string> SplitToParts(string what, int parts, string deli)
     {
         var s = Split(what.RemoveInvisibleChars(), deli);
         if (s.Count < parts)

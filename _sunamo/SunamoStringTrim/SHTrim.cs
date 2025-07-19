@@ -2,7 +2,7 @@ namespace SunamoDevCode._sunamo.SunamoStringTrim;
 
 internal class SHTrim
 {
-    public static string Trim(string s, string args)
+    internal static string Trim(string s, string args)
     {
         s = TrimStart(s, args);
         s = TrimEnd(s, args);

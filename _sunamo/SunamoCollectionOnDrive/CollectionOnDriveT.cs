@@ -1,8 +1,8 @@
 namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive;
 
-public sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBase<T>(logger) where T : IParserDC
+internal sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBase<T>(logger) where T : IParserDC
 {
-    public async override Task Load(bool removeDuplicates)
+    internal async override Task Load(bool removeDuplicates)
     {
         if (File.Exists(a.path))
         {

@@ -2,19 +2,19 @@ namespace SunamoDevCode._sunamo;
 
 internal class XmlHelper
 {
-    public static IList<XmlNode> GetElementsOfName(XmlNode e, string v)
+    internal static IList<XmlNode> GetElementsOfName(XmlNode e, string v)
     {
         return e.ChildNodes.WithName(v);
     }
-    public static XmlNode GetElementOfName(XmlNode e, string n)
+    internal static XmlNode GetElementOfName(XmlNode e, string n)
     {
         return e.ChildNodes.First(n);
     }
-    public static string InnerTextOfNode(XmlNode xe)
+    internal static string InnerTextOfNode(XmlNode xe)
     {
         return xe.InnerText;
     }
-    public static void SetAttribute(XmlNode node, string include, string rel)
+    internal static void SetAttribute(XmlNode node, string include, string rel)
     {
         var xe = (XmlElement)node;
         if (xe != null)

@@ -1,6 +1,6 @@
 namespace SunamoDevCode._sunamo.SunamoFileSystem;
 
-public enum FileMoveCollisionOptionDC
+internal enum FileMoveCollisionOptionDC
 {
     AddSerie,
     AddFileSize,

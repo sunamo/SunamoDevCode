@@ -3,7 +3,7 @@ namespace SunamoDevCode._sunamo.SunamoExceptions;
 // © www.sunamo.cz. All Rights Reserved.
 internal sealed partial class Exceptions
 {
-    public static string? FolderCantBeRemoved(string before, string folder)
+    internal static string? FolderCantBeRemoved(string before, string folder)
     {
         return CheckBefore(before) + "Cannot delete folder" + ": " + folder;
     }
@@ -141,7 +141,7 @@ bool fillAlsoFirstTwo = true)
     }
     #endregion
 
-    public static string? IsEmpty(string before, IEnumerable folders, string colName,
+    internal static string? IsEmpty(string before, IEnumerable folders, string colName,
     string additionalMessage = "")
     {
         return !folders.OfType<object>().Any()
