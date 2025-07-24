@@ -10,7 +10,7 @@ public enum SolutionNameMustContains
     /// </summary>
     Serie,
     /// <summary>
-    /// SH.EndsWithNumber, SHTrim.TrimNumbersAtEnd
+    /// SH.EndsWithNumber, SHTrim.TrimTrailingNumbersAtEnd
     /// </summary>
     NumberAtEnd,
     // Berou se všechny projekty
