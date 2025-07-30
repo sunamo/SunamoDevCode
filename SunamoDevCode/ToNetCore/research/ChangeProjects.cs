@@ -45,14 +45,14 @@ public class ChangeProjects
         }
         return null;
     }
-    public static void ChangeProjectsTo(string to2, List<TWithStringDC<string>> l)
+    public static async Task ChangeProjectsTo(string to2, List<TWithStringDC<string>> l)
     {
         var parsedMonikerTo = IsNetCore5UpMoniker(to2);
         foreach (var item in l)
         {
             var content = item.t;
             var path = item.path;
-            ChangeProjectTo(to2, path, parsedMonikerTo);
+            await ChangeProjectTo(to2, path, parsedMonikerTo);
         }
     }
 
@@ -147,12 +147,12 @@ public class ChangeProjects
          TF.WriteAllText(path, content);
         }
     }
-    public static void ChangeProjectsTo(string to2, List<string> vs)
+    public static async Task ChangeProjectsTo(string to2, List<string> vs)
     {
         var parsedMonikerTo = IsNetCore5UpMoniker(to2);
         foreach (var item in vs)
         {
-            ChangeProjectTo(to2, item, parsedMonikerTo);
+            await ChangeProjectTo(to2, item, parsedMonikerTo);
         }
     }
 }

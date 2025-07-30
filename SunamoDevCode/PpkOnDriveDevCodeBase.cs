@@ -23,23 +23,23 @@ void
 #endif
         RemoveAll()
     {
-        Clear();
+        await Clear();
 #if ASYNC
         await
 #endif
             File.WriteAllTextAsync(a.file, string.Empty);
     }
 
-    public new void Remove(T t)
+    public new async Task Remove(T t)
     {
         base.Remove(t);
-        Save();
+        await Save();
     }
 
-    public new void Clear()
+    public new async Task Clear()
     {
         base.Clear();
-        Save();
+        await Save();
     }
 
     public abstract
@@ -55,12 +55,12 @@ void
         if (!Contains(t)) base.Add(t);
     }
 
-    public void Add(IList<T> prvek)
+    public async Task Add(IList<T> prvek)
     {
-        foreach (var item in prvek) Add(item);
+        foreach (var item in prvek) await Add(item);
     }
 
-    public new bool Add(T prvek)
+    public new async Task<bool> Add(T prvek)
     {
         var b = false;
         if (!Contains(prvek))
@@ -74,7 +74,7 @@ void
         }
 
         // keep on false
-        Save();
+        await Save();
         return b;
     }
 

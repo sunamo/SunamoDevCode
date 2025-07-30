@@ -93,7 +93,7 @@ public partial class MoveToNet5
             {
                 continue;
             }
-            ReplaceUnneedReferencesInCsprojs(item);
+            await ReplaceUnneedReferencesInCsprojs(item);
             sb.AppendLine(GenerateTryConvert(item));
         }
         var sbs = sb.ToString();

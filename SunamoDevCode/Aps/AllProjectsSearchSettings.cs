@@ -1,12 +1,12 @@
 namespace SunamoDevCode.Aps;
 
-public static partial class AllProjectsSearchSettings
+internal static partial class AllProjectsSearchSettings
 {
     static string fileNotTranslate = null;
     //
     //static List<string> dontReplaceReferencesIn = null;
-    public static List<string> DontReplaceReferencesIn { get; set; } = null;
-    public static
+    internal static List<string> DontReplaceReferencesIn { get; set; } = null;
+    internal static
 #if ASYNC
     async Task<List<string>>
 #else
@@ -26,9 +26,9 @@ public static partial class AllProjectsSearchSettings
         }
         return DontReplaceReferencesIn;
     }
-    public static string fileFoldersVsTemplate = "";
-    public static CollectionOnDrive _foldersVsTemplate = null;
-    public static async Task<CollectionOnDrive> GetFoldersVsTemplate(ILogger logger, GetFileSettings getFileSettings)
+    internal static string fileFoldersVsTemplate = "";
+    internal static CollectionOnDrive _foldersVsTemplate = null;
+    internal static async Task<CollectionOnDrive> GetFoldersVsTemplate(ILogger logger, GetFileSettings getFileSettings)
     {
         if (_foldersVsTemplate == null)
         {
@@ -38,8 +38,8 @@ public static partial class AllProjectsSearchSettings
         }
         return _foldersVsTemplate;
     }
-    public static CollectionOnDrive _filesNotToTranslate = null;
-    public static async Task<CollectionOnDrive> GetFilesNotToTranslate(ILogger logger, GetFileSettings getFileSettings)
+    internal static CollectionOnDrive _filesNotToTranslate = null;
+    internal static async Task<CollectionOnDrive> GetFilesNotToTranslate(ILogger logger, GetFileSettings getFileSettings)
     {
         if (_filesNotToTranslate == null)
         {
@@ -50,9 +50,9 @@ public static partial class AllProjectsSearchSettings
         return _filesNotToTranslate;
     }
     #region webProjects
-    public static string fileWebProjects = "";
-    public static CollectionOnDrive _webProjects = null;
-    public static async Task<CollectionOnDrive> GetWebProjects(ILogger logger, GetFileSettings getFileSettings)
+    internal static string fileWebProjects = "";
+    internal static CollectionOnDrive _webProjects = null;
+    internal static async Task<CollectionOnDrive> GetWebProjects(ILogger logger, GetFileSettings getFileSettings)
     {
         if (_webProjects == null)
         {
@@ -64,9 +64,9 @@ public static partial class AllProjectsSearchSettings
     }
     #endregion
     #region webProjects
-    public static string fileAddWpfProjectsToSln = "";
-    public static CollectionOnDrive _addWpfProjectsToSln = null;
-    public static async Task<CollectionOnDrive> GetAddWpfProjectsToSln(ILogger logger, GetFileSettings getFileSettings)
+    internal static string fileAddWpfProjectsToSln = "";
+    internal static CollectionOnDrive _addWpfProjectsToSln = null;
+    internal static async Task<CollectionOnDrive> GetAddWpfProjectsToSln(ILogger logger, GetFileSettings getFileSettings)
     {
         if (_addWpfProjectsToSln == null)
         {
@@ -78,7 +78,7 @@ public static partial class AllProjectsSearchSettings
     }
     #endregion
     static Dictionary<string, Regex> _webProjectsWildCard = null;
-    public static async Task<Dictionary<string, Regex>> GetWebProjectsWildCard(ILogger logger, GetFileSettings getFileSettings)
+    internal static async Task<Dictionary<string, Regex>> GetWebProjectsWildCard(ILogger logger, GetFileSettings getFileSettings)
     {
         if (_webProjectsWildCard == null)
         {
@@ -98,22 +98,22 @@ public static partial class AllProjectsSearchSettings
     /// Obsahuje od nuly číslované bool hodnoty, index odkazuje na složku v sectionSearchFolders a bool říká zda v této složce se má vyhledávat
     /// </summary>
     const string sectionSearchFoldersChecked = "SearchFoldersChecked";
-    public static string PathAutoYes(GetFileData getFileData)
+    internal static string PathAutoYes(GetFileData getFileData)
     {
         var pathToTranslate = getFileData("AutoYes.txt");
         return pathToTranslate;
     }
-    public static string PathAutoNo(GetFileData getFileData)
+    internal static string PathAutoNo(GetFileData getFileData)
     {
         var pathNotToTranslate = getFileData("AutoNo.txt");
         return pathNotToTranslate;
     }
-    public static string PathManuallyYes(GetFileData getFileData)
+    internal static string PathManuallyYes(GetFileData getFileData)
     {
         var pathToTranslate = getFileData("ManuallyYes.txt");
         return pathToTranslate;
     }
-    public static string PathManuallyNo(GetFileData getFileData)
+    internal static string PathManuallyNo(GetFileData getFileData)
     {
         var pathNotToTranslate = getFileData("ManuallyNo.txt");
         return pathNotToTranslate;
@@ -122,7 +122,7 @@ public static partial class AllProjectsSearchSettings
     /// G zda cesta A1 je v cestách, ve kterých aplikace hledá
     /// </summary>
     /// <param name="path"></param>
-    public static bool ExistsSearchFolderByPath(string path)
+    internal static bool ExistsSearchFolderByPath(string path)
     {
         path = FS.WithEndSlash(path);
         for (int i = 0; i < 1000; i++)
@@ -145,7 +145,7 @@ public static partial class AllProjectsSearchSettings
     /// <summary>
     /// Vrátí všechny cesty ve kterých vyhledávat.
     /// </summary>
-    public static List<string> GetAllNormalizedSearchFolders()
+    internal static List<string> GetAllNormalizedSearchFolders()
     {
         List<string> vr = new List<string>();
         for (int i = 0; i < 1000; i++)

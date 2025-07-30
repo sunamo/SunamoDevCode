@@ -79,7 +79,7 @@ public partial class MoveToNet5
                 }
 #endif
                 var rig = new ReferenceItemGroup(item2, item, null);
-                VsProjectsFileHelper.AddItemGroupSdkStyle(item, ItemGroups.Reference, rig, true);
+                await VsProjectsFileHelper.AddItemGroupSdkStyle(item, ItemGroups.Reference, rig, true);
             }
         }
     }
@@ -96,7 +96,7 @@ public partial class MoveToNet5
     await
 #endif
  FindProjectsWhichIsSdkStyle(logger, false);
-        ChangeProjects.ChangeProjectsTo(ChangeProjects.netstandard20, l.csprojSdkStyleList);
+        await ChangeProjects.ChangeProjectsTo(ChangeProjects.netstandard20, l.csprojSdkStyleList);
     }
     public
 #if ASYNC
@@ -168,12 +168,12 @@ public partial class MoveToNet5
         //OutputOpen();
         return tog.ToString();
     }
-    public void ConvertAlLWebNetStandardProjectsToNet48(ILogger logger)
+    public async Task ConvertAlLWebNetStandardProjectsToNet48(ILogger logger)
     {
         var t = WebAndNonWebProjects(logger);
         foreach (var item in t.Item1)
         {
-            ChangeProjects.ChangeProjectTo(ChangeProjects.net48, item, null, ChangeProjects.netstandard20);
+            await ChangeProjects.ChangeProjectTo(ChangeProjects.net48, item, null, ChangeProjects.netstandard20);
         }
     }
     public string WebProjectsWhichNotEndWithDotEnd(ILogger logger)

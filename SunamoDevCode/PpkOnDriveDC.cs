@@ -17,7 +17,7 @@ public class PpkOnDriveDC : PpkOnDriveDevCodeBase<string>
     }
 
     public PpkOnDriveDC(string file, bool load, bool save) : base(new PpkOnDriveDevCodeArgs
-        { file = file, load = load, save = save })
+    { file = file, load = load, save = save })
     {
     }
 
@@ -58,7 +58,7 @@ void
             {
                 //CAG.RemoveDuplicitiesList<string>(this);
                 var d = this.ToList();
-                Clear();
+                await Clear();
                 d = d.Distinct().ToList();
                 AddRange(d);
             }

@@ -107,7 +107,7 @@ public partial class MoveToNet5
 
                 if (n != tf)
                 {
-                    TF.WriteAllText(item, n);
+                    await TF.WriteAllText(item, n);
                 }
             }
         }
@@ -155,10 +155,10 @@ System.Net.Http.Primitives
     /// odstraní reference z c# které
     /// </summary>
     /// <param name="csprojPath"></param>
-    public void ReplaceUnneedReferencesInCsprojs(string csprojPath)
+    public async Task ReplaceUnneedReferencesInCsprojs(string csprojPath)
     {
         var refe = SHGetLines.GetLines(refToRemove);
-        ReplaceOrRemoveFile(null, ElementsItemGroup.Reference, refe, csprojPath);
+        await ReplaceOrRemoveFile(null, ElementsItemGroup.Reference, refe, csprojPath);
     }
 
     private
@@ -298,7 +298,7 @@ System.Net.Http.Primitives
             TF.WriteAllLines(nf, l);
 #endif
 
-            XmlDocumentsCache.Set(pathCsproj, n);
+            await XmlDocumentsCache.Set(pathCsproj, n);
 
 
 #if ASYNC
@@ -349,7 +349,7 @@ System.Net.Http.Primitives
                 if (!l.All(r => r.StartsWith(lc)))
                 {
                     CA.StartingWith(lc, l);
-                    TF.WriteAllLines(item2, l);
+                    await TF.WriteAllLines(item2, l);
                 }
             }
         }

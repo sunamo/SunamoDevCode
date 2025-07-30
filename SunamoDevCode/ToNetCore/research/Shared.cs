@@ -42,7 +42,7 @@ public class Shared
                 if (b != replaceFor)
                 {
                     f = SHReplace.ReplaceOnce(f, start + b + end, start + replaceFor + end);
-                    TF.WriteAllText(item, f);
+                    await TF.WriteAllText(item, f);
                 }
             }
             else if (b1 && !b2)
@@ -84,7 +84,7 @@ public class Shared
                 else
                 {
                     f = f.Insert(dx + PropertyGroup.Length, start + replaceFor + end);
-                    TF.WriteAllText(item, f);
+                    await TF.WriteAllText(item, f);
                 }
             }
         }
@@ -162,7 +162,7 @@ public class Shared
                 var f2s = f2.ToString();
                 if (f != f2s)
                 {
-                    TF.WriteAllText(item, f2s);
+                    await TF.WriteAllText(item, f2s);
                 }
             }
         }

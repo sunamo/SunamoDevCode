@@ -8,13 +8,13 @@ public class VpsHelperDevCode
     public static PpkOnDriveDC listVpsNew = new PpkOnDriveDC(SolutionsIndexerPaths.listVpsNew);
     public static PpkOnDriveDC listSczAdmin64 = new PpkOnDriveDC(SolutionsIndexerPaths.listSczAdmin64);
 
-    public static void PushAll(Func<List<string>, Task<List<List<string>>>> psInvoke)
+    public static async Task PushAll(Func<List<string>, Task<List<List<string>>>> psInvoke)
     {
         pushSolutionsData.Set(false);
-        PushPullAll(psInvoke);
+        await PushPullAll(psInvoke);
     }
 
-    private static string PushPullAll(Func<List<string>, Task<List<List<string>>>> psInvoke)
+    private static async Task<string> PushPullAll(Func<List<string>, Task<List<List<string>>>> psInvoke)
     {
 
         bool release = true;
@@ -27,7 +27,7 @@ public class VpsHelperDevCode
         {
             var sln2 = SolutionsIndexerHelper.SolutionWithName(sln);
             var item = sln2.fullPathFolder;
-            GitHelper.PushSolution(release, gitBashBuilder, pushArgs, commitMessage, item, pushSolutionsData, gitStatus, psInvoke);
+            await GitHelper.PushSolution(release, gitBashBuilder, pushArgs, commitMessage, item, pushSolutionsData, gitStatus, psInvoke);
         }
 
         //ClipboardHelper.SetText(gitBashBuilder.ToString());
