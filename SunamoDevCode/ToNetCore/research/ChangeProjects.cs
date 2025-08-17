@@ -41,7 +41,9 @@ public class ChangeProjects
         }
         if (BTS.IsInt(moniker[3].ToString()) && moniker[4] == '.' && BTS.IsInt(moniker[5].ToString()))
         {
-            return new IsNetCore5UpMonikerResult { targetFramework = moniker.Substring(0, 6), platformTfm = SHSubstring.SubstringIfAvailableStart(moniker, 6) };
+            // Inlined from SHSubstring.SubstringIfAvailableStart - vytváří substring pokud je dostupný
+            var platformTfm = moniker.Length > 6 ? moniker.Substring(6) : moniker;
+            return new IsNetCore5UpMonikerResult { targetFramework = moniker.Substring(0, 6), platformTfm = platformTfm };
         }
         return null;
     }

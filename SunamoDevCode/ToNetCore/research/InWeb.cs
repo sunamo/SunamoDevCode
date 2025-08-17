@@ -158,7 +158,17 @@ public partial class MoveToNet5
                 await
 #endif
                 SunamoCsprojHelper.DetectNetVersion2(item);
-            DictionaryHelper.AppendLineOrCreate<SupportedNetFw>(sb, n, item);
+            // Inlined from DictionaryHelper.AppendLineOrCreate - přidává řádek do StringBuilderu nebo vytváří nový
+            if (sb.ContainsKey(n))
+            {
+                sb[n].AppendLine(item);
+            }
+            else
+            {
+                var sb2 = new StringBuilder();
+                sb2.AppendLine(item);
+                sb.Add(n, sb2);
+            }
         }
         foreach (var item in sb)
         {

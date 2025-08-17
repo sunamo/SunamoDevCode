@@ -54,7 +54,12 @@ public class SolutionFolderSerialize : IListBoxHelperItem, ISolutionFolderSerial
             _nameSolution = Path.GetFileName(value.TrimEnd('\\'));
             if (SolutionsIndexerSettings.ignorePartAfterUnderscore)
             {
-                _nameSolution = SHParts.RemoveAfterLast(_nameSolution, '_');
+                // Inlined from SHParts.RemoveAfterLast - odstraňuje vše za posledním výskytem znaku
+                int dex = _nameSolution.LastIndexOf('_');
+                if (dex != -1)
+                {
+                    _nameSolution = _nameSolution.Substring(0, dex);
+                }
             }
         }
     }

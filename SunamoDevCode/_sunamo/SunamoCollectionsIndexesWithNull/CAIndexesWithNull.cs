@@ -2,19 +2,5 @@ namespace SunamoDevCode._sunamo.SunamoCollectionsIndexesWithNull;
 
 internal class CAIndexesWithNull
 {
-    internal static List<int> IndexesWithNull(IList times)
-    {
-        List<int> nulled = new List<int>();
-        int i = 0;
-        foreach (var item in times)
-        {
-            if (item == null)
-            {
-                nulled.Add(i);
-            }
-            i++;
-        }
-
-        return nulled;
-    }
+    // Metoda IndexesWithNull byla odstraněna - inlined v CSharpParser.cs:30
 }

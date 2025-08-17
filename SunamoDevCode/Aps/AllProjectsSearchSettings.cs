@@ -22,7 +22,8 @@ internal static partial class AllProjectsSearchSettings
     await
 #endif
  TF.ReadAllLines(fn);
-            SF.RemoveComments(DontReplaceReferencesIn);
+            // Inlined from SF.RemoveComments - odstraňuje prázdné řádky a řádky začínající '#'
+            DontReplaceReferencesIn = DontReplaceReferencesIn.Where(d => !string.IsNullOrWhiteSpace(d) && !d.StartsWith("#")).ToList();
         }
         return DontReplaceReferencesIn;
     }

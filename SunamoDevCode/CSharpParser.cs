@@ -27,7 +27,17 @@ public class CSharpParser
     {
         remove.Insert(0, null);
 
-        var ind = CAIndexesWithNull.IndexesWithNull(remove);
+        // Inlined from CAIndexesWithNull.IndexesWithNull - získává indexy null hodnot v kolekci
+        List<int> ind = new List<int>();
+        int index = 0;
+        foreach (var item in remove)
+        {
+            if (item == null)
+            {
+                ind.Add(index);
+            }
+            index++;
+        }
 
         var lines = SHGetLines.GetLines(
 #if ASYNC

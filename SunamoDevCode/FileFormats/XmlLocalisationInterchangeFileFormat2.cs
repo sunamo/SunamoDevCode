@@ -688,7 +688,34 @@ void
         // Directly set to null due to not inserting into .xlf
         tu.source = null;
         //tu.translate = true;
-        tu.target = SHTrim.TrimStartAndEnd(target, char.IsLetterOrDigit, char.IsLetterOrDigit);
+        // Inlined from SHTrim.TrimStartAndEnd - ořezává znaky ze začátku a konce podle podmínky
+        var trimmedTarget = target;
+        // Ořez ze začátku
+        for (int i = 0; i < trimmedTarget.Length; i++)
+        {
+            if (!char.IsLetterOrDigit(trimmedTarget[i]))
+            {
+                trimmedTarget = trimmedTarget.Substring(1);
+                i--;
+            }
+            else
+            {
+                break;
+            }
+        }
+        // Ořez z konce
+        for (int i = trimmedTarget.Length - 1; i >= 0; i--)
+        {
+            if (!char.IsLetterOrDigit(trimmedTarget[i]))
+            {
+                trimmedTarget = trimmedTarget.Remove(trimmedTarget.Length - 1, 1);
+            }
+            else
+            {
+                break;
+            }
+        }
+        tu.target = trimmedTarget;
 
         var xml = tu.ToString();
         XElement xe = XElement.Parse(xml);

@@ -239,7 +239,11 @@ public class XmlLocalisationInterchangeFileFormatSunamo
     public static string TextFromRLData(string pathOrExt, string key2)
     {
         var ext = Path.GetExtension(pathOrExt);
-        ext = SH.PrefixIfNotStartedWith(ext, ".");
+        // Inlined from SH.PrefixIfNotStartedWith - přidává prefix pokud řetězec nezačíná daným prefixem
+        if (!ext.StartsWith("."))
+        {
+            ext = "." + ext;
+        }
         if (ext == AllExtensions.cs)
             return SessI18n + XlfKeysDot + key2 + ")";
         if (ext == AllExtensions.ts) return "su.en(\"" + key2 + "\")";

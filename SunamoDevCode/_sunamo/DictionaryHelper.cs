@@ -2,19 +2,7 @@ namespace SunamoDevCode._sunamo;
 
 internal class DictionaryHelper
 {
-    internal static void AppendLineOrCreate<T>(Dictionary<T, StringBuilder> sb, T n, string item)
-    {
-        if (sb.ContainsKey(n))
-        {
-            sb[n].AppendLine(item);
-        }
-        else
-        {
-            var sb2 = new StringBuilder();
-            sb2.AppendLine(item);
-            sb.Add(n, sb2);
-        }
-    }
+    // Metoda AppendLineOrCreate byla odstraněna - inlined v InWeb.cs:161
     internal static IList<string> GetIfExists(Dictionary<string, List<string>> filesInSolutionReal, string prefix,
        string v, bool postfixWithA2)
     {

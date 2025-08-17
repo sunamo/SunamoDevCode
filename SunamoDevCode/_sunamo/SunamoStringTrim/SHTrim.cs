@@ -9,27 +9,7 @@ internal class SHTrim
 
         return s;
     }
-    internal static string TrimLeadingNumbersAtStart(string nameSolution)
-    {
-        for (int i = 0; i < nameSolution.Length; i++)
-        {
-            bool replace = false;
-            for (int n = 0; n < 10; n++)
-            {
-                if (nameSolution[i] == n.ToString()[0])
-                {
-                    replace = true;
-                    nameSolution = nameSolution.Substring(1);
-                    break;
-                }
-            }
-            if (!replace)
-            {
-                return nameSolution;
-            }
-        }
-        return nameSolution;
-    }
+    // Metoda TrimLeadingNumbersAtStart byla odstraněna - inlined v ConstsManager.cs:110
 
     internal static string TrimEnd(string name, string ext)
     {
@@ -38,35 +18,7 @@ internal class SHTrim
         return name;
     }
 
-    internal static string TrimStartAndEnd(string target, Func<char, bool> startAllowed, Func<char, bool> endAllowed)
-    {
-        for (int i = 0; i < target.Length; i++)
-        {
-            if (!startAllowed.Invoke(target[i]))
-            {
-                target = target.Substring(1);
-                i--;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        for (int i = target.Length - 1; i >= 0; i--)
-        {
-            if (!endAllowed.Invoke(target[i]))
-            {
-                target = target.Remove(target.Length - 1, 1);
-
-            }
-            else
-            {
-                break;
-            }
-        }
-        return target;
-    }
+    // Metoda TrimStartAndEnd byla odstraněna - inlined v XmlLocalisationInterchangeFileFormat2.cs:691
 
     internal static string TrimStart(string v, string s)
     {

@@ -107,7 +107,21 @@ public class ConstsManager
 
                 if (char.IsDigit(item[0])) append = "_";
 
-                AddConst(csg, append + SHTrim.TrimLeadingNumbersAtStart(item), val);
+                // Inlined from SHTrim.TrimLeadingNumbersAtStart - odstraňuje číslice ze začátku řetězce
+                var trimmedItem = item;
+                for (int j = 0; j < trimmedItem.Length; j++)
+                {
+                    if (char.IsDigit(trimmedItem[0]))
+                    {
+                        trimmedItem = trimmedItem.Substring(1);
+                        j--;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                AddConst(csg, append + trimmedItem, val);
             }
         }
 

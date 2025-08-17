@@ -76,7 +76,27 @@ public class TypeScriptHelper
         CA.TrimEnd(l, '?');
         CA.Trim(l);
 
-        CAChangeContent.ChangeContent(new ChangeContentArgsDC { }, l2, SHParts.KeepAfterFirst, ":", false);
+        // Inlined from SHParts.KeepAfterFirst - ponechává text za prvním výskytem znaku
+        Func<string, string, bool, string> keepAfterFirst = (searchQuery, after, keepDeli) =>
+        {
+            var dx = searchQuery.IndexOf(after);
+            if (dx != -1)
+            {
+                // TrimStart helper - odstraňuje řetězec ze začátku
+                string result = searchQuery.Substring(dx);
+                while (result.StartsWith(after))
+                {
+                    result = result.Substring(after.Length);
+                }
+                searchQuery = result;
+                if (keepDeli)
+                {
+                    searchQuery = after + searchQuery;
+                }
+            }
+            return searchQuery;
+        };
+        CAChangeContent.ChangeContent(new ChangeContentArgsDC { }, l2, keepAfterFirst, ":", false);
         for (int i = 0; i < l2.Count; i++)
         {
             var t = l2[i];

@@ -15,45 +15,11 @@ internal class SHParts
         string vr = t.Remove(dex);
         return vr;
     }
-    internal static string KeepAfterFirst(string searchQuery, string after, bool keepDeli = false)
-    {
-        var dx = searchQuery.IndexOf(after);
-        if (dx != -1)
-        {
-            searchQuery = TrimStart(searchQuery.Substring(dx), after);
-            if (keepDeli)
-            {
-                searchQuery = after + searchQuery;
-            }
-        }
-        return searchQuery;
-    }
-
-    private static string TrimStart(string target, string trimString)
-    {
-        if (string.IsNullOrEmpty(trimString)) return target;
-
-        string result = target;
-        while (result.StartsWith(trimString))
-        {
-            result = result.Substring(trimString.Length);
-        }
-
-        return result;
-    }
+    // Metoda KeepAfterFirst byla odstraněna - inlined v TypeScriptHelper.cs:79
 
 
 
-    internal static string RemoveAfterLast(string nameSolution, object delimiter)
-    {
-        int dex = nameSolution.LastIndexOf(delimiter.ToString());
-        if (dex != -1)
-        {
-            string s = nameSolution.Substring(0, dex); //SHSubstring.Substring(, 0, dex, new SubstringArgs());
-            return s;
-        }
-        return nameSolution;
-    }
+    // Metoda RemoveAfterLast byla odstraněna - inlined v SolutionFolderSerialize.cs:57
     internal static string RemoveAfterFirst(string t, char ch)
     {
         int dex = t.IndexOf(ch);
