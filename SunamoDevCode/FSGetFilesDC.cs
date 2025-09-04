@@ -1,26 +1,27 @@
+// Instance variables refactored according to C# conventions
 namespace SunamoDevCode;
 
 public class FSGetFilesDC
 {
-    public static List<string> GetFilesDC(string slnFolder, string masc, SearchOption so, GetFilesDCArgs a)
+    public static List<string> GetFilesDC(string slnFolder, string fileMask, SearchOption searchOption, GetFilesDCArgs arguments)
     {
-        List<string> result = new List<string>();
-        var projects = Directory.GetDirectories(slnFolder);
-        foreach (var item in projects)
+        List<string> resultFiles = new List<string>();
+        var projectDirectories = Directory.GetDirectories(slnFolder);
+        foreach (var projectDirectory in projectDirectories)
         {
-            if (a.OnlyIn_Sunamo)
+            if (arguments.OnlyIn_Sunamo)
             {
-                var _sunamo = Path.Combine(item, "_sunamo");
-                if (Directory.Exists(_sunamo))
+                var sunamoFolder = Path.Combine(projectDirectory, "_sunamo");
+                if (Directory.Exists(sunamoFolder))
                 {
-                    result.AddRange(Directory.GetFiles(_sunamo, masc, so));
+                    resultFiles.AddRange(Directory.GetFiles(sunamoFolder, fileMask, searchOption));
                 }
             }
             else
             {
-                result.AddRange(Directory.GetFiles(item, masc, so));
+                resultFiles.AddRange(Directory.GetFiles(projectDirectory, fileMask, searchOption));
             }
         }
-        return result;
+        return resultFiles;
     }
 }

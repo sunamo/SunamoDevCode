@@ -1,10 +1,11 @@
+// Instance variables refactored according to C# conventions
 namespace SunamoDevCode;
 
 public class Boilerplate
 {
     public static string CSharpCmd(string innerMain)
     {
-        var c = @"using System;
+        var csharpTemplate = @"using System;
 
 {
     class Program
@@ -16,17 +17,17 @@ public class Boilerplate
     }
 }";
 
-        var sb = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         // If it not working, try Format3. Dont use any try-catch! 
-        sb.AppendLine(SHFormat.Format4(c, innerMain));
+        stringBuilder.AppendLine(SHFormat.Format4(csharpTemplate, innerMain));
 
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 
     public static string CSharpClass(string addNamespacesLines, string className, string fields,
         string contentOfInitMethod)
     {
-        var c = @"using System;
+        var classTemplate = @"using System;
 {0}
 
 
@@ -40,11 +41,11 @@ public class Boilerplate
         }
     }";
 
-        var sb = new StringBuilder();
+        var stringBuilder = new StringBuilder();
 
         // If it not working, try Format3. Dont use any try-catch! 
-        sb.AppendLine(SHFormat.Format4(c, addNamespacesLines, className, fields, contentOfInitMethod));
+        stringBuilder.AppendLine(SHFormat.Format4(classTemplate, addNamespacesLines, className, fields, contentOfInitMethod));
 
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 }

@@ -365,7 +365,7 @@ public partial class MoveToNet5
             Console.WriteLine(item);
             //DebugLogger.Instance.WriteLine(item);
             //var dx =
-            await ReplaceOrRemoveFile(WithWebEnd, ElementsItemGroup.ProjectReference, CAG.ToList<string>(old), item, nuova);
+            await ReplaceOrRemoveFile(WithWebEnd, ElementsItemGroup.ProjectReference, [old], item, nuova);
             //if (dx != -1)
             //{
             //    //break;

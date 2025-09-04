@@ -1,3 +1,4 @@
+// Instance variables refactored according to C# conventions
 using SunamoDevCode.Tests.SunamoSolutionsIndexer;
 
 namespace RunnerDevCode;
@@ -49,13 +50,13 @@ internal class Program
         //t.RemoveCommentsKeepLinesTest();
         //await t.IsEmptyCommentedOrOnlyWithNamespaceTest();
 
-        //var d = FSGetFilesDC.GetFilesDC(pinp, "XlfKeys.cs", SearchOption.AllDirectories, new GetFilesDCArgs { OnlyIn_Sunamo = true });
+        //var directoryFiles = FSGetFilesDC.GetFilesDC(pinp, "XlfKeys.cs", SearchOption.AllDirectories, new GetFilesDCArgs { OnlyIn_Sunamo = true });
 
-        //foreach (var item in d)
+        //foreach (var filePath in directoryFiles)
         //{
-        //    var l = (await File.ReadAllLinesAsync(item)).ToList();
-        //    CSharpHelper.SetValuesAsNamesToConsts(l);
-        //    await File.WriteAllLinesAsync(item, l);
+        //    var fileLines = (await File.ReadAllLinesAsync(filePath)).ToList();
+        //    CSharpHelper.SetValuesAsNamesToConsts(fileLines);
+        //    await File.WriteAllLinesAsync(filePath, fileLines);
         //}
     }
 }

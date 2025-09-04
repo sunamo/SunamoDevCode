@@ -903,7 +903,7 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
             var valueS2 = CSharpHelper.WrapWithQuoteList(tValue, valueS);
 
             if (a.useCA)
-                valuesCs = "CAG.ToList<" + tValue.Name + ">(" + valueS2 + ")";
+                valuesCs = "[" + valueS2 + "]";
             else
                 valuesCs = "new List<" + tValue.Name + ">(new ;" + tValue.Name + "[] {" + valueS2 + "})";
 

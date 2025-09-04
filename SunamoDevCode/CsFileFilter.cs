@@ -1,3 +1,4 @@
+// Instance variables refactored according to C# conventions
 namespace SunamoDevCode;
 
 /// <summary>
@@ -5,12 +6,12 @@ namespace SunamoDevCode;
 /// </summary>
 public class CsFileFilter : ICsFileFilter
 {
-    private static readonly FiltersNotTranslateAble f = FiltersNotTranslateAble.Instance;
+    private static readonly FiltersNotTranslateAble filtersNotTranslateable = FiltersNotTranslateAble.Instance;
 
     private static bool? _rv;
-    private ContainsArgs c;
+    private ContainsArgs containsArgs;
 
-    private EndArgs e;
+    private EndArgs endArgs;
 
     /// <summary>
     ///     In default is everything in false
@@ -34,20 +35,20 @@ public class CsFileFilter : ICsFileFilter
         }
     }
 
-    public List<string> GetFilesFiltered(string s, string masc, SearchOption so)
+    public List<string> GetFilesFiltered(string searchPath, string fileMask, SearchOption searchOption)
     {
-        var f = Directory.GetFiles(s, masc, so).ToList();
+        var filesList = Directory.GetFiles(searchPath, fileMask, searchOption).ToList();
 
-        f.RemoveAll(AllowOnly);
-        f.RemoveAll(AllowOnlyContains);
+        filesList.RemoveAll(AllowOnly);
+        filesList.RemoveAll(AllowOnlyContains);
 
-        return f;
+        return filesList;
     }
 
-    public static bool AllowOnly(string item, EndArgs end, ContainsArgs c)
+    public static bool AllowOnly(string item, EndArgs end, ContainsArgs containsArgs)
     {
         var end2 = false;
-        return AllowOnly(item, end, c, ref end2, true);
+        return AllowOnly(item, end, containsArgs, ref end2, true);
     }
 
     /// <summary>
@@ -58,7 +59,7 @@ public class CsFileFilter : ICsFileFilter
     /// <param name="designerCs"></param>
     /// <param name="xamlCs"></param>
     /// <param name="sharedCs"></param>
-    public static bool AllowOnly(string item, EndArgs end, ContainsArgs c, ref bool end2, bool alsoEnds)
+    public static bool AllowOnly(string item, EndArgs end, ContainsArgs containsArgs, ref bool end2, bool alsoEnds)
     {
         rv = null;
 
@@ -86,13 +87,13 @@ public class CsFileFilter : ICsFileFilter
 
         end2 = false;
 
-        if (c != null)
+        if (containsArgs != null)
         {
-            if (!c.binFp && item.Contains(Contains.binFp)) rv = false;
+            if (!containsArgs.binFp && item.Contains(Contains.binFp)) rv = false;
 
-            if (!c.objFp && item.Contains(Contains.objFp)) rv = false;
+            if (!containsArgs.objFp && item.Contains(Contains.objFp)) rv = false;
 
-            if (!c.tildaRF && item.Contains(Contains.tildaRFFp)) rv = false;
+            if (!containsArgs.tildaRF && item.Contains(Contains.tildaRFFp)) rv = false;
         }
 
 
@@ -103,18 +104,18 @@ public class CsFileFilter : ICsFileFilter
         return true;
     }
 
-    public void Set(EndArgs ea, ContainsArgs c)
+    public void Set(EndArgs endArguments, ContainsArgs containsArguments)
     {
-        e = ea;
-        this.c = c;
+        endArgs = endArguments;
+        this.containsArgs = containsArguments;
     }
 
     public void SetDefault()
     {
         //false which not to index, true which to index
 
-        e = new EndArgs(false, true, true, false/*, false*/, false, false, false, false);
-        c = new ContainsArgs(false, false, false /*, false*/);
+        endArgs = new EndArgs(false, true, true, false/*, false*/, false, false, false, false);
+        containsArgs = new ContainsArgs(false, false, false /*, false*/);
     }
 
     /// <summary>
@@ -122,47 +123,47 @@ public class CsFileFilter : ICsFileFilter
     /// </summary>
     /// <param name="n"></param>
     /// <returns></returns>
-    public List<string> GetContainsByFlags(bool n)
+    public List<string> GetContainsByFlags(bool negate)
     {
-        var l = new List<string>();
-        if (BTS.Is(c.binFp, n)) l.Add(Contains.binFp);
-        if (BTS.Is(c.objFp, n)) l.Add(Contains.objFp);
-        if (BTS.Is(c.tildaRF, n)) l.Add(Contains.tildaRFFp);
+        var containsList = new List<string>();
+        if (BTS.Is(containsArgs.binFp, negate)) containsList.Add(Contains.binFp);
+        if (BTS.Is(containsArgs.objFp, negate)) containsList.Add(Contains.objFp);
+        if (BTS.Is(containsArgs.tildaRF, negate)) containsList.Add(Contains.tildaRFFp);
 
 
-        return l;
+        return containsList;
     }
 
-    public List<string> GetEndingByFlags(bool n)
+    public List<string> GetEndingByFlags(bool negate)
     {
-        var l = new List<string>();
-        if (Is(e.designerCs, n)) l.Add(End.designerCsPp);
-        if (Is(e.xamlCs, n)) l.Add(End.xamlCsPp);
-        if (Is(e.xamlCs, n)) l.Add(End.xamlCsPp);
-        if (Is(e.sharedCs, n)) l.Add(End.sharedCsPp);
-        if (Is(e.iCs, n)) l.Add(End.iCsPp);
-        if (Is(e.gICs, n)) l.Add(End.gICsPp);
-        if (Is(e.gCs, n)) l.Add(End.gCsPp);
-        if (Is(e.tmp, n)) l.Add(End.tmpPp);
-        if (Is(e.TMP, n)) l.Add(End.TMPPp);
-        if (Is(e.DesignerCs, n)) l.Add(End.DesignerCsPp);
-        if (Is(e.notTranslateAble, n)) l.Add(f.NotTranslateAblePp);
+        var endingsList = new List<string>();
+        if (Is(endArgs.designerCs, negate)) endingsList.Add(End.designerCsPp);
+        if (Is(endArgs.xamlCs, negate)) endingsList.Add(End.xamlCsPp);
+        if (Is(endArgs.xamlCs, negate)) endingsList.Add(End.xamlCsPp);
+        if (Is(endArgs.sharedCs, negate)) endingsList.Add(End.sharedCsPp);
+        if (Is(endArgs.iCs, negate)) endingsList.Add(End.iCsPp);
+        if (Is(endArgs.gICs, negate)) endingsList.Add(End.gICsPp);
+        if (Is(endArgs.gCs, negate)) endingsList.Add(End.gCsPp);
+        if (Is(endArgs.tmp, negate)) endingsList.Add(End.tmpPp);
+        if (Is(endArgs.TMP, negate)) endingsList.Add(End.TMPPp);
+        if (Is(endArgs.DesignerCs, negate)) endingsList.Add(End.DesignerCsPp);
+        if (Is(endArgs.notTranslateAble, negate)) endingsList.Add(filtersNotTranslateable.NotTranslateAblePp);
 
 
-        return l;
+        return endingsList;
     }
 
-    private bool Is(bool tMP, bool n)
+    private bool Is(bool temporaryFlag, bool negate)
     {
-        return BTS.Is(tMP, n);
+        return BTS.Is(temporaryFlag, negate);
     }
 
     #region Take by method
 
-    public static bool AllowOnlyContains(string i, ContainsArgs c)
+    public static bool AllowOnlyContains(string itemPath, ContainsArgs containsArgs)
     {
-        if (!c.objFp && i.Contains(@"\obj\")) return false;
-        if (!c.binFp && i.Contains(@"\bin\")) return false;
+        if (!containsArgs.objFp && itemPath.Contains(@"\obj\")) return false;
+        if (!containsArgs.binFp && itemPath.Contains(@"\bin\")) return false;
         if (!c.tildaRF && i.Contains(@"RF~")) return false;
 
         return true;
