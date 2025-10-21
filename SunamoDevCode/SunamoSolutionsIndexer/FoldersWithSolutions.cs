@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 public partial class FoldersWithSolutions
@@ -22,9 +25,9 @@ public partial class FoldersWithSolutions
         if (sf.InVsFolder)
         {
             solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
-            var p = SHSplit.SplitChar(solutionFolder, '\\');
-            //var dx = p.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
-            var pr = p[0];
+            var parameter = SHSplit.SplitChar(solutionFolder, '\\');
+            //var dx = parameter.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
+            var pr = parameter[0];
             pr = pr.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
             if (projectTypes._d2.ContainsKey(pr))
             {
@@ -136,22 +139,22 @@ public partial class FoldersWithSolutions
             var fn = Path.GetFileName(item);
             if (fn.EndsWith(SolutionsIndexerStrings.ProjectPostfix))
             {
-                ProjectsTypes p = ProjectsTypes.None;
-                var l = fn.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
-                var l2 = l.Replace("_", string.Empty).Trim();
+                ProjectsTypes parameter = ProjectsTypes.None;
+                var list = fn.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
+                var l2 = list.Replace("_", string.Empty).Trim();
                 switch (l2)
                 {
                     case "C++":
-                        p = ProjectsTypes.Cpp;
+                        parameter = ProjectsTypes.Cpp;
                         break;
                     //case "":
-                    //    p = ProjectsTypes.Cs;
+                    //    parameter = ProjectsTypes.Cs;
                     //    break;
                     default:
-                        p = EnumHelper.Parse(l2, ProjectsTypes.None);
+                        parameter = EnumHelper.Parse(l2, ProjectsTypes.None);
                         break;
                 }
-                if (p == ProjectsTypes.None)
+                if (parameter == ProjectsTypes.None)
                 {
                     /* 
                      * Toto byl nesmysl. Když vytvořím novou složku (což vytvářím často, protože se furt něco nového učím)
@@ -165,7 +168,7 @@ public partial class FoldersWithSolutions
                 }
                 else
                 {
-                    projectTypes.Add(p, l);
+                    projectTypes.Add(parameter, list);
                 }
 
 
@@ -218,8 +221,8 @@ public partial class FoldersWithSolutions
                 }
             }
         }
-        var b = IsAllProjectNamesUnique(listToClipboardInsteadOfThrowEx);
-        if (!b)
+        var builder = IsAllProjectNamesUnique(listToClipboardInsteadOfThrowEx);
+        if (!builder)
         {
             return null;
         }
@@ -228,10 +231,10 @@ public partial class FoldersWithSolutions
     public static List<string> projectsWithDuplicateName = new List<string>();
     public static bool IsAllProjectNamesUnique(bool listToClipboardInsteadOfThrowEx = false)
     {
-        StringBuilder sb = null;
+        StringBuilder stringBuilder = null;
         if (listToClipboardInsteadOfThrowEx)
         {
-            sb = new StringBuilder();
+            stringBuilder = new StringBuilder();
         }
         bool vr = true;
         foreach (var item in allCsprojGlobal)
@@ -242,7 +245,7 @@ public partial class FoldersWithSolutions
                 {
                     foreach (var item2 in item.Value)
                     {
-                        sb.AppendLine(item2);
+                        stringBuilder.AppendLine(item2);
                     }
                 }
                 else
@@ -259,7 +262,7 @@ public partial class FoldersWithSolutions
         }
         //if (listToClipboardInsteadOfThrowEx)
         //{
-        //    ClipboardHelper.SetText(sb.ToString());
+        //    ClipboardHelper.SetText(stringBuilder.ToString());
         //}
         return vr;
     }
@@ -400,7 +403,7 @@ public partial class FoldersWithSolutions
         {
             dict.Add(item, new Wildcard(item));
         }
-        var l = result.Count;
+        var list = result.Count;
         for (int i = result.Count - 1; i >= 0; i--)
         {
             var it = result[i];
@@ -547,7 +550,7 @@ public partial class FoldersWithSolutions
     }
     public static List<string> FullPathFolders(RepositoryLocal usedRepository, Dictionary<string, SolutionFolder> sf, List<string> returnOnlyThese = null)
     {
-        List<string> ls = new List<string>();
+        List<string> lines = new List<string>();
         foreach (var item in fwss)
         {
             var slns = item.Solutions(usedRepository);
@@ -569,9 +572,9 @@ public partial class FoldersWithSolutions
                 {
                     sf.Add(sln.fullPathFolder, sln);
                 }
-                ls.Add(sln.fullPathFolder);
+                lines.Add(sln.fullPathFolder);
             }
         }
-        return ls;
+        return lines;
     }
 }

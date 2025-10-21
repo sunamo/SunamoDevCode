@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo;
 
 internal class CL
@@ -23,17 +26,17 @@ internal class CL
     {
         string line = null;
         Information(AskForEnter(v, true, ""));
-        StringBuilder sb = new();
+        StringBuilder stringBuilder = new();
         //string lastAdd = null;
         while ((line = Console.ReadLine()) != null)
         {
             if (line == "-1") break;
-            sb.AppendLine(line);
+            stringBuilder.AppendLine(line);
             if (anotherPossibleAftermOne.Contains(line)) break;
             //lastAdd = line;
         }
-        //sb.AppendLine(line);
-        var s2 = sb.ToString().Trim();
+        //stringBuilder.AppendLine(line);
+        var s2 = stringBuilder.ToString().Trim();
         return s2;
     }
     private static void Information(string value)

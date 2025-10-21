@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 // Instance variables refactored according to C# conventions
 namespace SunamoDevCode;
 
@@ -242,9 +245,9 @@ public class CsFileFilter : ICsFileFilter
         public static EndArgs FillEndFromFileList(List<string> unindexablePathEnds)
         {
             u = unindexablePathEnds;
-            var x = c(xamlCsPp);
+            var xValue = c(xamlCsPp);
 
-            var ea = new EndArgs(c(designerCsPp), x, c(sharedCsPp), c(iCsPp)/*, c(gICsPp)*/, c(gCsPp), c(tmpPp), c(TMPPp),
+            var ea = new EndArgs(c(designerCsPp), xValue, c(sharedCsPp), c(iCsPp)/*, c(gICsPp)*/, c(gCsPp), c(tmpPp), c(TMPPp),
                 c(DesignerCsPp));
             return ea;
         }

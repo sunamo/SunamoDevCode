@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo.SunamoString;
 
 internal class SH
@@ -64,8 +67,8 @@ internal class SH
     internal static string GetTextBetweenSimple(string p, string after, string before, bool throwExceptionIfNotContains = true)
     {
         int dxOfFounded = int.MinValue;
-        var t = GetTextBetween(p, after, before, out dxOfFounded, 0, throwExceptionIfNotContains);
-        return t;
+        var temp = GetTextBetween(p, after, before, out dxOfFounded, 0, throwExceptionIfNotContains);
+        return temp;
     }
 
     internal static string GetTextBetween(string p, string after, string before, out int dxOfFounded, int startSearchingAt, bool throwExceptionIfNotContains = true)
@@ -107,19 +110,19 @@ internal class SH
 
     internal static string WhiteSpaceFromStart(string v)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         foreach (var item in v)
         {
             if (char.IsWhiteSpace(item))
             {
-                sb.Append(item);
+                stringBuilder.Append(item);
             }
             else
             {
                 break;
             }
         }
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 
     internal static string PrefixIfNotStartedWith(string item, string http, bool skipWhitespaces = false)
@@ -172,8 +175,8 @@ internal class SH
             return nazevPP.ToUpper();
         }
 
-        string sb = nazevPP.Substring(1);
-        return nazevPP[0].ToString().ToUpper() + sb;
+        string stringBuilder = nazevPP.Substring(1);
+        return nazevPP[0].ToString().ToUpper() + stringBuilder;
     }
     #endregion
 

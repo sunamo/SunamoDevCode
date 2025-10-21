@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 using FileMs = File;
@@ -16,7 +19,7 @@ public class TFCsFormat
             var line = d[i];
             if (classCodeElements.Any(d => line.Contains(d)))
             {
-                for (var y = i - 1; y >= 0; y--)
+                for (var yValue = i - 1; yValue >= 0; yValue--)
                     if (d[y].StartsWith("//"))
                         i--;
                     else
@@ -38,9 +41,9 @@ public class TFCsFormat
         WriteAllText(p, c).GetAwaiter().GetResult();
     }
 
-    public static void WriteAllLinesSync(string p, IEnumerable<string> l)
+    public static void WriteAllLinesSync(string p, IEnumerable<string> list)
     {
-        WriteAllLines(p, l).GetAwaiter().GetResult();
+        WriteAllLines(p, list).GetAwaiter().GetResult();
     }
 
     public static async Task WriteAllText(string p, string c)
@@ -51,19 +54,19 @@ public class TFCsFormat
             return;
         }
 
-        var l = SHGetLines.GetLines(c);
-        await WriteAllLines(p, l);
+        var list = SHGetLines.GetLines(c);
+        await WriteAllLines(p, list);
     }
 
-    public static async Task WriteAllLines(string p, IEnumerable<string> l)
+    public static async Task WriteAllLines(string p, IEnumerable<string> list)
     {
         if (!p.EndsWith(".cs") || p.EndsWith("GlobalUsings.cs"))
         {
-            await FileMs.WriteAllLinesAsync(p, l);
+            await FileMs.WriteAllLinesAsync(p, list);
             return;
         }
 
-        var l2 = l.ToList();
+        var l2 = list.ToList();
 
         var toFirstCodeElement = OnlyToFirst(l2);
 

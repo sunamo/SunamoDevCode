@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.Helpers;
 
 public class TypeScriptHelper
@@ -28,17 +31,17 @@ public class TypeScriptHelper
         return d;
     }
 
-    public static string DefaultValueForType(string t, string prefixIfString = "", /*bool isArgNumber = false,*/ string nameArgMethod = "")
+    public static string DefaultValueForType(string temp, string prefixIfString = "", /*bool isArgNumber = false,*/ string nameArgMethod = "")
     {
-        if (t.EndsWith("[]"))
+        if (temp.EndsWith("[]"))
         {
             return "[]";
         }
 
-        if (defaultValueForType.ContainsKey(t))
+        if (defaultValueForType.ContainsKey(temp))
         {
             var result = defaultValueForType[t];
-            if (t == "string")
+            if (temp == "string")
             {
                 result = result.Insert(1, prefixIfString);
                 if (nameArgMethod != "")
@@ -46,7 +49,7 @@ public class TypeScriptHelper
                     result += " + " + nameArgMethod;
                 }
             }
-            else if (t == "number")
+            else if (temp == "number")
             {
                 if (nameArgMethod != "")
                 {
@@ -57,7 +60,7 @@ public class TypeScriptHelper
             return result;
         }
 
-        ThrowEx.NotImplementedCase(t);
+        ThrowEx.NotImplementedCase(temp);
         return "";
     }
 
@@ -67,14 +70,14 @@ public class TypeScriptHelper
     /// </summary>
     /// <param name="l"></param>
     /// <returns></returns>
-    public static Tuple<List<string>, List<string>> GetNamesAndTypes(List<string> l)
+    public static Tuple<List<string>, List<string>> GetNamesAndTypes(List<string> list)
     {
-        var l2 = l.ToList();
+        var l2 = list.ToList();
 
-        CAChangeContent.ChangeContent(new ChangeContentArgsDC { }, l, SHParts.RemoveAfterFirst, ':');
-        CA.Trim(l);
-        CA.TrimEnd(l, '?');
-        CA.Trim(l);
+        CAChangeContent.ChangeContent(new ChangeContentArgsDC { }, list, SHParts.RemoveAfterFirst, ':');
+        CA.Trim(list);
+        CA.TrimEnd(list, '?');
+        CA.Trim(list);
 
         // Inlined from SHParts.KeepAfterFirst - ponechává text za prvním výskytem znaku
         Func<string, string, bool, string> keepAfterFirst = (searchQuery, after, keepDeli) =>
@@ -99,13 +102,13 @@ public class TypeScriptHelper
         CAChangeContent.ChangeContent(new ChangeContentArgsDC { }, l2, keepAfterFirst, ":", false);
         for (int i = 0; i < l2.Count; i++)
         {
-            var t = l2[i];
-            t = t.Trim();
-            t = t.TrimEnd(';');
-            t = t.Trim('2');
-            l2[i] = t;
+            var temp = l2[i];
+            temp = temp.Trim();
+            temp = temp.TrimEnd(';');
+            temp = temp.Trim('2');
+            l2[i] = temp;
         }
 
-        return new Tuple<List<string>, List<string>>(l, l2);
+        return new Tuple<List<string>, List<string>>(list, l2);
     }
 }

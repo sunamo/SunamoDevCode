@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
@@ -9,9 +12,9 @@ public partial class MoveToNet5
     /// <returns></returns>
     public bool TableWebAndNonWeb(ILogger logger)
     {
-        var v = WebAndNonWebProjects(logger);
-        var web = v.Item1;
-        var nonWeb = v.Item2;
+        var value = WebAndNonWebProjects(logger);
+        var web = value.Item1;
+        var nonWeb = value.Item2;
 
         var webFn = FS.OnlyNamesWithoutExtensionCopy(web);
         var nonWebFn = FS.OnlyNamesWithoutExtensionCopy(nonWeb);
@@ -20,8 +23,8 @@ public partial class MoveToNet5
 
         var both = CAG.CompareList(webFn, nonWebFn);
 
-        var dx = webFn.Where(d => d.Contains("desktop"));
-        var dx2 = nonWebFn.Where(d => d.Contains("desktop"));
+        var dx = webFn.Where(data => data.Contains("desktop"));
+        var dx2 = nonWebFn.Where(data => data.Contains("desktop"));
 
         int dxWeb, dxNonWeb;
         List<Tuple<ProjFw, ProjFw>> toTable = new List<Tuple<ProjFw, ProjFw>>();
@@ -34,7 +37,7 @@ public partial class MoveToNet5
             var f1 = web[dxWeb];
             var f2 = nonWeb[dxNonWeb];
 
-            //ProjFw pfWeb = new ProjFw { path = f1, t = FrameworkNameDetector.Detect(f1). };
+            //ProjFw pfWeb = new ProjFw { path = f1, temp = FrameworkNameDetector.Detect(f1). };
 
         }
 
@@ -65,10 +68,10 @@ public partial class MoveToNet5
 
     public string ListOfAllWebAndNonWeb(ILogger logger)
     {
-        var t = WebAndNonWebProjects(logger, false);
+        var temp = WebAndNonWebProjects(logger, false);
         TextOutputGenerator tog = new TextOutputGenerator();
-        tog.List(t.Item1, "Web");
-        tog.List(t.Item2, "NonWeb");
+        tog.List(temp.Item1, "Web");
+        tog.List(temp.Item2, "NonWeb");
 
         return tog.ToString();
     }
@@ -81,7 +84,7 @@ public partial class MoveToNet5
 #endif
  ReplaceUnneedReferencesInCsprojsNotSdKStyle(ILogger logger, bool web = true)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         var f =
 #if ASYNC
     await
@@ -94,9 +97,9 @@ public partial class MoveToNet5
                 continue;
             }
             await ReplaceUnneedReferencesInCsprojs(item);
-            sb.AppendLine(GenerateTryConvert(item));
+            stringBuilder.AppendLine(GenerateTryConvert(item));
         }
-        var sbs = sb.ToString();
+        var sbs = stringBuilder.ToString();
         return sbs;
     }
 
@@ -118,24 +121,24 @@ public partial class MoveToNet5
 
         Dictionary<string, List<string>> ls = new Dictionary<string, List<string>>();
 
-        var d = WebAndNonWebProjects(logger, true);
+        var data = WebAndNonWebProjects(logger, true);
 
-        foreach (var item in d.Item2)
+        foreach (var item in data.Item2)
         {
-            var c =
+            var count =
 #if ASYNC
     await
 #endif
  TF.ReadAllText(item);
 
-            var s = SH.GetTextBetweenSimple(c, ChangeProjects.start, ChangeProjects.end, false);
+            var text = SH.GetTextBetweenSimple(count, ChangeProjects.start, ChangeProjects.end, false);
 
-            if (s != null)
+            if (text != null)
             {
-                DictionaryHelper.AddOrCreate(ls, s, item);
+                DictionaryHelper.AddOrCreate(ls, text, item);
             }
 
-            if (SH.OccurencesOfStringIn(c, ChangeProjects.start) > 1)
+            if (SH.OccurencesOfStringIn(count, ChangeProjects.start) > 1)
             {
                 hasMoreTargetFrameworkElements.Add(item);
             }

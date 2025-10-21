@@ -1,53 +1,56 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.CodeGenerator;
 
 public class TypeScriptGenerator
 {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder stringBuilder = new StringBuilder();
 
     public void Interface(bool export, string name, params TWithNameTDC<string>[] vars)
     {
         if (export)
         {
-            sb.Append("export ");
+            stringBuilder.Append("export ");
         }
-        sb.Append("interface ");
-        sb.AppendLine(name);
-        sb.AppendLine("{");
+        stringBuilder.Append("interface ");
+        stringBuilder.AppendLine(name);
+        stringBuilder.AppendLine("{");
         foreach (var item in vars)
         {
-            sb.AppendLine(item.name + ": " + item.t + ";");
+            stringBuilder.AppendLine(item.name + ": " + item.t + ";");
         }
-        sb.AppendLine("}");
-        sb.AppendLine();
+        stringBuilder.AppendLine("}");
+        stringBuilder.AppendLine();
     }
 
     public void Append(string v)
     {
-        sb.Append(v);
+        stringBuilder.Append(v);
     }
 
     public void AppendLine(string v)
     {
-        sb.AppendLine(v);
+        stringBuilder.AppendLine(v);
     }
 
     public void ClassVariable(bool export, TypesTs type, string name, string value)
     {
         if (export)
         {
-            sb.Append("export ");
+            stringBuilder.Append("export ");
         }
 
-        sb.Append(type.ToString().TrimStart('_') + " ");
+        stringBuilder.Append(type.ToString().TrimStart('_') + " ");
 
-        sb.Append(name);
-        sb.Append(" = ");
+        stringBuilder.Append(name);
+        stringBuilder.Append(" = ");
         if (type == TypesTs._string)
         {
             value = SH.WrapWithQm(value);
         }
-        sb.Append(value);
-        sb.Append(";");
+        stringBuilder.Append(value);
+        stringBuilder.Append(";");
     }
 
     public void ArrayWithKeyValueObjectStart(string innerType, params string[] values)
@@ -60,17 +63,17 @@ public class TypeScriptGenerator
             }
         }
 
-        sb.AppendLine("const arr : " + innerType + "[] = [" + string.Join(", ", values) + "]");
+        stringBuilder.AppendLine("const arr : " + innerType + "[] = [" + string.Join(", ", values) + "]");
     }
 
     public void ArrayWithKeyValueObjectEnd()
     {
-        sb.AppendLine("];");
+        stringBuilder.AppendLine("];");
     }
 
     public override string ToString()
     {
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 
     const string let = "let";
@@ -88,11 +91,11 @@ public class TypeScriptGenerator
 
     void Field(string keyword, string item, string type)
     {
-        sb.AppendLine(keyword + " " + item + ":" + type + "= " + TypeScriptHelper.DefaultValueForType(type));
+        stringBuilder.AppendLine(keyword + " " + item + ":" + type + "= " + TypeScriptHelper.DefaultValueForType(type));
     }
 
     public void AppendLine()
     {
-        sb.AppendLine();
+        stringBuilder.AppendLine();
     }
 }

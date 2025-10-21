@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 public class SolutionsIndexerHelper
@@ -178,19 +181,19 @@ public class SolutionsIndexerHelper
             foreach (var item in files)
             {
                 var module = Path.GetFileName(item);
-                var s = SlnProject + "\"" + module;
-                if (toSelling.Contains(s))
+                var text = SlnProject + "\"" + module;
+                if (toSelling.Contains(text))
                 {
                     if (selling)
                     {
-                        result.Add(s);
+                        result.Add(text);
                     }
                 }
                 else
                 {
                     if (!selling)
                     {
-                        result.Add(s);
+                        result.Add(text);
                     }
                 }
 

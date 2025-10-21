@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 public class SunamoDevCodeHelper
@@ -39,20 +42,20 @@ public class SunamoDevCodeHelper
 
     public static void CopySolution(string slnFolder, string folderTo, Action<string> archive)
     {
-        var l = Directory.GetFiles(slnFolder, "*", SearchOption.AllDirectories).ToList();
-        RemoveTemporaryFilesVS(l);
-        RemoveGitFiles(l);
+        var list = Directory.GetFiles(slnFolder, "*", SearchOption.AllDirectories).ToList();
+        RemoveTemporaryFilesVS(list);
+        RemoveGitFiles(list);
 
-        var b = Path.GetDirectoryName(slnFolder);
-        FS.WithEndSlash(ref b);
+        var builder = Path.GetDirectoryName(slnFolder);
+        FS.WithEndSlash(ref builder);
         FS.WithEndSlash(ref folderTo);
 
         var slnFolderTo = Path.Combine(folderTo, Path.GetFileName(slnFolder));
         FS.TryDeleteDirectory(slnFolderTo);
 
-        foreach (var item in l)
+        foreach (var item in list)
         {
-            var np = item.Replace(b, folderTo);
+            var np = item.Replace(builder, folderTo);
             FS.CreateUpfoldersPsysicallyUnlessThere(np);
             //FS.CopyFile(item, np, FileMoveCollisionOptionDC.DontManipulate);
         }

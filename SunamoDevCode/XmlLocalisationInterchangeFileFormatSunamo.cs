@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 public class XmlLocalisationInterchangeFileFormatSunamo
@@ -72,9 +75,9 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 
         #endregion
 
-        var p = SHSplit.SplitFromReplaceManyFormatList(replacePairs);
-        var to = p.Item1;
-        var from = p.Item2;
+        var parameter = SHSplit.SplitFromReplaceManyFormatList(replacePairs);
+        var to = parameter.Item1;
+        var from = parameter.Item2;
 
         for (i = 0; i < from.Count; i++)
         {
@@ -105,16 +108,16 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 
     public static void ConstsFromClipboard(string input)
     {
-        var l = input.Split(new[] { input.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries)
+        var lines = input.Split(new[] { input.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries)
             .ToList();
 
-        //StringBuilder sb = new StringBuilder();
-        //foreach (var item in l)
+        //StringBuilder stringBuilder = new StringBuilder();
+        //foreach (var item in lines)
         //{
-        //    sb.AppendLine(string.Format(template, item));
+        //    stringBuilder.AppendLine(string.Format(template, item));
         //}
 
-        //ClipboardHelper.SetText(sb.ToString());
+        //ClipboardHelper.SetText(stringBuilder.ToString());
     }
 
 
@@ -131,34 +134,34 @@ public class XmlLocalisationInterchangeFileFormatSunamo
     {
         int i;
 
-        var l = SHGetLines.GetLines(
+        var lines = SHGetLines.GetLines(
 #if ASYNC
             await
 #endif
                 File.ReadAllTextAsync(pathXlfKeys)).ToList();
 
-        for (i = 0; i < l.Count; i++) l[i] = l[i].Trim();
+        for (i = 0; i < lines.Count; i++) lines[i] = lines[i].Trim();
 
         // only consts
         var consts = new List<string>();
         // all lines
         var constsAllLines = new List<string>();
 
-        var c = "const ";
+        var count = "const ";
 
 
         i = 0;
 
 
-        foreach (var item in l)
+        foreach (var item in lines)
         {
             i++;
-            if (item.Contains(c))
+            if (item.Contains(count))
             {
                 // Get consts names
-                var s = GetConstsFromLine(item);
-                consts.Add(s);
-                constsAllLines.Add(s);
+                var text = GetConstsFromLine(item);
+                consts.Add(text);
+                constsAllLines.Add(text);
             }
             else
             {
@@ -175,10 +178,10 @@ public class XmlLocalisationInterchangeFileFormatSunamo
             if (item != string.Empty)
             {
                 var dx = constsAllLines.IndexOf(item);
-                l.RemoveAt(dx);
+                lines.RemoveAt(dx);
             }
 
-        await File.WriteAllLinesAsync(pathXlfKeys, l);
+        await File.WriteAllLinesAsync(pathXlfKeys, lines);
     }
 
     public static
@@ -192,30 +195,30 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         int y, i;
         //AllLists.InitHtmlEntitiesDict();
         var path = pathXlfKeys;
-        var ls = SHGetLines.GetLines(
+        var sourceList = SHGetLines.GetLines(
 #if ASYNC
             await
 #endif
                 File.ReadAllTextAsync(path)).ToList();
-        //var ls = SHGetLines.GetLines(s);
+        //var sourceList = SHGetLines.GetLines(text);
         int first;
-        var consts = CSharpParser.ParseConsts(ls, out first);
+        var consts = CSharpParser.ParseConsts(sourceList, out first);
         List<string> ls3;
         var ls2 = CAG.GetDuplicities(consts, out ls3);
 
-        //string t = CSharpHelper.GetConsts(ls, false);
+        //string t = CSharpHelper.GetConsts(sourceList, false);
         //var tl = SHGetLines.GetLines(t);
         for (i = ls2.Count - 1; i >= 0; i--)
-            for (y = 0; y < ls.Count; y++)
-                if (ls[y].Contains(" " + ls2[i] + " "))
+            for (y = 0; y < sourceList.Count; y++)
+                if (sourceList[y].Contains(" " + ls2[i] + " "))
                 {
                     ls2.RemoveAt(i);
-                    ls.RemoveAt(y);
+                    sourceList.RemoveAt(y);
                     i = ls2.Count - 1;
                     break;
                 }
 
-        await File.WriteAllLinesAsync(path, ls);
+        await File.WriteAllLinesAsync(path, sourceList);
     }
 
     public static string GetConstsFromLine(string d4)
@@ -224,10 +227,10 @@ public class XmlLocalisationInterchangeFileFormatSunamo
     }
 
 #pragma warning disable
-    public static LangsDC GetLangFromFilename(string s)
+    public static LangsDC GetLangFromFilename(string text)
     {
         return LangsDC.cs;
-        //return XmlLocalisationInterchangeFileFormatXlf.GetLangFromFilename(s);
+        //return XmlLocalisationInterchangeFileFormatXlf.GetLangFromFilename(text);
     }
 #pragma warning restore
 
@@ -253,25 +256,25 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 
     #region Mám už tady metodu GetKeysInCsWithRLDataEn, proto je toto zbytečné
 
-    //public static List<string> UsedXlfKeysInCs(string c)
+    //public static List<string> UsedXlfKeysInCs(string count)
     //{
     //    List<string> usedKeys = new List<string>();
 
-    //    var occ = SH.ReturnOccurencesOfString(c, SessI18n);
+    //    var occ = SH.ReturnOccurencesOfString(count, SessI18n);
     //    var ending = new List<int>(occ.Count);
 
     //    foreach (var item in occ)
     //    {
-    //        ending.Add(c.IndexOf(')', item));
+    //        ending.Add(count.IndexOf(')', item));
     //    }
 
-    //    var l = SessI18n.Length;
+    //    var lines = SessI18n.Length;
     //    var l2 = XlfKeysDot.Length;
 
     //    for (int i = occ.Count - 1; i >= 0; i--)
     //    {
-    //        var k = SHSubstring.Substring(c, occ[i] + l + l2, ending[i], new SubstringArgs { returnInputIfIndexFromIsLessThanIndexTo = true } );
-    //        if (k != c)
+    //        var k = SHSubstring.Substring(count, occ[i] + lines + l2, ending[i], new SubstringArgs { returnInputIfIndexFromIsLessThanIndexTo = true } );
+    //        if (k != count)
     //        {
     //            usedKeys.Add(k);
     //        }

@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.Aps.Projs;
 
 public class SunamoCsprojHelper
@@ -125,14 +128,14 @@ public class SunamoCsprojHelper
             //    from item in grp.Cast<BuildItem>()
             //    where item.Name == "EmbeddedResource"
             //    select item;
-            var l = SHGetLines.GetLines(csprojContent);
-            // žádný https://www.nuget.org/packages?q=Sunamo+Metaproject není, proto není ani TargetFramework a ctor s 2Mi args
-            var csp = CsprojFileParser.ParseCsproj(/*l,*/ path);
+            var list = SHGetLines.GetLines(csprojContent);
+            // žádný https://www.nuget.org/packages?q=Sunamo+Metaproject není, proto není ani TargetFramework a ctor text 2Mi args
+            var csp = CsprojFileParser.ParseCsproj(/*list,*/ path);
             return new Tuple<bool, string>(isNew, /*csp.TargetFramework*/ null);
         }
-        var v =
+        var value =
             FrameworkNameDetector.Detect(path);
-        return new Tuple<bool, string>(isNew, VersionHelper.RemovePartsWhichIsZero(v.Version));
+        return new Tuple<bool, string>(isNew, VersionHelper.RemovePartsWhichIsZero(value.Version));
     }
     public static
 #if ASYNC
@@ -142,22 +145,22 @@ public class SunamoCsprojHelper
 #endif
          DetectNetVersion2(string path)
     {
-        var t =
+        var temp =
 #if ASYNC
             await
 #endif
             DetectNetVersion(path);
-        if (t != null)
+        if (temp != null)
         {
-            if (t.Item1)
+            if (temp.Item1)
             {
-                var s = SHParts.RemoveAfterFirst(t.Item2, '-');
-                s = s.Replace(".", String.Empty);
-                return EnumHelper.Parse(s, SupportedNetFw.None);
+                var text = SHParts.RemoveAfterFirst(temp.Item2, '-');
+                text = text.Replace(".", String.Empty);
+                return EnumHelper.Parse(text, SupportedNetFw.None);
             }
             else
             {
-                if (t.Item2 == "4.8")
+                if (temp.Item2 == "4.8")
                 {
                     return SupportedNetFw.net48;
                 }
@@ -190,12 +193,12 @@ public class SunamoCsprojHelper
 #endif
         BuildProjectsDependencyTree2(string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
     {
-        CollectionWithoutDuplicatesDC<string> p = new CollectionWithoutDuplicatesDC<string>();
+        CollectionWithoutDuplicatesDC<string> path = new CollectionWithoutDuplicatesDC<string>();
 #if ASYNC
         await
 #endif
-        BuildProjectsDependencyTree(p, csproj, dictToAvoidCollectionWasChanged);
-        return p;
+        BuildProjectsDependencyTree(path, csproj, dictToAvoidCollectionWasChanged);
+        return path;
     }
     static
 #if ASYNC
@@ -203,32 +206,32 @@ public class SunamoCsprojHelper
 #else
         void
 #endif
-        BuildProjectsDependencyTree(CollectionWithoutDuplicatesDC<string> p, string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
+        BuildProjectsDependencyTree(CollectionWithoutDuplicatesDC<string> path, string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
     {
         //E:\vs\Projects\PhotosSczClientCmd\PhotosSczClientCmd\PhotosSczClientCmd.csproj
         if (Ignored.IsIgnored(csproj))
         {
             return;
         }
-        // Tohle je nějaké jeblé. V této situaci mám už jen nepoškozené projekty.
+        // Tohle je nějaké jeblé. value této situaci mám už jen nepoškozené projekty.
         // Třeba pro E:\vs\Projects\AllProjectsSearch.Cmd.CsprojPaths\AllProjectsSearch.Cmd.CsprojPaths\AllProjectsSearch.Cmd.CsprojPaths.csproj
-        // mi to vyhodilo chybu ale když jsem pustil znovu jen s tímto souborem, prošlo to
-        var r =
+        // mi to vyhodilo chybu ale když jsem pustil znovu jen text tímto souborem, prošlo to
+        var result =
 #if ASYNC
             await
 #endif
             VsProjectsFileHelper.GetProjectReferences(csproj, dictToAvoidCollectionWasChanged);
-        if (r.projs == null)
+        if (result.projs == null)
         {
             // teď to laď krok za krokem
-            r =
+            result =
 #if ASYNC
                 await
 #endif
                 VsProjectsFileHelper.GetProjectReferences(csproj, null);
-            if (r.projs == null)
+            if (result.projs == null)
             {
-                r =
+                result =
 #if ASYNC
                     await
 #endif
@@ -241,15 +244,15 @@ public class SunamoCsprojHelper
             }
         }
         // Nechápu jak je to možné ale pro někteér projekty na vps mi to vrací cesty jak existují na mb. proto musím kontrolovat na null
-        if (r.projs != null)
+        if (result.projs != null)
         {
-            p.AddRange(r.projs);
-            foreach (var item in r.projs)
+            path.AddRange(result.projs);
+            foreach (var item in result.projs)
             {
                 if (
  FS.ExistsFile(item))
                 {
-                    await BuildProjectsDependencyTree(p, item, dictToAvoidCollectionWasChanged);
+                    await BuildProjectsDependencyTree(path, item, dictToAvoidCollectionWasChanged);
                 }
             }
         }
@@ -262,8 +265,8 @@ public class SunamoCsprojHelper
 #endif
         AddMissingProjects(SolutionFolder sln, bool addAlsoDepencies = false)
     {
-        var s = ApsHelper.ci.MainSln(sln);
-        if (s == null)
+        var text = ApsHelper.ci.MainSln(sln);
+        if (text == null)
         {
             ThisApp.Error($"Sln with name {sln.nameSolution} doesn't have main sln");
             return;
@@ -271,7 +274,7 @@ public class SunamoCsprojHelper
 #if ASYNC
         await
 #endif
-        AddMissingProjectsAlsoString(s, addAlsoDepencies);
+        AddMissingProjectsAlsoString(text, addAlsoDepencies);
     }
     public static Type type = typeof(SunamoCsprojHelper);
     /// <summary>
@@ -286,17 +289,17 @@ public class SunamoCsprojHelper
 #else
         object
 #endif
-        AddMissingProjectsAlsoString(object s, bool addAlsoDepencies = false)
+        AddMissingProjectsAlsoString(object text, bool addAlsoDepencies = false)
     {
         throw new Exception("Používá se tu fubucsproj. přepsat do dotnet cmd");
         //        string ts2 = null;
         //        var sfs = new SolutionFolderSerialize();
         //        sfs.slnFullPath = ts2;
         //        SolutionFolder sln = null;
-        //        var ts = s.GetType();
+        //        var ts = text.GetType();
         //        if (ts == Types.tString)
         //        {
-        //            ts2 = s.ToString();
+        //            ts2 = text.ToString();
         //            if (ts2.EndsWith(AllExtensions.sln))
         //            {
         //                ts2 = FS.GetDirectoryName(ts2);
@@ -305,12 +308,12 @@ public class SunamoCsprojHelper
         //        }
         //        else if (ts == SolutionFolder.type)
         //        {
-        //            sln = (SolutionFolder)s;
+        //            sln = (SolutionFolder)text;
         //            ts2 = ApsHelper.ci.MainSln(sln);
         //        }
         //        else if (ts == SolutionFolderSerialize.type)
         //        {
-        //            sln = new SolutionFolder((SolutionFolderSerialize)s);
+        //            sln = new SolutionFolder((SolutionFolderSerialize)text);
         //            ts2 = ApsHelper.ci.MainSln(sln);
         //        }
         //        else
@@ -321,14 +324,14 @@ public class SunamoCsprojHelper
         //#if ASYNC
         //    await
         //#endif
-        // FubuCsprojFile.Solution.LoadFrom(s.ToString());
+        // FubuCsprojFile.Solution.LoadFrom(text.ToString());
         //        sln.projectsInSolution = SolutionsIndexerHelper.ProjectsInSolution(true, sln.fullPathFolder);
         //        var pr = sln.projectsInSolution;
         //        CollectionWithoutDuplicates<string> projectsOnWhichDepend = new CollectionWithoutDuplicates<string>();
         //        foreach (var prr in pr)
         //        {
-        //            var p = Path.Combine(sln.fullPathFolder, prr);
-        //            var d2 = ApsHelper.ci.GetCsprojsOnlyTopDirectory(p);
+        //            var path = Path.Combine(sln.fullPathFolder, prr);
+        //            var d2 = ApsHelper.ci.GetCsprojsOnlyTopDirectory(path);
         //            foreach (var item2 in d2)
         //            {
         //                FubuCsprojFile.CsprojFile csp = new CsprojFile(item2);

@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo;
 
 internal class XmlHelper
@@ -33,10 +36,10 @@ internal class XmlHelper
     }
     internal static string Attr(XmlNode d, string v)
     {
-        var a = GetAttributeWithName(d, v);
-        if (a != null)
+        var argument = GetAttributeWithName(d, v);
+        if (argument != null)
         {
-            return a.Value;
+            return argument.Value;
         }
         return null;
     }

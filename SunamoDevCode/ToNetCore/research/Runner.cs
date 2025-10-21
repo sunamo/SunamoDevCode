@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5 //: ProgramShared
@@ -10,11 +13,11 @@ public partial class MoveToNet5 //: ProgramShared
 
     private string ListOfProjectsWhichIsWebAndWhichIsNotWeb(ILogger logger)
     {
-        var t = WebAndNonWebProjects(logger);
+        var temp = WebAndNonWebProjects(logger);
 
         TextOutputGenerator tog = new TextOutputGenerator();
-        tog.List(t.Item1, "Web projects");
-        tog.List(t.Item2, "Not web projects");
+        tog.List(temp.Item1, "Web projects");
+        tog.List(temp.Item2, "Not web projects");
         var output = tog.ToString();
 
         //#if DEBUG

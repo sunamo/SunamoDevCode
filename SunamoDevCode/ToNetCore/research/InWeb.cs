@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
@@ -7,7 +10,7 @@ public partial class MoveToNet5
     /// A1 can be
     ///
     /// Tohle asi nemělo příliš smysl. Když jsem to změnil celé v jakémkoliv řešení z AnyCPU na x86 tak jsem měl u plno projektů modrou ikonku.
-    /// Navíc s tímto nastavením když jsem spustil EveryLine a ač sln bylo nastavené AnyCPu, hned po spuštení že nemůže načíst EveryLine. Když jsem jeho csproj změnil na AnyCPU, chybu začalo hlásit zase u desktop.
+    /// Navíc text tímto nastavením když jsem spustil EveryLine a ač sln bylo nastavené AnyCPu, hned po spuštení že nemůže načíst EveryLine. Když jsem jeho csproj změnil na AnyCPU, chybu začalo hlásit zase u desktop.
     ///
     /// A1 can be x86,x64.AnyCPU
     /// </summary>
@@ -19,8 +22,8 @@ public partial class MoveToNet5
 #endif
  PlatformTargetToWeb(ILogger logger, string replaceFor)
     {
-        var t = WebAndNonWebProjects(logger);
-        var tt = t.Item1;
+        var temp = WebAndNonWebProjects(logger);
+        var tt = temp.Item1;
         replaceFor =
 #if ASYNC
     await
@@ -40,24 +43,24 @@ public partial class MoveToNet5
 #endif
  AddEssentialWebReferencesToAllWebProjects(ILogger logger)
     {
-        var l = SHGetLines.GetLines(neededWebReferences);
-        var t =
+        var list = SHGetLines.GetLines(neededWebReferences);
+        var temp =
 #if ASYNC
     await
 #endif
  FindProjectsWhichIsSdkStyle(logger, false);
-        StringBuilder sb = new StringBuilder();
-        if (t.netstandardList.Count > 0)
+        StringBuilder stringBuilder = new StringBuilder();
+        if (temp.netstandardList.Count > 0)
         {
-            sb.AppendLine("Web projects which is in web standard");
-            foreach (var item in t.netstandardList)
+            stringBuilder.AppendLine("Web projects which is in web standard");
+            foreach (var item in temp.netstandardList)
             {
-                sb.AppendLine(item);
+                stringBuilder.AppendLine(item);
             }
         }
         var l2 = SHGetLines.GetLines(neededWebReferences);
         //CA.PostfixIfNotEnding(".dll", l2);
-        foreach (var item in t.csprojSdkStyleList)
+        foreach (var item in temp.csprojSdkStyleList)
         {
             foreach (var item2 in l2)
             {
@@ -69,7 +72,7 @@ public partial class MoveToNet5
         // 1 = sdk style, not netstandard2.0
         // 2 = sdk style, netstandard2.0
         // 3 = non sdk style
-        foreach (var item in t.nonCsprojSdkStyleList)
+        foreach (var item in temp.nonCsprojSdkStyleList)
         {
             foreach (var item2 in l2)
             {
@@ -91,12 +94,12 @@ public partial class MoveToNet5
 #endif
  ChangeProjectsToNetStandard(ILogger logger)
     {
-        var l =
+        var list =
 #if ASYNC
     await
 #endif
  FindProjectsWhichIsSdkStyle(logger, false);
-        await ChangeProjects.ChangeProjectsTo(ChangeProjects.netstandard20, l.csprojSdkStyleList);
+        await ChangeProjects.ChangeProjectsTo(ChangeProjects.netstandard20, list.csprojSdkStyleList);
     }
     public
 #if ASYNC
@@ -109,12 +112,12 @@ public partial class MoveToNet5
         List<string> haveBackupSdkStyle = new List<string>();
         List<string> dontHaveBackupSdkStyle = new List<string>();
         List<string> dontHaveBackup = new List<string>();
-        var l =
+        var list =
 #if ASYNC
     await
 #endif
  FindProjectsWhichIsSdkStyle(logger, false);
-        foreach (var item in l.csprojSdkStyleList)
+        foreach (var item in list.csprojSdkStyleList)
         {
             throw new Exception("žádné koncovky old v csproj tu nemám. tak tedy nevím co jsem tu chtěl dělat ");
             //var old = item + ".old";
@@ -149,28 +152,28 @@ public partial class MoveToNet5
  DetectFrameworkForWebProjectsOnlySupported(ILogger logger)
     {
         TextOutputGenerator tog = new TextOutputGenerator();
-        Dictionary<SupportedNetFw, StringBuilder> sb = new Dictionary<SupportedNetFw, StringBuilder>();
-        var t = WebAndNonWebProjects(logger);
-        foreach (var item in t.Item1)
+        Dictionary<SupportedNetFw, StringBuilder> stringBuilder = new Dictionary<SupportedNetFw, StringBuilder>();
+        var temp = WebAndNonWebProjects(logger);
+        foreach (var item in temp.Item1)
         {
-            var n =
+            var name =
 #if ASYNC
                 await
 #endif
                 SunamoCsprojHelper.DetectNetVersion2(item);
             // Inlined from DictionaryHelper.AppendLineOrCreate - přidává řádek do StringBuilderu nebo vytváří nový
-            if (sb.ContainsKey(n))
+            if (stringBuilder.ContainsKey(name))
             {
-                sb[n].AppendLine(item);
+                stringBuilder[name].AppendLine(item);
             }
             else
             {
                 var sb2 = new StringBuilder();
                 sb2.AppendLine(item);
-                sb.Add(n, sb2);
+                stringBuilder.Add(name, sb2);
             }
         }
-        foreach (var item in sb)
+        foreach (var item in stringBuilder)
         {
             tog.ListSB(item.Value, item.Key.ToString());
         }
@@ -180,25 +183,25 @@ public partial class MoveToNet5
     }
     public async Task ConvertAlLWebNetStandardProjectsToNet48(ILogger logger)
     {
-        var t = WebAndNonWebProjects(logger);
-        foreach (var item in t.Item1)
+        var temp = WebAndNonWebProjects(logger);
+        foreach (var item in temp.Item1)
         {
             await ChangeProjects.ChangeProjectTo(ChangeProjects.net48, item, null, ChangeProjects.netstandard20);
         }
     }
     public string WebProjectsWhichNotEndWithDotEnd(ILogger logger)
     {
-        var t = WebAndNonWebProjects(logger, true);
-        StringBuilder sb = new StringBuilder();
-        foreach (var item in t.Item1)
+        var temp = WebAndNonWebProjects(logger, true);
+        StringBuilder stringBuilder = new StringBuilder();
+        foreach (var item in temp.Item1)
         {
             // Vše zde musí být bez koncového lomítka abych podchytil i .Tests postfix
             if (!item.EndsWith(".web.csproj") /*&& !item.Contains(".web64") && !item.Contains(".web5") && !item.Contains(@"\sunamo.cz") && !item.Contains(@"\sunamo.cz-old") && !item.Contains(@"\sunamo.cz64") && !item.Contains(@"\sunamo.web")*/)
             {
-                sb.AppendLine(item);
+                stringBuilder.AppendLine(item);
             }
         }
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
     /// <summary>
     /// 1 = sdk style, not netstandard2.0
@@ -214,16 +217,16 @@ public partial class MoveToNet5
 #endif
  DetectFrameworkForWebProjects(ILogger logger, bool appendHeader)
     {
-        List<TWithStringDC<string>> l = new List<TWithStringDC<string>>();
+        List<TWithStringDC<string>> list = new List<TWithStringDC<string>>();
         List<TWithStringDC<string>> l2 = new List<TWithStringDC<string>>();
         if (appendHeader)
         {
-            l.Add(new TWithStringDC<string>("", "Web but in SDK style:"));
+            list.Add(new TWithStringDC<string>("", "Web but in SDK style:"));
         }
         bool netstandard = false;
-        var t = WebAndNonWebProjects(logger);
+        var temp = WebAndNonWebProjects(logger);
         Tuple<bool, string> t3 = null;
-        foreach (var item2 in t.Item1)
+        foreach (var item2 in temp.Item1)
         {
             t3 =
 #if ASYNC
@@ -240,12 +243,12 @@ public partial class MoveToNet5
                     }
                     else
                     {
-                        l.Add(new TWithStringDC<string>(item2, t3.Item2));
+                        list.Add(new TWithStringDC<string>(item2, t3.Item2));
                     }
                 }
             }
         }
-        return new Tuple<List<TWithStringDC<string>>, List<TWithStringDC<string>>>(l, l2);
+        return new Tuple<List<TWithStringDC<string>>, List<TWithStringDC<string>>>(list, l2);
     }
     public
 #if ASYNC
@@ -255,15 +258,15 @@ public partial class MoveToNet5
 #endif
  FindProjectsWhichIsSdkStyleList(ILogger logger, bool appendHeaderForWeb, bool web = true)
     {
-        var r =
+        var result =
 #if ASYNC
     await
 #endif
  FindProjectsWhichIsSdkStyle(logger, appendHeaderForWeb, web);
         TextOutputGenerator tog = new TextOutputGenerator();
-        tog.List(r.csprojSdkStyleList, nameof(r.csprojSdkStyleList));
-        tog.List(r.netstandardList, nameof(r.netstandardList));
-        tog.List(r.nonCsprojSdkStyleList, nameof(r.nonCsprojSdkStyleList));
+        tog.List(result.csprojSdkStyleList, nameof(result.csprojSdkStyleList));
+        tog.List(result.netstandardList, nameof(result.netstandardList));
+        tog.List(result.nonCsprojSdkStyleList, nameof(result.nonCsprojSdkStyleList));
         //ProgramShared.Output = tog.ToString();
         //ProgramShared.OutputOpen();
         return tog.ToString();
@@ -290,17 +293,17 @@ public partial class MoveToNet5
         {
             csprojSdkStyleList.Add("Web but in SDK style:");
         }
-        var t = WebAndNonWebProjects(logger);
-        List<string> ls = null;
+        var temp = WebAndNonWebProjects(logger);
+        List<string> lines = null;
         if (web)
         {
-            ls = t.Item1;
+            lines = temp.Item1;
         }
         else
         {
-            ls = t.Item2;
+            lines = temp.Item2;
         }
-        foreach (var item2 in ls)
+        foreach (var item2 in lines)
         {
             if (Ignored.IsIgnored(item2))
             {
@@ -351,16 +354,16 @@ public partial class MoveToNet5
         return SHJoin.JoinNL(u.nonCsprojSdkStyleList);
     }
     string nameProject = null;
-    public async void ReplaceProjectReferenceForWeb(ILogger logger, string n, string ns)
+    public async void ReplaceProjectReferenceForWeb(ILogger logger, string name, string ns)
     {
         Console.WriteLine("Solution old & new must be in same root folder");
-        n = SHTrim.TrimEnd(n, ".web");
+        name = SHTrim.TrimEnd(name, ".web");
         ns = SHTrim.TrimEnd(ns, ".web");
-        nameProject = n;
-        string old = @"..\..\" + ns + @"\" + n + @"\" + n + ".csproj";
-        string nuova = @"..\..\" + SolutionNameFor(ns) + @"\" + n + @".web\" + n + ".web.csproj";
-        var t = WebAndNonWebProjects(logger);
-        foreach (var item in t.Item1)
+        nameProject = name;
+        string old = @"..\..\" + ns + @"\" + name + @"\" + name + ".csproj";
+        string nuova = @"..\..\" + SolutionNameFor(ns) + @"\" + name + @".web\" + name + ".web.csproj";
+        var temp = WebAndNonWebProjects(logger);
+        foreach (var item in temp.Item1)
         {
             Console.WriteLine(item);
             //DebugLogger.Instance.WriteLine(item);
@@ -372,16 +375,16 @@ public partial class MoveToNet5
             //}
         }
     }
-    string WithWebEnd(string s)
+    string WithWebEnd(string text)
     {
-        return s.Replace("<Name>" + nameProject + "</Name>", "<Name>" + nameProject + ".web</Name>");
+        return text.Replace("<Name>" + nameProject + "</Name>", "<Name>" + nameProject + ".web</Name>");
     }
-    private string SolutionNameFor(string n)
+    private string SolutionNameFor(string name)
     {
-        if (n == "PlatformIndependentNuGetPackages")
+        if (name == "PlatformIndependentNuGetPackages")
         {
             return "sunamo.webWithoutDep";
         }
-        return n + ".web";
+        return name + ".web";
     }
 }

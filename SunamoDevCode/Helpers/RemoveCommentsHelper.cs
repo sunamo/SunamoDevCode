@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.Helpers;
 
 /// <summary>
@@ -8,11 +11,11 @@ namespace SunamoDevCode.Helpers;
 /// </summary>
 public class RemoveCommentsHelper
 {
-    public static string Powershell(string s)
+    public static string Powershell(string text)
     {
-        var l = SHGetLines.GetLines(s);
-        CA.Trim(l);
-        CA.RemoveStartingWith("#", l);
-        return string.Join(Environment.NewLine, l);
+        var list = SHGetLines.GetLines(text);
+        CA.Trim(list);
+        CA.RemoveStartingWith("#", list);
+        return string.Join(Environment.NewLine, list);
     }
 }

@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
@@ -69,10 +72,10 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
         sb.AppendLine("[" + name + "(" + attrs + ")]");
     }
 
-    public static List<EnumItem> CreateEnumItemsFromList(List<string> l)
+    public static List<EnumItem> CreateEnumItemsFromList(List<string> list)
     {
-        var ei = new List<EnumItem>(l.Count);
-        foreach (var item in l) ei.Add(new EnumItem { Name = item });
+        var ei = new List<EnumItem>(list.Count);
+        foreach (var item in list) ei.Add(new EnumItem { Name = item });
         return ei;
     }
 
@@ -117,12 +120,12 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
         else if (oio == ObjectInitializationOptions.NewAssign) value = "new " + type + "()";
 
 
-        var s = value + ";";
+        var text = value + ";";
         // zde mi to nevysvětlitelně - dokud jsem v AddItem tak hodnotu má
         // jen co se z něj dostanu tak je empty
         // dělá to i když vložím jiný text
         // nefungovalo to ani když jsem vložil přímoo do sb bez InstantSb
-        sb.AddItem(s);
+        sb.AddItem(text);
         //}
 
         sb.AppendLine();
@@ -337,16 +340,16 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
         {
             if (shortGet) throw new Exception("Can't be set shortGet and _get in one time");
 
-            var s = _get.ToString();
+            var text = _get.ToString();
             AddTab(tabCount + 1);
             sb.AddItem("get");
             StartBrace(tabCount + 1);
             AddTab(tabCount + 2);
 
-            if (s == true.ToString())
+            if (text == true.ToString())
                 sb.AddItem("return " + field + ";");
             else
-                sb.AddItem(s);
+                sb.AddItem(text);
 
             sb.AppendLine();
             EndBrace(tabCount + 1);
@@ -362,11 +365,11 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
             StartBrace(tabCount + 1);
             AddTab(tabCount + 2);
 
-            var s = _set.ToString();
-            if (s == true.ToString())
+            var text = _set.ToString();
+            if (text == true.ToString())
                 sb.AddItem(field + " = value;");
             else
-                sb.AddItem(s);
+                sb.AddItem(text);
 
             sb.AppendLine();
             EndBrace(tabCount + 1);
@@ -449,7 +452,7 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
 
     /// <summary>
     ///     Pokud chceš nový řádek bez jakéhokoliv textu, zadej například 2, ""
-    ///     Nepoužívej na to metodu jen s tabCount, protože ji pak IntelliSense nevidělo.
+    ///     Nepoužívej na to metodu jen text tabCount, protože ji pak IntelliSense nevidělo.
     /// </summary>
     /// <param name="tabCount"></param>
     /// <param name="p"></param>
@@ -841,13 +844,13 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
         List<Value> values, CSharpGeneratorArgs a)
     {
         var split = false;
-        string s = null;
+        string text = null;
         if (a.splitKeyWith != null)
         {
             if (typeof(Key) == Types.tString)
             {
                 split = true;
-                s = a.splitKeyWith;
+                text = a.splitKeyWith;
             }
             else
             {
@@ -863,7 +866,7 @@ public class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
             {
                 var splitted =
                     keys[i].ToString()
-                        .Split(new[] { s }, StringSplitOptions.RemoveEmptyEntries); //SHSplit.Split(, s);
+                        .Split(new[] { text }, StringSplitOptions.RemoveEmptyEntries); //SHSplit.Split(, text);
                 foreach (var item in splitted) dict.Add((Key)(dynamic)item, values[i]);
             }
             else

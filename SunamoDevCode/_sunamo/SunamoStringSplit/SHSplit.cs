@@ -1,10 +1,13 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo.SunamoStringSplit;
 
 internal class SHSplit
 {
-    internal static List<string> Split(string p, params string[] newLine)
+    internal static List<string> Split(string parameter, params string[] newLine)
     {
-        return p.Split(newLine, StringSplitOptions.RemoveEmptyEntries).ToList();
+        return parameter.Split(newLine, StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
     /// <summary>
@@ -16,40 +19,40 @@ internal class SHSplit
     /// <param name="p_2"></param>
     internal static List<string> SplitToParts(string what, int parts, string deli)
     {
-        var s = Split(what.RemoveInvisibleChars(), deli);
-        if (s.Count < parts)
+        var text = Split(what.RemoveInvisibleChars(), deli);
+        if (text.Count < parts)
         {
             // Pokud je pocet ziskanych partu mensi, vlozim do zbytku prazdne retezce
-            if (s.Count > 0)
+            if (text.Count > 0)
             {
                 var vr2 = new List<string>();
                 for (var i = 0; i < parts; i++)
-                    if (i < s.Count)
-                        vr2.Add(s[i]);
+                    if (i < text.Count)
+                        vr2.Add(text[i]);
                     else
                         vr2.Add("");
                 return vr2;
-                //return new string[] { s[0] };
+                //return new string[] { text[0] };
             }
 
             return null;
         }
 
-        if (s.Count == parts)
+        if (text.Count == parts)
             // Pokud pocet ziskanych partu souhlasim presne, vratim jak je
-            return s;
+            return text;
         // Pokud je pocet ziskanych partu vetsi nez kolik ma byt, pripojim ty co josu navic do zbytku
         parts--;
         var vr = new List<string>();
-        for (var i = 0; i < s.Count; i++)
+        for (var i = 0; i < text.Count; i++)
             if (i < parts)
-                vr.Add(s[i]);
+                vr.Add(text[i]);
             else if (i == parts)
-                vr.Add(s[i] + deli);
-            else if (i != s.Count - 1)
-                vr[parts] += s[i] + deli;
+                vr.Add(text[i] + deli);
+            else if (i != text.Count - 1)
+                vr[parts] += text[i] + deli;
             else
-                vr[parts] += s[i];
+                vr[parts] += text[i];
         return vr;
     }
 
@@ -98,9 +101,9 @@ internal class SHSplit
 
             foreach (var item in lines)
             {
-                var p = SHSplit.Split(item, "->");
-                from.AppendLine(p[0]);
-                to.AppendLine(p[1]);
+                var parameter = SHSplit.Split(item, "->");
+                from.AppendLine(parameter[0]);
+                to.AppendLine(parameter[1]);
             }
         }
         else
@@ -115,7 +118,7 @@ internal class SHSplit
 
     internal static Tuple<List<string>, List<string>> SplitFromReplaceManyFormatList(string input)
     {
-        var t = SplitFromReplaceManyFormat(input);
-        return new Tuple<List<string>, List<string>>(SHGetLines.GetLines(t.Item1), SHGetLines.GetLines(t.Item2));
+        var temp = SplitFromReplaceManyFormat(input);
+        return new Tuple<List<string>, List<string>>(SHGetLines.GetLines(temp.Item1), SHGetLines.GetLines(temp.Item2));
     }
 }

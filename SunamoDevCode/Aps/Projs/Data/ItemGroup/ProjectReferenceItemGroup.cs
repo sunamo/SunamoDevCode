@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
 
 public class ProjectReferenceItemGroup : ItemGroupElement
@@ -11,8 +14,8 @@ public class ProjectReferenceItemGroup : ItemGroupElement
     public override XmlNode ToXml(XmlDocument xd)
     {
         // .net fw vkládá ještě elementy Name a ProjectGuid. Nicméně ty nemusím ani vyplňovat a fungovalo by to úplně stejně. Zkoušeno s rebuildem.
-        var x = "<" + ItemGroups.ProjectReference + " Include=\"" + Include + "\" />";
-        XmlNode xn = XH.ReturnXmlNode(x.ToString());
+        var xValue = "<" + ItemGroups.ProjectReference + " Include=\"" + Include + "\" />";
+        XmlNode xn = XH.ReturnXmlNode(xValue.ToString());
         return xn;
     }
 }

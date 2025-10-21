@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.Tests.SunamoSolutionsIndexer;
 
 using Microsoft.Extensions.Logging;
@@ -38,12 +41,12 @@ public class FoldersWithSolutionsTests
     [Fact]
     public void ReloadTest()
     {
-        var p = @"E:\vs\";
+        var parameter = @"E:\vs\";
 
-        //DefaultPaths.eVs = p;
-        FoldersWithSolutions.PairProjectFolderWithEnum(TestLogger.Instance, p);
-        FoldersWithSolutions d = new FoldersWithSolutions(TestLogger.Instance, p, null, false);
-        d.Reload(TestLogger.Instance, p, null);
+        //DefaultPaths.eVs = parameter;
+        FoldersWithSolutions.PairProjectFolderWithEnum(TestLogger.Instance, parameter);
+        FoldersWithSolutions d = new FoldersWithSolutions(TestLogger.Instance, parameter, null, false);
+        d.Reload(TestLogger.Instance, parameter, null);
         var slns = d.Solutions(Enums.RepositoryLocal.Vs17);
         //d.Reload()
     }

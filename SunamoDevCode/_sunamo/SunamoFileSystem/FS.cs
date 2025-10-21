@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo.SunamoFileSystem;
 
 internal class FS
@@ -108,10 +111,10 @@ internal class FS
     {
         if (nazevPP != null)
         {
-            var sb = nazevPP.Substring(1);
-            if (only) sb = sb.ToLower();
+            var substring = nazevPP.Substring(1);
+            if (only) substring = substring.ToLower();
 
-            return nazevPP[0].ToString().ToUpper() + sb;
+            return nazevPP[0].ToString().ToUpper() + substring;
         }
 
         return null;
@@ -164,25 +167,25 @@ internal class FS
 
     internal static List<string> OnlyNamesWithoutExtensionCopy(List<string> p2)
     {
-        var p = new List<string>(p2.Count);
-        //CA.InitFillWith(p, p2.Count);
-        for (var i = 0; i < p2.Count; i++) p[i] = Path.GetFileNameWithoutExtension(p2[i]);
-        return p;
+        var parameter = new List<string>(p2.Count);
+        //CA.InitFillWith(parameter, p2.Count);
+        for (var i = 0; i < p2.Count; i++) parameter[i] = Path.GetFileNameWithoutExtension(p2[i]);
+        return parameter;
     }
-    internal static string ReplaceDirectoryThrowExceptionIfFromDoesntExists(string p, string folderWithProjectsFolders,
+    internal static string ReplaceDirectoryThrowExceptionIfFromDoesntExists(string parameter, string folderWithProjectsFolders,
         string folderWithTemporaryMovedContentWithoutBackslash)
     {
-        p = SH.FirstCharUpper(p);
+        parameter = SH.FirstCharUpper(parameter);
         folderWithProjectsFolders = SH.FirstCharUpper(folderWithProjectsFolders);
         folderWithTemporaryMovedContentWithoutBackslash =
             SH.FirstCharUpper(folderWithTemporaryMovedContentWithoutBackslash);
 
-        if (!ThrowEx.NotContains(p, folderWithProjectsFolders))
+        if (!ThrowEx.NotContains(parameter, folderWithProjectsFolders))
             // Here can never accomplish when exc was throwed
-            return p;
+            return parameter;
 
         // Here can never accomplish when exc was throwed
-        return p.Replace(folderWithProjectsFolders, folderWithTemporaryMovedContentWithoutBackslash);
+        return parameter.Replace(folderWithProjectsFolders, folderWithTemporaryMovedContentWithoutBackslash);
     }
 
 
@@ -333,9 +336,9 @@ internal class FS
         }
     }
 
-    private static void MoveOrCopy(string p, string to, FileMoveCollisionOptionDC co, bool move, string item)
+    private static void MoveOrCopy(string parameter, string to, FileMoveCollisionOptionDC co, bool move, string item)
     {
-        var fileTo = to + item.Substring(p.Length);
+        var fileTo = to + item.Substring(parameter.Length);
         if (move)
             MoveFile(item, fileTo, co);
         else
@@ -354,31 +357,31 @@ internal class FS
     }
 
 
-    private static void CopyMoveAllFilesRecursively(ILogger logger, string p, string to, FileMoveCollisionOptionDC co, bool move,
+    private static void CopyMoveAllFilesRecursively(ILogger logger, string parameter, string to, FileMoveCollisionOptionDC co, bool move,
         string mustContains, SearchOption so)
     {
-        var files = FSGetFiles.GetFiles(logger, p, "*", so);
+        var files = FSGetFiles.GetFiles(logger, parameter, "*", so);
         if (!string.IsNullOrEmpty(mustContains))
         {
             foreach (var item in files)
                 if (SH.IsContained(item, mustContains))
                 {
 
-                    MoveOrCopy(p, to, co, move, item);
+                    MoveOrCopy(parameter, to, co, move, item);
                 }
         }
         else
         {
-            foreach (var item in files) MoveOrCopy(p, to, co, move, item);
+            foreach (var item in files) MoveOrCopy(parameter, to, co, move, item);
         }
     }
 
-    internal static void MoveAllRecursivelyAndThenDirectory(ILogger logger, string p, string to, FileMoveCollisionOptionDC co)
+    internal static void MoveAllRecursivelyAndThenDirectory(ILogger logger, string parameter, string to, FileMoveCollisionOptionDC co)
     {
-        CopyMoveAllFilesRecursively(logger, p, to, co, true, null, SearchOption.TopDirectoryOnly);
-        var dirs = Directory.GetDirectories(p, "*", SearchOption.AllDirectories);
+        CopyMoveAllFilesRecursively(logger, parameter, to, co, true, null, SearchOption.TopDirectoryOnly);
+        var dirs = Directory.GetDirectories(parameter, "*", SearchOption.AllDirectories);
         for (var i = dirs.Length - 1; i >= 0; i--) TryDeleteDirectory(dirs[i]);
-        TryDeleteDirectory(p);
+        TryDeleteDirectory(parameter);
     }
     internal static Dictionary<string, List<string>> GetDictionaryByExtension(ILogger logger, string folder, string mask,
         SearchOption searchOption)
@@ -404,10 +407,10 @@ internal class FS
     internal static string AddUpfoldersToRelativePath(int i2, string file, char delimiter)
     {
         var jumpUp = ".." + delimiter;
-        var sb = new StringBuilder();
-        for (var i = 0; i < i2; i++) sb.Append(jumpUp);
-        sb.Append(file);
-        return sb.ToString();
+        var stringBuilder = new StringBuilder();
+        for (var i = 0; i < i2; i++) stringBuilder.Append(jumpUp);
+        stringBuilder.Append(file);
+        return stringBuilder.ToString();
         //return SHJoin.JoinTimes(i, jumpUp) + file;
     }
 
@@ -588,9 +591,9 @@ nad
 
         if (origS.Contains('/') || origS.Contains('\\'))
         {
-            string p = Path.GetDirectoryName(origS);
+            string parameter = Path.GetDirectoryName(origS);
 
-            return Path.Combine(p, fn + whatInsert + e);
+            return Path.Combine(parameter, fn + whatInsert + e);
         }
         return fn + whatInsert + e;
     }
@@ -630,8 +633,8 @@ nad
 
     internal static string GetDirectoryName(string csp)
     {
-        var d = Path.GetDirectoryName(csp);
-        return FS.WithEndSlash(d);
+        var data = Path.GetDirectoryName(csp);
+        return FS.WithEndSlash(data);
     }
 
     internal static string GetFileName(string fullPathFolder)
@@ -644,8 +647,8 @@ nad
         return File.Exists(r);
     }
 
-    internal static bool ExistsDirectory(string p)
+    internal static bool ExistsDirectory(string parameter)
     {
-        return Directory.Exists(p);
+        return Directory.Exists(parameter);
     }
 }

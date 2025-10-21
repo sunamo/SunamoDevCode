@@ -1,19 +1,22 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo.SunamoConverters.Converts;
 
 internal class ConvertSnakeConvention
 {
     static string Sanitize(string t)
     {
-        var s = new StringBuilder(t.Replace("", "_").Replace("__", "_"));
-        for (int i = s.Length - 1; i >= 0; i--)
+        var text = new StringBuilder(t.Replace("", "_").Replace("__", "_"));
+        for (int i = text.Length - 1; i >= 0; i--)
         {
-            var ch = s[i];
+            var ch = text[i];
             if (!char.IsLetter(ch) && !char.IsDigit(ch) && ch != '_')
             {
-                s = s.Remove(i, 1);
+                text = text.Remove(i, 1);
             }
         }
-        return s.ToString();
+        return text.ToString();
     }
     internal static string ToConvention(string text)
     {
@@ -27,22 +30,22 @@ internal class ConvertSnakeConvention
         {
             return text;
         }
-        var sb = new StringBuilder();
-        sb.Append(char.ToLowerInvariant(text[0]));
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append(char.ToLowerInvariant(text[0]));
         for (int i = 1; i < text.Length; ++i)
         {
-            char c = text[i];
-            if (char.IsUpper(c))
+            char character = text[i];
+            if (char.IsUpper(character))
             {
-                sb.Append('_');
-                sb.Append(char.ToLowerInvariant(c));
+                stringBuilder.Append('_');
+                stringBuilder.Append(char.ToLowerInvariant(character));
             }
             else
             {
-                sb.Append(c);
+                stringBuilder.Append(character);
             }
         }
-        var r = sb.ToString().Replace("", "_");
-        return r;
+        var result = stringBuilder.ToString().Replace("", "_");
+        return result;
     }
 }

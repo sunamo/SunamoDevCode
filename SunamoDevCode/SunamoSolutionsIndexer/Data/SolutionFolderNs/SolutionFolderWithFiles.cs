@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 
 public class SolutionFolderWithFiles : SolutionFolder
@@ -90,9 +93,9 @@ public class SolutionFolderWithFiles : SolutionFolder
         }
         else
         {
-            List<FileInfoLiteDC> l = new List<FileInfoLiteDC>();
-            l.Add(fil);
-            fileInfoLiteOfExtension.Add(extensionWithoutDot, l);
+            List<FileInfoLiteDC> list = new List<FileInfoLiteDC>();
+            list.Add(fil);
+            fileInfoLiteOfExtension.Add(extensionWithoutDot, list);
         }
     }
 }

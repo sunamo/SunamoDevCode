@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.Aps.Projs;
 
 public class ApsProjsHelper
@@ -54,16 +57,16 @@ public class ApsProjsHelper
             }
             for (int i = 0; i < pr.nodes.Count; i++)
             {
-                var z = pr.projs[i];
-                var y = FS.IsAbsolutePath(z);
-                if (DefaultPaths.IsIgnored(z, bpBb))
+                var zValue = pr.projs[i];
+                var yValue = FS.IsAbsolutePath(zValue);
+                if (DefaultPaths.IsIgnored(zValue, bpBb))
                 {
                     continue;
                 }
-                if (y)
+                if (yValue)
                 {
-                    //z = DefaultPaths.ConvertToActualPlatform(z);
-                    var rel = Path.GetRelativePath(x, z);
+                    //z = DefaultPaths.ConvertToActualPlatform(zValue);
+                    var rel = Path.GetRelativePath(x, zValue);
                     var node = pr.nodes[i];
                     XmlNode cloned = node.Clone();
                     XmlHelper.SetAttribute(cloned, "Include", rel);

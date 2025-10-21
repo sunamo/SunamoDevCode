@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo.SunamoConverters.Converts;
 
 internal class ConvertPascalConvention //: IConvertConvention
@@ -11,7 +14,7 @@ internal class ConvertPascalConvention //: IConvertConvention
     /// <param name="p"></param>
     internal static string ToConvention(string p)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         bool dalsiVelke = false;
         foreach (char item in p)
         {
@@ -20,19 +23,19 @@ internal class ConvertPascalConvention //: IConvertConvention
                 if (char.IsUpper(item))
                 {
                     dalsiVelke = false;
-                    sb.Append(item);
+                    stringBuilder.Append(item);
                     continue;
                 }
                 else if (char.IsLower(item))
                 {
                     dalsiVelke = false;
-                    sb.Append(char.ToUpper(item));
+                    stringBuilder.Append(char.ToUpper(item));
                     continue;
                 }
                 else if (char.IsDigit(item))
                 {
                     dalsiVelke = true;
-                    sb.Append(item);
+                    stringBuilder.Append(item);
                     continue;
                 }
                 else
@@ -42,22 +45,22 @@ internal class ConvertPascalConvention //: IConvertConvention
             }
             if (char.IsUpper(item))
             {
-                sb.Append(item);
+                stringBuilder.Append(item);
             }
             else if (char.IsLower(item))
             {
-                sb.Append(item);
+                stringBuilder.Append(item);
             }
             else if (char.IsDigit(item))
             {
-                sb.Append(item);
+                stringBuilder.Append(item);
             }
             else
             {
                 dalsiVelke = true;
             }
         }
-        var result = sb.ToString().Trim();
+        var result = stringBuilder.ToString().Trim();
         StringBuilder sb2 = new StringBuilder(result);
         sb2[0] = char.ToUpper(sb2[0]);
         //result = SH.FirstCharUpper(result);

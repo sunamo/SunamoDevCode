@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 /// <summary>
@@ -29,7 +32,7 @@ public class GlobalUsingsHelper
     private static KeyValuePair<string, string> ParseSymbol(string item)
     {
         item = item.TrimEnd(';');
-        var p = item.Split('=');
-        return new KeyValuePair<string, string>(p[0].Replace(global, ""), p[1]);
+        var parameter = item.Split('=');
+        return new KeyValuePair<string, string>(parameter[0].Replace(global, ""), parameter[1]);
     }
 }

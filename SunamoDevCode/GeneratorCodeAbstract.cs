@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 public abstract class GeneratorCodeAbstract
@@ -107,7 +110,7 @@ public abstract class GeneratorCodeAbstract
         for (var i = 0; i < radky.Count; i++)
         {
             radky[i] = radky[i].Trim();
-            for (var y = 0; y < tabCount; y++) radky[i] = "\t" + radky[i];
+            for (var yValue = 0; yValue < tabCount; yValue++) radky[i] = "\t" + radky[i];
         }
 
         var vr = string.Join(Environment.NewLine, radky);

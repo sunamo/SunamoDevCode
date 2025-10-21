@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.Aps.Helpers;
 
 public class VersionHelper
@@ -6,11 +9,11 @@ public class VersionHelper
     {
         const string dotZero = ".0";
 
-        var s = v.ToString();
-        while (s.EndsWith(dotZero))
+        var text = v.ToString();
+        while (text.EndsWith(dotZero))
         {
-            s = SHTrim.Trim(s, dotZero);
+            text = SHTrim.Trim(text, dotZero);
         }
-        return s;
+        return text;
     }
 }

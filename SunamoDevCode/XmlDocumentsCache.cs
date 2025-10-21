@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 public class XmlDocumentsCache
@@ -119,7 +122,7 @@ ResultWithException<XmlDocument>
         }
         catch
         {
-            var p = cache.Keys.ToList().IndexOf(path);
+            var parameter = cache.Keys.ToList().IndexOf(path);
             cache.Add(path, null);
             nulled++;
             //ThrowEx.NotValidXml(path, ex);
@@ -131,12 +134,12 @@ ResultWithException<XmlDocument>
         // Toto bych měl dělat mimo Parallel
         if (buildProjectsDependencyTreeList != null)
         {
-            var l =
+            var list =
 #if ASYNC
                 await
 #endif
                     buildProjectsDependencyTreeList(path, null);
-            projectDeps.Add(path, l);
+            projectDeps.Add(path, list);
         }
 
         //}

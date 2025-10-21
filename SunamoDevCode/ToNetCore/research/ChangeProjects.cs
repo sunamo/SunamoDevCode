@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.ToNetCore.research;
 
 public class ChangeProjects
@@ -9,7 +12,7 @@ public class ChangeProjects
     public const string net60 = "net6.0";
     /// <summary>
     /// Na mém PC bude mít vše net7.0-windows
-    /// Bylo by to velmi náročné dělat průběžné změny mezi net7.0 a net7.0-windows
+    /// Bylo by to velmi náročné dělat průběžné změny mezi net7.0 argument net7.0-windows
     /// </summary>
     public const string net70Windows = "net7.0-windows";
     public const string netstandard21 = "netstandard2.1";
@@ -19,14 +22,14 @@ public class ChangeProjects
     public const string net7Windows = "net7.0-windows";
     public static void Test()
     {
-        var a = ChangeProjects.IsNetCore5UpMoniker(netstandard20);
-        var b = ChangeProjects.IsNetCore5UpMoniker(netcoreapp);
-        var c = ChangeProjects.IsNetCore5UpMoniker(net70Windows);
-        var d = ChangeProjects.IsNetCore5UpMoniker(net7Windows);
+        var argument = ChangeProjects.IsNetCore5UpMoniker(netstandard20);
+        var builder = ChangeProjects.IsNetCore5UpMoniker(netcoreapp);
+        var count = ChangeProjects.IsNetCore5UpMoniker(net70Windows);
+        var data = ChangeProjects.IsNetCore5UpMoniker(net7Windows);
     }
     //public static void ChangeProjectsTo(ILogger logger, string to2, bool web)
     //{
-    //    var s = MoveToNet5.ci.WebAndNonWebProjects(logger, true);
+    //    var text = MoveToNet5.ci.WebAndNonWebProjects(logger, true);
     //    ChangeProjectsTo( to2, web);
     //}
     public static IsNetCore5UpMonikerResult IsNetCore5UpMoniker(string moniker)

@@ -1,17 +1,20 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._public.SunamoTextOutputGenerator;
 
 public class InstantSB 
 {
-    public StringBuilder sb = new StringBuilder();
+    public StringBuilder stringBuilder = new StringBuilder();
     private string _tokensDelimiter;
     public InstantSB(string znak)
     {
         _tokensDelimiter = znak;
     }
-    public int Length => sb.Length;
+    public int Length => stringBuilder.Length;
     public override string ToString()
     {
-        string vratit = sb.ToString();
+        string vratit = stringBuilder.ToString();
         return vratit;
     }
 
@@ -20,15 +23,15 @@ public class InstantSB
 
     public void AddItem(string var)
     {
-        string s = var.ToString();
-        if (s != _tokensDelimiter && s != "")
+        string text = var.ToString();
+        if (text != _tokensDelimiter && text != "")
         {
-            sb.Append(s + _tokensDelimiter);
+            stringBuilder.Append(text + _tokensDelimiter);
         }
     }
     public void AddRaw(object tab)
     {
-        sb.Append(tab.ToString());
+        stringBuilder.Append(tab.ToString());
     }
 
     public void AddItems(params string[] polozky)
@@ -44,10 +47,10 @@ public class InstantSB
 
     public void EndLine(object o)
     {
-        string s = o.ToString();
-        if (s != _tokensDelimiter && s != "")
+        string text = o.ToString();
+        if (text != _tokensDelimiter && text != "")
         {
-            sb.Append(s);
+            stringBuilder.Append(text);
         }
     }
 
@@ -64,10 +67,10 @@ public class InstantSB
     }
     public void RemoveEndDelimiter()
     {
-        sb.Remove(sb.Length - _tokensDelimiter.Length, _tokensDelimiter.Length);
+        stringBuilder.Remove(stringBuilder.Length - _tokensDelimiter.Length, _tokensDelimiter.Length);
     }
     public void Clear()
     {
-        sb.Clear();
+        stringBuilder.Clear();
     }
 }

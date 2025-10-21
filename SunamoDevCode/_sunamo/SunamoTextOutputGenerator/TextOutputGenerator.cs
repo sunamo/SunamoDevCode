@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo.SunamoTextOutputGenerator;
 
 /// <summary>
@@ -6,15 +9,15 @@ namespace SunamoDevCode._sunamo.SunamoTextOutputGenerator;
 internal class TextOutputGenerator //: ITextOutputGenerator
 {
     private readonly static string s_znakNadpisu = "*";
-    // při převádění na nugety jsem to změnil na TextBuilderDC sb = TextBuilder.Create();
+    // při převádění na nugety jsem to změnil na TextBuilderDC stringBuilder = TextBuilder.Create();
     // ale asi to byla blbost, teď mám v _sunamo Create() která je ale null místo abych použil ctor
     // takže vracím nazpět.
-    //internal TextBuilder sb = new TextBuilder();
-    internal StringBuilder sb = new StringBuilder();
+    //internal TextBuilder stringBuilder = new TextBuilder();
+    internal StringBuilder stringBuilder = new StringBuilder();
     //internal string prependEveryNoWhite
     //{
-    //    get => sb.prependEveryNoWhite;
-    //    set => sb.prependEveryNoWhite = value;
+    //    get => stringBuilder.prependEveryNoWhite;
+    //    set => stringBuilder.prependEveryNoWhite = value;
     //}
     #region Static texts
         #endregion
@@ -23,30 +26,30 @@ internal class TextOutputGenerator //: ITextOutputGenerator
     #region AppendLine
     internal void AppendLine(StringBuilder text)
     {
-        sb.AppendLine(text.ToString());
+        stringBuilder.AppendLine(text.ToString());
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void Append(string text)
     {
-        sb.Append(text);
+        stringBuilder.Append(text);
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void AppendLine(string text)
     {
-        sb.AppendLine(text);
+        stringBuilder.AppendLine(text);
     }
     #endregion
     #region Other adding methods
     internal void Header(string v)
     {
-        sb.AppendLine();
+        stringBuilder.AppendLine();
         AppendLine(v);
-        sb.AppendLine();
+        stringBuilder.AppendLine();
     }
     #endregion
     public override string ToString()
     {
-        var ts = sb.ToString();
+        var ts = stringBuilder.ToString();
         return ts;
     }
     #region List
@@ -59,7 +62,7 @@ internal class TextOutputGenerator //: ITextOutputGenerator
     {
         if (files1.Count == 0)
         {
-            sb.AppendLine(whenNoEntries);
+            stringBuilder.AppendLine(whenNoEntries);
         }
         else
         {
@@ -67,7 +70,7 @@ internal class TextOutputGenerator //: ITextOutputGenerator
             {
                 Append(item.ToString() + deli);
             }
-            //sb.AppendLine();
+            //stringBuilder.AppendLine();
         }
     }
         internal void List(IList<string> files1, string header)
@@ -91,12 +94,12 @@ internal class TextOutputGenerator //: ITextOutputGenerator
         }
         if (a.headerWrappedEmptyLines)
         {
-            sb.AppendLine();
+            stringBuilder.AppendLine();
         }
-        sb.AppendLine(header + ":");
+        stringBuilder.AppendLine(header + ":");
         if (a.headerWrappedEmptyLines)
         {
-            sb.AppendLine();
+            stringBuilder.AppendLine();
         }
         List(files1, a.delimiter, a.whenNoEntries);
     }
@@ -116,9 +119,9 @@ internal class TextOutputGenerator //: ITextOutputGenerator
     {
         if (text != string.Empty)
         {
-            sb.AppendLine(header + ":");
-            sb.AppendLine(text);
-            sb.AppendLine();
+            stringBuilder.AppendLine(header + ":");
+            stringBuilder.AppendLine(text);
+            stringBuilder.AppendLine();
         }
     }
     #endregion

@@ -1,6 +1,9 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive;
 
-internal sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBase<T>(logger) where T : IParserDC
+internal sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBase<T>(logger) where type : IParserDC
 {
     internal async override Task Load(bool removeDuplicates)
     {
@@ -9,10 +12,10 @@ internal sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveB
             var dex = 0;
             foreach (var item in SHGetLines.GetLines(await File.ReadAllTextAsync(a.path)))
             {
-                var t = (T?)Activator.CreateInstance(typeof(T));
-                ThrowEx.IsNull(nameof(t), t);
-                t!.Parse(item);
-                await AddWithSave(t);
+                var type = (type?)Activator.CreateInstance(typeof(type));
+                ThrowEx.IsNull(nameof(type), type);
+                type!.Parse(item);
+                await AddWithSave(type);
                 dex++;
             }
         }

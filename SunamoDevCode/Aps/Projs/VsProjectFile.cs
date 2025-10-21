@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.Aps.Projs;
 
 /// <summary>
@@ -37,16 +40,16 @@ public class VsProjectFile
         this.file = file;
         if (dictToAvoidCollectionWasChanged == null)
         {
-            var r =
+            var result =
 #if ASYNC
                 await
 #endif
                 XmlDocumentsCache.Get(file);
-            if (MayExcHelper.MayExc(r.Exc))
+            if (MayExcHelper.MayExc(result.Exc))
             {
                 return;
             }
-            xDocument = r.Data;
+            xDocument = result.Data;
         }
         else
         {

@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo.SunamoCollections;
 
 internal class CA
@@ -47,30 +50,30 @@ internal class CA
         return result;
     }
 
-    internal static List<string> StartingWith(string v, List<string> l)
+    internal static List<string> StartingWith(string v, List<string> list)
     {
-        for (var i = l.Count - 1; i >= 0; i--)
+        for (var i = list.Count - 1; i >= 0; i--)
             if (!l[i].StartsWith(v))
-                l.RemoveAt(i);
-        return l;
+                list.RemoveAt(i);
+        return list;
     }
-    internal static List<string> PostfixIfNotEnding(string pre, List<string> l)
+    internal static List<string> PostfixIfNotEnding(string pre, List<string> list)
     {
-        for (var i = 0; i < l.Count; i++) l[i] = pre + l[i];
-        return l;
+        for (var i = 0; i < list.Count; i++) list[i] = pre + list[i];
+        return list;
     }
-    internal static List<List<string>> Split(List<string> s, string determining)
+    internal static List<List<string>> Split(List<string> text, string determining)
     {
-        var ls = new List<List<string>>();
+        var sourceList = new List<List<string>>();
         var actual = new List<string>();
-        foreach (var item in s)
+        foreach (var item in text)
             if (item == determining)
             {
-                ls.Add(actual);
+                sourceList.Add(actual);
                 actual.Clear();
             }
 
-        return ls;
+        return sourceList;
     }
 
     internal static List<string> RemoveStringsEmptyTrimBefore(List<string> mySites)
@@ -82,7 +85,7 @@ internal class CA
     }
 
 
-    internal static bool ContainsAnyFromElementBool(string s, IList<string> list/*,
+    internal static bool ContainsAnyFromElementBool(string text, IList<string> list/*,
         bool acceptAsteriskForPassingAll = false*/)
     {
         if (list.Count == 1 && list.First() == "*") return true;
@@ -90,19 +93,19 @@ internal class CA
         var result = new List<int>();
 
         foreach (var item in list)
-            if (s.Contains(item))
+            if (text.Contains(item))
                 return true;
 
         return false;
     }
 
-    internal static void RemoveNullEmptyWs(List<string> l)
+    internal static void RemoveNullEmptyWs(List<string> list)
     {
-        for (int i = l.Count - 1; i >= 0; i--)
+        for (int i = list.Count - 1; i >= 0; i--)
         {
-            if (string.IsNullOrWhiteSpace(l[i]))
+            if (string.IsNullOrWhiteSpace(list[i]))
             {
-                l.RemoveAt(i);
+                list.RemoveAt(i);
             }
         }
     }
@@ -111,19 +114,19 @@ internal class CA
     ///     Direct edit input collection
     /// </summary>
     /// <param name="l"></param>
-    internal static List<string> Trim(List<string> l)
+    internal static List<string> Trim(List<string> list)
     {
-        for (var i = 0; i < l.Count; i++) l[i] = l[i].Trim();
-        return l;
+        for (var i = 0; i < list.Count; i++) list[i] = list[i].Trim();
+        return list;
     }
 
 
     internal static void DoubleOrMoreMultiLinesToSingle(ref string list)
     {
-        var n = Environment.NewLine;
+        var name = Environment.NewLine;
         list = Regex.Replace(list, @"(\r?\n\s*){2,}", Environment.NewLine + Environment.NewLine);
         list = list.Trim();
-        //list = list.Replace(n, n + n);
+        //list = list.Replace(name, name + name);
         // 27-10-23 dříve to bylo takhle
         //return list.Trim();
     }
@@ -131,17 +134,17 @@ internal class CA
     {
         for (int i = list.Count - 1; i >= 0; i--)
         {
-            var l = list[i];
-            if (string.IsNullOrWhiteSpace(l))
+            var list = list[i];
+            if (string.IsNullOrWhiteSpace(list))
             {
                 list[i] = list[i].Trim();
             }
         }
     }
 
-    static string Replace(string s, string from, string to)
+    static string Replace(string text, string from, string to)
     {
-        return s.Replace(from, to);
+        return text.Replace(from, to);
     }
 
     internal static void Replace(List<string> files_in, string what, string forWhat)

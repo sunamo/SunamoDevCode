@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 public class GlobalUsingsInstance
@@ -9,9 +12,9 @@ public class GlobalUsingsInstance
     {
         this.path = path;
         if (!File.Exists(path)) await File.WriteAllTextAsync(path, "");
-        var l = await File.ReadAllLinesAsync(path);
+        var list = await File.ReadAllLinesAsync(path);
 
-        r = GlobalUsingsHelper.Parse(l.ToList());
+        r = GlobalUsingsHelper.Parse(list.ToList());
     }
 
     public void AddNewGlobalUsing(string usng)
@@ -21,13 +24,13 @@ public class GlobalUsingsInstance
 
     public async Task Save()
     {
-        StringBuilder sb = new();
+        StringBuilder stringBuilder = new();
 
         foreach (var item in r.GlobalSymbols)
-            sb.AppendLine(GlobalUsingsHelper.global + item.Key + " = " + item.Value + ";");
+            stringBuilder.AppendLine(GlobalUsingsHelper.global + item.Key + " = " + item.Value + ";");
 
-        foreach (var item in r.GlobalUsings) sb.AppendLine(GlobalUsingsHelper.globalUsing + item + ";");
+        foreach (var item in r.GlobalUsings) stringBuilder.AppendLine(GlobalUsingsHelper.globalUsing + item + ";");
 
-        await File.WriteAllTextAsync(path, sb.ToString());
+        await File.WriteAllTextAsync(path, stringBuilder.ToString());
     }
 }

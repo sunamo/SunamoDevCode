@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._sunamo;
 
 internal class DictionaryHelper
@@ -8,14 +11,14 @@ internal class DictionaryHelper
     {
         if (filesInSolutionReal.ContainsKey(v))
         {
-            var r = filesInSolutionReal[v];
+            var result = filesInSolutionReal[v];
             if (postfixWithA2)
             {
-                if (!string.IsNullOrEmpty(v)) r = CA.PostfixIfNotEnding(v, r);
-                CA.Prepend(prefix, r);
+                if (!string.IsNullOrEmpty(v)) result = CA.PostfixIfNotEnding(v, result);
+                CA.Prepend(prefix, result);
             }
 
-            return r;
+            return result;
         }
 
         return new List<string>();

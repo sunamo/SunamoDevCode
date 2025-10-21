@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.FileFormats;
 
 public static class XmlLocalisationInterchangeFileFormat
@@ -97,11 +100,11 @@ TranslateEngine");
 
     public static char? GetLastLetter(XElement item, out string id)
     {
-        var t = GetTransUnit(item);
-        id = t.Item1;
-        if (t.Item2.Length > 0)
+        var temp = GetTransUnit(item);
+        id = temp.Item1;
+        if (temp.Item2.Length > 0)
         {
-            return t.Item2.Last();
+            return temp.Item2.Last();
         }
 
         return null;
@@ -151,13 +154,13 @@ TranslateEngine");
 
     public static IList<string> GetKeysInCsWithoutRLDataEn(ref string key, string content)
     {
-        List<string> c = new List<string>();
+        List<string> count = new List<string>();
 
         var occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
 
         occ.Reverse();
 
-        StringBuilder sb = new StringBuilder(content);
+        StringBuilder stringBuilder = new StringBuilder(content);
 
         foreach (var dx in occ)
         {
@@ -174,12 +177,12 @@ TranslateEngine");
 
             key = content.Substring(start, end - start);
 
-            c.Add(key);
+            count.Add(key);
         }
 
 
 
-        return c.Distinct().ToList();
+        return count.Distinct().ToList();
     }
 
 
@@ -194,13 +197,13 @@ TranslateEngine");
     /// <returns></returns>
     public static IList<string> GetKeysInCsWithRLDataEn(ref string key, string content, string file = "")
     {
-        List<string> c = new List<string>();
+        List<string> count = new List<string>();
 
         var occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.RLDataEn + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
 
         occ.Reverse();
 
-        StringBuilder sb = new StringBuilder(content);
+        StringBuilder stringBuilder = new StringBuilder(content);
 
         foreach (var dx in occ)
         {
@@ -209,7 +212,7 @@ TranslateEngine");
 
             key = content.Substring(start, end - start);
 
-            c.Add(key);
+            count.Add(key);
         }
 
         occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.SessI18n + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
@@ -228,10 +231,10 @@ TranslateEngine");
 
             key = content.Substring(start, end - start);
 
-            c.Add(key);
+            count.Add(key);
         }
 
-        return c.Distinct().ToList();
+        return count.Distinct().ToList();
     }
 
     #region Manage * edit in *.xlf
@@ -266,13 +269,13 @@ Into A1 insert:
 / - always path
          */
 
-        list = CAChangeContent.ChangeContent0(null, list, t => SHParts.RemoveAfterFirst(t, ' '));
+        list = CAChangeContent.ChangeContent0(null, list, temp => SHParts.RemoveAfterFirst(temp, ' '));
 
         var idsEndingOn = new List<string>();
         Dictionary<string, StringBuilder> result = new Dictionary<string, StringBuilder>();
 
         TextOutputGenerator tb = new TextOutputGenerator();
-        var d =
+        var data =
 #if ASYNC
             await
 #endif
@@ -283,12 +286,12 @@ Into A1 insert:
             result.Add(item, new StringBuilder());
         }
 
-        foreach (var item in d.trans_units)
+        foreach (var item in data.trans_units)
         {
             string id = null;
             var lastLetter = GetLastLetter(item, out id).ToString();
 
-            if (list.Any(d => d == lastLetter))
+            if (list.Any(data => data == lastLetter))
             {
                 result[lastLetter].AppendLine(GetTarget(item).Value);
                 idsEndingOn.Add(id);
@@ -301,7 +304,7 @@ Into A1 insert:
         {
             tb.Paragraph(item.Value, item.Key);
         }
-        return new OutRefDC<string, List<string>>(tb.sb.ToString(), idsEndingOn);
+        return new OutRefDC<string, List<string>>(tb.stringBuilder.ToString(), idsEndingOn);
     }
 
 
@@ -382,9 +385,9 @@ void
             System.Diagnostics.Debugger.Break();
         }
 
-        var t = SHSplit.SplitFromReplaceManyFormatList(pairsReplace);
-        var from = t.Item1;
-        var to = t.Item2;
+        var temp = SHSplit.SplitFromReplaceManyFormatList(pairsReplace);
+        var from = temp.Item1;
+        var to = temp.Item2;
 
         foreach (var item in xlfSolutions)
         {
@@ -448,13 +451,13 @@ List<string>
         List<string> ids = new List<string>();
         List<char> allLastLetters = new List<char>();
 
-        var d =
+        var data =
 #if ASYNC
             await
 #endif
                 GetTransUnits(fn);
         List<XElement> tus = new List<XElement>();
-        foreach (XElement item in d.trans_units)
+        foreach (XElement item in data.trans_units)
         {
             string id;
             var ch = GetLastLetter(item, out id);
@@ -473,7 +476,7 @@ List<string>
         if (saveAllLastLetterToClipboard)
         {
 
-            //ClipboardHelper.SetLines(allLastLetters.c.ConvertAll(d => d.ToString()));
+            //ClipboardHelper.SetLines(allLastLetters.count.ConvertAll(data => data.ToString()));
         }
 
         return ids;
@@ -498,7 +501,7 @@ string
             a = RemoveFromXlfWhichHaveEmptyTargetOrSourceArgs.Default;
         }
 
-        var d =
+        var data =
 #if ASYNC
             await
 #endif
@@ -507,9 +510,9 @@ string
 
         //string source =
 
-        for (int i = d.trans_units.Count - 1; i >= 0; i--)
+        for (int i = data.trans_units.Count - 1; i >= 0; i--)
         {
-            var item = d.trans_units[i];
+            var item = data.trans_units[i];
             var el = SourceTarget(item);
 
             if (xp == XlfParts.Source)
@@ -552,10 +555,10 @@ string
 
         if (a.save)
         {
-            d.xd.Save(fn);
+            data.xd.Save(fn);
         }
 
-        return d.xd.ToString();
+        return data.xd.ToString();
     }
 
     /// <summary>
@@ -571,20 +574,20 @@ void
 #endif
         TrimStringResources(string fn)
     {
-        var d =
+        var data =
 #if ASYNC
             await
 #endif
                 GetTransUnits(fn);
         List<XElement> tus = new List<XElement>();
-        foreach (XElement item in d.trans_units)
+        foreach (XElement item in data.trans_units)
         {
             XElement source = null;
             XElement target = null;
 
-            var t = SourceTarget(item);
-            source = t.Item1;
-            target = t.Item2;
+            var temp = SourceTarget(item);
+            source = temp.Item1;
+            target = temp.Item2;
 
             var id = Id(item);
 
@@ -594,7 +597,7 @@ void
             TrimValueIfNot(target);
         }
 
-        d.xd.Save(fn);
+        data.xd.Save(fn);
     }
 
 
@@ -619,14 +622,14 @@ void
             await
 #endif
                 File.ReadAllTextAsync(fn);
-        XlfData d = new XlfData();
+        XlfData data = new XlfData();
 
-        d.path = fn;
+        data.path = fn;
 
         XmlNamespacesHolder h = new XmlNamespacesHolder();
         h.ParseAndRemoveNamespacesXmlDocument(enS);
 
-        d.xd =
+        data.xd =
 #if ASYNC
             await
 #endif
@@ -634,15 +637,15 @@ void
 
         XHelper.AddXmlNamespaces(h.nsmgr);
 
-        XElement xliff = XHelper.GetElementOfName(d.xd, "xliff");
+        XElement xliff = XHelper.GetElementOfName(data.xd, "xliff");
         var allElements = XHelper.GetElementsOfNameWithAttrContains(xliff, "file", "target-language", toL.ToString());
         var resources = allElements.Where(d2 => XHelper.Attr(d2, "original").Contains("/" + "RESOURCES" + "/"));
         XElement file = resources.First();
         XElement body = XHelper.GetElementOfName(file, "body");
-        d.group = XHelper.GetElementOfName(body, "group");
-        d.trans_units = XHelper.GetElementsOfName(d.group, TransUnit.tTransUnit);
+        data.group = XHelper.GetElementOfName(body, "group");
+        data.trans_units = XHelper.GetElementsOfName(data.group, TransUnit.tTransUnit);
 
-        return d;
+        return data;
     }
     #endregion
 
@@ -662,26 +665,26 @@ void
 #endif
         Append(string source, string target, string pascal, string fn)
     {
-        var d =
+        var data =
 #if ASYNC
             await
 #endif
                 GetTransUnits(fn);
 
-        var exists = XHelper.GetElementOfNameWithAttr(d.group, TransUnit.tTransUnit, "id", pascal);
+        var exists = XHelper.GetElementOfNameWithAttr(data.group, TransUnit.tTransUnit, "id", pascal);
 
         if (exists != null)
         {
             return;
         }
 
-        Append(/*source,*/ target, pascal, d);
-        d.xd.Save(fn);
+        Append(/*source,*/ target, pascal, data);
+        data.xd.Save(fn);
 
         await XHelper.FormatXml(fn);
     }
 
-    public static void Append(/*string source, */string target, string pascal, XlfData d)
+    public static void Append(/*string source, */string target, string pascal, XlfData data)
     {
         TransUnit tu = new TransUnit();
         tu.id = pascal;
@@ -721,7 +724,7 @@ void
         XElement xe = XElement.Parse(xml);
         xe = XHelper.MakeAllElementsWithDefaultNs(xe);
 
-        d.group.Add(xe);
+        data.group.Add(xe);
     }
 
     #region Cooperating XlfKeys and *.xlf
@@ -746,7 +749,7 @@ List<string>
     {
         // Dont use, its also non czech with diacritic hats tuồng (hats bôi)
 
-        var d =
+        var data =
 #if ASYNC
             await
 #endif
@@ -756,7 +759,7 @@ List<string>
 
         if (p == XlfParts.Id)
         {
-            foreach (var item in d.trans_units)
+            foreach (var item in data.trans_units)
             {
                 string idTransUnit = null;
                 GetLastLetter(item, out idTransUnit);
@@ -777,7 +780,7 @@ List<string>
         else if (p == XlfParts.Target)
         {
 
-            foreach (var item in d.trans_units)
+            foreach (var item in data.trans_units)
             {
                 var target = GetTarget(item).Value;
                 string idTransUnit = null;
@@ -811,7 +814,7 @@ void
 #endif
         RemoveFromXlfAndXlfKeys(string fn, List<string> idsEndingEnd, XlfParts p)
     {
-        var d =
+        var data =
 #if ASYNC
             await
 #endif
@@ -823,7 +826,7 @@ void
         {
             for (int i = idsEndingEnd.Count - 1; i >= 0; i--)
             {
-                foreach (var item in d.trans_units)
+                foreach (var item in data.trans_units)
                 {
                     string idTransUnit = null;
                     GetLastLetter(item, out idTransUnit);
@@ -844,7 +847,7 @@ void
             {
                 removed = false;
 
-                foreach (var item in d.trans_units)
+                foreach (var item in data.trans_units)
                 {
                     var target = HtmlAssistant.HtmlDecode(GetTarget(item).Value);
                     var id = idsEndingEnd[i];
@@ -877,7 +880,7 @@ void
 
         await CSharpParser.RemoveConsts(XmlLocalisationInterchangeFileFormatSunamo.pathXlfKeys, idsEndingEnd);
 
-        d.xd.Save(fn);
+        data.xd.Save(fn);
     }
 
     public static
@@ -901,21 +904,21 @@ void
          */
         if (false)
         {
-            //XlfData d;
-            //var ids = GetIds(xlfPath, out d);
+            //XlfData data;
+            //var ids = GetIds(xlfPath, out data);
 
-            //d.xd.XPathSelectElement("/xliff/file[original=@'WPF.TESTS/RESOURCES/EN-US.RESX']");
+            //data.xd.XPathSelectElement("/xliff/file[original=@'WPF.TESTS/RESOURCES/EN-US.RESX']");
 
             //List<string> duplicated;
 
             //CAG.RemoveDuplicitiesList(ids, out duplicated);
 
-            //var b2 = d.xd.Descendants().Count();
+            //var b2 = data.xd.Descendants().Count();
 
 
             //foreach (var item in duplicated)
             //{
-            //    var elements = d.group.Elements().ToList();
+            //    var elements = data.group.Elements().ToList();
             //    for (int i = 0; i < elements.Count(); i++)
             //    {
             //        var id = XHelper.Attr(elements[i], "id");
@@ -927,9 +930,9 @@ void
             //    }
             //}
 
-            //var b3 = d.xd.Descendants().Count();
+            //var b3 = data.xd.Descendants().Count();
 
-            //d.xd.Save(xlfPath);
+            //data.xd.Save(xlfPath);
         }
 
 
@@ -945,7 +948,7 @@ void
 
         foreach (var item in duplicated)
         {
-            xlfData.trans_units.First(d => XHelper.Attr(d, "id") == item).Remove();
+            xlfData.trans_units.First(data => XHelper.Attr(data, "id") == item).Remove();
         }
 
         var outer = xlfData.xd.ToString();
@@ -1028,7 +1031,7 @@ void
 
         occ.Reverse();
 
-        StringBuilder sb = new StringBuilder(content);
+        StringBuilder stringBuilder = new StringBuilder(content);
 
         foreach (var dx in occ)
         {
@@ -1037,26 +1040,26 @@ void
 
             key = content.Substring(start, end - start);
 
-            sb.Remove(start - 1, end - start + 2);
-            sb.Insert(start - 1, XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot + key);
+            stringBuilder.Remove(start - 1, end - start + 2);
+            stringBuilder.Insert(start - 1, XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot + key);
         }
 
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 
 
 
     public static List<string> GetSunamoStrings()
     {
-        var l = sunamoStrings.ToList();
-        for (int i = 0; i < l.Count; i++)
+        var list = sunamoStrings.ToList();
+        for (int i = 0; i < list.Count; i++)
         {
-            l[i] = SHReplace.ReplaceOnce(l[i], SunamoNotTranslateAble.SessI18n + SunamoNotTranslateAble.XlfKeysDot, string.Empty).TrimEnd(')');
+            list[i] = SHReplace.ReplaceOnce(list[i], SunamoNotTranslateAble.SessI18n + SunamoNotTranslateAble.XlfKeysDot, string.Empty).TrimEnd(')');
         }
-        return l;
+        return list;
     }
 
-    public static string ReplaceSunamoStringsWithSessI18n(string c)
+    public static string ReplaceSunamoStringsWithSessI18n(string count)
     {
         var from = GetSunamoStrings();
         CA.Prepend("SunamoStrings.", from);
@@ -1064,9 +1067,9 @@ void
 
         for (int i = 0; i < from.Count; i++)
         {
-            c = c.Replace(from[i], to[i]);
+            count = count.Replace(from[i], to[i]);
         }
-        return c;
+        return count;
     }
 
 
@@ -1098,18 +1101,18 @@ OutRef<object, CollectionWithoutDuplicates<string>>
 
         Dictionary<string, string> idTarget = new Dictionary<string, string>();
 
-        var d =
+        var data =
 #if ASYNC
             await
 #endif
                 GetTransUnits(path);
 
-        foreach (var item in d.trans_units)
+        foreach (var item in data.trans_units)
         {
-            var t = GetTransUnit(item);
-            if (ids.Contains(t.Item1))
+            var temp = GetTransUnit(item);
+            if (ids.Contains(temp.Item1))
             {
-                idTarget.Add(t.Item1, t.Item2);
+                idTarget.Add(temp.Item1, temp.Item2);
             }
         }
 
@@ -1147,7 +1150,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
         foreach (var kv in filesWithXlf)
         {
             var content = kv.Value;
-            StringBuilder sb = new StringBuilder(content);
+            StringBuilder stringBuilder = new StringBuilder(content);
 
             replacedKeys.Clear();
 
@@ -1156,7 +1159,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
                 var item2 = XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot + item + "]";
                 var toReplace = XmlLocalisationInterchangeFileFormatSunamo.RLDataEn + item2;
 
-                var toString = sb.ToString();
+                var toString = stringBuilder.ToString();
                 var points = SH.ReturnOccurencesOfString(toString, toReplace);
                 var points2 = SH.ReturnOccurencesOfString(toString, item2);
 
@@ -1177,8 +1180,8 @@ OutRef<object, CollectionWithoutDuplicates<string>>
 
                     var dxNextChar = dx + toReplace.Length;
 
-                    sb.Remove(dx, toReplace.Length);
-                    sb.Insert(dx, SH.WrapWithQm(idTarget[item]));
+                    stringBuilder.Remove(dx, toReplace.Length);
+                    stringBuilder.Insert(dx, SH.WrapWithQm(idTarget[item]));
                 }
             }
 
@@ -1186,7 +1189,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
             if (replacedKeys.Count > 0)
             {
 
-                await File.WriteAllTextAsync(kv.Key, sb.ToString());
+                await File.WriteAllTextAsync(kv.Key, stringBuilder.ToString());
             }
         }
         return new OutRefDC<object, List<string>>(null, addToNotToTranslateStrings.Distinct().ToList());
@@ -1223,14 +1226,14 @@ OutRef<object, CollectionWithoutDuplicates<string>>
     /// </summary>
     /// <param name="c"></param>
     /// <returns></returns>
-    //public static string RemoveSessI18nIfLineContains(string c, params string[] lineCont)
+    //public static string RemoveSessI18nIfLineContains(string count, params string[] lineCont)
     //{
-    //    return RemoveSessI18nIfLineContainsWorker(c, removeSessI18nIfLineContains.ToArray());
+    //    return RemoveSessI18nIfLineContainsWorker(count, removeSessI18nIfLineContains.ToArray());
     //}
 
-    public static string RemoveSessI18nIfLineContains(string c)
+    public static string RemoveSessI18nIfLineContains(string count)
     {
-        return RemoveSessI18nIfLineContains(c, removeSessI18nIfLineContains);
+        return RemoveSessI18nIfLineContains(count, removeSessI18nIfLineContains);
     }
 
     /// <summary>
@@ -1239,20 +1242,20 @@ OutRef<object, CollectionWithoutDuplicates<string>>
     /// <param name="c"></param>
     /// <param name="lineCont"></param>
     /// <returns></returns>
-    public static string RemoveSessI18nIfLineContains(string c, IList<string> lineCont = null)
+    public static string RemoveSessI18nIfLineContains(string count, IList<string> lineCont = null)
     {
         if (lineCont == null || lineCont.Count == 0)
         {
             lineCont = removeSessI18nIfLineContains;
         }
 
-        c = XmlLocalisationInterchangeFileFormat.ReplaceRlDataToSessionI18n(c);
+        count = XmlLocalisationInterchangeFileFormat.ReplaceRlDataToSessionI18n(count);
 
-        var l = SHGetLines.GetLines(c);
+        var list = SHGetLines.GetLines(count);
         bool cont = false;
-        for (int i = l.Count - 1; i >= 0; i--)
+        for (int i = list.Count - 1; i >= 0; i--)
         {
-            var line = l[i];
+            var line = list[i];
             cont = false;
             foreach (var item in lineCont)
             {
@@ -1265,11 +1268,11 @@ OutRef<object, CollectionWithoutDuplicates<string>>
 
             if (cont)
             {
-                l[i] = RemoveAllSessI18n(l[i]);
+                list[i] = RemoveAllSessI18n(list[i]);
             }
         }
 
-        return string.Join(Environment.NewLine, l);
+        return string.Join(Environment.NewLine, list);
     }
 
     /// <summary>
@@ -1277,29 +1280,29 @@ OutRef<object, CollectionWithoutDuplicates<string>>
     /// </summary>
     /// <param name="c"></param>
     /// <returns></returns>
-    public static string RemoveAllSessI18n(string c)
+    public static string RemoveAllSessI18n(string count)
     {
-        var sb = new StringBuilder(c);
+        var stringBuilder = new StringBuilder(count);
 
         var sessI18n = XmlLocalisationInterchangeFileFormatSunamo.SessI18nShort;
 
-        var occ = SH.ReturnOccurencesOfString(c, sessI18n);
+        var occ = SH.ReturnOccurencesOfString(count, sessI18n);
         var ending = new List<int>(occ.Count);
 
         foreach (var item in occ)
         {
-            ending.Add(c.IndexOf(')', item));
+            ending.Add(count.IndexOf(')', item));
         }
 
-        var l = sessI18n.Length;
+        var list = sessI18n.Length;
 
         for (int i = occ.Count - 1; i >= 0; i--)
         {
-            sb = sb.Remove(ending[i], 1);
-            sb = sb.Remove(occ[i], l);
+            stringBuilder = stringBuilder.Remove(ending[i], 1);
+            stringBuilder = stringBuilder.Remove(occ[i], list);
         }
 
-        var result = sb.ToString();
+        var result = stringBuilder.ToString();
         return result;
     }
     public static Type type = typeof(XmlLocalisationInterchangeFileFormat);
@@ -1351,7 +1354,7 @@ OutRef<object, CollectionWithoutDuplicates<string>>
             }
         }
 
-        var l = from.Length;
+        var list = from.Length;
 
         content = content.Replace(XmlLocalisationInterchangeFileFormatSunamo.RLDataEn2, from);
 
@@ -1363,24 +1366,24 @@ OutRef<object, CollectionWithoutDuplicates<string>>
             ending.Add(io);
         }
 
-        StringBuilder sb = new StringBuilder(content);
+        StringBuilder stringBuilder = new StringBuilder(content);
 
         occ.Reverse();
         ending.Reverse();
 
         for (int i = 0; i < occ.Count; i++)
         {
-            sb.Remove(occ[i], l);
-            sb.Insert(occ[i], to);
+            stringBuilder.Remove(occ[i], list);
+            stringBuilder.Insert(occ[i], to);
 
             var ending2 = ending[i];
-            sb.Remove(ending2, 1);
-            sb.Insert(ending2, newEndingChar);
+            stringBuilder.Remove(ending2, 1);
+            stringBuilder.Insert(ending2, newEndingChar);
         }
 
-        var c = sb.ToString();
-        //TF.SaveFile(c, )
-        return c;
+        var count = stringBuilder.ToString();
+        //TF.SaveFile(count, )
+        return count;
     }
     public static string Id(XElement item)
     {

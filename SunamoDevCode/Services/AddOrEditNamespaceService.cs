@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.Services;
 
 public class AddOrEditNamespaceService
@@ -47,16 +50,16 @@ public class AddOrEditNamespaceService
         }
         return newNs2;
     }
-    private List<string> RemoveIfContainsMoreNamespace(List<string> l)
+    private List<string> RemoveIfContainsMoreNamespace(List<string> list)
     {
         // nemůžu to tu trimovat protože bych to dole nenašel. navíc je to asi zbytečné, jen by to snižovalo výkon
-        var nsLines = l.Where(d => d.StartsWith("namespace ") && d.EndsWith(";")).ToList();
+        var nsLines = list.Where(d => d.StartsWith("namespace ") && d.EndsWith(";")).ToList();
         foreach (var item in nsLines.Skip(1))
         {
-            var dx = l.IndexOf(item);
-            l.RemoveAt(dx);
+            var dx = list.IndexOf(item);
+            list.RemoveAt(dx);
         }
-        return l;
+        return list;
     }
     /// <summary>
     /// Pracovní metoda která se už volá na konkrétní soubor
@@ -82,20 +85,20 @@ public class AddOrEditNamespaceService
         {
             // .Trim() tu nemůže být protože pak mi to ořezává celý soubor a musím to znovu formátovat
             lines[i] = lines[i];
-            var l = lines[i];
-            isNsOuter = l.StartsWith("namespace");
+            var list = lines[i];
+            isNsOuter = list.StartsWith("namespace");
             if (isNsOuter)
             {
                 //isNsOuter = isNs;
                 dxNamespaceLine = i;
                 break;
             }
-            if (classCodeElements.Any(d => l.Contains(d)))
+            if (classCodeElements.Any(d => list.Contains(d)))
             {
                 break;
             }
             // vůbec nevím k čemu jsem tu dal tuto konstrukci
-            //if (l != "" && l.StartsWith("using") && l.StartsWith("global using") && isNsOuter)
+            //if (list != "" && list.StartsWith("using") && list.StartsWith("global using") && isNsOuter)
             //{
             //    lastIndexOfUsing = i - 1;
             //    break;
@@ -143,11 +146,11 @@ public class AddOrEditNamespaceService
             }
         }
         //// u jiných přidává prázdný řádek protože smazal }
-        //var t = SHJoin.JoinNL(lines, false, lines);
+        //var temp = SHJoin.JoinNL(lines, false, lines);
         //// Tohle jsem tu dal, když jsem byl dement a pracoval jsem v konzoli na neex cestě. Divil jsem se jaktože to v programu jde. Nebylo to tedy debug vs release jak jsem si původně myslel! Opět jsem hledal problém jinde než byl!
         ////if (item.EndsWith("XmlGenerator.cs"))
         ////{
-        ////    if (t != text)
+        ////    if (temp != text)
         ////    {
         ////        Console.WriteLine("Content changed, writing...");
         ////    }
@@ -156,9 +159,9 @@ public class AddOrEditNamespaceService
         ////        Console.WriteLine("Content NOT changed");
         ////    }
         ////}
-        //if (t != text)
+        //if (temp != text)
         //{
-        //    await TFCsFormat.WriteAllText(item, t);
+        //    await TFCsFormat.WriteAllText(item, temp);
         //}
         //await TFCsFormat.WriteAllLines(item, lines);
         return lines;
@@ -169,14 +172,14 @@ public class AddOrEditNamespaceService
     /// </summary>
     /// <param name="item"></param>
     /// <returns></returns>
-    private async Task<List<string>> RemoveFileScopedNamespaceWhenIsInSharpIf(List<string> l)
+    private async Task<List<string>> RemoveFileScopedNamespaceWhenIsInSharpIf(List<string> list)
     {
-        //var l = (await TF.ReadAllLines(item)).ToList();
+        //var list = (await TF.ReadAllLines(item)).ToList();
         List<int> dxNs = new List<int>();
         int dxElse = -1;
-        for (int i = 0; i < l.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            var line = l[i];
+            var line = list[i];
             // chyba byla tady že namespace bylo s mezerou. pak mi to nevrátilo tu v #if
             if (line.StartsWith("namespace"))
             {
@@ -199,27 +202,27 @@ public class AddOrEditNamespaceService
         {
             // tady nevím jestli to je správně. mám jen jeden řádek začínající namespace ale chci ho odstranit
             // proto to zakomentuji
-            //l.RemoveAt(dxNs.First());
-            //await TFCsFormat.WriteAllLines(item, l);
+            //list.RemoveAt(dxNs.First());
+            //await TFCsFormat.WriteAllLines(item, list);
         }
         else if (dxNs.Count > 1)
         {
             List<string> lines = new List<string>(dxNs.Count);
             foreach (var item2 in dxNs)
             {
-                lines.Add(l[item2]);
+                lines.Add(list[item2]);
             }
             // seřadím od nejmenší k největší
             var ordered = lines.OrderBy(d => d.Length).Skip(1);
             foreach (var item3 in ordered)
             {
-                l.Remove(item3);
+                list.Remove(item3);
             }
             // Řádky jen odstraňuje, není nutné formátovat
             // Zde se zapíšou jen změny - je to v else if
-            //await TFCsFormat.WriteAllLines(item, l);
+            //await TFCsFormat.WriteAllLines(item, list);
         }
-        return l;
+        return list;
     }
     /// <summary>
     /// Přidá nový file scoped namespace na začátek souboru

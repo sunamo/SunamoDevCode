@@ -1,3 +1,5 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 namespace SunamoDevCode.SunamoSolutionsIndexer.Enums;
 
 public enum ProjectsTypes
@@ -50,7 +52,7 @@ public enum ProjectsTypes
 
     None,
     /// <summary>
-    /// Pokud nem�m Projects slo�ku sp�rovanou. 
+    /// Pokud nem�m Projects slo�ku sp�rovanou. 
     /// </summary>
     Unknown
 }

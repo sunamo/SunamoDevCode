@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.ToNetCore.research;
 
 public class Shared
@@ -37,11 +40,11 @@ public class Shared
 
             if (b1 && b2)
             {
-                var b = SH.GetTextBetween(f, start, end, false);
+                var builder = SH.GetTextBetween(f, start, end, false);
 
-                if (b != replaceFor)
+                if (builder != replaceFor)
                 {
-                    f = SHReplace.ReplaceOnce(f, start + b + end, start + replaceFor + end);
+                    f = SHReplace.ReplaceOnce(f, start + builder + end, start + replaceFor + end);
                     await TF.WriteAllText(item, f);
                 }
             }

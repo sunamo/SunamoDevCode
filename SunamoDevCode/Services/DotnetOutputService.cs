@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.Services;
 
 public class DotnetOutputService
@@ -13,8 +16,8 @@ public class DotnetOutputService
         {
             return null;
         }
-        var p = SHSplit.SplitToParts(line2, 4, ":");
-        var p1Trim = p[1].Trim();
+        var parameter = SHSplit.SplitToParts(line2, 4, ":");
+        var p1Trim = parameter[1].Trim();
         string path = null;
         int line = -1;
         int column = -1;
@@ -26,13 +29,13 @@ public class DotnetOutputService
             var p4 = SHSplit.Split(last, ",");
             line = int.Parse(p4[0]);
             column = int.Parse(p4[1].TrimEnd(')'));
-            path = p[0] + ":" + string.Join("(", p3);
+            path = parameter[0] + ":" + string.Join("(", p3);
         }
         else
         {
-            path = p[0] + ":" + p1Trim;
+            path = parameter[0] + ":" + p1Trim;
         }
-        var p2 = SHSplit.Split(p[2].Trim(), " ");
+        var p2 = SHSplit.Split(parameter[2].Trim(), " ");
         string type = null;
         string errorCode = null;
         if (p2.Count > 1)
@@ -44,7 +47,7 @@ public class DotnetOutputService
         {
             return null;
         }
-        var message = p[3].Trim();
+        var message = parameter[3].Trim();
         return new DotnetBuildOutputLine { Path = path, Line = line, Column = column, Type = type, ErrorCode = errorCode, Message = message };
     }
 }

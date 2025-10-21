@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 using System.Collections.Generic;
@@ -7,10 +10,10 @@ public class GetSlns
 {
     public static List<string> GetSolutions(ILogger logger, bool onlyCs = false)
     {
-        var p = @"E:\vs\";
-        FoldersWithSolutions.PairProjectFolderWithEnum(logger, p);
-        FoldersWithSolutions d = new FoldersWithSolutions(logger, p, null, false);
-        d.Reload(logger, p, null);
+        var parameter = @"E:\vs\";
+        FoldersWithSolutions.PairProjectFolderWithEnum(logger, parameter);
+        FoldersWithSolutions d = new FoldersWithSolutions(logger, parameter, null, false);
+        d.Reload(logger, parameter, null);
 
         List<SolutionFolder> solutionFolders = d.Solutions(SunamoDevCode.Enums.RepositoryLocal.Vs17);
         if (onlyCs)

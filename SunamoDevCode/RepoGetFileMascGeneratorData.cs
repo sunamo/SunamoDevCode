@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 /// <summary>
@@ -17,22 +20,22 @@ public class RepoGetFileMascGeneratorData
 
     public int NumbersOf(bool b)
     {
-        var n = 0;
-        if (tsTsx == b) n++;
-        if (jsJsx == b) n++;
-        if (scss == b) n++;
-        if (json == b) n++;
-        if (yaml == b) n++;
-        if (css == b) n++;
-        if (cs == b) n++;
-        return n;
+        var name = 0;
+        if (tsTsx == b) name++;
+        if (jsJsx == b) name++;
+        if (scss == b) name++;
+        if (json == b) name++;
+        if (yaml == b) name++;
+        if (css == b) name++;
+        if (cs == b) name++;
+        return name;
     }
 
     public static RepoGetFileMascGeneratorData AllSourceCodes()
     {
-        var a = new RepoGetFileMascGeneratorData();
-        a.AllTo(true);
-        return a;
+        var argument = new RepoGetFileMascGeneratorData();
+        argument.AllTo(true);
+        return argument;
     }
 
     public void AllTo(bool v)
@@ -49,15 +52,15 @@ public class RepoGetFileMascGeneratorData
 
     public string Generate()
     {
-        var sb = new StringBuilder();
-        if (tsTsx) sb.Append("*.ts;*.tsx;");
-        if (jsJsx) sb.Append("*.js;*.jsx;");
-        if (scss) sb.Append("*.scss;");
-        if (json) sb.Append("*.json;");
-        if (yaml) sb.Append("*.yaml;");
-        if (css) sb.Append("*.css;");
-        if (cs) sb.Append("*.cs;");
+        var stringBuilder = new StringBuilder();
+        if (tsTsx) stringBuilder.Append("*.ts;*.tsx;");
+        if (jsJsx) stringBuilder.Append("*.js;*.jsx;");
+        if (scss) stringBuilder.Append("*.scss;");
+        if (json) stringBuilder.Append("*.json;");
+        if (yaml) stringBuilder.Append("*.yaml;");
+        if (css) stringBuilder.Append("*.css;");
+        if (cs) stringBuilder.Append("*.cs;");
 
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 }

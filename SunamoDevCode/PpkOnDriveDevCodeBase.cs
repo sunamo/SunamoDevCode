@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 public abstract class PpkOnDriveDevCodeBase<T> : List<T>
@@ -62,20 +65,20 @@ void
 
     public new async Task<bool> Add(T prvek)
     {
-        var b = false;
+        var builder = false;
         if (!Contains(prvek))
         {
             if (prvek.ToString().Trim() != string.Empty)
             {
                 base.Add(prvek);
-                b = true;
+                builder = true;
             }
             // keep on false
         }
 
         // keep on false
         await Save();
-        return b;
+        return builder;
     }
 
     private void Load(bool loadImmediately)
@@ -107,9 +110,9 @@ void
     private string ReturnContent()
     {
         string obsah;
-        var sb = new StringBuilder();
-        foreach (var var in this) sb.AppendLine(var.ToString());
-        obsah = sb.ToString();
+        var stringBuilder = new StringBuilder();
+        foreach (var var in this) stringBuilder.AppendLine(var.ToString());
+        obsah = stringBuilder.ToString();
         return obsah;
     }
 

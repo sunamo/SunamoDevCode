@@ -1,22 +1,25 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 public class GenerateJson
 {
-    public static Dictionary<string, string> WithSnakeConventionDict(List<string> l)
+    public static Dictionary<string, string> WithSnakeConventionDict(List<string> list)
     {
-        var d = new Dictionary<string, string>();
-        foreach (var item in l) d.Add(ConvertSnakeConvention.ToConvention(item), item);
-        return d;
+        var dictionary = new Dictionary<string, string>();
+        foreach (var item in list) dictionary.Add(ConvertSnakeConvention.ToConvention(item), item);
+        return dictionary;
     }
 
-    public static string WithSnakeConvention(List<string> l)
+    public static string WithSnakeConvention(List<string> list)
     {
-        var d = WithSnakeConventionDict(l);
-        var sb = new StringBuilder();
-        sb.AppendLine("{");
-        foreach (var item in d) sb.AppendLine($"{SH.WrapWithQm(item.Key) + ": " + SH.WrapWithQm(item.Value)},");
-        sb.AppendLine("}");
+        var dictionary = WithSnakeConventionDict(list);
+        var stringBuilder = new StringBuilder();
+        stringBuilder.AppendLine("{");
+        foreach (var item in dictionary) stringBuilder.AppendLine($"{SH.WrapWithQm(item.Key) + ": " + SH.WrapWithQm(item.Value)},");
+        stringBuilder.AppendLine("}");
 
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 }

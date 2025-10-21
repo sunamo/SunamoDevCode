@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 /// <summary>
@@ -57,10 +60,10 @@ void
             if (removeDuplicates)
             {
                 //CAG.RemoveDuplicitiesList<string>(this);
-                var d = this.ToList();
+                var data = this.ToList();
                 await Clear();
-                d = d.Distinct().ToList();
-                AddRange(d);
+                data = data.Distinct().ToList();
+                AddRange(data);
             }
         }
     }

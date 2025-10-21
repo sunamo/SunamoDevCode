@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFoldersNs;
 
 public class SolutionFolders : List<SolutionFolder>
@@ -29,9 +32,9 @@ public class SolutionFolders : List<SolutionFolder>
         {
             names = this.Select(s => s.nameSolution).ToList();
         }
-        var d = CAG.GetDuplicities(names.ToList());
+        var data = CAG.GetDuplicities(names.ToList());
         {
-            ThrowEx.DuplicatedElements("d", d);
+            ThrowEx.DuplicatedElements("d", data);
         }
     }
 }

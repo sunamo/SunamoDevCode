@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode._public.SunamoData.Data;
 
 public class FromToTSHDC<T>
@@ -8,8 +11,8 @@ public class FromToTSHDC<T>
     protected long toL;
     public FromToTSHDC()
     {
-        var t = typeof(T);
-        if (t == typeof(int)) ftUse = FromToUseDC.None;
+        var type = typeof(type);
+        if (type == typeof(int)) ftUse = FromToUseDC.None;
     }
     /// <summary>
     ///     Use Empty contstant outside of class
@@ -26,20 +29,20 @@ public class FromToTSHDC<T>
     /// <param name="from"></param>
     /// <param name="to"></param>
     /// <param name="ftUse"></param>
-    public FromToTSHDC(T from, T to, FromToUseDC ftUse = FromToUseDC.DateTime) : this()
+    public FromToTSHDC(type from, type to, FromToUseDC ftUse = FromToUseDC.DateTime) : this()
     {
         this.from = from;
         this.to = to;
         this.ftUse = ftUse;
     }
-    public T from
+    public type from
     {
-        get => (T)(dynamic)fromL;
+        get => (type)(dynamic)fromL;
         set => fromL = (long)(dynamic)value;
     }
-    public T to
+    public type to
     {
-        get => (T)(dynamic)toL;
+        get => (type)(dynamic)toL;
         set => toL = (long)(dynamic)value;
     }
     public long FromL => fromL;

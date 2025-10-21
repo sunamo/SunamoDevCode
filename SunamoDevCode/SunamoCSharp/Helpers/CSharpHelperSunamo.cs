@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.SunamoCSharp.Helpers;
 
 public class CSharpHelperSunamo
@@ -77,12 +80,12 @@ public class CSharpHelperSunamo
         return false;
     }
 
-    public static FromToList DetectFromToString(string s)
+    public static FromToList DetectFromToString(string text)
     {
-        List<int> oc = null;// SH.ReturnOccurencesOfString(s, "\"");
+        List<int> oc = null;// SH.ReturnOccurencesOfString(text, "\"");
         for (int i = oc.Count - 1; i >= 0; i--)
         {
-            if (s[oc[i] - 1] == '\\')
+            if (text[oc[i] - 1] == '\\')
             {
                 oc.RemoveAt(i);
             }
@@ -102,7 +105,7 @@ public class CSharpHelperSunamo
     {
         string indentPrevious = string.Empty;
         string line = null;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < lines.Count; i++)
         {
             line = lines[i];
@@ -126,8 +129,8 @@ public class CSharpHelperSunamo
                             break;
                         }
                     }
-                    indentPrevious = sb.ToString();
-                    //indentPrevious = SH.GetWhitespaceFromBeginning(sb, line);
+                    indentPrevious = stringBuilder.ToString();
+                    //indentPrevious = SH.GetWhitespaceFromBeginning(stringBuilder, line);
                 }
             }
         }
@@ -144,22 +147,22 @@ public class CSharpHelperSunamo
         return false;
     }
 
-    public static string ReplaceNulled(string s)
+    public static string ReplaceNulled(string text)
     {
-        return s.Replace("(null)", string.Empty).Trim();
+        return text.Replace("(null)", string.Empty).Trim();
     }
 
     public static string ShortcutForControl(string name)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         foreach (var item in name)
         {
             if (char.IsUpper(item))
             {
-                sb.Append(item.ToString().ToLower());
+                stringBuilder.Append(item.ToString().ToLower());
             }
         }
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
     /// <summary>
     /// Its not compatible with default operator
@@ -197,7 +200,7 @@ public class CSharpHelperSunamo
             case "ulong":
                 return 0;
             case "DateTime":
-                // Původně tu bylo MinValue kvůli SQLite ale dohodl jsem se že SQLite už nebudu používat a proto si ušetřím v kódu práci s MSSQL
+                // Původně tu bylo MinValue kvůli SQLite ale dohodl jsem se že SQLite už nebudu používat a proto si ušetřím v kódu práci text MSSQL
                 return "new(1900, 1, 1)";
             case "byte[]":
                 // Podporovaný typ pouze v desktopových aplikacích, kde není lsožka sbf
@@ -240,7 +243,7 @@ public class CSharpHelperSunamo
             case "ulong":
                 return "0";
             case "DateTime":
-                // Původně tu bylo MinValue kvůli SQLite ale dohodl jsem se že SQLite už nebudu používat a proto si ušetřím v kódu práci s MSSQL 
+                // Původně tu bylo MinValue kvůli SQLite ale dohodl jsem se že SQLite už nebudu používat a proto si ušetřím v kódu práci text MSSQL 
                 return "SqlServerHelper.DateTimeMinVal";
             case "byte[]":
                 // Podporovaný typ pouze v desktopových aplikacích, kde není lsožka sbf

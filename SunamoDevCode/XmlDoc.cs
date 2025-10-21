@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode;
 
 public class XmlDoc
@@ -17,9 +20,9 @@ public class XmlDoc
     private void Prefix(string v)
     {
         v = v.Replace("\r", "");
-        var p = v.Split('\n');
+        var parameter = v.Split('\n');
 
-        foreach (var item in p) sb.AppendLine("/// " + item);
+        foreach (var item in parameter) sb.AppendLine("/// " + item);
     }
 
     public void SummaryEnd(bool appendLine = true)

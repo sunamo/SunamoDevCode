@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
@@ -26,8 +29,8 @@ public partial class MoveToNet5
 #endif
  ChangeConvertNonWebPlatformTargetTo(ILogger logger, string replaceFor)
     {
-        var t = WebAndNonWebProjects(logger);
-        var tt = t.Item2;
+        var temp = WebAndNonWebProjects(logger);
+        var tt = temp.Item2;
 
         replaceFor =
 #if ASYNC
@@ -46,11 +49,11 @@ public partial class MoveToNet5
     public void ClearUnnecessaryFromNonWeb(ILogger logger, string folderWithTemporaryMovedContentWithoutBackslash)
     {
         Console.WriteLine("ClearUnnecessaryFromNonWeb");
-        var t = WebAndNonWebSlns();
+        var temp = WebAndNonWebSlns();
 
-        Console.WriteLine("t.Item2.Count: " + t.Item2.Count);
+        Console.WriteLine("temp.Item2.Count: " + temp.Item2.Count);
 
-        foreach (var item in t.Item2)
+        foreach (var item in temp.Item2)
         {
             DeleteTemporaryFilesFromSolution.ClearSolution(logger, item, true, folderWithTemporaryMovedContentWithoutBackslash);
         }
@@ -285,7 +288,7 @@ System.Net.Http.Primitives
         if (n != tf)
         {
 #if DEBUG
-            var l =
+            var list =
 #if ASYNC
     await
 #endif
@@ -295,7 +298,7 @@ System.Net.Http.Primitives
 #if ASYNC
             await
 #endif
-            TF.WriteAllLines(nf, l);
+            TF.WriteAllLines(nf, list);
 #endif
 
             await XmlDocumentsCache.Set(pathCsproj, n);
@@ -332,24 +335,24 @@ System.Net.Http.Primitives
 #endif
  CommentAssemblyInfoCsFiles(ILogger logger)
     {
-        var d = WebAndNonWebProjects(logger);
+        var data = WebAndNonWebProjects(logger);
         var lc = "//";
 
-        foreach (var item in d.Item2)
+        foreach (var item in data.Item2)
         {
             var d2 = FS.GetDirectoryName(item);
             var ass = FSGetFiles.GetFiles(logger, d2, "AssemblyInfo.cs", true);
             foreach (var item2 in ass)
             {
-                var l =
+                var list =
 #if ASYNC
     await
 #endif
  TF.ReadAllLines(item2);
-                if (!l.All(r => r.StartsWith(lc)))
+                if (!list.All(r => r.StartsWith(lc)))
                 {
-                    CA.StartingWith(lc, l);
-                    await TF.WriteAllLines(item2, l);
+                    CA.StartingWith(lc, list);
+                    await TF.WriteAllLines(item2, list);
                 }
             }
         }
