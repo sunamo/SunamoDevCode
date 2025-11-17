@@ -167,7 +167,7 @@ public class CsFileFilter : ICsFileFilter
     {
         if (!containsArgs.objFp && itemPath.Contains(@"\obj\")) return false;
         if (!containsArgs.binFp && itemPath.Contains(@"\bin\")) return false;
-        if (!c.tildaRF && i.Contains(@"RF~")) return false;
+        if (!containsArgs.tildaRF && itemPath.Contains(@"RF~")) return false;
 
         return true;
     }
@@ -315,12 +315,12 @@ public class CsFileFilter : ICsFileFilter
     public bool AllowOnly(string item, bool alsoEnds)
     {
         var end2 = true;
-        return !AllowOnly(item, e, c, ref end2, alsoEnds);
+        return !AllowOnly(item, endArgs, containsArgs, ref end2, alsoEnds);
     }
 
     public bool AllowOnlyContains(string i)
     {
-        return !AllowOnlyContains(i, c);
+        return !AllowOnlyContains(i, containsArgs);
     }
 
     #endregion

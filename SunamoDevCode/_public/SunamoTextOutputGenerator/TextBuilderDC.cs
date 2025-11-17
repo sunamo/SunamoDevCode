@@ -119,9 +119,9 @@ public class TextBuilderDC
     }
     public void Append(object text)
     {
-        string text = text.ToString();
-        SetUndo(text);
-        Append(text);
+        string textString = text.ToString();
+        SetUndo(textString);
+        Append(textString);
     }
     public void AppendLine()
     {

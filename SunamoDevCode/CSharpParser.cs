@@ -5,7 +5,7 @@ namespace SunamoDevCode;
 public class CSharpParser
 {
     public const string p = "public ";
-
+    public const string parameter = "static readonly ";
 
     //public const string c = "const string";
 

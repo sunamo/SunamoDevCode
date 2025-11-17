@@ -20,7 +20,7 @@ public class TFCsFormat
             if (classCodeElements.Any(d => line.Contains(d)))
             {
                 for (var yValue = i - 1; yValue >= 0; yValue--)
-                    if (d[y].StartsWith("//"))
+                    if (d[yValue].StartsWith("//"))
                         i--;
                     else
                         break;

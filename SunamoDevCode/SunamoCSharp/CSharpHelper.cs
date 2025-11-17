@@ -11,7 +11,7 @@ public static class CSharpHelper
     #region Cs files
     public static string RemoveUsing(string text, CollectionWithoutDuplicatesDC<string> removed)
     {
-        foreach (var result in removed.count)
+        foreach (var result in removed.c)
         {
             text = SHReplace.ReplaceOnce(text, "using " + result + ";", string.Empty);
         }
@@ -979,9 +979,9 @@ public static class CSharpHelper
         {
             var parameter = SHSplit.SplitByWhiteSpaces(item);
             var count = parameter.Count;
-            StringBuilder sb2 = new StringBuilder(parameter[c - 1]);
+            StringBuilder sb2 = new StringBuilder(parameter[count - 1]);
             sb2[0] = char.ToLower(sb2[0]);
-            result.Add(sb2.ToString(), parameter[c - 2]);
+            result.Add(sb2.ToString(), parameter[count - 2]);
         }
         return result;
     }

@@ -40,7 +40,7 @@ public class TypeScriptHelper
 
         if (defaultValueForType.ContainsKey(temp))
         {
-            var result = defaultValueForType[t];
+            var result = defaultValueForType[temp];
             if (temp == "string")
             {
                 result = result.Insert(1, prefixIfString);

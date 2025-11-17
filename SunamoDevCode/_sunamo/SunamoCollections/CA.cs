@@ -53,7 +53,7 @@ internal class CA
     internal static List<string> StartingWith(string v, List<string> list)
     {
         for (var i = list.Count - 1; i >= 0; i--)
-            if (!l[i].StartsWith(v))
+            if (!list[i].StartsWith(v))
                 list.RemoveAt(i);
         return list;
     }
@@ -134,8 +134,8 @@ internal class CA
     {
         for (int i = list.Count - 1; i >= 0; i--)
         {
-            var list = list[i];
-            if (string.IsNullOrWhiteSpace(list))
+            var item = list[i];
+            if (string.IsNullOrWhiteSpace(item))
             {
                 list[i] = list[i].Trim();
             }

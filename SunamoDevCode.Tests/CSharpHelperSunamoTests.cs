@@ -1,4 +1,5 @@
-
+using SunamoStringGetLines;
+using SunamoString;
 
 public class CSharpHelperSunamoTests
 {
