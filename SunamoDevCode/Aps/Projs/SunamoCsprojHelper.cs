@@ -1,52 +1,51 @@
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-
 namespace SunamoDevCode.Aps.Projs;
-
-public class SunamoCsprojHelper
+public partial class SunamoCsprojHelper
 {
     /// <summary>
     /// public should be only DetectNetVersion
     /// </summary>
-    /// <param name="fileOrContent"></param>
-    /// <param name="netstandard"></param>
+    /// <param name = "fileOrContent"></param>
+    /// <param name = "netstandard"></param>
     /// <returns></returns>
     /// <summary>
     /// public should be only DetectNetVersion
     /// mmust have postfix 2 because IsProjectCsprojSdkStyleIsCore have also same arg method
     /// </summary>
-    /// <param name="fileOrContent"></param>
+    /// <param name = "fileOrContent"></param>
     /// <returns></returns>
-    private static
+    private static 
 #if ASYNC
     async Task<bool>
 #else
-    bool
+    bool 
 #endif
- IsProjectCsprojSdkStyleIsCore(string fileOrContent, bool onlyContentIsPassed)
+    IsProjectCsprojSdkStyleIsCore(string fileOrContent, bool onlyContentIsPassed)
     {
         if (!onlyContentIsPassed)
         {
-            if (!fileOrContent.StartsWith("<") &&
- FS.ExistsFile(fileOrContent))
+            if (!fileOrContent.StartsWith("<") && FS.ExistsFile(fileOrContent))
             {
-                fileOrContent =
+                fileOrContent = 
 #if ASYNC
     await
 #endif
- TF.ReadAllText(fileOrContent);
+                TF.ReadAllText(fileOrContent);
             }
         }
+
         // bez ukončení závorkama protože může být i <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop"> atd.
         return fileOrContent.Contains("Sdk=\"Microsoft.NET.Sdk");
     }
-    public static
+
+    public static 
 #if ASYNC
     async Task<IsProjectCsprojSdkStyleResult>
 #else
-    IsProjectCsprojSdkStyleResult
+    IsProjectCsprojSdkStyleResult 
 #endif
-         IsProjectCsprojSdkStyleIsCore(string fileOrContent)
+    IsProjectCsprojSdkStyleIsCore(string fileOrContent)
     {
         bool netstandard = false;
 #if DEBUG
@@ -54,10 +53,9 @@ public class SunamoCsprojHelper
         {
         }
 #endif
-        if (!fileOrContent.StartsWith("<") &&
- FS.ExistsFile(fileOrContent))
+        if (!fileOrContent.StartsWith("<") && FS.ExistsFile(fileOrContent))
         {
-            var xd =
+            var xd = 
 #if ASYNC
             await
 #endif
@@ -66,38 +64,42 @@ public class SunamoCsprojHelper
             {
                 return null;
             }
+
             fileOrContent = xd.Data.OuterXml;
         }
+
         if (fileOrContent.Contains("<TargetFramework>netstandard2.0</TargetFramework>"))
         {
             netstandard = true;
         }
+
         return new IsProjectCsprojSdkStyleResult
         {
             content = fileOrContent,
-            isProjectCsprojSdkStyleIsCore =
+            isProjectCsprojSdkStyleIsCore = 
 #if ASYNC
     await
 #endif
- IsProjectCsprojSdkStyleIsCore(fileOrContent, true),
+            IsProjectCsprojSdkStyleIsCore(fileOrContent, true),
             isNetstandard = netstandard
         };
     }
+
     /// <summary>
     /// Whether is old .net fw, version
     /// </summary>
-    /// <param name="csprojContent"></param>
-    /// <param name="path"></param>
+    /// <param name = "csprojContent"></param>
+    /// <param name = "path"></param>
     /// <returns></returns>
-    public static
+    public static 
 #if ASYNC
     async Task<Tuple<bool, string>>
 #else
-    Tuple<bool, string>
+    Tuple<bool, string> 
 #endif
-         DetectNetVersion(string path)
+    DetectNetVersion(string path)
     {
-        var xml =
+        var xml = 
 #if ASYNC
         await
 #endif
@@ -106,16 +108,18 @@ public class SunamoCsprojHelper
         {
             return null;
         }
+
         if (xml.Data == null)
         {
             return null;
         }
+
         var csprojContent = xml.Data.OuterXml;
-        var isNew =
+        var isNew = 
 #if ASYNC
     await
 #endif
- IsProjectCsprojSdkStyleIsCore(csprojContent, true);
+        IsProjectCsprojSdkStyleIsCore(csprojContent, true);
         if (isNew)
         {
             //// Probably will be first because "You need to reference the Microsoft.Build.Engine assembly"
@@ -130,26 +134,27 @@ public class SunamoCsprojHelper
             //    select item;
             var list = SHGetLines.GetLines(csprojContent);
             // žádný https://www.nuget.org/packages?q=Sunamo+Metaproject není, proto není ani TargetFramework a ctor text 2Mi args
-            var csp = CsprojFileParser.ParseCsproj(/*list,*/ path);
+            var csp = CsprojFileParser.ParseCsproj( /*list,*/path);
             return new Tuple<bool, string>(isNew, /*csp.TargetFramework*/ null);
         }
-        var value =
-            FrameworkNameDetector.Detect(path);
+
+        var value = FrameworkNameDetector.Detect(path);
         return new Tuple<bool, string>(isNew, VersionHelper.RemovePartsWhichIsZero(value.Version));
     }
-    public static
+
+    public static 
 #if ASYNC
     async Task<SupportedNetFw>
 #else
-    SupportedNetFw
+    SupportedNetFw 
 #endif
-         DetectNetVersion2(string path)
+    DetectNetVersion2(string path)
     {
-        var temp =
+        var temp = 
 #if ASYNC
             await
 #endif
-            DetectNetVersion(path);
+        DetectNetVersion(path);
         if (temp != null)
         {
             if (temp.Item1)
@@ -164,34 +169,38 @@ public class SunamoCsprojHelper
                 {
                     return SupportedNetFw.net48;
                 }
+
                 return SupportedNetFw.None;
             }
         }
+
         return SupportedNetFw.BadXml;
     }
-    public static
+
+    public static 
 #if ASYNC
         async Task<List<string>>
 #else
-        List<string>
+    List<string> 
 #endif
-        BuildProjectsDependencyTreeList(string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged)
+    BuildProjectsDependencyTreeList(string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged)
     {
         XmlDocumentsCache.cantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull.Clear();
-        var result =
+        var result = 
 #if ASYNC
             await
 #endif
-            BuildProjectsDependencyTree2(csproj, dictToAvoidCollectionWasChanged);
+        BuildProjectsDependencyTree2(csproj, dictToAvoidCollectionWasChanged);
         return result.c;
     }
-    static
+
+    static 
 #if ASYNC
         async Task<CollectionWithoutDuplicatesDC<string>>
 #else
-        CollectionWithoutDuplicates<string>
+    CollectionWithoutDuplicates<string> 
 #endif
-        BuildProjectsDependencyTree2(string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
+    BuildProjectsDependencyTree2(string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
     {
         CollectionWithoutDuplicatesDC<string> path = new CollectionWithoutDuplicatesDC<string>();
 #if ASYNC
@@ -200,42 +209,44 @@ public class SunamoCsprojHelper
         BuildProjectsDependencyTree(path, csproj, dictToAvoidCollectionWasChanged);
         return path;
     }
-    static
+
+    static 
 #if ASYNC
         async Task
 #else
-        void
+    void 
 #endif
-        BuildProjectsDependencyTree(CollectionWithoutDuplicatesDC<string> path, string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
+    BuildProjectsDependencyTree(CollectionWithoutDuplicatesDC<string> path, string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
     {
         //E:\vs\Projects\PhotosSczClientCmd\PhotosSczClientCmd\PhotosSczClientCmd.csproj
         if (Ignored.IsIgnored(csproj))
         {
             return;
         }
+
         // Tohle je nějaké jeblé. value této situaci mám už jen nepoškozené projekty.
         // Třeba pro E:\vs\Projects\AllProjectsSearch.Cmd.CsprojPaths\AllProjectsSearch.Cmd.CsprojPaths\AllProjectsSearch.Cmd.CsprojPaths.csproj
         // mi to vyhodilo chybu ale když jsem pustil znovu jen text tímto souborem, prošlo to
-        var result =
+        var result = 
 #if ASYNC
             await
 #endif
-            VsProjectsFileHelper.GetProjectReferences(csproj, dictToAvoidCollectionWasChanged);
+        VsProjectsFileHelper.GetProjectReferences(csproj, dictToAvoidCollectionWasChanged);
         if (result.projs == null)
         {
             // teď to laď krok za krokem
-            result =
+            result = 
 #if ASYNC
                 await
 #endif
-                VsProjectsFileHelper.GetProjectReferences(csproj, null);
+            VsProjectsFileHelper.GetProjectReferences(csproj, null);
             if (result.projs == null)
             {
-                result =
+                result = 
 #if ASYNC
                     await
 #endif
-                    VsProjectsFileHelper.GetProjectReferences(csproj, dictToAvoidCollectionWasChanged);
+                VsProjectsFileHelper.GetProjectReferences(csproj, dictToAvoidCollectionWasChanged);
                 System.Diagnostics.Debugger.Break();
             }
             else
@@ -243,27 +254,28 @@ public class SunamoCsprojHelper
                 XmlDocumentsCache.cantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull.Add(csproj);
             }
         }
+
         // Nechápu jak je to možné ale pro někteér projekty na vps mi to vrací cesty jak existují na mb. proto musím kontrolovat na null
         if (result.projs != null)
         {
             path.AddRange(result.projs);
             foreach (var item in result.projs)
             {
-                if (
- FS.ExistsFile(item))
+                if (FS.ExistsFile(item))
                 {
                     await BuildProjectsDependencyTree(path, item, dictToAvoidCollectionWasChanged);
                 }
             }
         }
     }
-    public static
+
+    public static 
 #if ASYNC
         async Task
 #else
-        void
+    void 
 #endif
-        AddMissingProjects(SolutionFolder sln, bool addAlsoDepencies = false)
+    AddMissingProjects(SolutionFolder sln, bool addAlsoDepencies = false)
     {
         var text = ApsHelper.ci.MainSln(sln);
         if (text == null)
@@ -271,120 +283,10 @@ public class SunamoCsprojHelper
             ThisApp.Error($"Sln with name {sln.nameSolution} doesn't have main sln");
             return;
         }
+
 #if ASYNC
         await
 #endif
         AddMissingProjectsAlsoString(text, addAlsoDepencies);
-    }
-    public static Type type = typeof(SunamoCsprojHelper);
-    /// <summary>
-    /// Must be async
-    /// </summary>
-    /// <param name="s"></param>
-    /// <param name="addAlsoDepencies"></param>
-    /// <returns></returns>
-    public static
-#if ASYNC
-        async Task<object>
-#else
-        object
-#endif
-        AddMissingProjectsAlsoString(object text, bool addAlsoDepencies = false)
-    {
-        throw new Exception("Používá se tu fubucsproj. přepsat do dotnet cmd");
-        //        string ts2 = null;
-        //        var sfs = new SolutionFolderSerialize();
-        //        sfs.slnFullPath = ts2;
-        //        SolutionFolder sln = null;
-        //        var ts = text.GetType();
-        //        if (ts == Types.tString)
-        //        {
-        //            ts2 = text.ToString();
-        //            if (ts2.EndsWith(AllExtensions.sln))
-        //            {
-        //                ts2 = FS.GetDirectoryName(ts2);
-        //            }
-        //            sln = FoldersWithSolutions.CreateSolutionFolder(ts2, SellingUCAps.toSelling);
-        //        }
-        //        else if (ts == SolutionFolder.type)
-        //        {
-        //            sln = (SolutionFolder)text;
-        //            ts2 = ApsHelper.ci.MainSln(sln);
-        //        }
-        //        else if (ts == SolutionFolderSerialize.type)
-        //        {
-        //            sln = new SolutionFolder((SolutionFolderSerialize)text);
-        //            ts2 = ApsHelper.ci.MainSln(sln);
-        //        }
-        //        else
-        //        {
-        //            ThrowEx.NotImplementedCase(ts);
-        //        }
-        //        FubuCsprojFile.Solution solution =
-        //#if ASYNC
-        //    await
-        //#endif
-        // FubuCsprojFile.Solution.LoadFrom(text.ToString());
-        //        sln.projectsInSolution = SolutionsIndexerHelper.ProjectsInSolution(true, sln.fullPathFolder);
-        //        var pr = sln.projectsInSolution;
-        //        CollectionWithoutDuplicates<string> projectsOnWhichDepend = new CollectionWithoutDuplicates<string>();
-        //        foreach (var prr in pr)
-        //        {
-        //            var path = Path.Combine(sln.fullPathFolder, prr);
-        //            var d2 = ApsHelper.ci.GetCsprojsOnlyTopDirectory(path);
-        //            foreach (var item2 in d2)
-        //            {
-        //                FubuCsprojFile.CsprojFile csp = new CsprojFile(item2);
-        //                if (!csp.IsValidXml)
-        //                {
-        //                    continue;
-        //                }
-        //                if (addAlsoDepencies)
-        //                {
-        //#if ASYNC
-        //                    await
-        //#endif
-        //                    SunamoCsprojHelper.BuildProjectsDependencyTree(projectsOnWhichDepend, item2);
-        //                }
-        //#if DEBUG
-        //                //if (item2.Contains("SunamoCef"))
-        //                //{
-        //                //}
-        //#endif
-        //                solution.AddProject(csp);
-        //            }
-        //        }
-        //        var allGlobalCsprojs =
-        //#if ASYNC
-        //            await
-        //#endif
-        //            FoldersWithSolutions.AllGlobalCsprojs();
-        //        allGlobalCsprojs = FoldersWithSolutions.allCsprojGlobal;
-        //        foreach (var item2 in projectsOnWhichDepend.c)
-        //        {
-        //            string item = item2;
-        //            if (!
-        // FS.ExistsFile(item))
-        //            {
-        //                var fnwoe = Path.GetFileNameWithoutExtension(item);
-        //                if (allGlobalCsprojs.ContainsKey(fnwoe))
-        //                {
-        //                    item = allGlobalCsprojs[fnwoe].First();
-        //                }
-        //            }
-        //            if (FS.ExistsFile(item))
-        //            {
-        //                //var f = solution.Projects.FirstOrDefault(d => d.ProjectName.Contains("Scz.import"));
-        //                var csp = new CsprojFile(item);
-        //                if (!csp.IsValidXml)
-        //                {
-        //                    continue;
-        //                }
-        //                solution.AddProject(csp);
-        //            }
-        //        }
-        //        solution.Save();
-        //        // just for mark as finised for PB after done item (void can't be passed as finished object)
-        //        return solution;
     }
 }

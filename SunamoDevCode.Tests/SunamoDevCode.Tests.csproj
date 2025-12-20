@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
@@ -22,7 +22,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="*" Pack="True" />
     <ProjectReference Include="..\SunamoDevCode\SunamoDevCode.csproj" />
-    <ProjectReference Include="..\..\SunamoStringGetLines\SunamoStringGetLines\SunamoStringGetLines.csproj" />
+    <ProjectReference
+      Include="..\..\SunamoStringGetLines\SunamoStringGetLines\SunamoStringGetLines.csproj" />
     <ProjectReference Include="..\..\SunamoString\SunamoString\SunamoString.csproj" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

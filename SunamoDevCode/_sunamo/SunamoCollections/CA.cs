@@ -1,9 +1,7 @@
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-
 namespace SunamoDevCode._sunamo.SunamoCollections;
-
-internal class CA
+internal partial class CA
 {
     internal enum SearchStrategyCA
     {
@@ -12,7 +10,7 @@ internal class CA
         ExactlyName
     }
 
-    internal static List<int> ReturnWhichContainsIndexes(IList<string> value, string term/*,
+    internal static List<int> ReturnWhichContainsIndexes(IList<string> value, string term /*,
         SearchStrategyCA searchStrategy = SearchStrategyCA.FixedSpace*/)
     {
         var result = new List<int>();
@@ -20,32 +18,34 @@ internal class CA
         if (value != null)
             foreach (var item in value)
             {
-                if (item.Contains(term) /*.Contains(item, term, searchStrategy)*/) result.Add(i);
+                if (item.Contains(term) /*.Contains(item, term, searchStrategy)*/)
+                    result.Add(i);
                 i++;
             }
 
         return result;
     }
 
-    internal static List<int> ReturnWhichContainsIndexes(string item, IList<string> terms/*,
+    internal static List<int> ReturnWhichContainsIndexes(string item, IList<string> terms /*,
        SearchStrategyCA searchStrategy = SearchStrategyCA.FixedSpace*/)
     {
         var result = new List<int>();
         var i = 0;
         foreach (var term in terms)
         {
-            if (item.Contains(term) /*.Contains(item, term, searchStrategy)*/) result.Add(i);
+            if (item.Contains(term) /*.Contains(item, term, searchStrategy)*/)
+                result.Add(i);
             i++;
         }
 
         return result;
     }
 
-
     internal static IList<int> ReturnWhichContainsIndexes(IList<string> parts, IList<string> mustContains)
     {
         var result = new List<int>();
-        foreach (var item in mustContains) result.AddRange(ReturnWhichContainsIndexes(parts, item));
+        foreach (var item in mustContains)
+            result.AddRange(ReturnWhichContainsIndexes(parts, item));
         result = result.Distinct().ToList();
         return result;
     }
@@ -57,11 +57,14 @@ internal class CA
                 list.RemoveAt(i);
         return list;
     }
+
     internal static List<string> PostfixIfNotEnding(string pre, List<string> list)
     {
-        for (var i = 0; i < list.Count; i++) list[i] = pre + list[i];
+        for (var i = 0; i < list.Count; i++)
+            list[i] = pre + list[i];
         return list;
     }
+
     internal static List<List<string>> Split(List<string> text, string determining)
     {
         var sourceList = new List<List<string>>();
@@ -84,18 +87,15 @@ internal class CA
         return mySites;
     }
 
-
-    internal static bool ContainsAnyFromElementBool(string text, IList<string> list/*,
+    internal static bool ContainsAnyFromElementBool(string text, IList<string> list /*,
         bool acceptAsteriskForPassingAll = false*/)
     {
-        if (list.Count == 1 && list.First() == "*") return true;
-
+        if (list.Count == 1 && list.First() == "*")
+            return true;
         var result = new List<int>();
-
         foreach (var item in list)
             if (text.Contains(item))
                 return true;
-
         return false;
     }
 
@@ -113,23 +113,24 @@ internal class CA
     /// <summary>
     ///     Direct edit input collection
     /// </summary>
-    /// <param name="l"></param>
+    /// <param name = "l"></param>
     internal static List<string> Trim(List<string> list)
     {
-        for (var i = 0; i < list.Count; i++) list[i] = list[i].Trim();
+        for (var i = 0; i < list.Count; i++)
+            list[i] = list[i].Trim();
         return list;
     }
-
 
     internal static void DoubleOrMoreMultiLinesToSingle(ref string list)
     {
         var name = Environment.NewLine;
         list = Regex.Replace(list, @"(\r?\n\s*){2,}", Environment.NewLine + Environment.NewLine);
         list = list.Trim();
-        //list = list.Replace(name, name + name);
-        // 27-10-23 dříve to bylo takhle
-        //return list.Trim();
+    //list = list.Replace(name, name + name);
+    // 27-10-23 dříve to bylo takhle
+    //return list.Trim();
     }
+
     internal static void TrimWhereIsOnlyWhitespace(List<string> list)
     {
         for (int i = list.Count - 1; i >= 0; i--)
@@ -153,9 +154,8 @@ internal class CA
         {
             files_in[i] = Replace(files_in[i], what, forWhat);
         }
-        //CAChangeContent.ChangeContent2(null, files_in, Replace, what, forWhat);
+    //CAChangeContent.ChangeContent2(null, files_in, Replace, what, forWhat);
     }
-
 
     internal static (bool, string) IsNegationTuple(string contains)
     {
@@ -164,6 +164,7 @@ internal class CA
             contains = contains.Substring(1);
             return (true, contains);
         }
+
         return (false, contains);
     }
 
@@ -174,9 +175,8 @@ internal class CA
             a = new RemoveStartingWithArgs();
         }
 
-        var (negate, start2) = IsNegationTuple(start);
+        var(negate, start2) = IsNegationTuple(start);
         start = start2;
-
         for (int i = mySites.Count - 1; i >= 0; i--)
         {
             var val = mySites[i];
@@ -217,7 +217,6 @@ internal class CA
     internal static string StartWith(List<string> suMethods, string line, out string element)
     {
         element = null;
-
         if (suMethods != null)
         {
             foreach (var method in suMethods)
@@ -229,9 +228,9 @@ internal class CA
                 }
             }
         }
+
         return null;
     }
-
 
     internal static void RemoveWhichContains(List<string> files1, string item, bool wildcard, Func<string, string, bool> WildcardIsMatch)
     {
@@ -256,168 +255,5 @@ internal class CA
                 }
             }
         }
-    }
-
-    internal static void RemoveWhichContainsList(List<string> files, List<string> list, bool wildcard, Func<string, string, bool> WildcardIsMatch = null)
-    {
-        foreach (var item in list)
-        {
-            RemoveWhichContains(files, item, wildcard, WildcardIsMatch);
-        }
-    }
-
-    internal static List<string> TrimEnd(List<string> sf, params char[] toTrim)
-    {
-        for (int i = 0; i < sf.Count; i++)
-        {
-            sf[i] = sf[i].TrimEnd(toTrim);
-        }
-        return sf;
-    }
-
-    internal static List<T> JoinIList<T>(params IList<T>[] enumerable)
-    {
-        List<T> t = new List<T>();
-        foreach (var item in enumerable)
-        {
-            foreach (var item2 in item)
-            {
-                t.Add((T)item2);
-            }
-        }
-        return t;
-    }
-
-    internal static void RemoveEmptyLinesToFirstNonEmpty(List<string> content)
-    {
-        for (int i = 0; i < content.Count; i++)
-        {
-            var line = content[i];
-            if (line.Trim() == string.Empty)
-            {
-                content.RemoveAt(i);
-                i--;
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
-
-    internal static void RemoveLines(List<string> lines, List<int> removeLines)
-    {
-        removeLines.Sort();
-        for (int i = removeLines.Count - 1; i >= 0; i--)
-        {
-            var dx = removeLines[i];
-            lines.RemoveAt(dx);
-        }
-    }
-
-    internal static List<string> RemoveStringsEmpty2(List<string> mySites)
-    {
-        for (int i = mySites.Count - 1; i >= 0; i--)
-        {
-            if (mySites[i].Trim() == string.Empty)
-            {
-                mySites.RemoveAt(i);
-            }
-        }
-        return mySites;
-    }
-
-
-
-    internal static List<string> WrapWith(List<string> whereIsUsed2, string v)
-    {
-        return WrapWith(whereIsUsed2, v, v);
-    }
-
-    /// <summary>
-    /// direct edit
-    /// </summary>
-    /// <param name="whereIsUsed2"></param>
-    /// <param name="v"></param>
-    internal static List<string> WrapWith(List<string> whereIsUsed2, string before, string after)
-    {
-        for (int i = 0; i < whereIsUsed2.Count; i++)
-        {
-            whereIsUsed2[i] = before + whereIsUsed2[i] + after;
-        }
-        return whereIsUsed2;
-    }
-
-    internal static List<string> EnsureBackslash(List<string> eb)
-    {
-        for (int i = 0; i < eb.Count; i++)
-        {
-            string r = eb[i];
-            if (r[r.Length - 1] != '\\')
-            {
-                eb[i] = r + "\\";
-            }
-        }
-
-        return eb;
-    }
-
-    internal static bool ContainsElement<T>(IList<T> list, T t)
-    {
-        if (list.Count == 0)
-        {
-            return false;
-        }
-        foreach (T item in list)
-        {
-            if (Comparer<T>.Equals(item, t))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    internal static void RemoveWildcard(List<string> d, string mask)
-    {
-        //https://stackoverflow.com/a/15275806
-
-        for (int i = d.Count - 1; i >= 0; i--)
-        {
-            if (SH.MatchWildcard(d[i], mask))
-            {
-                d.RemoveAt(i);
-            }
-        }
-    }
-
-    internal static bool HasPostfix(string key, params string[] v1)
-    {
-        foreach (var item in v1)
-        {
-            if (key.EndsWith(item))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    internal static List<string> Prepend(string v, List<string> toReplace)
-    {
-        for (int i = 0; i < toReplace.Count; i++)
-        {
-            if (!toReplace[i].StartsWith(v))
-            {
-                toReplace[i] = v + toReplace[i];
-            }
-        }
-        return toReplace;
-    }
-
-    internal static List<string> ToListString(params string[] v)
-    {
-        return v.ToList();
     }
 }

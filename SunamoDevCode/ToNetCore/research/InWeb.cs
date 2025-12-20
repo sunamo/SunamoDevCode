@@ -1,8 +1,6 @@
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-
 namespace SunamoDevCode.ToNetCore.research;
-
 public partial class MoveToNet5
 {
     /// <summary>
@@ -14,41 +12,42 @@ public partial class MoveToNet5
     ///
     /// A1 can be x86,x64.AnyCPU
     /// </summary>
-    public
+    public 
 #if ASYNC
     async Task
 #else
-    void
+    void 
 #endif
- PlatformTargetToWeb(ILogger logger, string replaceFor)
+    PlatformTargetToWeb(ILogger logger, string replaceFor)
     {
         var temp = WebAndNonWebProjects(logger);
         var tt = temp.Item1;
-        replaceFor =
+        replaceFor = 
 #if ASYNC
     await
 #endif
- Shared.PlatformTargetTo(replaceFor, tt);
+        Shared.PlatformTargetTo(replaceFor, tt);
     }
+
     // 25-9-2022 Protože mi opět něco smazalo assembly se *.sunamo.cz csproj - .Web.Services, Data, .Web => commented, dole náhrada.
     //     const string neededWebReferences = @"System.Web
     // System.Web.Services
     // System.Data";
     const string neededWebReferences = "";
-    public
+    public 
 #if ASYNC
     async Task
 #else
-    void
+    void 
 #endif
- AddEssentialWebReferencesToAllWebProjects(ILogger logger)
+    AddEssentialWebReferencesToAllWebProjects(ILogger logger)
     {
         var list = SHGetLines.GetLines(neededWebReferences);
-        var temp =
+        var temp = 
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(logger, false);
+        FindProjectsWhichIsSdkStyle(logger, false);
         StringBuilder stringBuilder = new StringBuilder();
         if (temp.netstandardList.Count > 0)
         {
@@ -58,6 +57,7 @@ public partial class MoveToNet5
                 stringBuilder.AppendLine(item);
             }
         }
+
         var l2 = SHGetLines.GetLines(neededWebReferences);
         //CA.PostfixIfNotEnding(".dll", l2);
         foreach (var item in temp.csprojSdkStyleList)
@@ -69,6 +69,7 @@ public partial class MoveToNet5
                 await VsProjectsFileHelper.AddItemGroupSdkStyle(item, ItemGroups.Reference, rig, true);
             }
         }
+
         // 1 = sdk style, not netstandard2.0
         // 2 = sdk style, netstandard2.0
         // 3 = non sdk style
@@ -86,81 +87,85 @@ public partial class MoveToNet5
             }
         }
     }
-    public
+
+    public 
 #if ASYNC
     async Task
 #else
-    void
+    void 
 #endif
- ChangeProjectsToNetStandard(ILogger logger)
+    ChangeProjectsToNetStandard(ILogger logger)
     {
-        var list =
+        var list = 
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(logger, false);
+        FindProjectsWhichIsSdkStyle(logger, false);
         await ChangeProjects.ChangeProjectsTo(ChangeProjects.netstandard20, list.csprojSdkStyleList);
     }
-    public
+
+    public 
 #if ASYNC
     async Task<string>
 #else
-    void
+    void 
 #endif
- WebProjectsWhichIsNotSdkStyleFindTheirBackup(ILogger logger)
+    WebProjectsWhichIsNotSdkStyleFindTheirBackup(ILogger logger)
     {
         List<string> haveBackupSdkStyle = new List<string>();
         List<string> dontHaveBackupSdkStyle = new List<string>();
         List<string> dontHaveBackup = new List<string>();
-        var list =
+        var list = 
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(logger, false);
+        FindProjectsWhichIsSdkStyle(logger, false);
         foreach (var item in list.csprojSdkStyleList)
         {
             throw new Exception("žádné koncovky old v csproj tu nemám. tak tedy nevím co jsem tu chtěl dělat ");
-            //var old = item + ".old";
-            //if (FS.ExistsFile(old))
-            //{
-            //    if (SunamoCsprojHelper.IsProjectCsprojSdkStyleIsCore(old, false))
-            //    {
-            //        haveBackupSdkStyle.Add(item);
-            //    }
-            //    else
-            //    {
-            //        dontHaveBackupSdkStyle.Add(item);
-            //    }
-            //}
-            //else
-            //{
-            //    dontHaveBackup.Add(item);
-            //}
+        //var old = item + ".old";
+        //if (FS.ExistsFile(old))
+        //{
+        //    if (SunamoCsprojHelper.IsProjectCsprojSdkStyleIsCore(old, false))
+        //    {
+        //        haveBackupSdkStyle.Add(item);
+        //    }
+        //    else
+        //    {
+        //        dontHaveBackupSdkStyle.Add(item);
+        //    }
+        //}
+        //else
+        //{
+        //    dontHaveBackup.Add(item);
+        //}
         }
+
         TextOutputGenerator tog = new TextOutputGenerator();
         tog.List(haveBackupSdkStyle, nameof(haveBackupSdkStyle));
         tog.List(dontHaveBackupSdkStyle, nameof(dontHaveBackupSdkStyle));
         tog.List(dontHaveBackup, nameof(dontHaveBackup));
         return tog.ToString();
     }
-    public
+
+    public 
 #if ASYNC
     async Task<string>
 #else
-    void
+    void 
 #endif
- DetectFrameworkForWebProjectsOnlySupported(ILogger logger)
+    DetectFrameworkForWebProjectsOnlySupported(ILogger logger)
     {
         TextOutputGenerator tog = new TextOutputGenerator();
         Dictionary<SupportedNetFw, StringBuilder> stringBuilder = new Dictionary<SupportedNetFw, StringBuilder>();
         var temp = WebAndNonWebProjects(logger);
         foreach (var item in temp.Item1)
         {
-            var name =
+            var name = 
 #if ASYNC
                 await
 #endif
-                SunamoCsprojHelper.DetectNetVersion2(item);
+            SunamoCsprojHelper.DetectNetVersion2(item);
             // Inlined from DictionaryHelper.AppendLineOrCreate - přidává řádek do StringBuilderu nebo vytváří nový
             if (stringBuilder.ContainsKey(name))
             {
@@ -173,14 +178,17 @@ public partial class MoveToNet5
                 stringBuilder.Add(name, sb2);
             }
         }
+
         foreach (var item in stringBuilder)
         {
             tog.ListSB(item.Value, item.Key.ToString());
         }
+
         //Output = tog.ToString();
         //OutputOpen();
         return tog.ToString();
     }
+
     public async Task ConvertAlLWebNetStandardProjectsToNet48(ILogger logger)
     {
         var temp = WebAndNonWebProjects(logger);
@@ -189,6 +197,7 @@ public partial class MoveToNet5
             await ChangeProjects.ChangeProjectTo(ChangeProjects.net48, item, null, ChangeProjects.netstandard20);
         }
     }
+
     public string WebProjectsWhichNotEndWithDotEnd(ILogger logger)
     {
         var temp = WebAndNonWebProjects(logger, true);
@@ -201,21 +210,23 @@ public partial class MoveToNet5
                 stringBuilder.AppendLine(item);
             }
         }
+
         return stringBuilder.ToString();
     }
+
     /// <summary>
     /// 1 = sdk style, not netstandard2.0
     /// 2 = sdk style, netstandard2.0
     /// </summary>
-    /// <param name="appendHeader"></param>
+    /// <param name = "appendHeader"></param>
     /// <returns></returns>
-    public
+    public 
 #if ASYNC
     async Task<Tuple<List<TWithStringDC<string>>, List<TWithStringDC<string>>>>
 #else
-      Tuple<List<TWithStringDC<string>>, List<TWithStringDC<string>>>
+    Tuple<List<TWithStringDC<string>>, List<TWithStringDC<string>>> 
 #endif
- DetectFrameworkForWebProjects(ILogger logger, bool appendHeader)
+    DetectFrameworkForWebProjects(ILogger logger, bool appendHeader)
     {
         List<TWithStringDC<string>> list = new List<TWithStringDC<string>>();
         List<TWithStringDC<string>> l2 = new List<TWithStringDC<string>>();
@@ -223,16 +234,17 @@ public partial class MoveToNet5
         {
             list.Add(new TWithStringDC<string>("", "Web but in SDK style:"));
         }
+
         bool netstandard = false;
         var temp = WebAndNonWebProjects(logger);
         Tuple<bool, string> t3 = null;
         foreach (var item2 in temp.Item1)
         {
-            t3 =
+            t3 = 
 #if ASYNC
     await
 #endif
- SunamoCsprojHelper.DetectNetVersion(item2);
+            SunamoCsprojHelper.DetectNetVersion(item2);
             if (t3 != null)
             {
                 if (t3.Item1)
@@ -248,21 +260,23 @@ public partial class MoveToNet5
                 }
             }
         }
+
         return new Tuple<List<TWithStringDC<string>>, List<TWithStringDC<string>>>(list, l2);
     }
-    public
+
+    public 
 #if ASYNC
     async Task<string>
 #else
-    void
+    void 
 #endif
- FindProjectsWhichIsSdkStyleList(ILogger logger, bool appendHeaderForWeb, bool web = true)
+    FindProjectsWhichIsSdkStyleList(ILogger logger, bool appendHeaderForWeb, bool web = true)
     {
-        var result =
+        var result = 
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(logger, appendHeaderForWeb, web);
+        FindProjectsWhichIsSdkStyle(logger, appendHeaderForWeb, web);
         TextOutputGenerator tog = new TextOutputGenerator();
         tog.List(result.csprojSdkStyleList, nameof(result.csprojSdkStyleList));
         tog.List(result.netstandardList, nameof(result.netstandardList));
@@ -270,121 +284,5 @@ public partial class MoveToNet5
         //ProgramShared.Output = tog.ToString();
         //ProgramShared.OutputOpen();
         return tog.ToString();
-    }
-    /// <summary>
-    /// 1 = sdk style, not netstandard2.0
-    /// 2 = sdk style, netstandard2.0
-    /// 3 = non sdk style
-    /// </summary>
-    /// <param name="appendHeaderForWeb"></param>
-    /// <returns></returns>
-    public
-#if ASYNC
-    async Task<FindProjectsWhichIsSdkStyleResult>
-#else
-      FindProjectsWhichIsSdkStyleResult
-#endif
- FindProjectsWhichIsSdkStyle(ILogger logger, bool appendHeaderForWeb, bool web = true)
-    {
-        List<string> csprojSdkStyleList = new List<string>();
-        List<string> netstandardList = new List<string>();
-        List<string> nonCsprojSdkStyleList = new List<string>();
-        if (appendHeaderForWeb)
-        {
-            csprojSdkStyleList.Add("Web but in SDK style:");
-        }
-        var temp = WebAndNonWebProjects(logger);
-        List<string> lines = null;
-        if (web)
-        {
-            lines = temp.Item1;
-        }
-        else
-        {
-            lines = temp.Item2;
-        }
-        foreach (var item2 in lines)
-        {
-            if (Ignored.IsIgnored(item2))
-            {
-                continue;
-            }
-            var item = item2;
-            var tu =
-#if ASYNC
-    await
-#endif
- SunamoCsprojHelper.IsProjectCsprojSdkStyleIsCore(/*ref*/ item);
-            if (tu.isProjectCsprojSdkStyleIsCore)
-            {
-                if (tu.isNetstandard)
-                {
-                    netstandardList.Add(item);
-                }
-                else
-                {
-                    csprojSdkStyleList.Add(item);
-                }
-            }
-            else
-            {
-                nonCsprojSdkStyleList.Add(item);
-            }
-        }
-        return new FindProjectsWhichIsSdkStyleResult
-        {
-            csprojSdkStyleList = csprojSdkStyleList,
-            netstandardList = netstandardList,
-            nonCsprojSdkStyleList = nonCsprojSdkStyleList
-        };
-    }
-    public
-#if ASYNC
-    async Task<string>
-#else
-    void
-#endif
- WebProjectsWhichIsNotSdkStyle(ILogger logger)
-    {
-        var u =
-#if ASYNC
-    await
-#endif
- FindProjectsWhichIsSdkStyle(logger, true);
-        return SHJoin.JoinNL(u.nonCsprojSdkStyleList);
-    }
-    string nameProject = null;
-    public async void ReplaceProjectReferenceForWeb(ILogger logger, string name, string ns)
-    {
-        Console.WriteLine("Solution old & new must be in same root folder");
-        name = SHTrim.TrimEnd(name, ".web");
-        ns = SHTrim.TrimEnd(ns, ".web");
-        nameProject = name;
-        string old = @"..\..\" + ns + @"\" + name + @"\" + name + ".csproj";
-        string nuova = @"..\..\" + SolutionNameFor(ns) + @"\" + name + @".web\" + name + ".web.csproj";
-        var temp = WebAndNonWebProjects(logger);
-        foreach (var item in temp.Item1)
-        {
-            Console.WriteLine(item);
-            //DebugLogger.Instance.WriteLine(item);
-            //var dx =
-            await ReplaceOrRemoveFile(WithWebEnd, ElementsItemGroup.ProjectReference, [old], item, nuova);
-            //if (dx != -1)
-            //{
-            //    //break;
-            //}
-        }
-    }
-    string WithWebEnd(string text)
-    {
-        return text.Replace("<Name>" + nameProject + "</Name>", "<Name>" + nameProject + ".web</Name>");
-    }
-    private string SolutionNameFor(string name)
-    {
-        if (name == "PlatformIndependentNuGetPackages")
-        {
-            return "sunamo.webWithoutDep";
-        }
-        return name + ".web";
     }
 }

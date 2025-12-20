@@ -1,15 +1,11 @@
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-
 namespace SunamoDevCode.ToNetCore.research;
-
 public partial class MoveToNet5
 {
     public static MoveToNet5 ci = new MoveToNet5();
-
     private MoveToNet5()
     {
-
     }
 
     /// <summary>
@@ -21,28 +17,24 @@ public partial class MoveToNet5
     ///
     /// A1 can be x86,x64.AnyCPU
     /// </summary>
-    public
+    public 
 #if ASYNC
     async Task
 #else
-    void
+    void 
 #endif
- ChangeConvertNonWebPlatformTargetTo(ILogger logger, string replaceFor)
+    ChangeConvertNonWebPlatformTargetTo(ILogger logger, string replaceFor)
     {
         var temp = WebAndNonWebProjects(logger);
         var tt = temp.Item2;
-
-        replaceFor =
+        replaceFor = 
 #if ASYNC
     await
 #endif
- Shared.PlatformTargetTo(replaceFor, tt);
+        Shared.PlatformTargetTo(replaceFor, tt);
     }
 
     public static Type type = typeof(MoveToNet5);
-
-
-
     /// <summary>
     /// Vyčistí od dočasných souborů z NonWeb
     /// </summary>
@@ -50,9 +42,7 @@ public partial class MoveToNet5
     {
         Console.WriteLine("ClearUnnecessaryFromNonWeb");
         var temp = WebAndNonWebSlns();
-
         Console.WriteLine("temp.Item2.Count: " + temp.Item2.Count);
-
         foreach (var item in temp.Item2)
         {
             DeleteTemporaryFilesFromSolution.ClearSolution(logger, item, true, folderWithTemporaryMovedContentWithoutBackslash);
@@ -62,23 +52,19 @@ public partial class MoveToNet5
     /// <summary>
     /// Zakomentuje importy se kterými nemůže být převedeno na .net 5
     /// </summary>
-    private
+    private 
 #if ASYNC
     async Task
 #else
-    void
+    void 
 #endif
- ReplaceUnneedUsings(string eVsProjects)
+    ReplaceUnneedUsings(string eVsProjects)
     {
         var linesToCommented = @"//using System.Data;";
-
         var toComm = SHGetLines.GetLines(linesToCommented);
-
         List<string> toComm1 = new List<string>(toComm.Count);
         List<string> toComm2 = new List<string>(toComm.Count);
-
         const string cm = "//";
-
         foreach (var item in toComm)
         {
             toComm1.Add(cm + item);
@@ -86,18 +72,23 @@ public partial class MoveToNet5
         }
 
         var f2 = Directory.GetFiles(eVsProjects, "*.cs", SearchOption.AllDirectories);
-        List<string> dontReplaceUsingSystemDataIn = new List<string>() { ".web", "SunamoSqlServer", "SunamoSqlite", "SunamoCsv" };
+        List<string> dontReplaceUsingSystemDataIn = new List<string>()
+        {
+            ".web",
+            "SunamoSqlServer",
+            "SunamoSqlite",
+            "SunamoCsv"
+        };
         foreach (var item in f2)
         {
             if (!CA.ContainsAnyFromElementBool(item, dontReplaceUsingSystemDataIn))
             {
-                var tf =
+                var tf = 
 #if ASYNC
     await
 #endif
- TF.ReadAllText(item);
+                TF.ReadAllText(item);
                 string n = tf;
-
                 for (int i = 0; i < toComm.Count; i++)
                 {
                     n = n.Replace(toComm[i], toComm1[i]);
@@ -141,8 +132,6 @@ public partial class MoveToNet5
     // System.Device";
     const string refToRemove = @"sunamoPortable
 swf";
-
-
     string nugetPackagesCantRemove = @"System.Net.Http.Extensions
 Microsoft.Threading.Tasks
 Microsoft.Threading.Tasks.Extensions
@@ -153,41 +142,37 @@ System.IO.FileSystem
 System.Management.Automation
 System.Net.Http.Primitives
 ";
-
     /// <summary>
     /// odstraní reference z c# které
     /// </summary>
-    /// <param name="csprojPath"></param>
+    /// <param name = "csprojPath"></param>
     public async Task ReplaceUnneedReferencesInCsprojs(string csprojPath)
     {
         var refe = SHGetLines.GetLines(refToRemove);
         await ReplaceOrRemoveFile(null, ElementsItemGroup.Reference, refe, csprojPath);
     }
 
-    private
+    private 
 #if ASYNC
     async Task
 #else
-    void
+    void 
 #endif
- ReplaceUnneedReferencesInCsprojs(string dontReplaceReferencesInPath, string eVsProjects)
+    ReplaceUnneedReferencesInCsprojs(string dontReplaceReferencesInPath, string eVsProjects)
     {
         List<string> referenceToReplace = new List<string>();
-
         var refe = SHGetLines.GetLines(refToRemove);
         int dx = -1;
-
         var f = Directory.GetFiles(eVsProjects, "*.csproj", SearchOption.AllDirectories);
         List<string> dontReplaceReferencesIn = (
 #if ASYNC
     await
 #endif
- TF.ReadAllLines(dontReplaceReferencesInPath)).ToList();
+        TF.ReadAllLines(dontReplaceReferencesInPath)).ToList();
         foreach (var item in f)
         {
             if (!CA.ContainsAnyFromElementBool(item, dontReplaceReferencesIn))
             {
-
 #if ASYNC
                 await
 #endif
@@ -197,164 +182,4 @@ System.Net.Http.Primitives
     }
 
     string refe2 = "</Reference>";
-
-
-
-    private
-#if ASYNC
-    async Task
-#else
-    void
-#endif
- ReplaceOrRemoveFile(Func<string, string> addReplace, string element, List<string> refe, string pathCsproj, string newRefe = null)
-    {
-        bool replace = newRefe != null;
-
-        refe2 = "</" + element + ">";
-
-#if DEBUG
-        if (pathCsproj.EndsWith(@"sunamo.web.csproj"))
-        {
-            ThisApp.check = true;
-        }
-#endif
-
-        var xd =
-#if ASYNC
-    await
-#endif
- XmlDocumentsCache.Get(pathCsproj);
-
-        if (MayExcHelper.MayExc(xd.Exc))
-        {
-            return;
-        }
-
-        var tf = xd.Data.OuterXml;
-        string n = tf;
-        int dx = -1;
-        int dx2 = -1;
-        bool combine = false;
-
-        foreach (var r in refe)
-        {
-            combine = false;
-            dx = -1;
-            dx2 = -1;
-
-            if (replace)
-            {
-                n = SHReplace.ReplaceWithIndex(n, "<" + element + " Include=\"" + r + "\" />", string.Empty, ref dx);
-                n = SHReplace.ReplaceWithIndex(n, "<" + element + " Include=\"" + r + "\"/>", string.Empty, ref dx);
-                n = SHReplace.ReplaceWithIndex(n, "<" + element + " Include=\"" + r + "\"></" + element + ">", string.Empty, ref dx);
-            }
-            else
-            {
-                n = n.Replace("<" + element + " Include=\"" + r + "\" />", string.Empty);
-                n = n.Replace(GetReferenceShortest(element, r), string.Empty);
-                n = n.Replace("<" + element + " Include=\"" + r + "\"></" + element + ">", string.Empty);
-            }
-
-            if (dx == -1)
-            {
-                string toFind = ReferenceLongest(element, r);
-                dx = n.IndexOf(toFind);
-                combine = true;
-            }
-
-            if (dx != -1 && combine)
-            {
-                n = n.Remove(dx, ReferenceLongest(element, r).Length);
-
-                dx2 = n.IndexOf(refe2, dx);
-                n = n.Remove(dx2, refe2.Length);
-            }
-
-            if (dx != -1)
-            {
-                if (replace)
-                {
-                    var refe3 = GetReferenceShortest(element, newRefe);
-                    n = n.Insert(dx, refe3);
-                }
-            }
-        }
-
-        if (addReplace != null)
-        {
-            n = addReplace(n);
-        }
-
-        if (n != tf)
-        {
-#if DEBUG
-            var list =
-#if ASYNC
-    await
-#endif
- TF.ReadAllLines(pathCsproj);
-            var nf = FS.InsertBetweenFileNameAndExtension(pathCsproj, "_b");
-
-#if ASYNC
-            await
-#endif
-            TF.WriteAllLines(nf, list);
-#endif
-
-            await XmlDocumentsCache.Set(pathCsproj, n);
-
-
-#if ASYNC
-            await
-#endif
-            TF.WriteAllText(pathCsproj, n);
-        }
-
-        ThisApp.check = false;
-    }
-
-    private static string ReferenceLongest(string element, string r)
-    {
-        return "<" + element + " Include=\"" + r + "\">";
-    }
-
-    private static string GetReferenceShortest(string element, string r)
-    {
-        return "<" + element + " Include=\"" + r + "\"/>";
-    }
-
-    /// <summary>
-    /// Don't run, wait whether will be really needed to run
-    /// it could do more harm than good
-    /// </summary>
-    private
-#if ASYNC
-    async Task
-#else
-    void
-#endif
- CommentAssemblyInfoCsFiles(ILogger logger)
-    {
-        var data = WebAndNonWebProjects(logger);
-        var lc = "//";
-
-        foreach (var item in data.Item2)
-        {
-            var d2 = FS.GetDirectoryName(item);
-            var ass = FSGetFiles.GetFiles(logger, d2, "AssemblyInfo.cs", true);
-            foreach (var item2 in ass)
-            {
-                var list =
-#if ASYNC
-    await
-#endif
- TF.ReadAllLines(item2);
-                if (!list.All(r => r.StartsWith(lc)))
-                {
-                    CA.StartingWith(lc, list);
-                    await TF.WriteAllLines(item2, list);
-                }
-            }
-        }
-    }
 }

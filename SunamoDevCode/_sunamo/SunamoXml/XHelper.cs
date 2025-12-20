@@ -1,17 +1,15 @@
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-
 namespace SunamoDevCode._sunamo.SunamoXml;
-
-internal class XHelper
+internal partial class XHelper
 {
     internal static Dictionary<string, string> ns = new Dictionary<string, string>();
-
-    internal static IList<XElement> GetElementsOfNameWithAttrContains(XElement group, string tag, string attr, string value/*, bool caseSensitive = false*/)
+    internal static IList<XElement> GetElementsOfNameWithAttrContains(XElement group, string tag, string attr, string value /*, bool caseSensitive = false*/)
     {
-        return GetElementsOfNameWithAttrWorker(group, tag, attr, value/*, true, caseSensitive*/);
+        return GetElementsOfNameWithAttrWorker(group, tag, attr, value /*, true, caseSensitive*/);
     }
-    internal static List<XElement> GetElementsOfNameWithAttrWorker(System.Xml.Linq.XElement xElement, string tag, string attr, string value/*, bool enoughIsContainsAttribute, bool caseSensitive*/)
+
+    internal static List<XElement> GetElementsOfNameWithAttrWorker(System.Xml.Linq.XElement xElement, string tag, string attr, string value /*, bool enoughIsContainsAttribute, bool caseSensitive*/)
     {
         List<XElement> vr = new List<XElement>();
         List<XElement> e = XHelper.GetElementsOfNameRecursive(xElement, tag);
@@ -30,10 +28,9 @@ internal class XHelper
     internal static List<XElement> GetElementsOfNameRecursive(XElement node, string nazev)
     {
         List<XElement> vr = new List<XElement>();
-
         if (nazev.Contains(":"))
         {
-            var (p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
+            var(p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
             p = XHelper.ns[p];
             foreach (XElement item in node.DescendantsAndSelf())
             {
@@ -72,10 +69,9 @@ internal class XHelper
 
     internal static XElement GetElementOfNameWithAttr(XElement node, string nazev, string attr, string value)
     {
-
         if (nazev.Contains(":"))
         {
-            var (p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
+            var(p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
             p = XHelper.ns[p];
             foreach (XElement item in node.Elements())
             {
@@ -144,8 +140,7 @@ internal class XHelper
 
     internal static bool IsRightTag(XName xName, string nazev)
     {
-
-        var (p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
+        var(p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
         p = XHelper.ns[p];
         if (xName.LocalName == z && xName.NamespaceName == p)
         {
@@ -199,10 +194,9 @@ internal class XHelper
 
     internal static XElement GetElementOfName(XContainer node, string nazev)
     {
-
         if (nazev.Contains(":"))
         {
-            var (p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
+            var(p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
             p = XHelper.ns[p];
             foreach (XElement item in node.Elements())
             {
@@ -230,17 +224,17 @@ internal class XHelper
         return null;
     }
 
-    internal static
+    internal static 
 #if ASYNC
     async Task<XDocument>
 #else
-XDocument
+    XDocument 
 #endif
     CreateXDocument(string contentOrFn)
     {
         if (File.Exists(contentOrFn))
         {
-            contentOrFn =
+            contentOrFn = 
 #if ASYNC
             await
 #endif
@@ -256,46 +250,5 @@ XDocument
         }
 
         return xd;
-    }
-
-    internal static
-#if ASYNC
-    async Task<string>
-#else
-string
-#endif
-    FormatXml(string pathOrContent)
-    {
-        var xmlFormat = pathOrContent;
-        if (File.Exists(pathOrContent))
-        {
-            xmlFormat =
-#if ASYNC
-            await
-#endif
-            File.ReadAllTextAsync(pathOrContent);
-        }
-
-        XmlNamespacesHolder h = new XmlNamespacesHolder();
-        XDocument doc = h.ParseAndRemoveNamespacesXDocument(xmlFormat);
-
-
-        var formatted = doc.ToString();
-        formatted = formatted.Replace(" xmlns=\"\"", string.Empty);
-        //HReplace.ReplaceAll2(formatted, string.Empty, " xmlns=\"\"");
-        if (File.Exists(pathOrContent))
-        {
-#if ASYNC
-            await
-#endif
-            File.WriteAllTextAsync(pathOrContent, formatted);
-            //ThisApp.Success(Translate.FromKey(XlfKeys.ChangesSavedToFile));
-            return null;
-        }
-        else
-        {
-            //ThisApp.Success(Translate.FromKey(XlfKeys.ChangesSavedToClipboard));
-            return formatted;
-        }
     }
 }
