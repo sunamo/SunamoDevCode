@@ -1,6 +1,7 @@
+namespace SunamoDevCode.SunamoCSharp;
+
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-namespace SunamoDevCode.SunamoCSharp;
 public static partial class CSharpHelper
 {
     public static object DefaultValueForTypeObject(string type)

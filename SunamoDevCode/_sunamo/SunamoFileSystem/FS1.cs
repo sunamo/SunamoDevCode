@@ -1,6 +1,7 @@
+namespace SunamoDevCode._sunamo.SunamoFileSystem;
+
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-namespace SunamoDevCode._sunamo.SunamoFileSystem;
 internal partial class FS
 {
     internal static bool CopyMoveFilePrepare(ref string item, ref string fileTo, FileMoveCollisionOptionDC co)

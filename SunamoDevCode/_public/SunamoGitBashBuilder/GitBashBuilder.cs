@@ -1,6 +1,7 @@
+namespace SunamoDevCode._public.SunamoGitBashBuilder;
+
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-namespace SunamoDevCode._public.SunamoGitBashBuilder;
 public partial class GitBashBuilder : IGitBashBuilder
 {
     public void Pull()

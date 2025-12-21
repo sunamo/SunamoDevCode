@@ -1,6 +1,7 @@
+namespace SunamoDevCode;
+
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-namespace SunamoDevCode;
 public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
 {
     private static Type type = typeof(CSharpGenerator);

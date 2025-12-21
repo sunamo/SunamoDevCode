@@ -1,6 +1,7 @@
+namespace SunamoDevCode.ToNetCore.research;
+
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-namespace SunamoDevCode.ToNetCore.research;
 public partial class MoveToNet5
 {
     public static MoveToNet5 ci = new MoveToNet5();

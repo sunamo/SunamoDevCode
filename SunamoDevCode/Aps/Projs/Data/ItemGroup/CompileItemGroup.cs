@@ -1,6 +1,7 @@
+namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
+
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
 public class CompileItemGroup : ItemGroupElement
 {
     public string Link = null;

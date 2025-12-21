@@ -1,6 +1,7 @@
+namespace SunamoDevCode._sunamo.SunamoCollections;
+
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-namespace SunamoDevCode._sunamo.SunamoCollections;
 internal partial class CA
 {
     internal enum SearchStrategyCA

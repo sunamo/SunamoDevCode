@@ -1,8 +1,4 @@
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 namespace SunamoDevCode._sunamo.SunamoData.Data;
-
-
 
 /// <summary>
 /// Another big popular tree is on https://www.codeproject.com/Articles/12592/Generic-Tree-T-in-C
