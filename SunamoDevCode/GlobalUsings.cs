@@ -106,7 +106,6 @@ global using Microsoft.Extensions.Logging;
 global using SunamoDevCode.Aps.Args;
 global using SunamoDevCode.Aps.Helpers;
 global using SunamoDevCode.Aps.Projs;
-global using SunamoDevCode.Aps.Values;
 global using SunamoDevCode.ToNetCore.Consts;
 global using SunamoDevCode.ToNetCore.research;
 global using SunamoDevCode.ToNetCore.Results;

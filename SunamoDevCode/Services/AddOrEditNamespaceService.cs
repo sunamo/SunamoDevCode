@@ -49,12 +49,22 @@ public class AddOrEditNamespaceService
     }
     private List<string> RemoveIfContainsMoreNamespace(List<string> list)
     {
-        // nemůžu to tu trimovat protože bych to dole nenašel. navíc je to asi zbytečné, jen by to snižovalo výkon
-        var nsLines = list.Where(d => d.StartsWith("namespace ") && d.EndsWith(";")).ToList();
-        foreach (var item in nsLines.Skip(1))
+        // EN: Find all namespace lines and remove duplicates (keep only the first one)
+        // CZ: Najdi všechny namespace řádky a odstraň duplikáty (zachovej pouze první)
+        var nsLines = new List<int>();
+        for (int i = 0; i < list.Count; i++)
         {
-            var dx = list.IndexOf(item);
-            list.RemoveAt(dx);
+            if (list[i].StartsWith("namespace ") && list[i].EndsWith(";"))
+            {
+                nsLines.Add(i);
+            }
+        }
+
+        // EN: Remove from the end to avoid index shifting
+        // CZ: Odstraňuj od konce aby se neposunuly indexy
+        for (int i = nsLines.Count - 1; i > 0; i--)
+        {
+            list.RemoveAt(nsLines[i]);
         }
         return list;
     }
@@ -120,6 +130,16 @@ public class AddOrEditNamespaceService
             }
             else
             {
+                // EN: Check if namespace is already correct at line 0 - skip processing to avoid corruption
+                // CZ: Zkontroluj zda je namespace už správně na řádku 0 - skipni processing aby se nepokazil soubor
+                var expectedNs = "namespace " + newNs + ";";
+                if (dxNamespaceLine == 0 && lines[0].Trim() == expectedNs.Trim())
+                {
+                    // EN: Namespace is already correct, do nothing
+                    // CZ: Namespace je již správně, nedělej nic
+                    return lines;
+                }
+
                 if (dxNamespaceLine != 0)
                 {
                     //lines.RemoveAt(dxNamespaceLine);

@@ -2,21 +2,21 @@ namespace SunamoDevCode._sunamo.SunamoTwoWayDictionary;
 
 internal class TwoWayDictionary<T, U>
 {
-    internal Dictionary<T, U> _d1 = null;
-    internal Dictionary<U, T> _d2 = null;
+    internal Dictionary<T, U> FirstDictionary = null;
+    internal Dictionary<U, T> SecondDictionary = null;
     internal TwoWayDictionary(int c)
     {
-        _d1 = new Dictionary<T, U>(c);
-        _d2 = new Dictionary<U, T>(c);
+        FirstDictionary = new Dictionary<T, U>(c);
+        SecondDictionary = new Dictionary<U, T>(c);
     }
     internal TwoWayDictionary()
     {
-        _d1 = new Dictionary<T, U>();
-        _d2 = new Dictionary<U, T>();
+        FirstDictionary = new Dictionary<T, U>();
+        SecondDictionary = new Dictionary<U, T>();
     }
     internal void Add(T key, U value)
     {
-        _d1.Add(key, value);
-        _d2.Add(value, key);
+        FirstDictionary.Add(key, value);
+        SecondDictionary.Add(value, key);
     }
 }

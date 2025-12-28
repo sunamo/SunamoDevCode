@@ -19,6 +19,16 @@ public class GlobalUsingsInstance
         if (!r.GlobalUsings.Contains(usng)) r.GlobalUsings.Add(usng);
     }
 
+    /// <summary>
+    /// EN: Remove all global usings that start with the specified prefix (case insensitive)
+    /// CZ: Odstraň všechny global usings které začínají zadaným prefixem (case insensitive)
+    /// </summary>
+    /// <param name="prefix">Prefix to match (e.g., "MyNamespace.ExcludedFolder")</param>
+    public void RemoveGlobalUsingsStartingWith(string prefix)
+    {
+        r.GlobalUsings = r.GlobalUsings.Where(ns => !ns.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
+
     public async Task Save()
     {
         StringBuilder stringBuilder = new();

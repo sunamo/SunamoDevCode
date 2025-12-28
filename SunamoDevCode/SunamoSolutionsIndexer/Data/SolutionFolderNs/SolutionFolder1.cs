@@ -43,16 +43,20 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
 #endif
 #region MyRegion
         var baseReleaseFolder = Path.Combine(projectFolderPath, @"bin\Release\");
-        var net7 = Path.Combine(baseReleaseFolder, "net9.0\\");
-        var net7Windows = Path.Combine(baseReleaseFolder, "net9.0-windows\\");
+
+        // EN: Find the highest available .NET version starting from net15.0 and going down
+        // CZ: Najdi nejvyšší dostupnou .NET verzi začínající od net15.0 a jdi dolů
+        var net7 = FindHighestAvailableNetVersion(baseReleaseFolder, false);
+        var net7Windows = FindHighestAvailableNetVersion(baseReleaseFolder, true);
+
         if (publish)
         {
-            net7 += "win-x64\\publish\\";
-            net7Windows += "win-x64\\publish\\";
+            if (net7 != null) net7 += "win-x64\\publish\\";
+            if (net7Windows != null) net7Windows += "win-x64\\publish\\";
         }
 
-        var b1 = Directory.Exists(net7);
-        var b2 = Directory.Exists(net7Windows);
+        var b1 = net7 != null && Directory.Exists(net7);
+        var b2 = net7Windows != null && Directory.Exists(net7Windows);
         string exePath = null;
         if (b1)
         {
@@ -99,6 +103,34 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
 
         var result = Path.Combine(existingExeReleaseFolder, exeNameWithExt);
         return result;
+    }
+
+    /// <summary>
+    /// EN: Finds the highest available .NET version folder starting from net15.0 and going down
+    /// CZ: Najde nejvyšší dostupnou složku .NET verze začínající od net15.0 a jde dolů
+    /// </summary>
+    /// <param name="baseReleaseFolder">Base release folder path</param>
+    /// <param name="isWindows">True for net*-windows, false for net*</param>
+    /// <returns>Full path to the found folder or null if none exists</returns>
+    private string FindHighestAvailableNetVersion(string baseReleaseFolder, bool isWindows)
+    {
+        // EN: Start from version 15 and go down to version 5
+        // CZ: Začni od verze 15 a jdi dolů k verzi 5
+        for (int version = 15; version >= 5; version--)
+        {
+            var netFolder = isWindows
+                ? Path.Combine(baseReleaseFolder, $"net{version}.0-windows\\")
+                : Path.Combine(baseReleaseFolder, $"net{version}.0\\");
+
+            if (Directory.Exists(netFolder))
+            {
+                Console.WriteLine($"Found .NET folder: {netFolder}");
+                return netFolder;
+            }
+        }
+
+        Console.WriteLine($"No .NET folder found in: {baseReleaseFolder} (isWindows: {isWindows})");
+        return null;
     }
 
     private string FindExistingFolderWithRightArchitecture(string net7, string exeNameWithExt)
