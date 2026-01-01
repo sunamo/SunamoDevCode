@@ -2,32 +2,27 @@ namespace SunamoDevCode;
 
 public class SunamoDevCodeHelper
 {
-    public static bool TryDeleteDirectory(ILogger logger, string v)
+    public static bool TryDeleteDirectory(ILogger logger, string directoryPath)
     {
-        if (!Directory.Exists(v)) return true;
+        if (!Directory.Exists(directoryPath)) return true;
 
         try
         {
-            Directory.Delete(v, true);
+            Directory.Delete(directoryPath, true);
             return true;
         }
         catch (Exception ex)
         {
-            // Je to try takže nevím co tu dělá tohle a
-            //ThrowEx.FolderCannotBeDeleted(v, ex);
-            //var result = InvokePs(v);
-            //if (result.Count > 0)
-            //{
-            //    return false;
-            //}
+            // EN: It's try so don't know what this is doing here
+            // CZ: Je to try takže nevím co tu dělá tohle
         }
 
-        var files = FSGetFiles.GetFiles(logger, v, "*", SearchOption.AllDirectories);
-        foreach (var item in files) File.SetAttributes(item, FileAttributes.Normal);
+        var files = FSGetFiles.GetFiles(logger, directoryPath, "*", SearchOption.AllDirectories);
+        foreach (var filePath in files) File.SetAttributes(filePath, FileAttributes.Normal);
 
         try
         {
-            Directory.Delete(v, true);
+            Directory.Delete(directoryPath, true);
             return true;
         }
         catch (Exception ex)

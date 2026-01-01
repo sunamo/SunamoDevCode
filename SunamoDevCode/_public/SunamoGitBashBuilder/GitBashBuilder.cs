@@ -62,24 +62,24 @@ public partial class GitBashBuilder : IGitBashBuilder
         AppendLine();
     }
 
-    public void Add(string v)
+    public void Add(string filePath)
     {
         Git("add");
-        Append(v);
+        Append(filePath);
         AppendLine();
     }
 
-    public void Config(string v)
+    public void Config(string configOption)
     {
         Git("config");
-        Append(v);
+        Append(configOption);
         AppendLine();
     }
 
-    public void Clean(string v)
+    public void Clean(string cleanOptions)
     {
         Git("clean");
-        Arg(v);
+        Arg(cleanOptions);
         AppendLine();
     }
 
@@ -89,30 +89,30 @@ public partial class GitBashBuilder : IGitBashBuilder
         return sb.ToString();
     }
 
-    private void Git(string remainCommand)
+    private void Git(string remainingCommand)
     {
-        if (remainCommand[remainCommand.Length - 1] != ' ')
+        if (remainingCommand[remainingCommand.Length - 1] != ' ')
         {
-            remainCommand += " ";
+            remainingCommand += " ";
         }
 
-        sb.Append((GitForDebug ? "GitForDebug " : "git ") + remainCommand);
+        StringBuilder.Append((GitForDebug ? "GitForDebug " : "git ") + remainingCommand);
     }
 
-    private void Arg(string v)
+    private void Arg(string argument)
     {
-        Append("-" + v);
+        Append("-" + argument);
     }
 
-    public void Comment(string s)
+    public void Comment(string commentText)
     {
-        AppendLine("#" + s);
+        AppendLine("#" + commentText);
     }
 
-    public void MultilineComment(List<string> s)
+    public void MultilineComment(List<string> lines)
     {
         AppendLine("<#");
-        foreach (var item in s)
+        foreach (var item in lines)
         {
             AppendLine(item);
         }
@@ -133,21 +133,21 @@ public partial class GitBashBuilder : IGitBashBuilder
         AppendLine();
     }
 
-    public void Fetch(string s = "")
+    public void Fetch(string remoteName = "")
     {
-        Git("fetch " + s);
+        Git("fetch " + remoteName);
         AppendLine();
     }
 
-    public void Merge(string v)
+    public void Merge(string branchName)
     {
-        Git("merge " + v);
+        Git("merge " + branchName);
         AppendLine();
     }
 
-    public void AddNewRemote(string s)
+    public void AddNewRemote(string remoteUrl)
     {
-        Remote("add origin " + s);
+        Remote("add origin " + remoteUrl);
         Fetch("origin");
         Checkout("-b master --track origin/master");
         AppendLine("vsGitIgnoreGitHub");
@@ -161,13 +161,13 @@ public partial class GitBashBuilder : IGitBashBuilder
     }
 
     private static Type type = typeof(GitBashBuilder);
-    public TextBuilderDC sb = null;
-    public GitBashBuilder(TextBuilderDC sb)
+    public TextBuilderDC StringBuilder { get; set; } = null;
+    public GitBashBuilder(TextBuilderDC stringBuilder)
     {
-        this.sb = sb;
+        this.StringBuilder = stringBuilder;
     }
 
-    public bool GitForDebug = false;
+    public bool GitForDebug { get; set; } = false;
     public List<string> Commands { get => SHGetLines.GetLines(ToString()); }
 
     public static string CreateGitAddForFiles(StringBuilder sb, List<string> linesFiles)

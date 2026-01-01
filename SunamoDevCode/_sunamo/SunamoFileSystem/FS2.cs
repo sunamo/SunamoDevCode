@@ -48,38 +48,33 @@ internal partial class FS
         return file;
     }
 
-    internal static bool TryDeleteDirectory(string v)
+    internal static bool TryDeleteDirectory(string directoryPath)
     {
-        if (!Directory.Exists(v))
+        if (!Directory.Exists(directoryPath))
         {
             return true;
         }
 
         try
         {
-            Directory.Delete(v, true);
+            Directory.Delete(directoryPath, true);
             return true;
         }
         catch (Exception ex)
         {
-        // Je to try takže nevím co tu dělá tohle a
-        //ThrowEx.FolderCannotBeDeleted(v, ex);
-        //var result = InvokePs(v);
-        //if (result.Count > 0)
-        //{
-        //    return false;
-        //}
+        // EN: It's try so don't know what this is doing here
+        // CZ: Je to try takže nevím co tu dělá tohle
         }
 
-        var files = GetFiles(v, "*", SearchOption.AllDirectories);
-        foreach (var item in files)
+        var files = GetFiles(directoryPath, "*", SearchOption.AllDirectories);
+        foreach (var filePath in files)
         {
-            File.SetAttributes(item, FileAttributes.Normal);
+            File.SetAttributes(filePath, FileAttributes.Normal);
         }
 
         try
         {
-            Directory.Delete(v, true);
+            Directory.Delete(directoryPath, true);
             return true;
         }
         catch (Exception ex)
@@ -89,9 +84,9 @@ internal partial class FS
         return false;
     }
 
-    internal static string WithEndSlash(string v)
+    internal static string WithEndSlash(string path)
     {
-        return WithEndSlash(ref v);
+        return WithEndSlash(ref path);
     }
 
     /// <summary>

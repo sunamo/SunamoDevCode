@@ -13,8 +13,8 @@ internal partial class ThrowEx
     }
     internal static bool HasOddNumberOfElements(string listName, ICollection list)
     {
-        var f = Exceptions.HasOddNumberOfElements;
-        return ThrowIsNotNull(f, listName, list);
+        var exceptionFunction = Exceptions.HasOddNumberOfElements;
+        return ThrowIsNotNull(exceptionFunction, listName, list);
     }
 
     internal static bool Custom(string message, bool reallyThrow = true, string secondMessage = "")
@@ -23,21 +23,22 @@ internal partial class ThrowEx
         string? str = Exceptions.Custom(FullNameOfExecutedCode(), joined);
         return ThrowIsNotNull(str, reallyThrow);
     }
-    internal static bool DifferentCountInLists<T>(string namefc, IList<T> countfc, string namesc, IList<T> countsc)
+    internal static bool DifferentCountInLists<T>(string firstListName, IList<T> firstList, string secondListName, IList<T> secondList)
     {
         return ThrowIsNotNull(
-            Exceptions.DifferentCountInLists(FullNameOfExecutedCode(), namefc, countfc.Count, namesc, countsc.Count));
-    }
-    internal static bool DifferentCountInLists(string namefc, int countfc, string namesc, int countsc)
-    {
-        return ThrowIsNotNull(
-            Exceptions.DifferentCountInLists(FullNameOfExecutedCode(), namefc, countfc, namesc, countsc));
+            Exceptions.DifferentCountInLists(FullNameOfExecutedCode(), firstListName, firstList.Count, secondListName, secondList.Count));
     }
 
-    internal static bool DifferentCountInListsTU<T, U>(string namefc, IList<T> countfc, string namesc, IList<U> countsc)
+    internal static bool DifferentCountInLists(string firstListName, int firstCount, string secondListName, int secondCount)
     {
         return ThrowIsNotNull(
-            Exceptions.DifferentCountInLists(FullNameOfExecutedCode(), namefc, countfc.Count, namesc, countsc.Count));
+            Exceptions.DifferentCountInLists(FullNameOfExecutedCode(), firstListName, firstCount, secondListName, secondCount));
+    }
+
+    internal static bool DifferentCountInListsTU<T, U>(string firstListName, IList<T> firstList, string secondListName, IList<U> secondList)
+    {
+        return ThrowIsNotNull(
+            Exceptions.DifferentCountInLists(FullNameOfExecutedCode(), firstListName, firstList.Count, secondListName, secondList.Count));
     }
 
 
@@ -130,22 +131,22 @@ internal partial class ThrowEx
 
     #region For avoid FullNameOfExecutedCode
 
-    internal static bool ThrowIsNotNull<A, B>(Func<string, A, B, string?> f, A ex, B message)
+    internal static bool ThrowIsNotNull<A, B>(Func<string, A, B, string?> exceptionFunction, A firstArgument, B secondArgument)
     {
-        string? exc = f(FullNameOfExecutedCode(), ex, message);
-        return ThrowIsNotNull(exc);
+        string? exception = exceptionFunction(FullNameOfExecutedCode(), firstArgument, secondArgument);
+        return ThrowIsNotNull(exception);
     }
 
-    internal static bool ThrowIsNotNull<A>(Func<string, A, string?> f, A ex)
+    internal static bool ThrowIsNotNull<A>(Func<string, A, string?> exceptionFunction, A argument)
     {
-        string? exc = f(FullNameOfExecutedCode(), ex);
-        return ThrowIsNotNull(exc);
+        string? exception = exceptionFunction(FullNameOfExecutedCode(), argument);
+        return ThrowIsNotNull(exception);
     }
 
-    internal static bool ThrowIsNotNull(Func<string, string?> f)
+    internal static bool ThrowIsNotNull(Func<string, string?> exceptionFunction)
     {
-        string? exc = f(FullNameOfExecutedCode());
-        return ThrowIsNotNull(exc);
+        string? exception = exceptionFunction(FullNameOfExecutedCode());
+        return ThrowIsNotNull(exception);
     }
     #endregion
     #endregion

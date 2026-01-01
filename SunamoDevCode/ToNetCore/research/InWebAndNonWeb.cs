@@ -20,19 +20,19 @@ public partial class MoveToNet5
 
         var both = CAG.CompareList(webFn, nonWebFn);
 
-        var dx = webFn.Where(data => data.Contains("desktop"));
-        var dx2 = nonWebFn.Where(data => data.Contains("desktop"));
+        var desktopInWeb = webFn.Where(projectName => projectName.Contains("desktop"));
+        var desktopInNonWeb = nonWebFn.Where(projectName => projectName.Contains("desktop"));
 
-        int dxWeb, dxNonWeb;
+        int webIndex, nonWebIndex;
         List<Tuple<ProjFw, ProjFw>> toTable = new List<Tuple<ProjFw, ProjFw>>();
 
-        foreach (var item in both)
+        foreach (var projectName in both)
         {
-            dxWeb = webFn.IndexOf(item);
-            dxNonWeb = nonWebFn.IndexOf(item);
+            webIndex = webFn.IndexOf(projectName);
+            nonWebIndex = nonWebFn.IndexOf(projectName);
 
-            var f1 = web[dxWeb];
-            var f2 = nonWeb[dxNonWeb];
+            var webProjectPath = web[webIndex];
+            var nonWebProjectPath = nonWeb[nonWebIndex];
 
             //ProjFw pfWeb = new ProjFw { path = f1, temp = FrameworkNameDetector.Detect(f1). };
 
@@ -47,28 +47,28 @@ public partial class MoveToNet5
 #else
     void  
 #endif
- RestoreFromBackup(List<string> k)
+ RestoreFromBackup(List<string> filePaths)
     {
-        foreach (var item in k)
+        foreach (var filePath in filePaths)
         {
-            var old = item + AllExtensions.old;
-            if (FS.ExistsFile(old))
+            var backupFilePath = filePath + AllExtensions.old;
+            if (FS.ExistsFile(backupFilePath))
             {
-                FS.MoveFile(old, item, FileMoveCollisionOptionDC.Overwrite);
+                FS.MoveFile(backupFilePath, filePath, FileMoveCollisionOptionDC.Overwrite);
             }
             else
             {
-                Console.WriteLine("Doesn't exists: " + old);
+                Console.WriteLine("Doesn't exists: " + backupFilePath);
             }
         }
     }
 
     public string ListOfAllWebAndNonWeb(ILogger logger)
     {
-        var temp = WebAndNonWebProjects(logger, false);
+        var projectsData = WebAndNonWebProjects(logger, false);
         TextOutputGenerator tog = new TextOutputGenerator();
-        tog.List(temp.Item1, "Web");
-        tog.List(temp.Item2, "NonWeb");
+        tog.List(projectsData.Item1, "Web");
+        tog.List(projectsData.Item2, "NonWeb");
 
         return tog.ToString();
     }
@@ -79,31 +79,31 @@ public partial class MoveToNet5
 #else
     void  
 #endif
- ReplaceUnneedReferencesInCsprojsNotSdKStyle(ILogger logger, bool web = true)
+ ReplaceUnneedReferencesInCsprojsNotSdKStyle(ILogger logger, bool isWeb = true)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        var f =
+        var sdkStyleResult =
 #if ASYNC
     await
 #endif
- FindProjectsWhichIsSdkStyle(logger, false, web);
-        foreach (var item in f.nonCsprojSdkStyleList)
+ FindProjectsWhichIsSdkStyle(logger, false, isWeb);
+        foreach (var projectPath in sdkStyleResult.nonCsprojSdkStyleList)
         {
-            if (item.EndsWith("_b.csproj"))
+            if (projectPath.EndsWith("_b.csproj"))
             {
                 continue;
             }
-            await ReplaceUnneedReferencesInCsprojs(item);
-            stringBuilder.AppendLine(GenerateTryConvert(item));
+            await ReplaceUnneedReferencesInCsprojs(projectPath);
+            stringBuilder.AppendLine(GenerateTryConvert(projectPath));
         }
-        var sbs = stringBuilder.ToString();
-        return sbs;
+        var result = stringBuilder.ToString();
+        return result;
     }
 
-    public string GenerateTryConvert(string p)
+    public string GenerateTryConvert(string csprojPath)
     {
         // poslední verze try-convert je 0.9.232202 a ta funguje na .NET 5. Proto musím přidávat ty 2 parametry
-        return @"try-convert  --target-framework net5.0 -m 'C:\Program Files\dotnet\sdk\5.0.100\' -w '" + p + "'";
+        return @"try-convert  --target-framework net5.0 -m 'C:\Program Files\dotnet\sdk\5.0.100\' -w '" + csprojPath + "'";
     }
 
     public

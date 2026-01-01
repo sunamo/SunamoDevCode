@@ -1,25 +1,14 @@
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 namespace SunamoDevCode.Aps.Enums;
 
-class CopyToOutputDirectory
+/// <summary>
+/// Helper class for handling CopyToOutputDirectory property in project files
+/// </summary>
+public class CopyToOutputDirectory
 {
+    /// <summary>
+    /// Initializes a new instance of the CopyToOutputDirectory class
+    /// </summary>
     public CopyToOutputDirectory()
     {
-        //Engine engine = new Engine();
-        ////engine.BinPath = RuntimeEnvironment.GetRuntimeDirectory();
-        //Project project = engine.CreateNewProject();
-
-        //project.AddNewImport(@"$(MSBuildBinPath)\Microsoft.CSharp.targets", null);
-
-        //BuildPropertyGroup props = project.AddNewPropertyGroup(false);
-        //props.AddNewProperty("AssemblyName", "myassembly");
-        //props.AddNewProperty("OutputType", "Library");
-
-        //BuildItemGroup items = project.AddNewItemGroup();
-        //items.AddNewItem(ItemGroupsConsts.Reference, "Some.Assembly");
-        //items.AddNewItem(ItemGroupsConsts.Compile, "somefile.cs");
-
-        //project.Save("myproject.csproj");
     }
 }

@@ -1,7 +1,9 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Enums;
 
 /// <summary>
-/// Všechny operace co jsou zde se dělají v jediné metodě
+/// EN: All operations defined here are performed in a single method
+/// CZ: Všechny operace co jsou zde se dělají v jediné metodě
 /// </summary>
 public enum ProjectsOnWhichDependentMode
 {

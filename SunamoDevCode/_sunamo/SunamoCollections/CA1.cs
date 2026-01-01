@@ -22,18 +22,18 @@ internal partial class CA
         return sf;
     }
 
-    internal static List<T> JoinIList<T>(params IList<T>[] enumerable)
+    internal static List<T> JoinIList<T>(params IList<T>[] lists)
     {
-        List<T> t = new List<T>();
-        foreach (var item in enumerable)
+        List<T> result = new List<T>();
+        foreach (var list in lists)
         {
-            foreach (var item2 in item)
+            foreach (var element in list)
             {
-                t.Add((T)item2);
+                result.Add((T)element);
             }
         }
 
-        return t;
+        return result;
     }
 
     internal static void RemoveEmptyLinesToFirstNonEmpty(List<string> content)
@@ -53,13 +53,13 @@ internal partial class CA
         }
     }
 
-    internal static void RemoveLines(List<string> lines, List<int> removeLines)
+    internal static void RemoveLines(List<string> lines, List<int> lineIndexesToRemove)
     {
-        removeLines.Sort();
-        for (int i = removeLines.Count - 1; i >= 0; i--)
+        lineIndexesToRemove.Sort();
+        for (int i = lineIndexesToRemove.Count - 1; i >= 0; i--)
         {
-            var dx = removeLines[i];
-            lines.RemoveAt(dx);
+            var lineIndex = lineIndexesToRemove[i];
+            lines.RemoveAt(lineIndex);
         }
     }
 
@@ -76,24 +76,23 @@ internal partial class CA
         return mySites;
     }
 
-    internal static List<string> WrapWith(List<string> whereIsUsed2, string v)
+    internal static List<string> WrapWith(List<string> list, string wrapText)
     {
-        return WrapWith(whereIsUsed2, v, v);
+        return WrapWith(list, wrapText, wrapText);
     }
 
     /// <summary>
-    /// direct edit
+    /// EN: Direct edit of list
+    /// CZ: Přímá editace listu
     /// </summary>
-    /// <param name = "whereIsUsed2"></param>
-    /// <param name = "v"></param>
-    internal static List<string> WrapWith(List<string> whereIsUsed2, string before, string after)
+    internal static List<string> WrapWith(List<string> list, string prefixText, string suffixText)
     {
-        for (int i = 0; i < whereIsUsed2.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            whereIsUsed2[i] = before + whereIsUsed2[i] + after;
+            list[i] = prefixText + list[i] + suffixText;
         }
 
-        return whereIsUsed2;
+        return list;
     }
 
     internal static List<string> EnsureBackslash(List<string> eb)
@@ -153,21 +152,21 @@ internal partial class CA
         return false;
     }
 
-    internal static List<string> Prepend(string v, List<string> toReplace)
+    internal static List<string> Prepend(string prefix, List<string> list)
     {
-        for (int i = 0; i < toReplace.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            if (!toReplace[i].StartsWith(v))
+            if (!list[i].StartsWith(prefix))
             {
-                toReplace[i] = v + toReplace[i];
+                list[i] = prefix + list[i];
             }
         }
 
-        return toReplace;
+        return list;
     }
 
-    internal static List<string> ToListString(params string[] v)
+    internal static List<string> ToListString(params string[] values)
     {
-        return v.ToList();
+        return values.ToList();
     }
 }

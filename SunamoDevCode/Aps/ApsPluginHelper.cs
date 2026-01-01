@@ -1,14 +1,22 @@
 namespace SunamoDevCode.Aps;
 
+/// <summary>
+/// EN: Helper class for APS plugins
+/// CZ: Pomocná třída pro APS pluginy
+/// </summary>
 public partial class ApsPluginHelper
 {
-    public static Type type = typeof(ApsPluginHelper);
+    /// <summary>
+    /// EN: Singleton instance of ApsPluginHelper
+    /// CZ: Singleton instance ApsPluginHelper
+    /// </summary>
+    public static ApsPluginHelper Instance = new ApsPluginHelper();
 
-
-    public static ApsPluginHelper ci = new ApsPluginHelper();
-
+    /// <summary>
+    /// EN: Private constructor for singleton pattern
+    /// CZ: Soukromý konstruktor pro singleton pattern
+    /// </summary>
     private ApsPluginHelper()
     {
-
     }
 }

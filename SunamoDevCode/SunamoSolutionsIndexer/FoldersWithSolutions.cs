@@ -5,47 +5,45 @@ namespace SunamoDevCode.SunamoSolutionsIndexer;
 public partial class FoldersWithSolutions
 {
     /// <summary>
-    /// 3-10-23 bylo static ale nevím proč když solutions je instanční
+    /// EN: Was static on 3-10-23 but don't know why when solutions is instance field
+    /// CZ: 3-10-23 bylo static ale nevím proč když solutions je instanční
     /// </summary>
-    public List<SolutionFolder> solutions = null;
+    public List<SolutionFolder> solutions { get; set; } = null;
+
     /// <summary>
-    /// D:\Documents
+    /// EN: Path to documents folder, e.g., D:\Documents
+    /// CZ: D:\Documents
     /// </summary>
-    public string documentsFolder = null;
-    static Type type = typeof(FoldersWithSolutions);
-    static FoldersWithSolutions _fws = null;
-    public static RepositoryLocal usedRepository = RepositoryLocal.Vs17;
-    protected static void IdentifyProjectType(string documentsFolder, string solutionFolder, SolutionFolder sf)
+    public string documentsFolder { get; set; } = null;
+
+    private static Type type = typeof(FoldersWithSolutions);
+    public static RepositoryLocal usedRepository { get; set; } = RepositoryLocal.Vs17;
+    protected static void IdentifyProjectType(string documentsFolder, string solutionFolder, SolutionFolder solutionFolderData)
     {
         // SolutionFolderSerialize doesn't have InVsFolder or typeProjectFolder
-        sf.InVsFolder = solutionFolder.Contains(SolutionsIndexerStrings.VisualStudio2017);
-        if (sf.InVsFolder)
+        solutionFolderData.InVsFolder = solutionFolder.Contains(SolutionsIndexerStrings.VisualStudio2017);
+        if (solutionFolderData.InVsFolder)
         {
             solutionFolder = SHTrim.TrimStart(solutionFolder, documentsFolder);
-            var parameter = SHSplit.SplitChar(solutionFolder, '\\');
-            //var dx = parameter.IndexOf(SolutionsIndexerStrings.VisualStudio2017);
-            var pr = parameter[0];
-            pr = pr.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
-            if (projectTypes._d2.ContainsKey(pr))
+            var pathParts = SHSplit.SplitChar(solutionFolder, '\\');
+            var projectTypeFolder = pathParts[0];
+            projectTypeFolder = projectTypeFolder.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
+            if (projectTypes.SecondToFirst.ContainsKey(projectTypeFolder))
             {
-                sf.typeProjectFolder = projectTypes._d2[pr];
+                solutionFolderData.typeProjectFolder = projectTypes.SecondToFirst[projectTypeFolder];
             }
             else
             {
-                //ThrowEx.KeyNotFound(projectTypes._d2, "projectTypes._d2", pr);
-                sf.typeProjectFolder = ProjectsTypes.Unknown;
+                solutionFolderData.typeProjectFolder = ProjectsTypes.Unknown;
             }
         }
     }
 
     /// <summary>
-    /// Složka ve které se má hledat na složku Projects a složky Visual Studia
-    ///
-    /// přidává se mi zde když volám ctor FoldersWithSolutions
-    ///
-    /// pokud nemám sln, zavolat new FoldersWithSolutions(BasePathsHelper.vs, null);
+    /// EN: Folder where to search for Projects folder and Visual Studio folders. Added here when calling FoldersWithSolutions ctor. If no sln, call new FoldersWithSolutions(BasePathsHelper.vs, null);
+    /// CZ: Složka ve které se má hledat na složku Projects a složky Visual Studia. Přidává se mi zde když volám ctor FoldersWithSolutions. Pokud nemám sln, zavolat new FoldersWithSolutions(BasePathsHelper.vs, null);
     /// </summary>
-    public static FoldersWithSolutionsList fwss = new FoldersWithSolutionsList();
+    public static FoldersWithSolutionsList fwss { get; set; } = new FoldersWithSolutionsList();
     public static void InsertIntoFwss(ILogger logger, string documentsFolder, PpkOnDriveDC toSelling, bool addAlsoSolutions = true)
     {
         new FoldersWithSolutions(logger, documentsFolder, toSelling, addAlsoSolutions);
@@ -86,13 +84,13 @@ public partial class FoldersWithSolutions
 
     public List<SolutionFolderWithFiles> SolutionsWithFiles()
     {
-        List<SolutionFolderWithFiles> vr = new List<SolutionFolderWithFiles>();
-        foreach (var item in solutions)
+        List<SolutionFolderWithFiles> result = new List<SolutionFolderWithFiles>();
+        foreach (var solutionFolder in solutions)
         {
-            vr.Add(new SolutionFolderWithFiles(item));
+            result.Add(new SolutionFolderWithFiles(solutionFolder));
         }
 
-        return vr;
+        return result;
     }
 
     /// <summary>
@@ -121,10 +119,10 @@ public partial class FoldersWithSolutions
         return solutions;
     }
 
-    static TwoWayDictionary<ProjectsTypes, string> projectTypes = new TwoWayDictionary<ProjectsTypes, string>();
+    private static TwoWayDictionary<ProjectsTypes, string> projectTypes = new TwoWayDictionary<ProjectsTypes, string>();
     public static void PairProjectFolderWithEnum(ILogger logger, string documentsFolder)
     {
-        if (projectTypes._d1.Count > 0)
+        if (projectTypes.FirstToSecond.Count > 0)
         {
             return;
         }
@@ -179,11 +177,13 @@ public partial class FoldersWithSolutions
         projectTypes.Add(ProjectsTypes.Cs, XlfKeys.Projects);
     }
 
-    public static List<string> onlyRealLoadedSolutionsFolders = new List<string>();
+    public static List<string> onlyRealLoadedSolutionsFolders { get; set; } = new List<string>();
+
     /// <summary>
-    /// In key is fn without .csproj, in value is full path
+    /// EN: In key is filename without .csproj, in value is full path
+    /// CZ: V klíči je jméno souboru bez .csproj, v hodnotě je úplná cesta
     /// </summary>
-    public static Dictionary<string, List<string>> allCsprojGlobal = new Dictionary<string, List<string>>();
+    public static Dictionary<string, List<string>> allCsprojGlobal { get; set; } = new Dictionary<string, List<string>>();
 #if ASYNC
     public static
 #if ASYNC
@@ -234,46 +234,42 @@ public partial class FoldersWithSolutions
         return allCsprojGlobal;
     }
 
-    public static List<string> projectsWithDuplicateName = new List<string>();
-    public static bool IsAllProjectNamesUnique(bool listToClipboardInsteadOfThrowEx = false)
+    public static List<string> projectsWithDuplicateName { get; set; } = new List<string>();
+
+    public static bool IsAllProjectNamesUnique(bool isListToClipboardInsteadOfThrowEx = false)
     {
         StringBuilder stringBuilder = null;
-        if (listToClipboardInsteadOfThrowEx)
+        if (isListToClipboardInsteadOfThrowEx)
         {
             stringBuilder = new StringBuilder();
         }
 
-        bool vr = true;
-        foreach (var item in allCsprojGlobal)
+        bool result = true;
+        foreach (var projectEntry in allCsprojGlobal)
         {
-            if (item.Value.Count > 1)
+            if (projectEntry.Value.Count > 1)
             {
-                if (listToClipboardInsteadOfThrowEx)
+                if (isListToClipboardInsteadOfThrowEx)
                 {
-                    foreach (var item2 in item.Value)
+                    foreach (var projectPath in projectEntry.Value)
                     {
-                        stringBuilder.AppendLine(item2);
+                        stringBuilder.AppendLine(projectPath);
                     }
                 }
                 else
                 {
-                    projectsWithDuplicateName.Add(Path.GetFileName(item.Key));
-                    for (int i = 1; i < item.Value.Count; i++)
+                    projectsWithDuplicateName.Add(Path.GetFileName(projectEntry.Key));
+                    for (int i = 1; i < projectEntry.Value.Count; i++)
                     {
-                        item.Value.RemoveAt(i);
+                        projectEntry.Value.RemoveAt(i);
                     }
-                //ThrowEx.MoreThanOneElement("item.Value", item.Value.Count, "Key : "+ item.Key);
                 }
 
-                vr = false;
+                result = false;
             }
         }
 
-        //if (listToClipboardInsteadOfThrowEx)
-        //{
-        //    ClipboardHelper.SetText(stringBuilder.ToString());
-        //}
-        return vr;
+        return result;
     }
 
     public static SolutionFolder CreateSolutionFolder(ILogger logger, string documentsFolder, SolutionFolderSerialize solutionFolder, PpkOnDriveDC toSelling, string projName = null)

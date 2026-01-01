@@ -124,7 +124,7 @@ public partial class GitBashBuilder : IGitBashBuilder
         return filesToCommit;
     }
 
-    public static string xSomeErrorsOccured = "SomeErrorsOccured";
+    public static string SomeErrorsOccured { get; set; } = "SomeErrorsOccured";
 #pragma warning disable
     public static string CreateGitCommandForFiles(string command, StringBuilder sb, List<string> linesFiles)
     {
@@ -134,31 +134,31 @@ public partial class GitBashBuilder : IGitBashBuilder
 #pragma warning restore
     public void Cd(string key)
     {
-        sb.AppendLine("cd " + SH.WrapWith(key, "\""));
+        StringBuilder.AppendLine("cd " + SH.WrapWith(key, "\""));
     }
 
     public void Clear()
     {
-        sb.Clear();
+        StringBuilder.Clear();
     }
 
     public void Append(string text)
     {
-        sb.Append(text + " ");
+        StringBuilder.Append(text + " ");
     }
 
     public void AppendLine(string text)
     {
-        sb.AppendLine(text);
+        StringBuilder.AppendLine(text);
     }
 
     public void AppendLine()
     {
-        sb.AppendLine();
+        StringBuilder.AppendLine();
     }
 
     public override string ToString()
     {
-        return sb.ToString();
+        return StringBuilder.ToString();
     }
 }

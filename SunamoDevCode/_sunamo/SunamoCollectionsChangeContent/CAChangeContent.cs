@@ -6,11 +6,11 @@ internal class CAChangeContent
     {
         if (a != null)
         {
-            if (a.removeNull)
+            if (a.RemoveNull)
             {
                 files_in.Remove(null);
             }
-            if (a.removeEmpty)
+            if (a.RemoveEmpty)
             {
                 for (int i = files_in.Count - 1; i >= 0; i--)
                 {
@@ -78,7 +78,7 @@ internal class CAChangeContent
         {
             a = new();
         }
-        if (a.switchFirstAndSecondArg)
+        if (a.SwitchFirstAndSecondArg)
         {
             files_in = ChangeContentSwitch12<Arg1>(files_in, funcSwitch12, arg);
         }

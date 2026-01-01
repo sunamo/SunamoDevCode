@@ -1,11 +1,12 @@
 namespace SunamoDevCode;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-// Instance variables refactored according to C# conventions
 /// <summary>
-///     Cant be derived from FiltersNotTranslateAble because easy of finding instances of CsFileFilter
+/// EN: Filter for C# files with configurable filtering rules
+/// CZ: Filtr pro C# soubory s konfigurovatelými pravidly filtrování
 /// </summary>
+/// <remarks>
+/// Cannot be derived from FiltersNotTranslateAble to make finding instances of CsFileFilter easier
+/// </remarks>
 public partial class CsFileFilter : ICsFileFilter
 {
     private static readonly FiltersNotTranslateAble filtersNotTranslateable = FiltersNotTranslateAble.Instance;

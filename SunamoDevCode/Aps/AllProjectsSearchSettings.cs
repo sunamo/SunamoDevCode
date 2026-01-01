@@ -92,11 +92,14 @@ internal static partial class AllProjectsSearchSettings
         return _webProjectsWildCard;
     }
     /// <summary>
-    /// Obsahuje od nuly číslované složky ve kterých má vyhledávat, např. 1=D:\Documents\ ale to zda se má vyhledávat je v sectionSearchFoldersChecked
+    /// EN: Contains zero-indexed folders to search in, e.g. 1=D:\Documents\ but whether to search is in sectionSearchFoldersChecked
+    /// CZ: Obsahuje od nuly číslované složky ve kterých má vyhledávat, např. 1=D:\Documents\ ale to zda se má vyhledávat je v sectionSearchFoldersChecked
     /// </summary>
     const string sectionSearchFolders = "SearchFolders";
+
     /// <summary>
-    /// Obsahuje od nuly číslované bool hodnoty, index odkazuje na složku v sectionSearchFolders a bool říká zda v této složce se má vyhledávat
+    /// EN: Contains zero-indexed bool values, index refers to folder in sectionSearchFolders and bool says whether to search in this folder
+    /// CZ: Obsahuje od nuly číslované bool hodnoty, index odkazuje na složku v sectionSearchFolders a bool říká zda v této složce se má vyhledávat
     /// </summary>
     const string sectionSearchFoldersChecked = "SearchFoldersChecked";
     internal static string PathAutoYes(GetFileData getFileData)
@@ -120,22 +123,23 @@ internal static partial class AllProjectsSearchSettings
         return pathNotToTranslate;
     }
     /// <summary>
-    /// G zda cesta A1 je v cestách, ve kterých aplikace hledá
+    /// EN: Returns whether the path exists in search paths
+    /// CZ: G zda cesta A1 je v cestách, ve kterých aplikace hledá
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="path">Path to check</param>
     internal static bool ExistsSearchFolderByPath(string path)
     {
         path = FS.WithEndSlash(path);
         for (int i = 0; i < 1000; i++)
         {
-            string serieS = i.ToString();
-            if (!ExistsFolderSearchBySerie(serieS))
+            string seriesIndex = i.ToString();
+            if (!ExistsFolderSearchBySerie(seriesIndex))
             {
                 break;
             }
             else
             {
-                if (GetSearchFolderNormalized(serieS) == path)
+                if (GetSearchFolderNormalized(seriesIndex) == path)
                 {
                     return true;
                 }
@@ -143,25 +147,27 @@ internal static partial class AllProjectsSearchSettings
         }
         return false;
     }
+
     /// <summary>
-    /// Vrátí všechny cesty ve kterých vyhledávat.
+    /// EN: Returns all paths in which to search
+    /// CZ: Vrátí všechny cesty ve kterých vyhledávat
     /// </summary>
     internal static List<string> GetAllNormalizedSearchFolders()
     {
-        List<string> vr = new List<string>();
+        List<string> folders = new List<string>();
         for (int i = 0; i < 1000; i++)
         {
-            string serieS = i.ToString();
-            var result = ExistsFolderSearchBySerie(serieS);
-            if (!result)
+            string seriesIndex = i.ToString();
+            var exists = ExistsFolderSearchBySerie(seriesIndex);
+            if (!exists)
             {
                 break;
             }
             else
             {
-                vr.Add(GetSearchFolderNormalized(serieS));
+                folders.Add(GetSearchFolderNormalized(seriesIndex));
             }
         }
-        return vr;
+        return folders;
     }
 }

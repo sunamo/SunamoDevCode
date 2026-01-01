@@ -2,11 +2,11 @@ namespace SunamoDevCode._public.SunamoData.Data;
 
 public class FromToList
 {
-    public List<FromToDC> c = new();
-    public bool IsInRange(int i)
+    public List<FromToDC> Ranges { get; set; } = new();
+    public bool IsInRange(int value)
     {
-        foreach (var item in c)
-            if (i < item.to && i > item.from)
+        foreach (var item in Ranges)
+            if (value < item.to && value > item.from)
                 return true;
         return false;
     }

@@ -1,22 +1,20 @@
 namespace SunamoDevCode.Aps;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public partial class ApsHelper : ApsPluginStatic
 {
-    public 
+    public
 #if ASYNC
     async Task
 #else
-    void 
+    void
 #endif
-    EnterOutputOfPowershellGit_ChangeDialogResult(bool? builder, GitBashBuilder stringBuilder, string eVs, string pathGetMessagesFromGitOutput)
+    EnterOutputOfPowershellGit_ChangeDialogResult(bool? shouldProcessMessages, GitBashBuilder stringBuilder, string eVs, string pathGetMessagesFromGitOutput)
     {
         var messages = (
 #if ASYNC
     await
 #endif
-        GetMessagesFromGitOutput(builder, pathGetMessagesFromGitOutput, eVs)).ToList();
+        GetMessagesFromGitOutput(shouldProcessMessages, pathGetMessagesFromGitOutput, eVs)).ToList();
         CA.Prepend("#", messages);
         var mess = new StringBuilder();
         if (messages.Count() == 0)
@@ -31,26 +29,26 @@ public partial class ApsHelper : ApsPluginStatic
             }
         }
 
-        var ts = string.Empty;
+        var gitBashCommands = string.Empty;
         if (stringBuilder != null)
         {
-            ts = stringBuilder.ToString();
+            gitBashCommands = stringBuilder.ToString();
         }
 
         if (pushSolutionsData.onlyThese != VpsHelperDevCode.listVpsNew)
         {
             string vpsPath = eVs;
             //string localPath = SH.PostfixIfNotEmpty(DefaultPaths.eVsProjects, "\\");
-            var list = SHGetLines.GetLines(ts);
+            var list = SHGetLines.GetLines(gitBashCommands);
             CA.Trim(list);
             for (int i = 0; i < list.Count; i++)
             {
-                var li = list[i];
-                if (li.StartsWith("cd "))
+                var line = list[i];
+                if (line.StartsWith("cd "))
                 {
-                    var parameter = SHSplit.Split(li, vpsPath);
-                    var p2 = SHSplit.SplitChar(parameter[1], '\\');
-                    var slnName = p2[0].TrimEnd('"');
+                    var parts = SHSplit.Split(line, vpsPath);
+                    var pathParts = SHSplit.SplitChar(parts[1], '\\');
+                    var slnName = pathParts[0].TrimEnd('"');
                     var sfo = SolutionsIndexerHelper.SolutionWithName(slnName);
                     var dn = FS.GetDirectoryName(sfo.fullPathFolder);
                     list[i] = list[i].Replace(vpsPath, dn);
@@ -58,11 +56,11 @@ public partial class ApsHelper : ApsPluginStatic
             }
 
             // Exists FS.WithEndSlash but there could be better
-            //ts = ts.Replace(vpsPath, localPath);
-            ts = SHJoin.JoinNL(list);
+            //gitBashCommands = gitBashCommands.Replace(vpsPath, localPath);
+            gitBashCommands = SHJoin.JoinNL(list);
         }
 
-        mess.AppendLine(ts);
+        mess.AppendLine(gitBashCommands);
         ClipboardService.SetText(mess.ToString());
         if (!cmd)
         {
@@ -127,15 +125,15 @@ public partial class ApsHelper : ApsPluginStatic
 
     public string MainSln2(string fullPathFolder)
     {
-        string r = null;
-        r = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder) + AllExtensions.sln);
-        if (FS.ExistsFile(r))
+        string slnPath = null;
+        slnPath = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder) + AllExtensions.sln);
+        if (FS.ExistsFile(slnPath))
         {
-            return r;
+            return slnPath;
         }
         else
         {
-            //r = ApsHelper.ci.GetSlns(fullPathFolder).FirstOrDefault();
+            //slnPath = ApsHelper.ci.GetSlns(fullPathFolder).FirstOrDefault();
             return null;
         }
     }
@@ -143,27 +141,27 @@ public partial class ApsHelper : ApsPluginStatic
     public string MainSln(SolutionFolder sln)
     {
         string fullPathFolder = sln.fullPathFolder;
-        string r = null;
+        string slnPath = null;
         if (sln.slnNameWoExt == null)
         {
-            r = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder) + AllExtensions.sln);
+            slnPath = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder) + AllExtensions.sln);
         }
         else
         {
-            r = Path.Combine(fullPathFolder, sln.slnNameWoExt + AllExtensions.sln);
+            slnPath = Path.Combine(fullPathFolder, sln.slnNameWoExt + AllExtensions.sln);
         }
 
-        if (r.Contains("apps.sunamo.cz"))
+        if (slnPath.Contains("apps.sunamo.cz"))
         {
         }
 
-        if (FS.ExistsFile(r))
+        if (FS.ExistsFile(slnPath))
         {
-            return r;
+            return slnPath;
         }
         else
         {
-            //r = ApsHelper.ci.GetSlns(fullPathFolder).FirstOrDefault();
+            //slnPath = ApsHelper.ci.GetSlns(fullPathFolder).FirstOrDefault();
             return null;
         }
     }
@@ -176,8 +174,8 @@ public partial class ApsHelper : ApsPluginStatic
 
     public string SlnFilePathFromFolder(string fullPathFolder)
     {
-        var fs = FS.GetFileName(fullPathFolder);
-        return Path.Combine(fullPathFolder, fs + AllExtensions.sln);
+        var folderName = FS.GetFileName(fullPathFolder);
+        return Path.Combine(fullPathFolder, folderName + AllExtensions.sln);
     }
 
     /// <summary>
@@ -214,8 +212,8 @@ public partial class ApsHelper : ApsPluginStatic
     {
         GetProjectFolderAndSlnPath(sln, ci.DetectDocumentsFolder(sln));
         var projectFolder = SH.WrapWith(sln.projectFolder, "\\");
-        int dx = fullPathCsproj.IndexOf(projectFolder);
-        string result = fullPathCsproj.Substring(dx + projectFolder.Length);
+        int projectFolderIndex = fullPathCsproj.IndexOf(projectFolder);
+        string result = fullPathCsproj.Substring(projectFolderIndex + projectFolder.Length);
         // 25-1-20 added ..\ before
         result = "..\\" + result;
         return result;
@@ -284,14 +282,14 @@ public partial class ApsHelper : ApsPluginStatic
     /// <param name = "item"></param>
     public string GetRelativePathToProject(string file, string slnFullPath, char delimiter)
     {
-        int i = SH.OccurencesOfStringIn(slnFullPath, "/");
-        if (i == 0)
+        int separatorCount = SH.OccurencesOfStringIn(slnFullPath, "/");
+        if (separatorCount == 0)
         {
-            i = SH.OccurencesOfStringIn(slnFullPath, "\\");
+            separatorCount = SH.OccurencesOfStringIn(slnFullPath, "\\");
         }
 
-        i += 2;
-        string relativePath = FS.AddUpfoldersToRelativePath(i, file, delimiter);
+        separatorCount += 2;
+        string relativePath = FS.AddUpfoldersToRelativePath(separatorCount, file, delimiter);
         return relativePath;
     }
 }

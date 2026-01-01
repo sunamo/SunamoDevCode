@@ -1,120 +1,148 @@
 namespace SunamoDevCode.ToNetCore.research;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public partial class MoveToNet5
 {
-    private 
+    /// <summary>
+    /// EN: Replaces or removes XML elements (like PackageReference, Reference) in a .csproj file
+    /// CZ: Nahrazuje nebo odstraňuje XML elementy (jako PackageReference, Reference) v .csproj souboru
+    /// </summary>
+    /// <param name="additionalReplacements">
+    /// EN: Optional function to perform additional string replacements on the XML content after the main operation
+    /// CZ: Volitelná funkce pro provedení dalších textových nahrazení v XML obsahu po hlavní operaci
+    /// </param>
+    /// <param name="xmlElementName">
+    /// EN: Name of the XML element to modify (e.g., "Reference", "PackageReference", "ProjectReference")
+    /// CZ: Název XML elementu k úpravě (např. "Reference", "PackageReference", "ProjectReference")
+    /// </param>
+    /// <param name="referencesToModify">
+    /// EN: List of reference Include values to replace or remove (e.g., package names, DLL names)
+    /// CZ: Seznam hodnot atributu Include k nahrazení nebo odstranění (např. názvy balíčků, DLL)
+    /// </param>
+    /// <param name="csprojFilePath">
+    /// EN: Full path to the .csproj file to modify
+    /// CZ: Úplná cesta k .csproj souboru k úpravě
+    /// </param>
+    /// <param name="replacementReference">
+    /// EN: New reference value to replace with (null = remove, non-null = replace). Must be the Include value only.
+    /// CZ: Nová hodnota reference pro nahrazení (null = odstranit, nenulová = nahradit). Musí být pouze hodnota Include.
+    /// </param>
+    /// <example>
+    /// EN: Example - Replace old package with new one:
+    ///     ReplaceOrRemoveFile(null, "PackageReference", new List&lt;string&gt; { "OldPackage" }, @"C:\Project.csproj", "NewPackage")
+    /// CZ: Příklad - Nahradit starý balíček novým:
+    ///     ReplaceOrRemoveFile(null, "PackageReference", new List&lt;string&gt; { "OldPackage" }, @"C:\Project.csproj", "NewPackage")
+    /// </example>
+    private
 #if ASYNC
     async Task
 #else
-    void 
+    void
 #endif
-    ReplaceOrRemoveFile(Func<string, string> addReplace, string element, List<string> refe, string pathCsproj, string newRefe = null)
+    ReplaceOrRemoveFile(Func<string, string> additionalReplacements, string xmlElementName, List<string> referencesToModify, string csprojFilePath, string replacementReference = null)
     {
-        bool replace = newRefe != null;
-        refe2 = "</" + element + ">";
+        bool isReplacing = replacementReference != null;
+        referenceClosingTag = "</" + xmlElementName + ">";
 #if DEBUG
-        if (pathCsproj.EndsWith(@"sunamo.web.csproj"))
+        if (csprojFilePath.EndsWith(@"sunamo.web.csproj"))
         {
             ThisApp.check = true;
         }
 #endif
-        var xd = 
+        var xmlDocumentResult =
 #if ASYNC
     await
 #endif
-        XmlDocumentsCache.Get(pathCsproj);
-        if (MayExcHelper.MayExc(xd.Exc))
+        XmlDocumentsCache.Get(csprojFilePath);
+        if (MayExcHelper.MayExc(xmlDocumentResult.Exc))
         {
             return;
         }
 
-        var tf = xd.Data.OuterXml;
-        string n = tf;
-        int dx = -1;
-        int dx2 = -1;
-        bool combine = false;
-        foreach (var r in refe)
+        var originalXmlContent = xmlDocumentResult.Data.OuterXml;
+        string modifiedXmlContent = originalXmlContent;
+        int firstReplacementIndex = -1;
+        int closingTagIndex = -1;
+        bool isCombiningTags = false;
+        foreach (var reference in referencesToModify)
         {
-            combine = false;
-            dx = -1;
-            dx2 = -1;
-            if (replace)
+            isCombiningTags = false;
+            firstReplacementIndex = -1;
+            closingTagIndex = -1;
+            if (isReplacing)
             {
-                n = SHReplace.ReplaceWithIndex(n, "<" + element + " Include=\"" + r + "\" />", string.Empty, ref dx);
-                n = SHReplace.ReplaceWithIndex(n, "<" + element + " Include=\"" + r + "\"/>", string.Empty, ref dx);
-                n = SHReplace.ReplaceWithIndex(n, "<" + element + " Include=\"" + r + "\"></" + element + ">", string.Empty, ref dx);
+                modifiedXmlContent = SHReplace.ReplaceWithIndex(modifiedXmlContent, "<" + xmlElementName + " Include=\"" + reference + "\" />", string.Empty, ref firstReplacementIndex);
+                modifiedXmlContent = SHReplace.ReplaceWithIndex(modifiedXmlContent, "<" + xmlElementName + " Include=\"" + reference + "\"/>", string.Empty, ref firstReplacementIndex);
+                modifiedXmlContent = SHReplace.ReplaceWithIndex(modifiedXmlContent, "<" + xmlElementName + " Include=\"" + reference + "\"></" + xmlElementName + ">", string.Empty, ref firstReplacementIndex);
             }
             else
             {
-                n = n.Replace("<" + element + " Include=\"" + r + "\" />", string.Empty);
-                n = n.Replace(GetReferenceShortest(element, r), string.Empty);
-                n = n.Replace("<" + element + " Include=\"" + r + "\"></" + element + ">", string.Empty);
+                modifiedXmlContent = modifiedXmlContent.Replace("<" + xmlElementName + " Include=\"" + reference + "\" />", string.Empty);
+                modifiedXmlContent = modifiedXmlContent.Replace(GetReferenceShortest(xmlElementName, reference), string.Empty);
+                modifiedXmlContent = modifiedXmlContent.Replace("<" + xmlElementName + " Include=\"" + reference + "\"></" + xmlElementName + ">", string.Empty);
             }
 
-            if (dx == -1)
+            if (firstReplacementIndex == -1)
             {
-                string toFind = ReferenceLongest(element, r);
-                dx = n.IndexOf(toFind);
-                combine = true;
+                string tagToFind = ReferenceLongest(xmlElementName, reference);
+                firstReplacementIndex = modifiedXmlContent.IndexOf(tagToFind);
+                isCombiningTags = true;
             }
 
-            if (dx != -1 && combine)
+            if (firstReplacementIndex != -1 && isCombiningTags)
             {
-                n = n.Remove(dx, ReferenceLongest(element, r).Length);
-                dx2 = n.IndexOf(refe2, dx);
-                n = n.Remove(dx2, refe2.Length);
+                modifiedXmlContent = modifiedXmlContent.Remove(firstReplacementIndex, ReferenceLongest(xmlElementName, reference).Length);
+                closingTagIndex = modifiedXmlContent.IndexOf(referenceClosingTag, firstReplacementIndex);
+                modifiedXmlContent = modifiedXmlContent.Remove(closingTagIndex, referenceClosingTag.Length);
             }
 
-            if (dx != -1)
+            if (firstReplacementIndex != -1)
             {
-                if (replace)
+                if (isReplacing)
                 {
-                    var refe3 = GetReferenceShortest(element, newRefe);
-                    n = n.Insert(dx, refe3);
+                    var shortestReferenceTag = GetReferenceShortest(xmlElementName, replacementReference);
+                    modifiedXmlContent = modifiedXmlContent.Insert(firstReplacementIndex, shortestReferenceTag);
                 }
             }
         }
 
-        if (addReplace != null)
+        if (additionalReplacements != null)
         {
-            n = addReplace(n);
+            modifiedXmlContent = additionalReplacements(modifiedXmlContent);
         }
 
-        if (n != tf)
+        if (modifiedXmlContent != originalXmlContent)
         {
 #if DEBUG
-            var list =
+            var originalFileLines =
 #if ASYNC
     await
 #endif
- TF.ReadAllLines(pathCsproj);
-            var nf = FS.InsertBetweenFileNameAndExtension(pathCsproj, "_b");
+ TF.ReadAllLines(csprojFilePath);
+            var backupFilePath = FS.InsertBetweenFileNameAndExtension(csprojFilePath, "_b");
 
 #if ASYNC
             await
 #endif
-            TF.WriteAllLines(nf, list);
+            TF.WriteAllLines(backupFilePath, originalFileLines);
 #endif
-            await XmlDocumentsCache.Set(pathCsproj, n);
+            await XmlDocumentsCache.Set(csprojFilePath, modifiedXmlContent);
 #if ASYNC
             await
 #endif
-            TF.WriteAllText(pathCsproj, n);
+            TF.WriteAllText(csprojFilePath, modifiedXmlContent);
         }
 
         ThisApp.check = false;
     }
 
-    private static string ReferenceLongest(string element, string r)
+    private static string ReferenceLongest(string xmlElementName, string reference)
     {
-        return "<" + element + " Include=\"" + r + "\">";
+        return "<" + xmlElementName + " Include=\"" + reference + "\">";
     }
 
-    private static string GetReferenceShortest(string element, string r)
+    private static string GetReferenceShortest(string xmlElementName, string reference)
     {
-        return "<" + element + " Include=\"" + r + "\"/>";
+        return "<" + xmlElementName + " Include=\"" + reference + "\"/>";
     }
 
     /// <summary>
@@ -129,23 +157,23 @@ public partial class MoveToNet5
 #endif
     CommentAssemblyInfoCsFiles(ILogger logger)
     {
-        var data = WebAndNonWebProjects(logger);
-        var lc = "//";
-        foreach (var item in data.Item2)
+        var projectsData = WebAndNonWebProjects(logger);
+        var lineCommentPrefix = "//";
+        foreach (var projectPath in projectsData.Item2)
         {
-            var d2 = FS.GetDirectoryName(item);
-            var ass = FSGetFiles.GetFiles(logger, d2, "AssemblyInfo.cs", true);
-            foreach (var item2 in ass)
+            var projectDirectory = FS.GetDirectoryName(projectPath);
+            var assemblyInfoFiles = FSGetFiles.GetFiles(logger, projectDirectory, "AssemblyInfo.cs", true);
+            foreach (var assemblyInfoFile in assemblyInfoFiles)
             {
-                var list = 
+                var fileLines =
 #if ASYNC
     await
 #endif
-                TF.ReadAllLines(item2);
-                if (!list.All(r => r.StartsWith(lc)))
+                TF.ReadAllLines(assemblyInfoFile);
+                if (!fileLines.All(line => line.StartsWith(lineCommentPrefix)))
                 {
-                    CA.StartingWith(lc, list);
-                    await TF.WriteAllLines(item2, list);
+                    CA.StartingWith(lineCommentPrefix, fileLines);
+                    await TF.WriteAllLines(assemblyInfoFile, fileLines);
                 }
             }
         }

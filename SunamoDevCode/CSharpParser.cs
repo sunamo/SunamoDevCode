@@ -2,8 +2,8 @@ namespace SunamoDevCode;
 
 public class CSharpParser
 {
-    public const string p = "public ";
-    public const string parameter = "static readonly ";
+    public const string PublicModifier = "public ";
+    public const string StaticReadonlyModifier = "static readonly ";
 
     //public const string c = "const string";
 
@@ -27,14 +27,15 @@ public class CSharpParser
     {
         remove.Insert(0, null);
 
-        // Inlined from CAIndexesWithNull.IndexesWithNull - získává indexy null hodnot v kolekci
-        List<int> ind = new List<int>();
+        // EN: Inlined from CAIndexesWithNull.IndexesWithNull - gets indexes of null values in collection
+        // CZ: Inlined from CAIndexesWithNull.IndexesWithNull - získává indexy null hodnot v kolekci
+        List<int> nullIndexes = new List<int>();
         int index = 0;
         foreach (var item in remove)
         {
             if (item == null)
             {
-                ind.Add(index);
+                nullIndexes.Add(index);
             }
             index++;
         }
@@ -51,11 +52,11 @@ public class CSharpParser
             if (text.Contains(XmlLocalisationInterchangeFileFormatSunamo.cs))
             {
                 var key = XmlLocalisationInterchangeFileFormatSunamo.GetConstsFromLine(text);
-                var dx = remove.IndexOf(key);
-                if (dx != -1)
+                var keyIndex = remove.IndexOf(key);
+                if (keyIndex != -1)
                 {
                     lines.RemoveAt(i);
-                    remove.RemoveAt(dx);
+                    remove.RemoveAt(keyIndex);
                 }
             }
         }

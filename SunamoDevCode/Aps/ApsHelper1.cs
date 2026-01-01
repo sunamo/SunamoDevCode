@@ -1,20 +1,18 @@
 namespace SunamoDevCode.Aps;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public partial class ApsHelper : ApsPluginStatic
 {
-    public 
+    public
 #if ASYNC
     async Task
 #else
-    void 
+    void
 #endif
-    CheckForPushInThread(object o, Func<List<string>, Task<List<List<string>>>> psInvoke, string eVs, string pathGetMessagesFromGitOutput)
+    CheckForPushInThread(object asyncPushSolutionsObject, Func<List<string>, Task<List<List<string>>>> psInvoke, string eVs, string pathGetMessagesFromGitOutput)
     {
-        AsyncPushSolutions a = (AsyncPushSolutions)o;
-        ThisApp.Appeal("foldersWithSolutions before " + a.foldersWithSolutions.Count);
-        foreach (var sln in a.foldersWithSolutions)
+        AsyncPushSolutions asyncPushSolutions = (AsyncPushSolutions)asyncPushSolutionsObject;
+        ThisApp.Appeal("foldersWithSolutions before " + asyncPushSolutions.foldersWithSolutions.Count);
+        foreach (var sln in asyncPushSolutions.foldersWithSolutions)
         {
 #if DEBUG
             //DebugLogger.Instance.WriteLine("Push: " + sln.nameSolution);
@@ -23,7 +21,7 @@ public partial class ApsHelper : ApsPluginStatic
 #if ASYNC
     await
 #endif
-            GitHelper.PushSolution(a.release, a.gitBashBuilder, a.pushArgs, a.commitMessage, sln.fullPathFolder, pushSolutionsData, a.gitStatus, psInvoke))
+            GitHelper.PushSolution(asyncPushSolutions.release, asyncPushSolutions.gitBashBuilder, asyncPushSolutions.pushArgs, asyncPushSolutions.commitMessage, sln.fullPathFolder, pushSolutionsData, asyncPushSolutions.gitStatus, psInvoke))
             {
                 var fn = FS.GetFileName(sln.fullPathFolder);
                 if (pushSolutionsData.onlyThese == VpsHelperDevCode.listVpsNew)
@@ -40,9 +38,9 @@ public partial class ApsHelper : ApsPluginStatic
             }
         }
 
-        var gitBashBuilderS = a.gitBashBuilder.ToString();
+        var gitBashBuilderS = asyncPushSolutions.gitBashBuilder.ToString();
         //gitBashBuilderS = "abc";
-        if (!string.IsNullOrWhiteSpace(gitBashBuilderS) || !a.release)
+        if (!string.IsNullOrWhiteSpace(gitBashBuilderS) || !asyncPushSolutions.release)
         {
             //gitBashBuilderS = gitBashBuilder.ToString();
             //gitBashBuilderS = TF.ReadAllText(@"D:\Desktop\gitOutput.txt");
@@ -73,21 +71,21 @@ public partial class ApsHelper : ApsPluginStatic
                 }
             }
 
-            var builder = true;
+            var hasSucceeded = true;
             if (push.HasValue)
             {
                 if (push.Value)
                 {
-                    await EnterOutputOfPowershellGit_ChangeDialogResult(builder, gitPushVps, eVs, pathGetMessagesFromGitOutput);
+                    await EnterOutputOfPowershellGit_ChangeDialogResult(hasSucceeded, gitPushVps, eVs, pathGetMessagesFromGitOutput);
                 }
                 else
                 {
-                    await EnterOutputOfPowershellGit_ChangeDialogResult(builder, gitPushVps, eVs, pathGetMessagesFromGitOutput);
+                    await EnterOutputOfPowershellGit_ChangeDialogResult(hasSucceeded, gitPushVps, eVs, pathGetMessagesFromGitOutput);
                 }
             }
             else
             {
-                await EnterOutputOfPowershellGit_ChangeDialogResult(builder, null, eVs, pathGetMessagesFromGitOutput);
+                await EnterOutputOfPowershellGit_ChangeDialogResult(hasSucceeded, null, eVs, pathGetMessagesFromGitOutput);
             }
         }
         else
@@ -117,26 +115,25 @@ public partial class ApsHelper : ApsPluginStatic
     public IList<string> GetMessagesFromGitOutput(List<string> lines)
     {
         lines.RemoveAll(data => data.StartsWith(call));
-        //var text = SHJoin.JoinNL(lines);
-        var parameter = CA.Split(lines, determining);
+        var sections = CA.Split(lines, determining);
         List<string> result = new List<string>();
-        List<List<string>> restored2 = new List<List<string>>();
-        List<List<string>> failedToRestore2 = new List<List<string>>();
-        foreach (var item in parameter)
+        List<List<string>> restoredSections = new List<List<string>>();
+        List<List<string>> failedSections = new List<List<string>>();
+        foreach (var section in sections)
         {
-            for (int i = item.Count - 1; i >= 0; i--)
+            for (int i = section.Count - 1; i >= 0; i--)
             {
-                if (item[i].StartsWith(restored))
+                if (section[i].StartsWith(restored))
                 {
-                    restored2.Add(item);
+                    restoredSections.Add(section);
                 }
-                else if (item[i].StartsWith(failedToRestore))
+                else if (section[i].StartsWith(failedToRestore))
                 {
-                    failedToRestore2.Add(item);
+                    failedSections.Add(section);
                 }
                 else
                 {
-                    ThrowEx.NotImplementedCase(item[i]);
+                    ThrowEx.NotImplementedCase(section[i]);
                 }
 
                 break;
@@ -144,9 +141,9 @@ public partial class ApsHelper : ApsPluginStatic
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        foreach (var item in failedToRestore2)
+        foreach (var failedSection in failedSections)
         {
-            stringBuilder.AppendLine(SHJoin.JoinNL(item));
+            stringBuilder.AppendLine(SHJoin.JoinNL(failedSection));
         }
 
         ClipboardService.SetText(stringBuilder.ToString());
@@ -154,17 +151,18 @@ public partial class ApsHelper : ApsPluginStatic
     }
 
     /// <summary>
-    /// Return empty collection if A1 = false
+    /// Return empty collection if shouldProcessMessages = false
     /// </summary>
-    /// <param name = "b"></param>
-    /// <param name = "git"></param>
-    
+    /// <param name = "shouldProcessMessages">Whether to process and filter messages from git output</param>
+    /// <param name = "pathGetMessagesFromGitOutput">Path to file containing git messages</param>
+    /// <param name = "eVs">Environment variable for drive</param>
+
 #if ASYNC
     async Task<IList<string>>
 #else
-    IList<string> 
+    IList<string>
 #endif
-    GetMessagesFromGitOutput(bool? builder, string pathGetMessagesFromGitOutput, string eVs)
+    GetMessagesFromGitOutput(bool? shouldProcessMessages, string pathGetMessagesFromGitOutput, string eVs)
     {
         if (cmd)
         {
@@ -203,35 +201,35 @@ public partial class ApsHelper : ApsPluginStatic
         //        break;
         //    }
         //}
-        var badSolutions = GetMessagesFromGitOutput(builder, ref lines, pushSolutionsData.checkForGit, eVs);
+        var badSolutions = GetMessagesFromGitOutput(shouldProcessMessages, ref lines, pushSolutionsData.checkForGit, eVs);
         return badSolutions;
     }
 
-    public List<string> GetMessagesFromGitOutput(bool? builder, ref List<string> lines, GitTypesOfMessages git, string eVs)
+    public List<string> GetMessagesFromGitOutput(bool? shouldProcessMessages, ref List<string> lines, GitTypesOfMessages gitMessageTypes, string eVs)
     {
         List<string> badSolutions = new List<string>();
-        if (BTS.GetValueOfNullable(builder))
+        if (BTS.GetValueOfNullable(shouldProcessMessages))
         {
             lines = CA.RemoveStringsEmptyTrimBefore(lines);
             for (int i = 0; i < lines.Count; i++)
             {
-                string item = lines[i];
-                bool add = false;
-                if (git.HasFlag(GitTypesOfMessages.fatal) && item.StartsWith("fatal: "))
+                string line = lines[i];
+                bool shouldAdd = false;
+                if (gitMessageTypes.HasFlag(GitTypesOfMessages.fatal) && line.StartsWith("fatal: "))
                 {
-                    add = true;
+                    shouldAdd = true;
                 }
 
-                if (git.HasFlag(GitTypesOfMessages.error) && item.StartsWith("error: "))
+                if (gitMessageTypes.HasFlag(GitTypesOfMessages.error) && line.StartsWith("error: "))
                 {
-                    add = true;
+                    shouldAdd = true;
                 }
 
-                if (add)
+                if (shouldAdd)
                 {
                     // -1 is in GetNameSolution
                     string nameSolution = GetNameSolution(lines, i, eVs);
-                    string all = nameSolution + " " + item;
+                    string all = nameSolution + " " + line;
                     badSolutions.Add(all);
                 }
             }
@@ -249,33 +247,33 @@ public partial class ApsHelper : ApsPluginStatic
     /// </summary>
     /// <param name = "lines"></param>
     /// <param name = "i"></param>
-    private string GetNameSolution(List<string> lines, int i, string eVs)
+    private string GetNameSolution(List<string> lines, int lineIndex, string eVs)
     {
-        i--;
+        lineIndex--;
         var drive = SH.FirstCharUpper(eVs);
-        string start = "PS " + drive;
-        var startToLower = start.ToLower();
-        for (; i >= 0; i--)
+        string promptPrefix = "PS " + drive;
+        var promptPrefixLower = promptPrefix.ToLower();
+        for (; lineIndex >= 0; lineIndex--)
         {
-            var line = lines[i];
+            var line = lines[lineIndex];
             // Must be lower - in powershell output is data:, here data:
-            if (!line.ToLower().StartsWith(startToLower))
+            if (!line.ToLower().StartsWith(promptPrefixLower))
             {
                 continue;
             }
 
             //PS data:\\Documents\\vs\\Code_Projects\\CodeLearnRoslyn> git
-            string v = line.Replace(start, string.Empty);
-            int dex = v.IndexOf('>');
-            v = v.Substring(0, dex);
-            return v;
+            string pathPart = line.Replace(promptPrefix, string.Empty);
+            int promptEndIndex = pathPart.IndexOf('>');
+            pathPart = pathPart.Substring(0, promptEndIndex);
+            return pathPart;
         }
 
         return null;
     }
 
-    public void EnterOutputOfPowershellGit_ChangeDialogResult(bool? builder)
+    public void EnterOutputOfPowershellGit_ChangeDialogResult(bool? shouldProcessMessages)
     {
-        EnterOutputOfPowershellGit_ChangeDialogResult(builder);
+        EnterOutputOfPowershellGit_ChangeDialogResult(shouldProcessMessages);
     }
 }

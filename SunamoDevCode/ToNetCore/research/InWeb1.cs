@@ -1,7 +1,5 @@
 namespace SunamoDevCode.ToNetCore.research;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public partial class MoveToNet5
 {
     /// <summary>
@@ -17,7 +15,7 @@ public partial class MoveToNet5
 #else
     FindProjectsWhichIsSdkStyleResult 
 #endif
-    FindProjectsWhichIsSdkStyle(ILogger logger, bool appendHeaderForWeb, bool web = true)
+    FindProjectsWhichIsSdkStyle(ILogger logger, bool appendHeaderForWeb, bool isWeb = true)
     {
         List<string> csprojSdkStyleList = new List<string>();
         List<string> netstandardList = new List<string>();
@@ -27,44 +25,43 @@ public partial class MoveToNet5
             csprojSdkStyleList.Add("Web but in SDK style:");
         }
 
-        var temp = WebAndNonWebProjects(logger);
-        List<string> lines = null;
-        if (web)
+        var projectsData = WebAndNonWebProjects(logger);
+        List<string> projectPaths = null;
+        if (isWeb)
         {
-            lines = temp.Item1;
+            projectPaths = projectsData.Item1;
         }
         else
         {
-            lines = temp.Item2;
+            projectPaths = projectsData.Item2;
         }
 
-        foreach (var item2 in lines)
+        foreach (var projectPath in projectPaths)
         {
-            if (Ignored.IsIgnored(item2))
+            if (Ignored.IsIgnored(projectPath))
             {
                 continue;
             }
 
-            var item = item2;
-            var tu = 
+            var projectStyleResult =
 #if ASYNC
     await
 #endif
-            SunamoCsprojHelper.IsProjectCsprojSdkStyleIsCore( /*ref*/item);
-            if (tu.isProjectCsprojSdkStyleIsCore)
+            SunamoCsprojHelper.IsProjectCsprojSdkStyleIsCore( /*ref*/projectPath);
+            if (projectStyleResult.isProjectCsprojSdkStyleIsCore)
             {
-                if (tu.isNetstandard)
+                if (projectStyleResult.isNetstandard)
                 {
-                    netstandardList.Add(item);
+                    netstandardList.Add(projectPath);
                 }
                 else
                 {
-                    csprojSdkStyleList.Add(item);
+                    csprojSdkStyleList.Add(projectPath);
                 }
             }
             else
             {
-                nonCsprojSdkStyleList.Add(item);
+                nonCsprojSdkStyleList.Add(projectPath);
             }
         }
 
@@ -84,30 +81,30 @@ public partial class MoveToNet5
 #endif
     WebProjectsWhichIsNotSdkStyle(ILogger logger)
     {
-        var u = 
+        var sdkStyleResult =
 #if ASYNC
     await
 #endif
         FindProjectsWhichIsSdkStyle(logger, true);
-        return SHJoin.JoinNL(u.nonCsprojSdkStyleList);
+        return SHJoin.JoinNL(sdkStyleResult.nonCsprojSdkStyleList);
     }
 
-    string nameProject = null;
-    public async void ReplaceProjectReferenceForWeb(ILogger logger, string name, string ns)
+    string NameProject = null;
+    public async void ReplaceProjectReferenceForWeb(ILogger logger, string projectName, string projectNamespace)
     {
         Console.WriteLine("Solution old & new must be in same root folder");
-        name = SHTrim.TrimEnd(name, ".web");
-        ns = SHTrim.TrimEnd(ns, ".web");
-        nameProject = name;
-        string old = @"..\..\" + ns + @"\" + name + @"\" + name + ".csproj";
-        string nuova = @"..\..\" + SolutionNameFor(ns) + @"\" + name + @".web\" + name + ".web.csproj";
-        var temp = WebAndNonWebProjects(logger);
-        foreach (var item in temp.Item1)
+        projectName = SHTrim.TrimEnd(projectName, ".web");
+        projectNamespace = SHTrim.TrimEnd(projectNamespace, ".web");
+        NameProject = projectName;
+        string oldProjectReference = @"..\..\" + projectNamespace + @"\" + projectName + @"\" + projectName + ".csproj";
+        string newProjectReference = @"..\..\" + SolutionNameFor(projectNamespace) + @"\" + projectName + @".web\" + projectName + ".web.csproj";
+        var projectsData = WebAndNonWebProjects(logger);
+        foreach (var webProjectPath in projectsData.Item1)
         {
-            Console.WriteLine(item);
-            //DebugLogger.Instance.WriteLine(item);
+            Console.WriteLine(webProjectPath);
+            //DebugLogger.Instance.WriteLine(webProjectPath);
             //var dx =
-            await ReplaceOrRemoveFile(WithWebEnd, ElementsItemGroup.ProjectReference, [old], item, nuova);
+            await ReplaceOrRemoveFile(WithWebEnd, ElementsItemGroup.ProjectReference, [oldProjectReference], webProjectPath, newProjectReference);
         //if (dx != -1)
         //{
         //    //break;
@@ -117,16 +114,16 @@ public partial class MoveToNet5
 
     string WithWebEnd(string text)
     {
-        return text.Replace("<Name>" + nameProject + "</Name>", "<Name>" + nameProject + ".web</Name>");
+        return text.Replace("<Name>" + NameProject + "</Name>", "<Name>" + NameProject + ".web</Name>");
     }
 
-    private string SolutionNameFor(string name)
+    private string SolutionNameFor(string namespaceName)
     {
-        if (name == "PlatformIndependentNuGetPackages")
+        if (namespaceName == "PlatformIndependentNuGetPackages")
         {
             return "sunamo.webWithoutDep";
         }
 
-        return name + ".web";
+        return namespaceName + ".web";
     }
 }

@@ -42,31 +42,31 @@ public partial class GetCsprojs
 
     public static List<string> GetFoldersWithAtLeastOneCsprojInSolution(ILogger logger, string slnFolder)
     {
-        var f = FSGetFolders.GetFoldersEveryFolderWhichContainsFiles(logger, slnFolder, "*.csproj", SearchOption.TopDirectoryOnly);
-        for (int i = f.Count - 1; i >= 0; i--)
+        var folders = FSGetFolders.GetFoldersEveryFolderWhichContainsFiles(logger, slnFolder, "*.csproj", SearchOption.TopDirectoryOnly);
+        for (int i = folders.Count - 1; i >= 0; i--)
         {
-            var csprojs = FSGetFiles.GetFilesEveryFolder(logger, f[i], "*.csproj", SearchOption.TopDirectoryOnly).ToList();
+            var csprojs = FSGetFiles.GetFilesEveryFolder(logger, folders[i], "*.csproj", SearchOption.TopDirectoryOnly).ToList();
 
             if (csprojs.Count == 0)
             {
                 Error("No csproj");
-                f.RemoveAt(i);
+                folders.RemoveAt(i);
             }
             else if (csprojs.Count > 1)
             {
                 Error("More than one csproj");
-                f.RemoveAt(i);
+                folders.RemoveAt(i);
             }
 
 
         }
 
-        return f;
+        return folders;
     }
 
-    static void Error(string s)
+    static void Error(string errorMessage)
     {
-        throw new Exception(s);
+        throw new Exception(errorMessage);
     }
 
     public static CsprojsInSolution GetCsprojInSwdNotmineAndSunamo(ILogger logger)

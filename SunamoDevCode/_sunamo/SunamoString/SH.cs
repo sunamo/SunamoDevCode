@@ -6,37 +6,39 @@ internal class SH
 
 
     #endregion
-    internal static bool IsContained(string item, string contains)
+    internal static bool IsContained(string text, string pattern)
     {
-        var (negation, contains2) = IsNegationTuple(contains);
-        contains = contains2;
+        var (isNegated, actualPattern) = IsNegationTuple(pattern);
+        pattern = actualPattern;
 
-        if (negation && item.Contains(contains))
+        if (isNegated && text.Contains(pattern))
             return false;
-        if (!negation && !item.Contains(contains)) return false;
+        if (!isNegated && !text.Contains(pattern)) return false;
 
         return true;
     }
-    internal static (bool, string) IsNegationTuple(string contains)
+
+    internal static (bool, string) IsNegationTuple(string pattern)
     {
-        if (contains[0] == '!')
+        if (pattern[0] == '!')
         {
-            contains = contains.Substring(1);
-            return (true, contains);
+            pattern = pattern.Substring(1);
+            return (true, pattern);
         }
 
-        return (false, contains);
-    }
-    internal static int OccurencesOfStringIn(string source, string p_2)
-    {
-        return source.Split(new[] { p_2 }, StringSplitOptions.None).Length - 1;
+        return (false, pattern);
     }
 
-    internal static bool ContainsAtLeastOne(string p, List<string> aggregate)
+    internal static int OccurencesOfStringIn(string source, string searchText)
     {
-        foreach (var item in aggregate)
+        return source.Split(new[] { searchText }, StringSplitOptions.None).Length - 1;
+    }
+
+    internal static bool ContainsAtLeastOne(string text, List<string> list)
+    {
+        foreach (var item in list)
         {
-            if (p.Contains(item))
+            if (text.Contains(item))
             {
                 return true;
             }
@@ -44,65 +46,64 @@ internal class SH
         return false;
     }
 
-    internal static string GetLineFromCharIndex(string content, List<string> lines, int dx2)
+    internal static string GetLineFromCharIndex(string content, List<string> lines, int characterIndex)
     {
-        var dx = GetLineIndexFromCharIndex(content, dx2);
-        return lines[dx];
+        var lineIndex = GetLineIndexFromCharIndex(content, characterIndex);
+        return lines[lineIndex];
     }
 
     /// <summary>
-    /// Return index, therefore x-1
+    /// EN: Return index, therefore x-1
+    /// CZ: Vrátí index, proto x-1
     /// </summary>
-    /// <param name="input"></param>
-    /// <param name="pos"></param>
-    internal static int GetLineIndexFromCharIndex(string input, int pos)
+    internal static int GetLineIndexFromCharIndex(string text, int characterPosition)
     {
-        var lineNumber = input.Take(pos).Count(c => c == '\n') + 1;
+        var lineNumber = text.Take(characterPosition).Count(character => character == '\n') + 1;
         return lineNumber - 1;
     }
 
-    internal static string GetTextBetweenSimple(string p, string after, string before, bool throwExceptionIfNotContains = true)
+    internal static string GetTextBetweenSimple(string text, string afterDelimiter, string beforeDelimiter, bool isThrowExceptionIfNotContains = true)
     {
-        int dxOfFounded = int.MinValue;
-        var temp = GetTextBetween(p, after, before, out dxOfFounded, 0, throwExceptionIfNotContains);
-        return temp;
+        int foundIndex = int.MinValue;
+        var result = GetTextBetween(text, afterDelimiter, beforeDelimiter, out foundIndex, 0, isThrowExceptionIfNotContains);
+        return result;
     }
 
-    internal static string GetTextBetween(string p, string after, string before, out int dxOfFounded, int startSearchingAt, bool throwExceptionIfNotContains = true)
+    internal static string GetTextBetween(string text, string afterDelimiter, string beforeDelimiter, out int foundIndex, int startSearchingAt, bool isThrowExceptionIfNotContains = true)
     {
-        string vr = null;
-        dxOfFounded = p.IndexOf(after, startSearchingAt);
-        int p3 = p.IndexOf(before, dxOfFounded + after.Length);
-        bool b2 = dxOfFounded != -1;
-        bool b3 = p3 != -1;
-        if (b2 && b3)
+        string result = null;
+        foundIndex = text.IndexOf(afterDelimiter, startSearchingAt);
+        int beforeIndex = text.IndexOf(beforeDelimiter, foundIndex + afterDelimiter.Length);
+        bool isAfterFound = foundIndex != -1;
+        bool isBeforeFound = beforeIndex != -1;
+        if (isAfterFound && isBeforeFound)
         {
-            dxOfFounded += after.Length;
-            p3 -= 1;
+            foundIndex += afterDelimiter.Length;
+            beforeIndex -= 1;
             // When I return between ( ), there must be +1
-            var length = p3 - dxOfFounded + 1;
+            var length = beforeIndex - foundIndex + 1;
             if (length < 1)
             {
-                // Takhle to tu bylo předtím ale logicky je to nesmysl.
-                //return p;
+                // EN: This was here before but logically it's nonsense
+                // CZ: Takhle to tu bylo předtím ale logicky je to nesmysl
             }
-            vr = p.Substring(dxOfFounded, length).Trim();
+            result = text.Substring(foundIndex, length).Trim();
         }
         else
         {
-            if (throwExceptionIfNotContains)
+            if (isThrowExceptionIfNotContains)
             {
-                ThrowEx.NotContains(p, after, before);
+                ThrowEx.NotContains(text, afterDelimiter, beforeDelimiter);
             }
             else
             {
-                // 24-1-21 return null instead of p
+                // 24-1-21 return null instead of text
                 return null;
-                //vr = p;
+                //result = text;
             }
         }
 
-        return vr.Trim();
+        return result;
     }
 
     internal static string WhiteSpaceFromStart(string v)

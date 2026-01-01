@@ -1,11 +1,16 @@
 namespace SunamoDevCode.Aps;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+/// <summary>
+/// EN: Helper class for APS (AllProjectsSearch) functionality
+/// CZ: Pomocná třída pro APS (AllProjectsSearch) funkcionalitu
+/// </summary>
 public partial class ApsHelper : ApsPluginStatic
 {
-    public static ApsHelper ci = new ApsHelper();
-    public Type type = typeof(ApsHelper);
+    /// <summary>
+    /// EN: Singleton instance of ApsHelper
+    /// CZ: Singleton instance ApsHelper
+    /// </summary>
+    public static ApsHelper Instance = new ApsHelper();
     /// <summary>
     /// Never create new instance, just call method
     /// </summary>
@@ -23,46 +28,35 @@ public partial class ApsHelper : ApsPluginStatic
         List<string> notWebProjects = new List<string>();
         foreach (var item in FoldersWithSolutions.fwss)
         {
-            var text = item.Solutions(RepositoryLocal.Vs17);
-            foreach (var sln in text)
+            var solutions = item.Solutions(RepositoryLocal.Vs17);
+            foreach (var sln in solutions)
             {
-#if DEBUG
-                if (sln.fullPathFolder.Contains(@"\sunamo.web\"))
-                {
-                }
-#endif
                 SolutionFolder.GetCsprojs(logger, sln);
-                foreach (var csp in sln.projectsGetCsprojs)
+                foreach (var projectPath in sln.projectsGetCsprojs)
                 {
-#if DEBUG
-                    if (csp.Contains("webforms"))
+                    var finalProjectPath = withCsprojs ? projectPath : FS.GetDirectoryName(projectPath);
+                    if (IsWeb(projectPath))
                     {
-                    }
-#endif
-                    var csp2 = withCsprojs ? csp : FS.GetDirectoryName(csp);
-                    if (IsWeb(csp))
-                    {
-                        webProjects.Add(csp2);
+                        webProjects.Add(finalProjectPath);
                     }
                     else
                     {
-                        notWebProjects.Add(csp2);
+                        notWebProjects.Add(finalProjectPath);
                     }
                 }
             }
         }
-
-#if DEBUG
-        var dx = webProjects.Where(data => data.Contains("desktop"));
-#endif
         return new Tuple<List<string>, List<string>>(webProjects, notWebProjects);
     }
 
-    public static bool IsWeb(string csp)
+    /// <summary>
+    /// EN: Determines whether the project is a web project
+    /// CZ: Určuje zda je projekt webový projekt
+    /// </summary>
+    /// <param name="projectPath">Path to the project</param>
+    public static bool IsWeb(string projectPath)
     {
-        //\WebApplication
-        // \webelieve.cz
-        return CA.ContainsAnyFromElementBool(csp, AllProjectsSearchSettings.DontReplaceReferencesIn);
+        return CA.ContainsAnyFromElementBool(projectPath, AllProjectsSearchSettings.DontReplaceReferencesIn);
     }
 
     public async Task PushSolutionsContinuouslyWindow_ChangeDialogResult(bool? builder, Func<List<string>, Task<List<List<string>>>> psInvoke, string eVs, string pathGetMessagesFromGitOutput)
@@ -91,7 +85,7 @@ public partial class ApsHelper : ApsPluginStatic
             GitBashBuilder gitStatus = new GitBashBuilder(new TextBuilderDC());
             bool push = true;
             List<SolutionFolder> foldersWithSolutions = new List<SolutionFolder>();
-            var skipTheseGit = ci.SkipTheseGit();
+            var skipTheseGit = Instance.SkipTheseGit();
             if (pushSolutionsData.onlyThese != null)
             {
                 ThisApp.Appeal("pushSolutionsData.onlyThese " + pushSolutionsData.onlyThese.Count);

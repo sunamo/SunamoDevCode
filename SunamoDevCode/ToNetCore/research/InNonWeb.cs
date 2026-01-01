@@ -1,10 +1,8 @@
 namespace SunamoDevCode.ToNetCore.research;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public partial class MoveToNet5
 {
-    public static MoveToNet5 ci = new MoveToNet5();
+    public static MoveToNet5 Instance { get; } = new MoveToNet5();
     private MoveToNet5()
     {
     }
@@ -24,29 +22,29 @@ public partial class MoveToNet5
 #else
     void 
 #endif
-    ChangeConvertNonWebPlatformTargetTo(ILogger logger, string replaceFor)
+    ChangeConvertNonWebPlatformTargetTo(ILogger logger, string replacementPlatformTarget)
     {
-        var temp = WebAndNonWebProjects(logger);
-        var tt = temp.Item2;
-        replaceFor = 
+        var projectsData = WebAndNonWebProjects(logger);
+        var nonWebProjects = projectsData.Item2;
+        replacementPlatformTarget =
 #if ASYNC
     await
 #endif
-        Shared.PlatformTargetTo(replaceFor, tt);
+        Shared.PlatformTargetTo(replacementPlatformTarget, nonWebProjects);
     }
 
-    public static Type type = typeof(MoveToNet5);
+    public static Type TypeInfo { get; } = typeof(MoveToNet5);
     /// <summary>
     /// Vyčistí od dočasných souborů z NonWeb
     /// </summary>
     public void ClearUnnecessaryFromNonWeb(ILogger logger, string folderWithTemporaryMovedContentWithoutBackslash)
     {
         Console.WriteLine("ClearUnnecessaryFromNonWeb");
-        var temp = WebAndNonWebSlns();
-        Console.WriteLine("temp.Item2.Count: " + temp.Item2.Count);
-        foreach (var item in temp.Item2)
+        var solutionsData = WebAndNonWebSlns();
+        Console.WriteLine("solutionsData.Item2.Count: " + solutionsData.Item2.Count);
+        foreach (var solutionPath in solutionsData.Item2)
         {
-            DeleteTemporaryFilesFromSolution.ClearSolution(logger, item, true, folderWithTemporaryMovedContentWithoutBackslash);
+            DeleteTemporaryFilesFromSolution.ClearSolution(logger, solutionPath, true, folderWithTemporaryMovedContentWithoutBackslash);
         }
     }
 
@@ -59,20 +57,20 @@ public partial class MoveToNet5
 #else
     void 
 #endif
-    ReplaceUnneedUsings(string eVsProjects)
+    ReplaceUnneedUsings(string vsProjectsFolder)
     {
         var linesToCommented = @"//using System.Data;";
-        var toComm = SHGetLines.GetLines(linesToCommented);
-        List<string> toComm1 = new List<string>(toComm.Count);
-        List<string> toComm2 = new List<string>(toComm.Count);
-        const string cm = "//";
-        foreach (var item in toComm)
+        var linesToComment = SHGetLines.GetLines(linesToCommented);
+        List<string> singleCommentedLines = new List<string>(linesToComment.Count);
+        List<string> doubleCommentedLines = new List<string>(linesToComment.Count);
+        const string commentPrefix = "//";
+        foreach (var line in linesToComment)
         {
-            toComm1.Add(cm + item);
-            toComm2.Add(cm + cm + item);
+            singleCommentedLines.Add(commentPrefix + line);
+            doubleCommentedLines.Add(commentPrefix + commentPrefix + line);
         }
 
-        var f2 = Directory.GetFiles(eVsProjects, "*.cs", SearchOption.AllDirectories);
+        var csFiles = Directory.GetFiles(vsProjectsFolder, "*.cs", SearchOption.AllDirectories);
         List<string> dontReplaceUsingSystemDataIn = new List<string>()
         {
             ".web",
@@ -80,29 +78,29 @@ public partial class MoveToNet5
             "SunamoSqlite",
             "SunamoCsv"
         };
-        foreach (var item in f2)
+        foreach (var csFilePath in csFiles)
         {
-            if (!CA.ContainsAnyFromElementBool(item, dontReplaceUsingSystemDataIn))
+            if (!CA.ContainsAnyFromElementBool(csFilePath, dontReplaceUsingSystemDataIn))
             {
-                var tf = 
+                var originalFileContent =
 #if ASYNC
     await
 #endif
-                TF.ReadAllText(item);
-                string n = tf;
-                for (int i = 0; i < toComm.Count; i++)
+                TF.ReadAllText(csFilePath);
+                string modifiedFileContent = originalFileContent;
+                for (int i = 0; i < linesToComment.Count; i++)
                 {
-                    n = n.Replace(toComm[i], toComm1[i]);
+                    modifiedFileContent = modifiedFileContent.Replace(linesToComment[i], singleCommentedLines[i]);
                 }
 
-                for (int i = 0; i < toComm.Count; i++)
+                for (int i = 0; i < linesToComment.Count; i++)
                 {
-                    n = n.Replace(toComm2[i], toComm1[i]);
+                    modifiedFileContent = modifiedFileContent.Replace(doubleCommentedLines[i], singleCommentedLines[i]);
                 }
 
-                if (n != tf)
+                if (modifiedFileContent != originalFileContent)
                 {
-                    await TF.WriteAllText(item, n);
+                    await TF.WriteAllText(csFilePath, modifiedFileContent);
                 }
             }
         }
@@ -149,38 +147,36 @@ System.Net.Http.Primitives
     /// <param name = "csprojPath"></param>
     public async Task ReplaceUnneedReferencesInCsprojs(string csprojPath)
     {
-        var refe = SHGetLines.GetLines(refToRemove);
-        await ReplaceOrRemoveFile(null, ElementsItemGroup.Reference, refe, csprojPath);
+        var referencesToRemove = SHGetLines.GetLines(refToRemove);
+        await ReplaceOrRemoveFile(null, ElementsItemGroup.Reference, referencesToRemove, csprojPath);
     }
 
-    private 
+    private
 #if ASYNC
     async Task
 #else
-    void 
+    void
 #endif
-    ReplaceUnneedReferencesInCsprojs(string dontReplaceReferencesInPath, string eVsProjects)
+    ReplaceUnneedReferencesInCsprojs(string dontReplaceReferencesInPath, string vsProjectsFolder)
     {
-        List<string> referenceToReplace = new List<string>();
-        var refe = SHGetLines.GetLines(refToRemove);
-        int dx = -1;
-        var f = Directory.GetFiles(eVsProjects, "*.csproj", SearchOption.AllDirectories);
+        var referencesToRemove = SHGetLines.GetLines(refToRemove);
+        var csprojFiles = Directory.GetFiles(vsProjectsFolder, "*.csproj", SearchOption.AllDirectories);
         List<string> dontReplaceReferencesIn = (
 #if ASYNC
     await
 #endif
         TF.ReadAllLines(dontReplaceReferencesInPath)).ToList();
-        foreach (var item in f)
+        foreach (var csprojFilePath in csprojFiles)
         {
-            if (!CA.ContainsAnyFromElementBool(item, dontReplaceReferencesIn))
+            if (!CA.ContainsAnyFromElementBool(csprojFilePath, dontReplaceReferencesIn))
             {
 #if ASYNC
                 await
 #endif
-                ReplaceOrRemoveFile(null, ElementsItemGroup.Reference, refe, refe2, item);
+                ReplaceOrRemoveFile(null, ElementsItemGroup.Reference, referencesToRemove, csprojFilePath);
             }
         }
     }
 
-    string refe2 = "</Reference>";
+    private string referenceClosingTag = "</Reference>";
 }

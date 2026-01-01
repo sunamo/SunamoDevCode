@@ -93,7 +93,7 @@ public class CSharpHelperSunamo
         var ft = new FromToList();
         for (int i = 0; i < oc.Count; i++)
         {
-            ft.c.Add(new FromToDC(oc[i], oc[++i]));
+            ft.Ranges.Add(new FromToDC(oc[i], oc[++i]));
         }
         return ft;
     }

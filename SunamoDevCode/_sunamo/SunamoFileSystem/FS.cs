@@ -4,18 +4,18 @@ namespace SunamoDevCode._sunamo.SunamoFileSystem;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 internal partial class FS
 {
-    internal static void DeleteFoldersWhichNotContains(string v, string folder, IList<string> v2)
+    internal static void DeleteFoldersWhichNotContains(string rootPath, string folderPattern, IList<string> mustContainPatterns)
     {
-        var f = Directory.GetDirectories(v, folder, SearchOption.AllDirectories).ToList();
-        for (int i = f.Count - 1; i >= 0; i--)
+        var folders = Directory.GetDirectories(rootPath, folderPattern, SearchOption.AllDirectories).ToList();
+        for (int i = folders.Count - 1; i >= 0; i--)
         {
-            if (CA.ReturnWhichContainsIndexes(f[i], v2).Count != 0)
+            if (CA.ReturnWhichContainsIndexes(folders[i], mustContainPatterns).Count != 0)
             {
-                f.RemoveAt(i);
+                folders.RemoveAt(i);
             }
         }
 
-        foreach (var item in f)
+        foreach (var folder in folders)
         {
         //FS.DeleteF
         }
@@ -26,45 +26,45 @@ internal partial class FS
         return !String.IsNullOrWhiteSpace(path) && path.IndexOfAny(System.IO.Path.GetInvalidPathChars()) == -1 && Path.IsPathRooted(path) && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal);
     }
 
-    internal static string GetAbsolutePath2(string relativePath, string dir)
+    internal static string GetAbsolutePath2(string relativePath, string baseDirectory)
     {
-        var ap = GetAbsolutePath(dir, relativePath);
-        return Path.GetFullPath(ap);
+        var absolutePath = GetAbsolutePath(baseDirectory, relativePath);
+        return Path.GetFullPath(absolutePath);
     }
 
-    internal static void FileToDirectory(ref string dir)
+    internal static void FileToDirectory(ref string path)
     {
-        if (!dir.EndsWith("\""))
-            dir = GetDirectoryName(dir);
+        if (!path.EndsWith("\""))
+            path = GetDirectoryName(path);
     }
 
-    internal static string GetAbsolutePath(string dir, string relativePath)
+    internal static string GetAbsolutePath(string baseDirectory, string relativePath)
     {
-        FileToDirectory(ref dir);
-        var ds = "./";
-        var dds = "../";
-        var dds2 = 0;
+        FileToDirectory(ref baseDirectory);
+        var currentDirectoryPrefix = "./";
+        var parentDirectoryPrefix = "../";
+        var parentDirectoryCount = 0;
         while (true)
-            if (relativePath.StartsWith(ds))
+            if (relativePath.StartsWith(currentDirectoryPrefix))
             {
-                relativePath = relativePath.Substring(ds.Length);
+                relativePath = relativePath.Substring(currentDirectoryPrefix.Length);
             }
-            else if (relativePath.StartsWith(dds))
+            else if (relativePath.StartsWith(parentDirectoryPrefix))
             {
-                dds2++;
-                relativePath = relativePath.Substring(dds.Length);
+                parentDirectoryCount++;
+                relativePath = relativePath.Substring(parentDirectoryPrefix.Length);
             }
             else
             {
                 break;
             }
 
-        var tokens = GetTokens(relativePath);
-        tokens = tokens.Skip(dds2).ToList();
-        tokens.Insert(0, dir);
-        var vr = Combine(tokens.ToArray());
-        vr = GetFullPath(vr);
-        return vr;
+        var pathTokens = GetTokens(relativePath);
+        pathTokens = pathTokens.Skip(parentDirectoryCount).ToList();
+        pathTokens.Insert(0, baseDirectory);
+        var result = Combine(pathTokens.ToArray());
+        result = GetFullPath(result);
+        return result;
     }
 
     internal static bool IsWindowsPathFormat(string argValue)
@@ -91,63 +91,61 @@ internal partial class FS
         return result;
     }
 
-    internal static string FirstCharUpper(string nazevPP, bool only = false)
+    internal static string FirstCharUpper(string text, bool isOnlyFirstChar = false)
     {
-        if (nazevPP != null)
+        if (text != null)
         {
-            var substring = nazevPP.Substring(1);
-            if (only)
+            var substring = text.Substring(1);
+            if (isOnlyFirstChar)
                 substring = substring.ToLower();
-            return nazevPP[0].ToString().ToUpper() + substring;
+            return text[0].ToString().ToUpper() + substring;
         }
 
         return null;
     }
 
-    internal static string GetFullPath(string vr)
+    internal static string GetFullPath(string path)
     {
-        var result = Path.GetFullPath(vr);
+        var result = Path.GetFullPath(path);
         FirstCharUpper(ref result);
         return result;
     }
 
-    private static string CombineWorker(bool FirstCharUpper, bool file, params string[] s)
+    private static string CombineWorker(bool isFirstCharUpper, bool isFile, params string[] pathParts)
     {
-        for (var i = 0; i < s.Length; i++)
-            s[i] = s[i].TrimStart('\\');
-        //s = CA.TrimStartChar('\\', s.ToList()).ToArray();
-        var result = Path.Combine(s);
+        for (var i = 0; i < pathParts.Length; i++)
+            pathParts[i] = pathParts[i].TrimStart('\\');
+        var result = Path.Combine(pathParts);
         if (result[2] != '\\')
             result = result.Insert(2, "\"");
-        if (FirstCharUpper)
+        if (isFirstCharUpper)
             result = SH.FirstCharUpper(ref result);
         else
             result = SH.FirstCharUpper(ref result);
-        if (!file)
+        if (!isFile)
             // Cant return with end slash becuase is working also with files
             WithEndSlash(ref result);
         return result;
     }
 
-    internal static string Combine(params string[] s)
+    internal static string Combine(params string[] pathParts)
     {
-        //return Path.Combine(s);
-        return CombineWorker(true, false, s);
+        return CombineWorker(true, false, pathParts);
     }
 
-    internal static List<string> GetTokens(string relativePath)
+    internal static List<string> GetTokens(string path)
     {
-        var deli = "";
-        if (relativePath.Contains("\""))
-            deli = "\"";
-        else if (relativePath.Contains("/"))
-            deli = "/";
+        var delimiter = "";
+        if (path.Contains("\""))
+            delimiter = "\"";
+        else if (path.Contains("/"))
+            delimiter = "/";
         else
         {
-            ThrowEx.NotImplementedCase(relativePath);
+            ThrowEx.NotImplementedCase(path);
         }
 
-        return SHSplit.Split(relativePath, deli);
+        return SHSplit.Split(path, delimiter);
     }
 
     internal static List<string> OnlyNamesWithoutExtensionCopy(List<string> p2)

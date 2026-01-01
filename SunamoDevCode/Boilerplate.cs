@@ -1,7 +1,16 @@
 namespace SunamoDevCode;
 
+/// <summary>
+/// EN: Provides boilerplate code templates for C# code generation
+/// CZ: Poskytuje šablony boilerplate kódu pro generování C# kódu
+/// </summary>
 public class Boilerplate
 {
+    /// <summary>
+    /// EN: Generates C# command-line program boilerplate
+    /// CZ: Generuje boilerplate pro C# konzolový program
+    /// </summary>
+    /// <param name="innerMain">Main method content</param>
     public static string CSharpCmd(string innerMain)
     {
         var csharpTemplate = @"using System;
@@ -23,6 +32,14 @@ public class Boilerplate
         return stringBuilder.ToString();
     }
 
+    /// <summary>
+    /// EN: Generates C# class boilerplate with initialization method
+    /// CZ: Generuje boilerplate pro C# třídu s inicializační metodou
+    /// </summary>
+    /// <param name="addNamespacesLines">Additional namespace using declarations</param>
+    /// <param name="className">Name of the class</param>
+    /// <param name="fields">Field declarations</param>
+    /// <param name="contentOfInitMethod">Content of Init method</param>
     public static string CSharpClass(string addNamespacesLines, string className, string fields,
         string contentOfInitMethod)
     {

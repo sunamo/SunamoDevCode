@@ -65,13 +65,13 @@ public static partial class CSharpHelper
         for (int i = 0; i < count.Count; i++)
         {
             var argument = count[i];
-            if (argument.Contains(CSharpParser.parameter))
+            if (argument.Contains(CSharpParser.StaticReadonlyModifier))
             {
                 if (!argument.Contains("const") && !argument.Contains("class"))
                 {
                     argument = SHReplace.ReplaceOnce(argument, "static ", string.Empty);
                     argument = SHReplace.ReplaceOnce(argument, "readonly ", string.Empty);
-                    count[i] = SHReplace.ReplaceOnce(argument, CSharpParser.parameter, CSharpParser.p + "const ");
+                    count[i] = SHReplace.ReplaceOnce(argument, CSharpParser.StaticReadonlyModifier, CSharpParser.PublicModifier + "const ");
                 }
             }
         }

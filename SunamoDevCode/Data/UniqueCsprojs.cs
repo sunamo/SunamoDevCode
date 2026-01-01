@@ -1,51 +1,51 @@
 namespace SunamoDevCode.Data;
 
 /// <summary>
-/// Načte všechny csproj v dir, umí převádět z cesty na název a vice versa
+/// EN: Loads all csproj in directory, can convert from path to name and vice versa
+/// CZ: Načte všechny csproj v dir, umí převádět z cesty na název a vice versa
 /// </summary>
 public static class UniqueCsprojs
 {
-    static TwoWayDictionary<string, string> dict = new TwoWayDictionary<string, string>();
+    private static TwoWayDictionary<string, string> dictionary = new TwoWayDictionary<string, string>();
 
-    public static void AddFromSlnFolder(CsprojsInSolution csp)
+    public static void AddFromSlnFolder(CsprojsInSolution csprojsInSolution)
     {
-        if (dict._d1.Any())
+        if (dictionary.FirstToSecond.Any())
         {
             return;
         }
 
-        foreach (var item in csp.CsprojPaths)
+        foreach (var csprojPath in csprojsInSolution.CsprojPaths)
         {
-            dict.Add(Path.GetFileNameWithoutExtension(item), item);
+            dictionary.Add(Path.GetFileNameWithoutExtension(csprojPath), csprojPath);
         }
     }
 
-    public static string ToName(string path)
+    public static string ToName(string csprojPath)
     {
 #if DEBUG
-        if (!dict._d2.ContainsKey(path))
+        if (!dictionary.SecondToFirst.ContainsKey(csprojPath))
         {
             Debugger.Break();
         }
 #endif
 
-        return dict._d2[path];
+        return dictionary.SecondToFirst[csprojPath];
     }
 
     /// <summary>
-    /// Převede na csproj path, nikoliv na cestu ke složce
+    /// EN: Converts to csproj path, not to folder path
+    /// CZ: Převede na csproj path, nikoliv na cestu ke složce
     /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
-    public static string ToPath(string name)
+    public static string ToPath(string projectName)
     {
 #if DEBUG
-        if (!dict._d1.ContainsKey(name))
+        if (!dictionary.FirstToSecond.ContainsKey(projectName))
         {
             Debugger.Break();
         }
 #endif
 
-        return dict._d1[name];
+        return dictionary.FirstToSecond[projectName];
     }
 }

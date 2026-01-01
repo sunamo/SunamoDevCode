@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>25.12.21.2</Version>
+    <Version>26.1.1.131</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with
       SunamoCode and SunamoCSharp.</Description>
     <PackageReleaseNotes>feat: Dynamic .NET version detection - finds highest available version from net15.0 down to net5.0</PackageReleaseNotes>

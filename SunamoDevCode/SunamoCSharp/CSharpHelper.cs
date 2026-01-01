@@ -6,11 +6,11 @@ public static partial class CSharpHelper
 {
     public const string Using = "using ";
     public const string Import = "import ";
-    public static string RemoveUsing(string text, CollectionWithoutDuplicatesDC<string> removed)
+    public static string RemoveUsing(string text, CollectionWithoutDuplicatesDC<string> removedUsings)
     {
-        foreach (var result in removed.c)
+        foreach (var usingNamespace in removedUsings.c)
         {
-            text = SHReplace.ReplaceOnce(text, "using " + result + ";", string.Empty);
+            text = SHReplace.ReplaceOnce(text, "using " + usingNamespace + ";", string.Empty);
         }
 
         return text;
@@ -38,16 +38,16 @@ public static partial class CSharpHelper
         const string mustContains = "Type type = typeof(";
         foreach (var item in files)
         {
-            var count = 
+            var fileContent =
 #if ASYNC
                 await
 #endif
             File.ReadAllTextAsync(item);
-            if (count.Contains("ThrowEx.") && !count.Contains(mustContains))
+            if (fileContent.Contains("ThrowEx.") && !fileContent.Contains(mustContains))
             {
-                var c1 = await File.ReadAllTextAsync(FS.InsertBetweenFileNameAndExtension(item, shared1));
-                var c2 = await File.ReadAllTextAsync(FS.InsertBetweenFileNameAndExtension(item, shared2));
-                if (c1.Contains(mustContains) || c2.Contains(mustContains))
+                var shared1Content = await File.ReadAllTextAsync(FS.InsertBetweenFileNameAndExtension(item, shared1));
+                var shared2Content = await File.ReadAllTextAsync(FS.InsertBetweenFileNameAndExtension(item, shared2));
+                if (shared1Content.Contains(mustContains) || shared2Content.Contains(mustContains))
                 {
                     continue;
                 }
@@ -67,52 +67,53 @@ public static partial class CSharpHelper
                 //                {
                 //                    continue;
                 //                }
-                var lines = count.Split(new string[] { count.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                bool allCommented = true;
-                foreach (var item2 in lines)
+                var lines = fileContent.Split(new string[] { fileContent.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                bool areAllLinesCommented = true;
+                foreach (var line in lines)
                 {
-                    var item3 = item2.Trim();
-                    if (!item.StartsWith("//"))
+                    var trimmedLine = line.Trim();
+                    if (!trimmedLine.StartsWith("//"))
                     {
-                        allCommented = false;
+                        areAllLinesCommented = false;
                         break;
                     }
                 }
 
-                if (allCommented)
+                if (areAllLinesCommented)
                 {
                     continue;
                 }
 
                 inserted = false;
+                string modifiedContent = null;
                 for (i = 0; i < lines.Count; i++)
                 {
                     if (lines[i].Contains("class "))
                     {
                         sbGeneric.Clear();
                         var line = lines[i];
-                        var parameter = line.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                        var cl = parameter.IndexOf("class");
-                        if (parameter.Count > cl)
+                        var tokens = line.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        var classIndex = tokens.IndexOf("class");
+                        if (tokens.Count > classIndex)
                         {
                             start = 0;
                             end = 0;
-                            string pi = parameter[cl + 1];
-                            if (pi.Contains("<"))
+                            string className = tokens[classIndex + 1];
+                            if (className.Contains("<"))
                             {
-                                start += pi.Count((ch) => ch == '<'); //.CountOf(pi, '<');
-                                end += pi.Count((ch) => ch == '>');
+                                start += className.Count((ch) => ch == '<');
+                                end += className.Count((ch) => ch == '>');
                                 if (start == end)
                                 {
                                     break;
                                 }
 
-                                for (int y = cl + 2; y < parameter.Count; y++)
+                                for (int y = classIndex + 2; y < tokens.Count; y++)
                                 {
-                                    pi = parameter[y];
-                                    start += pi.Count((ch) => ch == '<');
-                                    end += pi.Count((ch) => ch == '>');
-                                    sbGeneric.Append(pi);
+                                    var token = tokens[y];
+                                    start += token.Count((ch) => ch == '<');
+                                    end += token.Count((ch) => ch == '>');
+                                    sbGeneric.Append(token);
                                     if (start == end)
                                     {
                                         break;
@@ -128,8 +129,8 @@ public static partial class CSharpHelper
                             insertTo = i + 1;
                         }
 
-                        lines.Insert(insertTo, string.Format(template, parameter[cl + 1].Trim().TrimEnd('{') + sbGeneric.ToString()));
-                        count = string.Join(Environment.NewLine, sbGeneric, lines);
+                        lines.Insert(insertTo, string.Format(template, tokens[classIndex + 1].Trim().TrimEnd('{') + sbGeneric.ToString()));
+                        modifiedContent = string.Join(Environment.NewLine, lines);
                         inserted = true;
                         break;
                     }
@@ -137,7 +138,7 @@ public static partial class CSharpHelper
 
                 if (inserted)
                 {
-                    await File.WriteAllTextAsync(item, count);
+                    await File.WriteAllTextAsync(item, modifiedContent);
                 }
             }
         }

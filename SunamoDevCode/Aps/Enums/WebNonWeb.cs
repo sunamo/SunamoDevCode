@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Enums;
 
 public enum WebNonWeb

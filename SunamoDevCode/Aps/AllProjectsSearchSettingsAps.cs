@@ -1,128 +1,68 @@
 namespace SunamoDevCode.Aps;
 
-//public static partial class AllProjectsSearchSettings
-//{
-//    /// <summary>
-//    /// Zde jsem chtěl to taky udělat souborem, který by odkazoval na cestu se všemi ostatními soubory, ale všechno ukládám do 1. ini souboru, který je ve stejné lokaci jako binárka
-//    /// </summary>
-//    public static readonly string pathFileSettings = AppPaths.GetFileInStartupPath("settings.ini");
-//    static IniFile ini = new IniFile(pathFileSettings);
-
-//    #region sectionSearchFoldersChecked
-//    /// <summary>
-//    /// G zda cesta na sérii A1 je zaškrtnutá
-//    /// </summary>
-//    /// <param name="i"></param>
-//    public static bool IsFolderSearchChecked(string i)
-//    {
-//        var val = ini.IniReadValue(sectionSearchFoldersChecked, i);
-
-//        return val == "True";
-//    }
-
-//    /// <summary>
-//    /// Nastavím cestu A1 na zaškrtnutí A2
-//    /// </summary>
-//    /// <param name="i"></param>
-//    /// <param name="b"></param>
-//    public static void SetSearchFolderChecked(string i, bool b)
-//    {
-//        ini.IniWriteValue(sectionSearchFoldersChecked, i, b.ToString());
-//    }
-
-//    /// <summary>
-//    /// Vrátí zda existuje nějaká cesta pod sérií
-//    /// </summary>
-//    /// <param name="i"></param>
-//    public static bool ExistsFolderSearchBySerie(string i)
-//    {
-//        return ini.IniReadValue(sectionSearchFoldersChecked, i) != "";
-//    }
-
-//    /// <summary>
-//    /// Vrátí normalizovanou cestu pod indexem A1
-//    /// </summary>
-//    /// <param name="i"></param>
-//    public static string GetSearchFolderNormalized(string i)
-//    {
-//        return FS.WithEndSlash(ini.IniReadValue(sectionSearchFolders, i.ToString()));
-//    }
-
-//    /// <summary>
-//    /// Uložím normalizovanou cestu A1 na první volnou sérii a tuto sérii G
-//    /// </summary>
-//    /// <param name="path"></param>
-//    public static int AddFolderSearch(string path)
-//    {
-//        path = FS.WithEndSlash(path);
-//        int i = 0;
-//        while (true)
-//        {
-//            if (GetSearchFolderNormalized(i.ToString()) == "")
-//            {
-//                ini.IniWriteValue(sectionSearchFolders, i.ToString(), path);
-//                break;
-//            }
-//            i++;
-//        }
-//        return i;
-//    }
-//    #endregion
-//}
-
-static partial class AllProjectsSearchSettings
+/// <summary>
+/// EN: Settings for AllProjectsSearch with APS-specific functionality
+/// CZ: Nastavení pro AllProjectsSearch s APS-specifickou funkcionalitou
+/// </summary>
+internal static partial class AllProjectsSearchSettings
 {
-    public static readonly string pathFileSettings = AppPaths.GetFileInStartupPath("settings.ini");
-
-#pragma warning disable
+    /// <summary>
+    /// EN: Path to settings file
+    /// CZ: Cesta k souboru nastavení
+    /// </summary>
+    public static readonly string PathFileSettings = AppPaths.GetFileInStartupPath("settings.ini");
 
     #region sectionSearchFoldersChecked
+
     /// <summary>
-    /// G zda cesta na sérii A1 je zaškrtnutá
+    /// EN: Returns whether path at series index is checked
+    /// CZ: Vrací zda je cesta na indexu série zaškrtnutá
     /// </summary>
-    /// <param name="i"></param>
-    public static bool IsFolderSearchChecked(string i)
+    /// <param name="seriesIndex">Series index to check</param>
+    public static bool IsFolderSearchChecked(string seriesIndex)
     {
         return true;
     }
 
     /// <summary>
-    /// Nastavím cestu A1 na zaškrtnutí A2
+    /// EN: Sets path at series index to checked state
+    /// CZ: Nastaví cestu na indexu série na zaškrtnutý stav
     /// </summary>
-    /// <param name="i"></param>
-    /// <param name="b"></param>
-    public static void SetSearchFolderChecked(string i, bool b)
+    /// <param name="seriesIndex">Series index to set</param>
+    /// <param name="isChecked">Whether the folder should be checked</param>
+    public static void SetSearchFolderChecked(string seriesIndex, bool isChecked)
     {
-
     }
 
     /// <summary>
-    /// Vrátí zda existuje nějaká cesta pod sérií
+    /// EN: Returns whether any path exists under the series
+    /// CZ: Vrací zda existuje nějaká cesta pod sérií
     /// </summary>
-    /// <param name="i"></param>
-    public static bool ExistsFolderSearchBySerie(string i)
+    /// <param name="seriesIndex">Series index to check</param>
+    public static bool ExistsFolderSearchBySerie(string seriesIndex)
     {
         return false;
     }
 
     /// <summary>
-    /// Vrátí normalizovanou cestu pod indexem A1
+    /// EN: Returns normalized path under index
+    /// CZ: Vrací normalizovanou cestu pod indexem
     /// </summary>
-    /// <param name="i"></param>
-    public static string GetSearchFolderNormalized(string i)
+    /// <param name="seriesIndex">Series index to get path for</param>
+    public static string GetSearchFolderNormalized(string seriesIndex)
     {
-        return "";
+        return string.Empty;
     }
 
     /// <summary>
-    /// Uložím normalizovanou cestu A1 na první volnou sérii a tuto sérii G
+    /// EN: Saves normalized path to first free series and returns that series index
+    /// CZ: Uloží normalizovanou cestu na první volnou sérii a vrátí index této série
     /// </summary>
-    /// <param name="path"></param>
-    public static int AddFolderSearch(string path)
+    /// <param name="folderPath">Folder path to add</param>
+    public static int AddFolderSearch(string folderPath)
     {
         return 1;
     }
 
-#pragma warning restore
     #endregion
 }

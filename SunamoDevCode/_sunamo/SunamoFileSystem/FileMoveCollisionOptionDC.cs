@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode._sunamo.SunamoFileSystem;
 
 internal enum FileMoveCollisionOptionDC

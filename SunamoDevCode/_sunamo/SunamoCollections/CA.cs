@@ -51,41 +51,41 @@ internal partial class CA
         return result;
     }
 
-    internal static List<string> StartingWith(string v, List<string> list)
+    internal static List<string> StartingWith(string prefix, List<string> list)
     {
         for (var i = list.Count - 1; i >= 0; i--)
-            if (!list[i].StartsWith(v))
+            if (!list[i].StartsWith(prefix))
                 list.RemoveAt(i);
         return list;
     }
 
-    internal static List<string> PostfixIfNotEnding(string pre, List<string> list)
+    internal static List<string> PostfixIfNotEnding(string prefix, List<string> list)
     {
         for (var i = 0; i < list.Count; i++)
-            list[i] = pre + list[i];
+            list[i] = prefix + list[i];
         return list;
     }
 
-    internal static List<List<string>> Split(List<string> text, string determining)
+    internal static List<List<string>> Split(List<string> list, string delimiter)
     {
-        var sourceList = new List<List<string>>();
-        var actual = new List<string>();
-        foreach (var item in text)
-            if (item == determining)
+        var result = new List<List<string>>();
+        var currentGroup = new List<string>();
+        foreach (var item in list)
+            if (item == delimiter)
             {
-                sourceList.Add(actual);
-                actual.Clear();
+                result.Add(currentGroup);
+                currentGroup.Clear();
             }
 
-        return sourceList;
+        return result;
     }
 
-    internal static List<string> RemoveStringsEmptyTrimBefore(List<string> mySites)
+    internal static List<string> RemoveStringsEmptyTrimBefore(List<string> list)
     {
-        for (var i = mySites.Count - 1; i >= 0; i--)
-            if (mySites[i].Trim() == string.Empty)
-                mySites.RemoveAt(i);
-        return mySites;
+        for (var i = list.Count - 1; i >= 0; i--)
+            if (list[i].Trim() == string.Empty)
+                list.RemoveAt(i);
+        return list;
     }
 
     internal static bool ContainsAnyFromElementBool(string text, IList<string> list /*,
@@ -114,7 +114,6 @@ internal partial class CA
     /// <summary>
     ///     Direct edit input collection
     /// </summary>
-    /// <param name = "l"></param>
     internal static List<string> Trim(List<string> list)
     {
         for (var i = 0; i < list.Count; i++)
@@ -144,18 +143,17 @@ internal partial class CA
         }
     }
 
-    static string Replace(string text, string from, string to)
+    static string Replace(string text, string what, string replacement)
     {
-        return text.Replace(from, to);
+        return text.Replace(what, replacement);
     }
 
-    internal static void Replace(List<string> files_in, string what, string forWhat)
+    internal static void Replace(List<string> list, string what, string replacement)
     {
-        for (int i = 0; i < files_in.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            files_in[i] = Replace(files_in[i], what, forWhat);
+            list[i] = Replace(list[i], what, replacement);
         }
-    //CAChangeContent.ChangeContent2(null, files_in, Replace, what, forWhat);
     }
 
     internal static (bool, string) IsNegationTuple(string contains)
@@ -169,63 +167,63 @@ internal partial class CA
         return (false, contains);
     }
 
-    internal static void RemoveStartingWith(string start, List<string> mySites, RemoveStartingWithArgs a = null)
+    internal static void RemoveStartingWith(string prefix, List<string> list, RemoveStartingWithArgs args = null)
     {
-        if (a == null)
+        if (args == null)
         {
-            a = new RemoveStartingWithArgs();
+            args = new RemoveStartingWithArgs();
         }
 
-        var(negate, start2) = IsNegationTuple(start);
-        start = start2;
-        for (int i = mySites.Count - 1; i >= 0; i--)
+        var(isNegated, actualPrefix) = IsNegationTuple(prefix);
+        prefix = actualPrefix;
+        for (int i = list.Count - 1; i >= 0; i--)
         {
-            var val = mySites[i];
-            if (a._trimBeforeFinding)
+            var value = list[i];
+            if (args.TrimBeforeFinding)
             {
-                val = val.Trim();
+                value = value.Trim();
             }
 
-            if (negate)
+            if (isNegated)
             {
-                if (!StartingWith(val, start, a.caseSensitive))
+                if (!StartingWith(value, prefix, args.CaseSensitive))
                 {
-                    mySites.RemoveAt(i);
+                    list.RemoveAt(i);
                 }
             }
             else
             {
-                if (StartingWith(val, start, a.caseSensitive))
+                if (StartingWith(value, prefix, args.CaseSensitive))
                 {
-                    mySites.RemoveAt(i);
+                    list.RemoveAt(i);
                 }
             }
         }
     }
 
-    internal static bool StartingWith(string val, string start, bool caseSensitive)
+    internal static bool StartingWith(string text, string prefix, bool isCaseSensitive)
     {
-        if (caseSensitive)
+        if (isCaseSensitive)
         {
-            return val.StartsWith(start);
+            return text.StartsWith(prefix);
         }
         else
         {
-            return val.ToLower().StartsWith(start.ToLower());
+            return text.ToLower().StartsWith(prefix.ToLower());
         }
     }
 
-    internal static string StartWith(List<string> suMethods, string line, out string element)
+    internal static string StartWith(List<string> prefixes, string text, out string matchedPrefix)
     {
-        element = null;
-        if (suMethods != null)
+        matchedPrefix = null;
+        if (prefixes != null)
         {
-            foreach (var method in suMethods)
+            foreach (var prefix in prefixes)
             {
-                if (line.StartsWith(method))
+                if (text.StartsWith(prefix))
                 {
-                    element = method;
-                    return line;
+                    matchedPrefix = prefix;
+                    return text;
                 }
             }
         }
@@ -233,26 +231,25 @@ internal partial class CA
         return null;
     }
 
-    internal static void RemoveWhichContains(List<string> files1, string item, bool wildcard, Func<string, string, bool> WildcardIsMatch)
+    internal static void RemoveWhichContains(List<string> list, string pattern, bool isWildcard, Func<string, string, bool> wildcardIsMatch)
     {
-        if (wildcard)
+        if (isWildcard)
         {
-            //item = SH.WrapWith(item, '*');
-            for (int i = files1.Count - 1; i >= 0; i--)
+            for (int i = list.Count - 1; i >= 0; i--)
             {
-                if (WildcardIsMatch(files1[i], item))
+                if (wildcardIsMatch(list[i], pattern))
                 {
-                    files1.RemoveAt(i);
+                    list.RemoveAt(i);
                 }
             }
         }
         else
         {
-            for (int i = files1.Count - 1; i >= 0; i--)
+            for (int i = list.Count - 1; i >= 0; i--)
             {
-                if (files1[i].Contains(item))
+                if (list[i].Contains(pattern))
                 {
-                    files1.RemoveAt(i);
+                    list.RemoveAt(i);
                 }
             }
         }

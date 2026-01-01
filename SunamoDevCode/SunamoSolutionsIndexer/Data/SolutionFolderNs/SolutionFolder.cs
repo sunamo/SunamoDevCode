@@ -36,7 +36,7 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
             var projectsFolder = SolutionsIndexerHelper.ProjectsInSolution(true, sf.fullPathFolder, false);
             foreach (var projectFolder in projectsFolder)
             {
-                var files = FSGetFiles.GetFiles(logger, projectFolder, "*.csproj", SearchOption.TopDirectoryOnly, new GetFilesArgsDC { _trimA1AndLeadingBs = a.onlyNames });
+                var files = FSGetFiles.GetFiles(logger, projectFolder, "*.csproj", SearchOption.TopDirectoryOnly, new GetFilesArgsDC { TrimA1AndLeadingBs = a.onlyNames });
                 foreach (var item in files)
                 {
                     csprojs.Add(item);

@@ -12,91 +12,91 @@ public class Shared
 #else
     string
 #endif
- ReplaceTargetPlatform(string replaceFor, string PropertyGroup, string start, string end, List<string> tt, bool throwEx = false)
+ ReplaceTargetPlatform(string replacementValue, string propertyGroupTag, string startTag, string endTag, List<string> csprojFiles, bool isThrowException = false)
     {
-        StringBuilder onlyStart = null;
-        StringBuilder onlyEnd = null;
-        StringBuilder dontHavePropertyGroup = null;
+        StringBuilder onlyStartTagFiles = null;
+        StringBuilder onlyEndTagFiles = null;
+        StringBuilder missingPropertyGroupFiles = null;
 
-        if (!throwEx)
+        if (!isThrowException)
         {
-            onlyStart = new StringBuilder();
-            onlyEnd = new StringBuilder();
-            dontHavePropertyGroup = new StringBuilder();
+            onlyStartTagFiles = new StringBuilder();
+            onlyEndTagFiles = new StringBuilder();
+            missingPropertyGroupFiles = new StringBuilder();
         }
 
-        foreach (var item in tt)
+        foreach (var csprojPath in csprojFiles)
         {
-            var f =
+            var fileContent =
 #if ASYNC
     await
 #endif
- TF.ReadAllText(item);
-            var b1 = f.Contains(start);
-            var b2 = f.Contains(end);
+ TF.ReadAllText(csprojPath);
+            var hasStartTag = fileContent.Contains(startTag);
+            var hasEndTag = fileContent.Contains(endTag);
 
-            if (b1 && b2)
+            if (hasStartTag && hasEndTag)
             {
-                var builder = SH.GetTextBetween(f, start, end, false);
+                var currentValue = SH.GetTextBetween(fileContent, startTag, endTag, false);
 
-                if (builder != replaceFor)
+                if (currentValue != replacementValue)
                 {
-                    f = SHReplace.ReplaceOnce(f, start + builder + end, start + replaceFor + end);
-                    await TF.WriteAllText(item, f);
+                    fileContent = SHReplace.ReplaceOnce(fileContent, startTag + currentValue + endTag, startTag + replacementValue + endTag);
+                    await TF.WriteAllText(csprojPath, fileContent);
                 }
             }
-            else if (b1 && !b2)
+            else if (hasStartTag && !hasEndTag)
             {
-                if (throwEx)
+                if (isThrowException)
                 {
-                    ThrowEx.Custom("Have only starting tag: " + item);
+                    ThrowEx.Custom("Have only starting tag: " + csprojPath);
                 }
                 else
                 {
-                    onlyStart.AppendLine(item);
+                    onlyStartTagFiles.AppendLine(csprojPath);
                 }
             }
-            else if (b2 && !b1)
+            else if (hasEndTag && !hasStartTag)
             {
-                if (throwEx)
+                if (isThrowException)
                 {
-                    ThrowEx.Custom("Have only ending tag: " + item);
+                    ThrowEx.Custom("Have only ending tag: " + csprojPath);
                 }
                 else
                 {
-                    onlyEnd.AppendLine(item);
+                    onlyEndTagFiles.AppendLine(csprojPath);
                 }
             }
             else
             {
-                var dx = f.IndexOf(PropertyGroup);
-                if (dx == -1)
+                var propertyGroupIndex = fileContent.IndexOf(propertyGroupTag);
+                if (propertyGroupIndex == -1)
                 {
-                    if (throwEx)
+                    if (isThrowException)
                     {
-                        ThrowEx.Custom("Don't have PropertyGroup: " + item);
+                        ThrowEx.Custom("Don't have PropertyGroup: " + csprojPath);
                     }
                     else
                     {
-                        dontHavePropertyGroup.AppendLine(item);
+                        missingPropertyGroupFiles.AppendLine(csprojPath);
                     }
                 }
                 else
                 {
-                    f = f.Insert(dx + PropertyGroup.Length, start + replaceFor + end);
-                    await TF.WriteAllText(item, f);
+                    fileContent = fileContent.Insert(propertyGroupIndex + propertyGroupTag.Length, startTag + replacementValue + endTag);
+                    await TF.WriteAllText(csprojPath, fileContent);
                 }
             }
         }
 
-        if (!throwEx)
+        if (!isThrowException)
         {
-            TextOutputGenerator tog = new TextOutputGenerator();
-            tog.ListSB(onlyStart, "onlyStart");
-            tog.ListSB(onlyEnd, "onlyEnd");
-            tog.ListSB(dontHavePropertyGroup, "dontHavePropertyGroup");
+            TextOutputGenerator outputGenerator = new TextOutputGenerator();
+            outputGenerator.ListSB(onlyStartTagFiles, "onlyStart");
+            outputGenerator.ListSB(onlyEndTagFiles, "onlyEnd");
+            outputGenerator.ListSB(missingPropertyGroupFiles, "dontHavePropertyGroup");
 
-            return tog.ToString();
+            return outputGenerator.ToString();
         }
         return null;
 

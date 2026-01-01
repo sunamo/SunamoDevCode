@@ -169,7 +169,7 @@ public class SolutionsIndexerHelper
 
         if (Directory.Exists(path))
         {
-            var files = FSGetFiles.GetFiles(logger, path, "*.xaml", System.IO.SearchOption.TopDirectoryOnly, new GetFilesArgsDC { _trimA1AndLeadingBs = true });
+            var files = FSGetFiles.GetFiles(logger, path, "*.xaml", System.IO.SearchOption.TopDirectoryOnly, new GetFilesArgsDC { TrimA1AndLeadingBs = true });
             for (int i = 0; i < files.Count; i++)
             {
                 files[i] = Path.GetFileNameWithoutExtension(files[i]);

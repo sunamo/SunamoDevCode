@@ -1,62 +1,62 @@
 namespace SunamoDevCode._public.SunamoTextOutputGenerator;
 
-public class InstantSB 
+public class InstantSB
 {
-    public StringBuilder stringBuilder = new StringBuilder();
+    public StringBuilder StringBuilder { get; set; } = new StringBuilder();
     private string _tokensDelimiter;
-    public InstantSB(string znak)
+    public InstantSB(string delimiter)
     {
-        _tokensDelimiter = znak;
+        _tokensDelimiter = delimiter;
     }
-    public int Length => stringBuilder.Length;
+    public int Length => StringBuilder.Length;
     public override string ToString()
     {
-        string vratit = stringBuilder.ToString();
-        return vratit;
+        string result = StringBuilder.ToString();
+        return result;
     }
 
 
 
 
-    public void AddItem(string var)
+    public void AddItem(string value)
     {
-        string text = var.ToString();
+        string text = value.ToString();
         if (text != _tokensDelimiter && text != "")
         {
-            stringBuilder.Append(text + _tokensDelimiter);
+            StringBuilder.Append(text + _tokensDelimiter);
         }
     }
-    public void AddRaw(object tab)
+    public void AddRaw(object content)
     {
-        stringBuilder.Append(tab.ToString());
+        StringBuilder.Append(content.ToString());
     }
 
-    public void AddItems(params string[] polozky)
+    public void AddItems(params string[] items)
     {
-        foreach (var var in polozky)
+        foreach (var item in items)
         {
-            AddItem(var);
+            AddItem(item);
         }
     }
 
 
 
 
-    public void EndLine(object o)
+    public void EndLine(object content)
     {
-        string text = o.ToString();
+        string text = content.ToString();
         if (text != _tokensDelimiter && text != "")
         {
-            stringBuilder.Append(text);
+            StringBuilder.Append(text);
         }
     }
 
 
 
 
-    public void AppendLine(string p)
+    public void AppendLine(string text)
     {
-        EndLine(p + Environment.NewLine);
+        EndLine(text + Environment.NewLine);
     }
     public void AppendLine()
     {
@@ -64,10 +64,10 @@ public class InstantSB
     }
     public void RemoveEndDelimiter()
     {
-        stringBuilder.Remove(stringBuilder.Length - _tokensDelimiter.Length, _tokensDelimiter.Length);
+        StringBuilder.Remove(StringBuilder.Length - _tokensDelimiter.Length, _tokensDelimiter.Length);
     }
     public void Clear()
     {
-        stringBuilder.Clear();
+        StringBuilder.Clear();
     }
 }

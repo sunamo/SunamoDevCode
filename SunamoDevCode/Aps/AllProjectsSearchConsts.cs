@@ -1,36 +1,39 @@
 namespace SunamoDevCode.Aps;
 
+/// <summary>
+/// EN: Constants for AllProjectsSearch functionality
+/// CZ: Konstanty pro funkcionalitu AllProjectsSearch
+/// </summary>
 public partial class AllProjectsSearchConsts
 {
-    
-    static AllProjectsSearchConsts()
-    {
-    }
-    // use InsertIntoXlfAndConstantCsUCSuMenuItems.fileNotTranslate
-    //public static readonly List<string> notTranslateAbleFiles = CA.ToListString("AllStrings", "DefaultPaths", "SourceCodePaths", "TemporaryPaths", "SpecialFolders", "AssemblyInfo", "AllChars",
-    //                "GeoStates", "UriWebServicesDontTranslate", "PluralConverter", "LoremIpsumGenerator", "RegexHelper",
-    //                // Must traslate manually
-    //                "XamlGenerator",
-    //                "JavaScriptInjection",
-    //                "DTFormats",
-    //                "GeoCzechRegions",
-    //                "GeoStates",
-    //                "CSharpGenerator",
-    //                // quite c# code
-    //                "MSColumnsDB",
-    //                // no text, but many quotes etc.
-    //                "GeneratorCpp",
-    //                // " was not even
-    //                "ConstsShared",
-    //    // All files with ending NotTranslateAble will be exclude automatically
-    //    "*NotTranslateAble",
-    //    "AwesomeFontIcons",
-    //    "BlogsTemplates"
-    //    );
-    public const string fnLatestClearTempFiles = "LatestClearTempFiles";
-    List<string> foldersIgnore = new List<string>(new List<string> { "Addins", "Settings", "Templates", "Visualizers",
-    "ArchitectureExplorer", "Backup Files",  "Code Snippets", "StartPages", "Assemblies", "Blend" });
-    public static List<string> extCodeElements = new List<string> { ".cs", ".ts", ".dart" };
-    public static List<string> extFiles2 = new List<string> { ".ashx", ".aspx", ".xaml", ".cshtml" };
-    public const byte forApsPlugins = 9;
+    /// <summary>
+    /// EN: Filename for latest clear temp files operation
+    /// CZ: Název souboru pro poslední operaci čištění dočasných souborů
+    /// </summary>
+    public const string FnLatestClearTempFiles = "LatestClearTempFiles";
+
+    /// <summary>
+    /// EN: List of folders to ignore during search
+    /// CZ: Seznam složek které se mají ignorovat při vyhledávání
+    /// </summary>
+    private List<string> foldersIgnore = new List<string> { "Addins", "Settings", "Templates", "Visualizers",
+    "ArchitectureExplorer", "Backup Files",  "Code Snippets", "StartPages", "Assemblies", "Blend" };
+
+    /// <summary>
+    /// EN: File extensions for code elements
+    /// CZ: Přípony souborů pro kódové elementy
+    /// </summary>
+    public static List<string> ExtCodeElements { get; set; } = new List<string> { ".cs", ".ts", ".dart" };
+
+    /// <summary>
+    /// EN: Additional file extensions
+    /// CZ: Další přípony souborů
+    /// </summary>
+    public static List<string> ExtFiles2 { get; set; } = new List<string> { ".ashx", ".aspx", ".xaml", ".cshtml" };
+
+    /// <summary>
+    /// EN: Number for APS plugins
+    /// CZ: Číslo pro APS pluginy
+    /// </summary>
+    public const byte ForApsPlugins = 9;
 }
