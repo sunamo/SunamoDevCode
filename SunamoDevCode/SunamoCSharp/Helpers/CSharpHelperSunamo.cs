@@ -1,53 +1,64 @@
 namespace SunamoDevCode.SunamoCSharp.Helpers;
 
+/// <summary>
+/// Helper class for C# code processing and generation
+/// </summary>
 public class CSharpHelperSunamo
 {
-    public static string IsAllCsprojAndSlnRightInHiearchy(string path, TextOutputGeneratorDC tog)
+    /// <summary>
+    /// Type information for runtime type checking
+    /// </summary>
+    internal static Type Type = typeof(CSharpHelperSunamo);
+
+    /// <summary>
+    /// Checks if all csproj and sln files are in correct hierarchy
+    /// </summary>
+    /// <param name="path">Root path to search</param>
+    /// <param name="textOutputGenerator">Text output generator for results</param>
+    /// <returns>String containing report of incorrectly placed files</returns>
+    public static string IsAllCsprojAndSlnRightInHiearchy(string path, TextOutputGeneratorDC textOutputGenerator)
     {
-        var csproj = Directory.GetFiles(path, "*.csproj", SearchOption.AllDirectories).ToList();
-        var sln = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories).ToList();
+        var csprojFiles = Directory.GetFiles(path, "*.csproj", SearchOption.AllDirectories).ToList();
+        var slnFiles = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories).ToList();
 
-        //List<string> foldersWithSlnOk = new List<string>();
-        List<string> foldersWithSlnKo = new List<string>();
+        List<string> incorrectSlnFolders = new List<string>();
 
-        for (int i = sln.Count - 1; i >= 0; i--)
+        for (int i = slnFiles.Count - 1; i >= 0; i--)
         {
-            var item = sln[i];
-
-
-            if (!IsOnlyInSpecialOrProjectFolders(sln[i]))
+            if (!IsOnlyInSpecialOrProjectFolders(slnFiles[i]))
             {
-                foldersWithSlnKo.Add(sln[i]);
-                sln.RemoveAt(i);
+                incorrectSlnFolders.Add(slnFiles[i]);
+                slnFiles.RemoveAt(i);
             }
         }
 
-        //sln = CAChangeContent.ChangeContent0(null, sln, Path.GetDirectoryName);
-
-        for (int i = 0; i < sln.Count; i++)
+        for (int i = 0; i < slnFiles.Count; i++)
         {
-            sln[i] = Path.GetDirectoryName(sln[i]);
+            slnFiles[i] = Path.GetDirectoryName(slnFiles[i]);
         }
 
-        for (int i = csproj.Count - 1; i >= 0; i--)
+        for (int i = csprojFiles.Count - 1; i >= 0; i--)
         {
-            var csprojFolder = Path.GetDirectoryName(csproj[i]);
+            var csprojFolder = Path.GetDirectoryName(csprojFiles[i]);
             var slnFolder = Path.GetDirectoryName(csprojFolder);
 
-            if (sln.Contains(slnFolder))
+            if (slnFiles.Contains(slnFolder))
             {
-                csproj.RemoveAt(i);
+                csprojFiles.RemoveAt(i);
             }
         }
 
+        textOutputGenerator.List(incorrectSlnFolders, "Sln in wrong folder:");
+        textOutputGenerator.List(csprojFiles, "Csproj in wrong folder:");
 
-
-        tog.List(foldersWithSlnKo, "Sln in wrong folder:");
-        tog.List(csproj, "Csproj in wrong folder:");
-
-        return tog.ToString();
+        return textOutputGenerator.ToString();
     }
 
+    /// <summary>
+    /// Checks if file is only in special folders (starting with _) or Projects folders
+    /// </summary>
+    /// <param name="filePath">Path to file to check</param>
+    /// <returns>True if file is in valid folder structure</returns>
     private static bool IsOnlyInSpecialOrProjectFolders(string filePath)
     {
         filePath = Path.GetDirectoryName(filePath);
@@ -61,46 +72,53 @@ public class CSharpHelperSunamo
                 return false;
             }
 
-            var fn = Path.GetFileName(filePath);
+            var fileName = Path.GetFileName(filePath);
 
-            if (fn.EndsWith("Projects"))
+            if (fileName.EndsWith("Projects"))
             {
                 return true;
             }
 
-            if (!fn.StartsWith("_"))
+            if (!fileName.StartsWith("_"))
             {
                 return false;
             }
         }
-
-        return false;
     }
 
+    /// <summary>
+    /// Detects string literal ranges in text by finding quote pairs
+    /// </summary>
+    /// <param name="text">Text to analyze</param>
+    /// <returns>List of from-to ranges for string literals</returns>
     public static FromToList DetectFromToString(string text)
     {
-        List<int> oc = null;// SH.ReturnOccurencesOfString(text, "\"");
-        for (int i = oc.Count - 1; i >= 0; i--)
+        List<int> quoteIndices = null;// SH.ReturnOccurencesOfString(text, "\"");
+        for (int i = quoteIndices.Count - 1; i >= 0; i--)
         {
-            if (text[oc[i] - 1] == '\\')
+            if (text[quoteIndices[i] - 1] == '\\')
             {
-                oc.RemoveAt(i);
+                quoteIndices.RemoveAt(i);
             }
         }
 
-        ThrowEx.HasOddNumberOfElements("oc", oc);
+        ThrowEx.HasOddNumberOfElements("quoteIndices", quoteIndices);
 
-        var ft = new FromToList();
-        for (int i = 0; i < oc.Count; i++)
+        var fromToList = new FromToList();
+        for (int i = 0; i < quoteIndices.Count; i++)
         {
-            ft.Ranges.Add(new FromToDC(oc[i], oc[++i]));
+            fromToList.Ranges.Add(new FromToDC(quoteIndices[i], quoteIndices[++i]));
         }
-        return ft;
+        return fromToList;
     }
 
+    /// <summary>
+    /// Indents lines to match the indentation of the previous line
+    /// </summary>
+    /// <param name="lines">Lines to process</param>
     public static void IndentAsPreviousLine(List<string> lines)
     {
-        string indentPrevious = string.Empty;
+        string previousIndent = string.Empty;
         string line = null;
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < lines.Count; i++)
@@ -110,33 +128,38 @@ public class CSharpHelperSunamo
             {
                 if (!char.IsWhiteSpace(line[0]))
                 {
-                    lines[i] = indentPrevious + lines[i];
+                    lines[i] = previousIndent + lines[i];
                 }
                 else
                 {
-                    StringBuilder sb2 = new StringBuilder();
+                    StringBuilder whitespaceBuilder = new StringBuilder();
                     foreach (var item in line)
                     {
                         if (char.IsWhiteSpace(item))
                         {
-                            sb2.Append(item);
+                            whitespaceBuilder.Append(item);
                         }
                         else
                         {
                             break;
                         }
                     }
-                    indentPrevious = stringBuilder.ToString();
-                    //indentPrevious = SH.GetWhitespaceFromBeginning(stringBuilder, line);
+                    previousIndent = stringBuilder.ToString();
                 }
             }
         }
     }
-    public static bool IsInterface(string item)
+
+    /// <summary>
+    /// Checks if type name follows interface naming convention (starts with 'I' followed by uppercase letter)
+    /// </summary>
+    /// <param name="text">Type name to check</param>
+    /// <returns>True if name follows interface convention</returns>
+    public static bool IsInterface(string text)
     {
-        if (item[0] == 'I')
+        if (text[0] == 'I')
         {
-            if (char.IsUpper(item[1]))
+            if (char.IsUpper(text[1]))
             {
                 return true;
             }
@@ -144,15 +167,25 @@ public class CSharpHelperSunamo
         return false;
     }
 
+    /// <summary>
+    /// Removes "(null)" text from string
+    /// </summary>
+    /// <param name="text">Text to process</param>
+    /// <returns>Text with "(null)" removed and trimmed</returns>
     public static string ReplaceNulled(string text)
     {
         return text.Replace("(null)", string.Empty).Trim();
     }
 
-    public static string ShortcutForControl(string name)
+    /// <summary>
+    /// Creates shortcut from control name by extracting uppercase letters
+    /// </summary>
+    /// <param name="text">Control name</param>
+    /// <returns>Shortcut created from uppercase letters</returns>
+    public static string ShortcutForControl(string text)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        foreach (var item in name)
+        foreach (var item in text)
         {
             if (char.IsUpper(item))
             {
@@ -161,23 +194,23 @@ public class CSharpHelperSunamo
         }
         return stringBuilder.ToString();
     }
+
     /// <summary>
-    /// Its not compatible with default operator
+    /// Gets default value for type T. Not compatible with default operator - must cast manually
     /// https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/default-values
-    /// Nonsense, cant type too many different output types to T.
-    /// Must cast manually
     /// </summary>
-    /// <typeparam name = "T"></typeparam>
-    /// <param name = "t"></param>
-    public static object DefaultValueForTypeT<T>(T t, Func<string, string> ConvertTypeShortcutFullNameToShortcut)
+    /// <typeparam name="T">Type to get default value for</typeparam>
+    /// <param name="value">Example value to get type information from</param>
+    /// <param name="convertTypeShortcutFullNameToShortcut">Function to convert full type name to shortcut</param>
+    /// <returns>Default value for the type</returns>
+    public static object DefaultValueForTypeT<T>(T value, Func<string, string> convertTypeShortcutFullNameToShortcut)
     {
-        var type = t.GetType().FullName;
-        if (type.Contains("."))
+        var typeName = value.GetType().FullName;
+        if (typeName.Contains("."))
         {
-            type = ConvertTypeShortcutFullNameToShortcut(type);
+            typeName = convertTypeShortcutFullNameToShortcut(typeName);
         }
-        #region Same seria as in Types
-        switch (type)
+        switch (typeName)
         {
             case "string":
                 return string.Empty;
@@ -197,30 +230,30 @@ public class CSharpHelperSunamo
             case "ulong":
                 return 0;
             case "DateTime":
-                // Původně tu bylo MinValue kvůli SQLite ale dohodl jsem se že SQLite už nebudu používat a proto si ušetřím v kódu práci text MSSQL
                 return "new(1900, 1, 1)";
             case "byte[]":
-                // Podporovaný typ pouze v desktopových aplikacích, kde není lsožka sbf
                 return null;
             case "Guid":
                 return Guid.Empty;
             case "char":
-                throw new Exception("Nepodporovan\u00FD typ");
-                break;
+                throw new Exception("Unsupported type");
         }
-        #endregion
-        throw new Exception("Nepodporovan\u00FD typ");
-        return null;
+        throw new Exception("Unsupported type");
     }
 
-    static Type type = typeof(CSharpHelperSunamo);
-    public static string DefaultValueForType(string type, Func<string, string> ConvertTypeShortcutFullNameToShortcut)
+    /// <summary>
+    /// Gets default value for type as string representation
+    /// </summary>
+    /// <param name="typeName">Type name</param>
+    /// <param name="convertTypeShortcutFullNameToShortcut">Function to convert full type name to shortcut</param>
+    /// <returns>String representation of default value</returns>
+    public static string DefaultValueForType(string typeName, Func<string, string> convertTypeShortcutFullNameToShortcut)
     {
-        if (type.Contains("."))
+        if (typeName.Contains("."))
         {
-            type = ConvertTypeShortcutFullNameToShortcut(type);
+            typeName = convertTypeShortcutFullNameToShortcut(typeName);
         }
-        switch (type)
+        switch (typeName)
         {
             case "string":
                 return "\"" + "\"";
@@ -240,28 +273,28 @@ public class CSharpHelperSunamo
             case "ulong":
                 return "0";
             case "DateTime":
-                // Původně tu bylo MinValue kvůli SQLite ale dohodl jsem se že SQLite už nebudu používat a proto si ušetřím v kódu práci text MSSQL 
                 return "SqlServerHelper.DateTimeMinVal";
             case "byte[]":
-                // Podporovaný typ pouze v desktopových aplikacích, kde není lsožka sbf
                 return "null";
             case "Guid":
                 return "Guid.Empty";
             case "char":
-                throw new Exception("Nepodporovan\u00FD typ");
-                break;
+                throw new Exception("Unsupported type");
             default:
                 // For types like Dictionary<int,int>
-                return "new " + type + "()";
+                return "new " + typeName + "()";
         }
-        //throw new Exception("Nepodporovan\u00FD typ");
-        return null;
     }
 
-    public static string ReplaceReadonlyToConst(string arg)
+    /// <summary>
+    /// Replaces 'readonly' and 'static readonly' keywords with 'const' keyword
+    /// </summary>
+    /// <param name="text">Text to process</param>
+    /// <returns>Text with readonly keywords replaced by const</returns>
+    public static string ReplaceReadonlyToConst(string text)
     {
-        arg = arg.Replace("static readonly", "const");
-        arg = arg.Replace("readonly", "const");
-        return arg;
+        text = text.Replace("static readonly", "const");
+        text = text.Replace("readonly", "const");
+        return text;
     }
 }

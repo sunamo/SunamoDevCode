@@ -13,7 +13,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name = "nameDictionary"></param>
     /// <param name = "dict"></param>
     /// <param name = "addingValue"></param>
-    public void DictionaryFromDictionary<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> dict, CSharpGeneratorArgs arg = null)
+    public void DictionaryFromDictionary<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> dict, CSharpGeneratorArgs? arg = null) where Key : notnull
     {
         if (arg == null)
             arg = new CSharpGeneratorArgs();
@@ -21,11 +21,11 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         if (dict.Count > 0)
             valueType = ConvertTypeShortcutFullName.ToShortcut(DictionaryHelper.GetFirstItemValue(dict).GetType().FullName);
         var cn = "Dictionary<string, " + valueType + ">"; //
-        arg.createInstance = false;
+        arg.CreateInstance = false;
         NewVariable(tabCount, AccessModifiers.Private, cn, nameDictionary, arg);
         AppendLine();
         CreateInstance(cn, nameDictionary);
-        if (arg.addingValue)
+        if (arg.AddingValue)
             GetDictionaryValuesFromDictionary(tabCount, nameDictionary, dict);
     }
 
@@ -38,7 +38,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name = "nameDictionary"></param>
     /// <param name = "dict"></param>
     /// <param name = "addingValue"></param>
-    public void DictionaryFromDictionaryInnerList<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> dict, CSharpGeneratorArgs a)
+    public void DictionaryFromDictionaryInnerList<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> dict, CSharpGeneratorArgs a) where Key : notnull
     {
         string valueType = null;
         if (dict.Count > 0)
@@ -47,11 +47,11 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         NewVariable(tabCount, AccessModifiers.Private, cn, nameDictionary, a);
         AppendLine();
         CreateInstance(cn, nameDictionary);
-        if (a.addingValue)
+        if (a.AddingValue)
             GetDictionaryValuesFromDictionary(tabCount, nameDictionary, dict);
     }
 
-    public void GetDictionaryValuesFromRandomValue<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, Func<Value> randomValue)
+    public void GetDictionaryValuesFromRandomValue<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, Func<Value> randomValue) where Key : notnull
     {
         var dict = new Dictionary<Key, Value>();
         for (var i = 0; i < keys.Count; i++)
@@ -69,16 +69,16 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name = "keys"></param>
     /// <param name = "values"></param>
     /// <param name = "a"></param>
-    public void GetDictionaryValuesFromTwoList<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, List<Value> values, CSharpGeneratorArgs a)
+    public void GetDictionaryValuesFromTwoList<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, List<Value> values, CSharpGeneratorArgs a) where Key : notnull
     {
         var split = false;
         string text = null;
-        if (a.splitKeyWith != null)
+        if (a.SplitKeyWith != null)
         {
             if (typeof(Key) == Types.tString)
             {
                 split = true;
-                text = a.splitKeyWith;
+                text = a.SplitKeyWith;
             }
             else
             {
@@ -103,7 +103,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         GetDictionaryValuesFromDictionary(tabCount, nameDictionary, dict);
     }
 
-    public void GetDictionaryValuesFromDictionaryInnerList<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, List<Value>> dict, CSharpGeneratorArgs a)
+    public void GetDictionaryValuesFromDictionaryInnerList<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, List<Value>> dict, CSharpGeneratorArgs a) where Key : notnull
     {
         Type tKey, tValue;
         Key key;
@@ -111,7 +111,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         IList valueS;
         string keyS = null;
         keyS = key.ToString();
-        if (a.alsoField)
+        if (a.AlsoField)
             Field(tabCount, AccessModifiers.Public, true, VariableModifiers.None, string.Format("Dictionary<{0}, List<{1}>>", tKey.Name, tValue.Name), nameDictionary, true);
         string valuesCs = null;
         foreach (var item in dict)
@@ -120,7 +120,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
             valueS = item.Value;
             CSharpHelper.WrapWithQuote(tKey, ref keyS);
             var valueS2 = CSharpHelper.WrapWithQuoteList(tValue, valueS);
-            if (a.useCA)
+            if (a.UseCA)
                 valuesCs = "[" + valueS2 + "]";
             else
                 valuesCs = "new List<" + tValue.Name + ">(new ;" + tValue.Name + "[] {" + valueS2 + "})";
@@ -128,7 +128,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         }
     }
 
-    public static void GetTKeyAndTValue<Key, Value>(Dictionary<Key, List<Value>> dict, out Type tKey, out Type tValue, out Key key)
+    public static void GetTKeyAndTValue<Key, Value>(Dictionary<Key, List<Value>> dict, out Type tKey, out Type tValue, out Key key) where Key : notnull
     {
         key = default;
         var value = default(Value);
@@ -143,7 +143,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         tValue = value.GetType();
     }
 
-    public void GetDictionaryValuesFromDictionary<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> dict)
+    public void GetDictionaryValuesFromDictionary<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> dict) where Key : notnull
     {
         var key = default(Key);
         var value = default(Value);

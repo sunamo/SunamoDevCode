@@ -11,8 +11,8 @@ public partial class ApsHelper : ApsPluginStatic
     CheckForPushInThread(object asyncPushSolutionsObject, Func<List<string>, Task<List<List<string>>>> psInvoke, string eVs, string pathGetMessagesFromGitOutput)
     {
         AsyncPushSolutions asyncPushSolutions = (AsyncPushSolutions)asyncPushSolutionsObject;
-        ThisApp.Appeal("foldersWithSolutions before " + asyncPushSolutions.foldersWithSolutions.Count);
-        foreach (var sln in asyncPushSolutions.foldersWithSolutions)
+        ThisApp.Appeal("foldersWithSolutions before " + asyncPushSolutions.FoldersWithSolutions.Count);
+        foreach (var sln in asyncPushSolutions.FoldersWithSolutions)
         {
 #if DEBUG
             //DebugLogger.Instance.WriteLine("Push: " + sln.nameSolution);
@@ -21,7 +21,7 @@ public partial class ApsHelper : ApsPluginStatic
 #if ASYNC
     await
 #endif
-            GitHelper.PushSolution(asyncPushSolutions.release, asyncPushSolutions.gitBashBuilder, asyncPushSolutions.pushArgs, asyncPushSolutions.commitMessage, sln.fullPathFolder, pushSolutionsData, asyncPushSolutions.gitStatus, psInvoke))
+            GitHelper.PushSolution(asyncPushSolutions.Release, asyncPushSolutions.GitBashBuilder, asyncPushSolutions.PushArgs, asyncPushSolutions.CommitMessage, sln.fullPathFolder, pushSolutionsData, asyncPushSolutions.GitStatus, psInvoke))
             {
                 var fn = FS.GetFileName(sln.fullPathFolder);
                 if (pushSolutionsData.onlyThese == VpsHelperDevCode.listVpsNew)
@@ -38,9 +38,9 @@ public partial class ApsHelper : ApsPluginStatic
             }
         }
 
-        var gitBashBuilderS = asyncPushSolutions.gitBashBuilder.ToString();
+        var gitBashBuilderS = asyncPushSolutions.GitBashBuilder.ToString();
         //gitBashBuilderS = "abc";
-        if (!string.IsNullOrWhiteSpace(gitBashBuilderS) || !asyncPushSolutions.release)
+        if (!string.IsNullOrWhiteSpace(gitBashBuilderS) || !asyncPushSolutions.Release)
         {
             //gitBashBuilderS = gitBashBuilder.ToString();
             //gitBashBuilderS = TF.ReadAllText(@"D:\Desktop\gitOutput.txt");

@@ -5,29 +5,42 @@ namespace SunamoDevCode.SunamoSolutionsIndexer;
 public partial class FoldersWithSolutions
 {
     /// <summary>
-    /// Find out usuall folder and specific (which starting on _) and process then to any level
+    /// Finds usual folders and special folders (starting with _) and processes them recursively
     /// </summary>
-    /// <param name = "proj"></param>
-    /// <param name = "slozka"></param>
-    void AddProjectsFolder(List<string> proj, string slozka)
+    /// <param name="projects">List to add project folders to</param>
+    /// <param name="folder">Folder to scan</param>
+    void AddProjectsFolder(List<string> projects, string folder)
     {
-        List<string> spec, norm;
-        ReturnNormalAndSpecialFolders(slozka, out spec, out norm);
-        norm = CA.EnsureBackslash(norm);
-        proj.AddRange(norm);
-        foreach (string var2 in spec)
+        List<string> specialFolders, normalFolders;
+        ReturnNormalAndSpecialFolders(folder, out specialFolders, out normalFolders);
+        normalFolders = CA.EnsureBackslash(normalFolders);
+        projects.AddRange(normalFolders);
+        foreach (string specialFolder in specialFolders)
         {
-            AddProjectsFolder(proj, var2);
+            AddProjectsFolder(projects, specialFolder);
         }
     }
 
+    /// <summary>
+    /// Gets full path folders from repository
+    /// </summary>
+    /// <param name="usedRepository">Repository to get folders from</param>
+    /// <param name="returnOnlyThese">Optional filter for specific solution names</param>
+    /// <returns>List of full path folders</returns>
     public static List<string> FullPathFolders(RepositoryLocal usedRepository, List<string> returnOnlyThese = null)
     {
-        Dictionary<string, SolutionFolder> sf = null;
-        return FullPathFolders(usedRepository, sf, returnOnlyThese);
+        Dictionary<string, SolutionFolder> solutionFoldersMap = null;
+        return FullPathFolders(usedRepository, solutionFoldersMap, returnOnlyThese);
     }
 
-    public static List<string> FullPathFolders(RepositoryLocal usedRepository, Dictionary<string, SolutionFolder> sf, List<string> returnOnlyThese = null)
+    /// <summary>
+    /// Gets full path folders from repository with optional solution folder mapping
+    /// </summary>
+    /// <param name="usedRepository">Repository to get folders from</param>
+    /// <param name="solutionFoldersMap">Optional dictionary to populate with solution folder mappings</param>
+    /// <param name="returnOnlyThese">Optional filter for specific solution names</param>
+    /// <returns>List of full path folders</returns>
+    public static List<string> FullPathFolders(RepositoryLocal usedRepository, Dictionary<string, SolutionFolder> solutionFoldersMap, List<string> returnOnlyThese = null)
     {
         List<string> lines = new List<string>();
         foreach (var item in fwss)
@@ -48,9 +61,9 @@ public partial class FoldersWithSolutions
                     }
                 }
 
-                if (sf != null)
+                if (solutionFoldersMap != null)
                 {
-                    sf.Add(sln.fullPathFolder, sln);
+                    solutionFoldersMap.Add(sln.fullPathFolder, sln);
                 }
 
                 lines.Add(sln.fullPathFolder);

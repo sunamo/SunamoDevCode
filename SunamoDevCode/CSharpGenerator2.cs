@@ -12,29 +12,29 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name = "listName"></param>
     /// <param name = "list"></param>
     /// <param name = "a"></param>
-    public void List(int tabCount, string genericType, string listName, List<string> list, CSharpGeneratorArgs a = null)
+    public void List(int tabCount, string genericType, string listName, List<string> list, CSharpGeneratorArgs? a = null)
     {
         if (a == null)
             a = new CSharpGeneratorArgs
             {
-                addHyphens = true
+                AddHyphens = true
             };
         var cn = "List<" + genericType + ">";
         NewVariable(tabCount, AccessModifiers.Private, cn, listName, a);
-        if (a.addHyphens)
+        if (a.AddHyphens)
             for (var i = 0; i < list.Count; i++)
                 list[i] = SH.WrapWithQm(list[i]);
         //list = CA.WrapWith(list, "\"");
         if (genericType == "string")
         {
-            if (a.useCA)
+            if (a.UseCA)
                 AppendLine(tabCount, listName + " = new List<string>(@" + string.Join(',', list) + ");");
             else
                 AppendLine(tabCount, listName + " = new List<string>(new string[] {" + string.Join(',', list) + "});");
         }
         else
         {
-            if (a.useCA)
+            if (a.UseCA)
                 AppendLine(tabCount, listName + " = new List<" + genericType + ">(CA.ToEnumerable(" + string.Join(',', list) + "));");
             else
                 AppendLine(tabCount, listName + " = new List<" + genericType + ">(new " + genericType + "[] }" + string.Join(',', list) + "});");
@@ -60,7 +60,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         WriteAccessModifiers(_public);
         sb.AddItem(cn);
         sb.AddItem(name);
-        if (a.createInstance)
+        if (a.CreateInstance)
         {
             sb.EndLine(';');
             AppendLine();
@@ -122,7 +122,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         AddTab(tabCount);
         sb.AddItem(objectName + "." + variable);
         sb.AddItem("=");
-        if (a.addHyphens)
+        if (a.AddHyphens)
             value = SH.WrapWith(value, "\"");
         sb.AddItem(value + ";");
         sb.AppendLine();
@@ -142,7 +142,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         var objectIdentificator = "";
         if (timeObjectName != null)
             objectIdentificator = timeObjectName + ".";
-        if (a.addHyphens)
+        if (a.AddHyphens)
             //whereIsUsed2 = CA.WrapWith(whereIsUsed2, "\"");
             for (var i = 0; i < whereIsUsed2.Count; i++)
                 whereIsUsed2[i] = SH.WrapWithBs(whereIsUsed2[i]);
@@ -173,7 +173,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name = "tabCount"></param>
     /// <param name = "nameDictionary"></param>
     /// <param name = "nameCommentEnums"></param>
-    public void DictionaryNumberNumber<T, U>(int tabCount, string nameDictionary, Dictionary<T, U> nameCommentEnums, CSharpGeneratorArgs a = null)
+    public void DictionaryNumberNumber<T, U>(int tabCount, string nameDictionary, Dictionary<T, U> nameCommentEnums, CSharpGeneratorArgs? a = null) where T : notnull where U : notnull
     {
         DictionaryFromDictionary(tabCount, nameDictionary, nameCommentEnums, a);
     }
@@ -184,7 +184,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name = "tabCount"></param>
     /// <param name = "nameDictionary"></param>
     /// <param name = "nameCommentEnums"></param>
-    public void DictionaryStringString(int tabCount, string nameDictionary, Dictionary<string, string> nameCommentEnums, CSharpGeneratorArgs a = null)
+    public void DictionaryStringString(int tabCount, string nameDictionary, Dictionary<string, string> nameCommentEnums, CSharpGeneratorArgs? a = null)
     {
         DictionaryFromDictionary(tabCount, nameDictionary, nameCommentEnums, a);
     }
@@ -196,7 +196,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name = "nameDictionary"></param>
     /// <param name = "result"></param>
     /// <param name = "a"></param>
-    public void DictionaryStringListString(int tabCount, string nameDictionary, Dictionary<string, List<string>> result, CSharpGeneratorArgs a = null)
+    public void DictionaryStringListString(int tabCount, string nameDictionary, Dictionary<string, List<string>> result, CSharpGeneratorArgs? a = null)
     {
         if (a == null)
             a = new CSharpGeneratorArgs();
@@ -219,12 +219,12 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name = "keys"></param>
     /// <param name = "randomValue"></param>
     /// <param name = "addingValue"></param>
-    public void DictionaryFromRandomValue<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, Func<Value> randomValue, CSharpGeneratorArgs a = null)
+    public void DictionaryFromRandomValue<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, Func<Value> randomValue, CSharpGeneratorArgs? a = null)
     {
         if (a == null)
         {
             a = new CSharpGeneratorArgs();
-            a.addingValue = true;
+            a.AddingValue = true;
         }
 
         var dict = new Dictionary<Key, Value>();
@@ -243,7 +243,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name = "keys"></param>
     /// <param name = "values"></param>
     /// <param name = "addingValue"></param>
-    public void DictionaryFromTwoList<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, List<Value> values, CSharpGeneratorArgs a = null)
+    public void DictionaryFromTwoList<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, List<Value> values, CSharpGeneratorArgs? a = null)
     {
         ThrowEx.DifferentCountInListsTU("keys", keys, "values", values);
         if (a == null)

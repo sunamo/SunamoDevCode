@@ -1,22 +1,45 @@
 namespace SunamoDevCode.Aps.Values;
 
+/// <summary>
+/// Implementation of move to shared folder operations
+/// </summary>
 public class MoveToShared : IMoveToShared
 {
-    public string folder { get; set; } = null;
-    public string folderSunamo { get; set; } = null;
-    public string folderSunamoWeb { get; set; } = null;
     /// <summary>
-    /// web, task and so
+    /// Base folder path
     /// </summary>
-    public string postfix { get; set; } = "web";
-    public string slnFrom { get; set; } = "sunamo";
+    public string Folder { get; set; } = null;
 
-    public MoveToShared(string folder)
+    /// <summary>
+    /// Sunamo folder path
+    /// </summary>
+    public string FolderSunamo { get; set; } = null;
+
+    /// <summary>
+    /// Sunamo web folder path
+    /// </summary>
+    public string FolderSunamoWeb { get; set; } = null;
+
+    /// <summary>
+    /// Postfix for folder name (e.g., web, task)
+    /// </summary>
+    public string Postfix { get; set; } = "web";
+
+    /// <summary>
+    /// Source solution name
+    /// </summary>
+    public string SlnFrom { get; set; } = "sunamo";
+
+    /// <summary>
+    /// Constructor that initializes folder paths
+    /// </summary>
+    /// <param name="baseFolder">Base folder path</param>
+    public MoveToShared(string baseFolder)
     {
-        this.folder = folder;
+        this.Folder = baseFolder;
 
-        // Projects\\ tu musí být kvůli sunamo.cz
-        folderSunamo = folder + "Projects\\" + slnFrom + "\\";
-        folderSunamoWeb = folder + "Projects\\" + "sunamo." + postfix + "\\";
+        // Projects\\ must be here for sunamo.cz
+        FolderSunamo = baseFolder + "Projects\\" + SlnFrom + "\\";
+        FolderSunamoWeb = baseFolder + "Projects\\" + "sunamo." + Postfix + "\\";
     }
 }

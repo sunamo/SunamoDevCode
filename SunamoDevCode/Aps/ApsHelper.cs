@@ -16,6 +16,7 @@ public partial class ApsHelper : ApsPluginStatic
     /// </summary>
     public PushSolutionsData pushSolutionsData = new PushSolutionsData();
     string typed = null;
+    bool cmd = false;
     GitBashBuilder gitPullVps = new GitBashBuilder(new TextBuilderDC());
     GitBashBuilder gitPushVps = new GitBashBuilder(new TextBuilderDC());
     /// <summary>

@@ -201,13 +201,13 @@ public static partial class CSharpHelper
         int pocetTabu = 0;
         CSharpGenerator gen = new CSharpGenerator();
         gen.DictionaryFromTwoList<string, Value>(tabCount, nameDictionary, keys, values, argument);
-        if (argument.checkForNull)
+        if (argument.CheckForNull)
         {
             gen.If(pocetTabu, nameDictionary + " " + "== null");
         }
 
         gen.GetDictionaryValuesFromDictionary<string, Value>(pocetTabu, nameDictionary, DictionaryHelper.GetDictionary<string, Value>(keys, values));
-        if (argument.checkForNull)
+        if (argument.CheckForNull)
         {
             gen.EndBrace(pocetTabu);
         }

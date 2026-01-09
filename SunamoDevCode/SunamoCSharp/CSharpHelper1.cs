@@ -213,7 +213,7 @@ public static partial class CSharpHelper
         return csg.ToString();
     }
 
-    public static string DictionaryWithClass<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, Func<Value> randomValue, CSharpGeneratorArgs argument = null)
+    public static string DictionaryWithClass<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, Func<Value> randomValue, CSharpGeneratorArgs? argument = null)
     {
         CSharpGenerator genCS = new CSharpGenerator();
         genCS.StartClass(0, AccessModifiers.Private, false, nameDictionary);
@@ -233,11 +233,11 @@ public static partial class CSharpHelper
     /// <param name = "nameDictionary"></param>
     /// <param name = "d"></param>
     /// <returns></returns>
-    public static string DictionaryWithClass<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> data, CSharpGeneratorArgs argument = null)
+    public static string DictionaryWithClass<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> data, CSharpGeneratorArgs? argument = null)
     {
         if (argument == null)
         {
-            argument.addingValue = false;
+            argument = new CSharpGeneratorArgs { addingValue = false };
         }
 
         CSharpGenerator genCS = new CSharpGenerator();

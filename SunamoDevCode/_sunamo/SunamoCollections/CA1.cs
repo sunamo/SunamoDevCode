@@ -1,27 +1,44 @@
 namespace SunamoDevCode._sunamo.SunamoCollections;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 internal partial class CA
 {
-    internal static void RemoveWhichContainsList(List<string> files, List<string> list, bool wildcard, Func<string, string, bool> WildcardIsMatch = null)
+    /// <summary>
+    /// Removes items from list that contain any pattern from the specified list
+    /// </summary>
+    /// <param name="files">List to filter</param>
+    /// <param name="list">List of patterns to match</param>
+    /// <param name="isWildcard">Whether to use wildcard matching</param>
+    /// <param name="wildcardIsMatch">Function for wildcard matching (required if isWildcard is true)</param>
+    internal static void RemoveWhichContainsList(List<string> files, List<string> list, bool isWildcard, Func<string, string, bool>? wildcardIsMatch = null)
     {
         foreach (var item in list)
         {
-            RemoveWhichContains(files, item, wildcard, WildcardIsMatch);
+            RemoveWhichContains(files, item, isWildcard, wildcardIsMatch);
         }
     }
 
-    internal static List<string> TrimEnd(List<string> sf, params char[] toTrim)
+    /// <summary>
+    /// Trims specified characters from the end of all strings in list
+    /// </summary>
+    /// <param name="list">List to trim</param>
+    /// <param name="toTrim">Characters to trim from end</param>
+    /// <returns>List with trimmed strings</returns>
+    internal static List<string> TrimEnd(List<string> list, params char[] toTrim)
     {
-        for (int i = 0; i < sf.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            sf[i] = sf[i].TrimEnd(toTrim);
+            list[i] = list[i].TrimEnd(toTrim);
         }
 
-        return sf;
+        return list;
     }
 
+    /// <summary>
+    /// Joins multiple IList collections into single List
+    /// </summary>
+    /// <typeparam name="T">Type of elements</typeparam>
+    /// <param name="lists">Lists to join</param>
+    /// <returns>Combined list with all elements</returns>
     internal static List<T> JoinIList<T>(params IList<T>[] lists)
     {
         List<T> result = new List<T>();
@@ -36,14 +53,18 @@ internal partial class CA
         return result;
     }
 
-    internal static void RemoveEmptyLinesToFirstNonEmpty(List<string> content)
+    /// <summary>
+    /// Removes empty lines from the beginning of list until first non-empty line
+    /// </summary>
+    /// <param name="lines">List to process</param>
+    internal static void RemoveEmptyLinesToFirstNonEmpty(List<string> lines)
     {
-        for (int i = 0; i < content.Count; i++)
+        for (int i = 0; i < lines.Count; i++)
         {
-            var line = content[i];
+            var line = lines[i];
             if (line.Trim() == string.Empty)
             {
-                content.RemoveAt(i);
+                lines.RemoveAt(i);
                 i--;
             }
             else
@@ -53,6 +74,11 @@ internal partial class CA
         }
     }
 
+    /// <summary>
+    /// Removes lines at specified indexes
+    /// </summary>
+    /// <param name="lines">List to modify</param>
+    /// <param name="lineIndexesToRemove">Indexes of lines to remove</param>
     internal static void RemoveLines(List<string> lines, List<int> lineIndexesToRemove)
     {
         lineIndexesToRemove.Sort();
@@ -63,28 +89,43 @@ internal partial class CA
         }
     }
 
-    internal static List<string> RemoveStringsEmpty2(List<string> mySites)
+    /// <summary>
+    /// Removes strings that are empty after trimming
+    /// </summary>
+    /// <param name="list">List to filter</param>
+    /// <returns>List with empty strings removed</returns>
+    internal static List<string> RemoveStringsEmpty2(List<string> list)
     {
-        for (int i = mySites.Count - 1; i >= 0; i--)
+        for (int i = list.Count - 1; i >= 0; i--)
         {
-            if (mySites[i].Trim() == string.Empty)
+            if (list[i].Trim() == string.Empty)
             {
-                mySites.RemoveAt(i);
+                list.RemoveAt(i);
             }
         }
 
-        return mySites;
+        return list;
     }
 
+    /// <summary>
+    /// Wraps all strings in list with specified text on both sides
+    /// </summary>
+    /// <param name="list">List to modify</param>
+    /// <param name="wrapText">Text to add before and after each item</param>
+    /// <returns>Modified list</returns>
     internal static List<string> WrapWith(List<string> list, string wrapText)
     {
         return WrapWith(list, wrapText, wrapText);
     }
 
     /// <summary>
-    /// EN: Direct edit of list
-    /// CZ: Přímá editace listu
+    /// Wraps all strings in list with specified prefix and suffix
+    /// Directly edits the input list
     /// </summary>
+    /// <param name="list">List to modify</param>
+    /// <param name="prefixText">Text to add before each item</param>
+    /// <param name="suffixText">Text to add after each item</param>
+    /// <returns>Modified list</returns>
     internal static List<string> WrapWith(List<string> list, string prefixText, string suffixText)
     {
         for (int i = 0; i < list.Count; i++)
@@ -95,21 +136,33 @@ internal partial class CA
         return list;
     }
 
-    internal static List<string> EnsureBackslash(List<string> eb)
+    /// <summary>
+    /// Ensures all paths end with backslash
+    /// </summary>
+    /// <param name="paths">List of paths to modify</param>
+    /// <returns>List with backslash added to paths that don't end with it</returns>
+    internal static List<string> EnsureBackslash(List<string> paths)
     {
-        for (int i = 0; i < eb.Count; i++)
+        for (int i = 0; i < paths.Count; i++)
         {
-            string r = eb[i];
-            if (r[r.Length - 1] != '\\')
+            string path = paths[i];
+            if (path[path.Length - 1] != '\\')
             {
-                eb[i] = r + "\\";
+                paths[i] = path + "\\";
             }
         }
 
-        return eb;
+        return paths;
     }
 
-    internal static bool ContainsElement<T>(IList<T> list, T t)
+    /// <summary>
+    /// Checks if list contains specified element
+    /// </summary>
+    /// <typeparam name="T">Type of elements</typeparam>
+    /// <param name="list">List to search in</param>
+    /// <param name="element">Element to search for</param>
+    /// <returns>True if element is found, false otherwise</returns>
+    internal static bool ContainsElement<T>(IList<T> list, T element)
     {
         if (list.Count == 0)
         {
@@ -118,7 +171,7 @@ internal partial class CA
 
         foreach (T item in list)
         {
-            if (Comparer<T>.Equals(item, t))
+            if (Comparer<T>.Equals(item, element))
             {
                 return true;
             }
@@ -127,21 +180,32 @@ internal partial class CA
         return false;
     }
 
-    internal static void RemoveWildcard(List<string> d, string mask)
+    /// <summary>
+    /// Removes items that match the wildcard mask
+    /// </summary>
+    /// <param name="list">List to filter</param>
+    /// <param name="mask">Wildcard mask to match</param>
+    internal static void RemoveWildcard(List<string> list, string mask)
     {
         //https://stackoverflow.com/a/15275806
-        for (int i = d.Count - 1; i >= 0; i--)
+        for (int i = list.Count - 1; i >= 0; i--)
         {
-            if (SH.MatchWildcard(d[i], mask))
+            if (SH.MatchWildcard(list[i], mask))
             {
-                d.RemoveAt(i);
+                list.RemoveAt(i);
             }
         }
     }
 
-    internal static bool HasPostfix(string key, params string[] v1)
+    /// <summary>
+    /// Checks if text ends with any of the specified suffixes
+    /// </summary>
+    /// <param name="key">Text to check</param>
+    /// <param name="suffixes">Suffixes to check for</param>
+    /// <returns>True if text ends with any suffix, false otherwise</returns>
+    internal static bool HasPostfix(string key, params string[] suffixes)
     {
-        foreach (var item in v1)
+        foreach (var item in suffixes)
         {
             if (key.EndsWith(item))
             {
@@ -152,6 +216,12 @@ internal partial class CA
         return false;
     }
 
+    /// <summary>
+    /// Prepends prefix to all items in list that don't already start with it
+    /// </summary>
+    /// <param name="prefix">Prefix to add</param>
+    /// <param name="list">List to modify</param>
+    /// <returns>Modified list</returns>
     internal static List<string> Prepend(string prefix, List<string> list)
     {
         for (int i = 0; i < list.Count; i++)
@@ -165,6 +235,11 @@ internal partial class CA
         return list;
     }
 
+    /// <summary>
+    /// Converts string array to List of strings
+    /// </summary>
+    /// <param name="values">Array to convert</param>
+    /// <returns>List containing all array elements</returns>
     internal static List<string> ToListString(params string[] values)
     {
         return values.ToList();

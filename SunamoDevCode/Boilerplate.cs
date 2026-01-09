@@ -1,14 +1,12 @@
 namespace SunamoDevCode;
 
 /// <summary>
-/// EN: Provides boilerplate code templates for C# code generation
-/// CZ: Poskytuje šablony boilerplate kódu pro generování C# kódu
+/// Provides boilerplate code templates for C# code generation
 /// </summary>
 public class Boilerplate
 {
     /// <summary>
-    /// EN: Generates C# command-line program boilerplate
-    /// CZ: Generuje boilerplate pro C# konzolový program
+    /// Generates C# command-line program boilerplate
     /// </summary>
     /// <param name="innerMain">Main method content</param>
     public static string CSharpCmd(string innerMain)
@@ -26,15 +24,14 @@ public class Boilerplate
 }";
 
         var stringBuilder = new StringBuilder();
-        // If it not working, try Format3. Dont use any try-catch! 
+        // If it not working, try Format3. Dont use any try-catch!
         stringBuilder.AppendLine(SHFormat.Format4(csharpTemplate, innerMain));
 
         return stringBuilder.ToString();
     }
 
     /// <summary>
-    /// EN: Generates C# class boilerplate with initialization method
-    /// CZ: Generuje boilerplate pro C# třídu s inicializační metodou
+    /// Generates C# class boilerplate with initialization method
     /// </summary>
     /// <param name="addNamespacesLines">Additional namespace using declarations</param>
     /// <param name="className">Name of the class</param>
@@ -59,7 +56,7 @@ public class Boilerplate
 
         var stringBuilder = new StringBuilder();
 
-        // If it not working, try Format3. Dont use any try-catch! 
+        // If it not working, try Format3. Dont use any try-catch!
         stringBuilder.AppendLine(SHFormat.Format4(classTemplate, addNamespacesLines, className, fields, contentOfInitMethod));
 
         return stringBuilder.ToString();

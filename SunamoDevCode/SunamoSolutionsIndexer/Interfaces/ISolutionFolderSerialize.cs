@@ -1,11 +1,14 @@
 namespace SunamoDevCode.SunamoSolutionsIndexer.Interfaces;
 
+/// <summary>
+/// Interface for serializable solution folder data
+/// </summary>
 public interface ISolutionFolderSerialize
 {
-    string displayedText { get; set; }
-    string fullPathFolder { get; set; }
+    string DisplayedText { get; set; }
+    string FullPathFolder { get; set; }
     string LongName { get; }
-    string nameSolution { get; }
+    string NameSolution { get; }
     string RunOne { get; }
     string ShortName { get; }
 

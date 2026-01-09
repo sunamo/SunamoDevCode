@@ -23,7 +23,7 @@ public static class SystemWindowsControls
     private static readonly Type type = typeof(SystemWindowsControls);
     private static bool s_initialized;
     private static readonly Dictionary<string, List<string>> s_controls = new();
-    private static EmbeddedResourcesH s_embeddedResourcesH;
+    private static EmbeddedResourcesH? s_embeddedResourcesH;
 
     private static Dictionary<string, string> controlsShortLong;
 

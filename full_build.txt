@@ -1,0 +1,19 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  SunamoDevCode -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode\bin\Debug\net10.0\SunamoDevCode.dll
+  SunamoDevCode -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode\bin\Debug\net9.0\SunamoDevCode.dll
+  SunamoDevCode -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode\bin\Debug\net8.0\SunamoDevCode.dll
+  SunamoString -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoString\SunamoString\bin\Debug\net10.0\SunamoString.dll
+  SunamoStringGetLines -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoStringGetLines\SunamoStringGetLines\bin\Debug\net9.0\SunamoStringGetLines.dll
+  SunamoStringGetLines -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoStringGetLines\SunamoStringGetLines\bin\Debug\net10.0\SunamoStringGetLines.dll
+  SunamoString -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoString\SunamoString\bin\Debug\net9.0\SunamoString.dll
+  SunamoDevCode.Tests -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.Tests\bin\Debug\net10.0\SunamoDevCode.Tests.dll
+  RunnerDevCode -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\RunnerDevCode\bin\Debug\net10.0\RunnerDevCode.dll
+  SunamoDevCode.Tests -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.Tests\bin\Debug\net9.0\SunamoDevCode.Tests.dll
+  RunnerDevCode -> E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\RunnerDevCode\bin\Debug\net9.0\RunnerDevCode.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.50

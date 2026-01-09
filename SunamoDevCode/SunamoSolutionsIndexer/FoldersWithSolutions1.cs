@@ -19,38 +19,43 @@ public partial class FoldersWithSolutions
     /// <summary>
     /// toSelling can be null
     /// </summary>
-    /// <param name = "sfs"></param>
-    /// <param name = "solutionFolder"></param>
-    /// <param name = "toSelling"></param>
-    /// <param name = "projName"></param>
-    /// <returns></returns>
-    public static SolutionFolder CreateSolutionFolder(ILogger logger, string documentsFolder, SolutionFolderSerialize sfs, string solutionFolder, PpkOnDriveDC toSelling, string projName = null)
+    /// <summary>
+    /// Creates a SolutionFolder from a SolutionFolderSerialize and path
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="documentsFolder">Documents folder path</param>
+    /// <param name="solutionFolderData">Serialized solution folder data (can be null)</param>
+    /// <param name="solutionFolder">Solution folder path</param>
+    /// <param name="toSelling">Selling configuration (can be null)</param>
+    /// <param name="projName">Project name (optional)</param>
+    /// <returns>Created SolutionFolder</returns>
+    public static SolutionFolder CreateSolutionFolder(ILogger logger, string documentsFolder, SolutionFolderSerialize solutionFolderData, string solutionFolder, PpkOnDriveDC toSelling, string projName = null)
     {
         if (projName == null)
         {
             projName = Path.GetFileName(solutionFolder);
         }
 
-        SolutionFolder sf = null;
-        if (sfs != null)
+        SolutionFolder solutionFolderInstance = null;
+        if (solutionFolderData != null)
         {
-            sf = new SolutionFolder(sfs);
+            solutionFolderInstance = new SolutionFolder(solutionFolderData);
         }
         else
         {
-            sf = new SolutionFolder();
+            solutionFolderInstance = new SolutionFolder();
         }
 
-        sf.repository = RepositoryFromFullPath(solutionFolder);
-        IdentifyProjectType(documentsFolder, solutionFolder, sf);
-        sf.displayedText = GetDisplayedName(solutionFolder);
-        sf.fullPathFolder = solutionFolder;
+        solutionFolderInstance.repository = RepositoryFromFullPath(solutionFolder);
+        IdentifyProjectType(documentsFolder, solutionFolder, solutionFolderInstance);
+        solutionFolderInstance.displayedText = GetDisplayedName(solutionFolder);
+        solutionFolderInstance.fullPathFolder = solutionFolder;
         // Nevím zda je to nutné tak jsem to zakomentoval aby to bylo rychlejší
-        //sf.projects = new DebugCollection<string>( SolutionsIndexerHelper.ProjectsInSolution(true, sf.fullPathFolder));
-        //sf.SourceOfProjects = SourceOfProjects.ProjectsInSolution;
-        sf.UpdateModules(logger, toSelling);
-        sf.nameSolutionWithoutDiacritic = SH.TextWithoutDiacritic(projName);
-        return sf;
+        //solutionFolderInstance.projects = new DebugCollection<string>( SolutionsIndexerHelper.ProjectsInSolution(true, solutionFolderInstance.fullPathFolder));
+        //solutionFolderInstance.SourceOfProjects = SourceOfProjects.ProjectsInSolution;
+        solutionFolderInstance.UpdateModules(logger, toSelling);
+        solutionFolderInstance.nameSolutionWithoutDiacritic = SH.TextWithoutDiacritic(projName);
+        return solutionFolderInstance;
     }
 
     private static RepositoryLocal RepositoryFromFullPath(string fullPathFolder)
@@ -93,18 +98,18 @@ public partial class FoldersWithSolutions
     }
 
     /// <summary>
-    /// A1 not have to be wildcard
+    /// Gets solutions matching a wildcard pattern
     /// </summary>
-    /// <param name = "vs17"></param>
-    /// <param name = "toFind"></param>
-    /// <returns></returns>
-    public IList<SolutionFolder> SolutionsWildcard(RepositoryLocal r, string mayWildcard)
+    /// <param name="repository">Repository to search in</param>
+    /// <param name="wildcardPattern">Wildcard pattern (can be plain text)</param>
+    /// <returns>List of matching solutions</returns>
+    public IList<SolutionFolder> SolutionsWildcard(RepositoryLocal repository, string wildcardPattern)
     {
-        var result = Solutions(r);
+        var result = Solutions(repository);
         for (int i = result.Count - 1; i >= 0; i--)
         {
-            var ns = result[i].nameSolution;
-            if (!SH.MatchWildcard(ns, mayWildcard))
+            var solutionName = result[i].nameSolution;
+            if (!SH.MatchWildcard(solutionName, wildcardPattern))
             {
                 result.RemoveAt(i);
             }
@@ -114,16 +119,20 @@ public partial class FoldersWithSolutions
     }
 
     /// <summary>
-    /// Simple returns global variable solutions
-    /// Exclude from SolutionsIndexerConsts.SolutionsExcludeWhileWorkingOnSourceCode if Debugger is attached and !A2
-    /// A3 - can use wildcard
+    /// Gets solutions from repository with optional filtering
+    /// Excludes from SolutionsIndexerConsts.SolutionsExcludeWhileWorkingOnSourceCode if Debugger is attached and !loadAll
+    /// skipThese can use wildcard patterns
     /// </summary>
-    public List<SolutionFolder> Solutions(RepositoryLocal r, bool loadAll = true, IList<string> skipThese = null /*, ProjectsTypes cs = ProjectsTypes.Cs*/)
+    /// <param name="repository">Repository to get solutions from</param>
+    /// <param name="isLoadingAll">If false and debugger attached, excludes working solutions</param>
+    /// <param name="skipThese">Solution names to skip (supports wildcards)</param>
+    /// <returns>Filtered list of solutions</returns>
+    public List<SolutionFolder> Solutions(RepositoryLocal repository, bool isLoadingAll = true, IList<string> skipThese = null)
     {
         var result = new List<SolutionFolder>(solutions);
-        if (r != RepositoryLocal.All)
+        if (repository != RepositoryLocal.All)
         {
-            result.RemoveAll(d => d.repository != r);
+            result.RemoveAll(solution => solution.repository != repository);
         }
 
         List<string> skip = null;
@@ -136,7 +145,7 @@ public partial class FoldersWithSolutions
             skip = new List<string>();
         }
 
-        if (!loadAll)
+        if (!isLoadingAll)
         {
             if (Debugger.IsAttached)
             {
@@ -150,81 +159,78 @@ public partial class FoldersWithSolutions
             dict.Add(item, new Wildcard(item));
         }
 
-        var list = result.Count;
         for (int i = result.Count - 1; i >= 0; i--)
         {
-            var it = result[i];
-            foreach (var item in dict)
+            var solution = result[i];
+            foreach (var wildcardEntry in dict)
             {
-                if (item.Value.IsMatch(it.nameSolution))
+                if (wildcardEntry.Value.IsMatch(solution.nameSolution))
                 {
                     result.RemoveAt(i);
                     break;
                 }
             }
         }
-
-        var l2 = result.Count;
         //result.RemoveAll(d => CAG.IsEqualToAnyElement(d.nameSolution, skip));
         ////////DebugLogger.Instance.WriteCount("Solutions in " + documentsFolder, solutions);
         return result;
     }
 
     /// <summary>
-    /// Return fullpath for all folder recursively - specific and ordi
+    /// Returns full paths for all project folders recursively - specific and ordinary
     /// </summary>
-    /// <param name = "folderWithVisualStudioFolders"></param>
-    /// <param name = "alsoAdd"></param>
-    private List<string> ReturnAllProjectFolders(params string[] alsoAdd)
+    /// <param name="additionalFolders">Additional folders to include</param>
+    /// <returns>List of project folder paths</returns>
+    private List<string> ReturnAllProjectFolders(params string[] additionalFolders)
     {
-        List<string> projs = new List<string>();
-        var bp = BasePathsHelper.bpMb;
-        //if (Directory.Exists(bp))
+        List<string> projects = new List<string>();
+        var basePath = BasePathsHelper.bpMb;
+        //if (Directory.Exists(basePath))
         //{
-        //if (BasePathsHelper.bpVps == bp)
+        //if (BasePathsHelper.bpVps == basePath)
         //{
-        //    AddProjectsFolder(projs, bp);
+        //    AddProjectsFolder(projects, basePath);
         //}
         //else
         //{
-        List<string> visualStudioFolders = new List<string>([bp]); // Directory.GetDirectories(folderWithVisualStudioFolders, VpsHelperSunamo.IsQ ? "_" : SolutionsIndexerStrings.VisualStudio2017, SearchOption.TopDirectoryOnly));
-        foreach (var item in alsoAdd)
+        List<string> visualStudioFolders = new List<string>([basePath]); // Directory.GetDirectories(folderWithVisualStudioFolders, VpsHelperSunamo.IsQ ? "_" : SolutionsIndexerStrings.VisualStudio2017, SearchOption.TopDirectoryOnly));
+        foreach (var folder in additionalFolders)
         {
-            AddProjectsFolder(projs, item);
+            AddProjectsFolder(projects, folder);
         }
 
-        foreach (var item in visualStudioFolders)
+        foreach (var vsFolder in visualStudioFolders)
         {
-            List<string> slozkySJazyky = null;
-            List<string> slozkySJazykyOutsideVs17 = new List<string>();
+            List<string> languageFolders = null;
+            List<string> languageFoldersOutsideVs17 = new List<string>();
             try
             {
-                slozkySJazyky = Directory.GetDirectories(item).ToList();
+                languageFolders = Directory.GetDirectories(vsFolder).ToList();
             }
             catch (Exception ex)
             {
                 continue;
             }
 
-            //slozkySJazykyOutsideVs17SH.Leading(Path.Combine(folderWithVisualStudioFolders.Replace("E:\\", "D:\\"), SolutionsIndexerConsts.BitBucket));
-            foreach (var item2 in slozkySJazyky)
+            //languageFoldersOutsideVs17SH.Leading(Path.Combine(folderWithVisualStudioFolders.Replace("E:\\", "D:\\"), SolutionsIndexerConsts.BitBucket));
+            foreach (var languageFolder in languageFolders)
             {
 #region New
-                string pfn = Path.GetFileName(item2);
-                if (SolutionsIndexerHelper.IsTheSolutionsFolder(pfn))
+                string folderName = Path.GetFileName(languageFolder);
+                if (SolutionsIndexerHelper.IsTheSolutionsFolder(folderName))
                 {
-                    AddProjectsFolder(projs, item2);
+                    AddProjectsFolder(projects, languageFolder);
                 }
 #endregion
             }
 
-            foreach (var item2 in slozkySJazykyOutsideVs17)
+            foreach (var languageFolder in languageFoldersOutsideVs17)
             {
 #region New
-                if (Directory.Exists(item2))
+                if (Directory.Exists(languageFolder))
                 {
-                    string pfn = Path.GetFileName(item2);
-                    AddProjectsFolder(projs, item2);
+                    string folderName = Path.GetFileName(languageFolder);
+                    AddProjectsFolder(projects, languageFolder);
                 }
 #endregion
             }
@@ -240,41 +246,46 @@ public partial class FoldersWithSolutions
         //{
         //    throw new Exception(folderWithVisualStudioFolders + " not exists, therefore will be return none slsn");
         //}
-        CAChangeContent.ChangeContent0(null, projs, SH.FirstCharUpper);
-        return projs;
-    }
-
-    public static Tuple<List<string>, List<string>> ReturnNormalAndSpecialFolders(string sloz)
-    {
-        List<string> special = null;
-        List<string> normal = null;
-        ReturnNormalAndSpecialFolders(sloz, out special, out normal);
-        return new Tuple<List<string>, List<string>>(normal, special);
+        CAChangeContent.ChangeContent0(null, projects, SH.FirstCharUpper);
+        return projects;
     }
 
     /// <summary>
-    /// Projde nerek slozky v A1 a vrati mi do A2 ty ktere zacinali na _ a do A3 zbytek.
+    /// Separates folders into normal and special (starting with _)
     /// </summary>
-    /// <param name = "sloz"></param>
-    /// <param name = "Specialni"></param>
-    /// <param name = "normal2"></param>
-    public static void ReturnNormalAndSpecialFolders(string sloz, out List<string> spec, out List<string> normal)
+    /// <param name="folder">Folder path to analyze</param>
+    /// <returns>Tuple of (normal folders, special folders)</returns>
+    public static Tuple<List<string>, List<string>> ReturnNormalAndSpecialFolders(string folder)
     {
-        spec = new List<string>();
-        normal = new List<string>();
+        List<string> specialFolders = null;
+        List<string> normalFolders = null;
+        ReturnNormalAndSpecialFolders(folder, out specialFolders, out normalFolders);
+        return new Tuple<List<string>, List<string>>(normalFolders, specialFolders);
+    }
+
+    /// <summary>
+    /// Separates subfolders into those starting with _ (special) and others (normal)
+    /// </summary>
+    /// <param name="folder">Folder path to analyze</param>
+    /// <param name="specialFolders">Output: folders starting with _</param>
+    /// <param name="normalFolders">Output: other folders</param>
+    public static void ReturnNormalAndSpecialFolders(string folder, out List<string> specialFolders, out List<string> normalFolders)
+    {
+        specialFolders = new List<string>();
+        normalFolders = new List<string>();
         try
         {
-            var slo = Directory.GetDirectories(sloz);
-            foreach (string var in slo)
+            var directories = Directory.GetDirectories(folder);
+            foreach (string folderPath in directories)
             {
-                string nazev = Path.GetFileName(var);
-                if (nazev.StartsWith("_"))
+                string name = Path.GetFileName(folderPath);
+                if (name.StartsWith("_"))
                 {
-                    spec.Add(var);
+                    specialFolders.Add(folderPath);
                 }
                 else
                 {
-                    normal.Add(var);
+                    normalFolders.Add(folderPath);
                 }
             }
         }

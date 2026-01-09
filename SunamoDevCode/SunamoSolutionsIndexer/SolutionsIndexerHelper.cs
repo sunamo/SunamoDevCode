@@ -57,37 +57,42 @@ public class SolutionsIndexerHelper
     }
 
     /// <summary>
-    /// Find as subfolders. Can remove VS folders and return only names
+    /// Finds projects as subfolders with optional VS folder removal and name-only mode
     /// </summary>
-    /// <param name="removeVsFolders"></param>
-    /// <param name="fp"></param>
-    /// <param name="onlynames"></param>
-    /// <returns></returns>
-    public static List<string> ProjectsInSolution(bool removeVsFolders, string fp, bool onlynames = true)
+    /// <param name="isRemovingVsFolders">If true, removes Visual Studio temp folders</param>
+    /// <param name="folderPath">Folder path to scan</param>
+    /// <param name="isReturningOnlyNames">If true, returns only folder names; if false, returns full paths</param>
+    /// <returns>List of project folders</returns>
+    public static List<string> ProjectsInSolution(bool isRemovingVsFolders, string folderPath, bool isReturningOnlyNames = true)
     {
         // TODO: Filter auto created files, then uncomment
-        List<string> d = Directory.GetDirectories(fp).ToList();
-        d = FS.OnlyNamesNoDirectEdit(d);
-        RemoveVsFolders(removeVsFolders, d);
+        List<string> directories = Directory.GetDirectories(folderPath).ToList();
+        directories = FS.OnlyNamesNoDirectEdit(directories);
+        RemoveVsFolders(isRemovingVsFolders, directories);
 
-        if (!onlynames)
+        if (!isReturningOnlyNames)
         {
-            for (int i = 0; i < d.Count; i++)
+            for (int i = 0; i < directories.Count; i++)
             {
-                d[i] = Path.Combine(fp, d[i]);
+                directories[i] = Path.Combine(folderPath, directories[i]);
             }
         }
 
-        return d;
+        return directories;
     }
 
-    public static void RemoveVsFolders(bool removeVsFolders, List<string> d)
+    /// <summary>
+    /// Removes Visual Studio temp folders from list
+    /// </summary>
+    /// <param name="isRemovingVsFolders">If true, removes VS folders</param>
+    /// <param name="directories">List to remove folders from</param>
+    public static void RemoveVsFolders(bool isRemovingVsFolders, List<string> directories)
     {
-        if (removeVsFolders)
+        if (isRemovingVsFolders)
         {
-            VisualStudioTempFse.foldersInSolutionDownloaded.ToList().ForEach(folder => CA.RemoveWildcard(d, folder));
+            VisualStudioTempFse.FoldersInSolutionDownloaded.ToList().ForEach(folder => CA.RemoveWildcard(directories, folder));
             //
-            VisualStudioTempFse.foldersInProjectDownloaded.ToList().ForEach(folder => CA.RemoveWildcard(d, folder));
+            VisualStudioTempFse.FoldersInProjectDownloaded.ToList().ForEach(folder => CA.RemoveWildcard(directories, folder));
         }
     }
 
@@ -127,7 +132,16 @@ public class SolutionsIndexerHelper
         return string.Join('/', tokens.ToArray());
     }
 
-    public static List<string> ModulesInSolution(ILogger logger, List<string> projects, string fullPathFolder, bool selling, PpkOnDriveDC toSelling)
+    /// <summary>
+    /// Gets modules in solution from UserControl/UC/UserControls folders
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="projects">List of project names</param>
+    /// <param name="fullPathFolder">Full path to solution folder</param>
+    /// <param name="isSelling">If true, returns only selling modules</param>
+    /// <param name="toSelling">Selling configuration</param>
+    /// <returns>List of module paths</returns>
+    public static List<string> ModulesInSolution(ILogger logger, List<string> projects, string fullPathFolder, bool isSelling, PpkOnDriveDC toSelling)
     {
         List<string> result = new List<string>();
         var slnName = Path.GetFileName(fullPathFolder);
@@ -138,33 +152,35 @@ public class SolutionsIndexerHelper
             var projectName = Path.GetFileNameWithoutExtension(item);
 
             slnName = Path.GetFileName(fullPathFolder);
-            AddModules(logger, selling, toSelling, result, slnName, projectName, path, "UserControl");
+            AddModules(logger, isSelling, toSelling, result, slnName, projectName, path, "UserControl");
             slnName = Path.GetFileName(fullPathFolder);
-            AddModules(logger, selling, toSelling, result, slnName, projectName, path, "UC");
+            AddModules(logger, isSelling, toSelling, result, slnName, projectName, path, "UC");
             slnName = Path.GetFileName(fullPathFolder);
-            AddModules(logger, selling, toSelling, result, slnName, projectName, path, "UserControls");
+            AddModules(logger, isSelling, toSelling, result, slnName, projectName, path, "UserControls");
 
         }
 
         return result;
     }
 
-    private static string AddModules(ILogger logger, bool selling, PpkOnDriveDC toSelling, List<string> result, string slnName, string projectName, string path, string nameFolder)
+    private static string AddModules(ILogger logger, bool isSelling, PpkOnDriveDC toSelling, List<string> result, string slnName, string projectName, string path, string nameFolder)
     {
         var path2 = Path.Combine(path, nameFolder);
-        AddModules(logger, path2, slnName + "\"" + projectName, result, selling, toSelling);
+        AddModules(logger, path2, slnName + "\\" + projectName, result, isSelling, toSelling);
         return path2;
     }
 
     /// <summary>
-    /// result a selling are pairing.
+    /// Adds modules from path to result list based on selling configuration
+    /// result and isSelling parameters are paired
     /// </summary>
-    /// <param name="path"></param>
-    /// <param name="SlnProject"></param>
-    /// <param name="result"></param>
-    /// <param name="selling"></param>
-    /// <param name="toSelling"></param>
-    private static void AddModules(ILogger logger, string path, string SlnProject, List<string> result, bool selling, PpkOnDriveDC toSelling)
+    /// <param name="logger">Logger instance</param>
+    /// <param name="path">Path to scan for modules</param>
+    /// <param name="slnProject">Solution and project name</param>
+    /// <param name="result">List to add modules to</param>
+    /// <param name="isSelling">If true, adds only selling modules; if false, adds non-selling modules</param>
+    /// <param name="toSelling">Selling configuration</param>
+    private static void AddModules(ILogger logger, string path, string slnProject, List<string> result, bool isSelling, PpkOnDriveDC toSelling)
     {
 
         if (Directory.Exists(path))
@@ -178,17 +194,17 @@ public class SolutionsIndexerHelper
             foreach (var item in files)
             {
                 var module = Path.GetFileName(item);
-                var text = SlnProject + "\"" + module;
+                var text = slnProject + "\\" + module;
                 if (toSelling.Contains(text))
                 {
-                    if (selling)
+                    if (isSelling)
                     {
                         result.Add(text);
                     }
                 }
                 else
                 {
-                    if (!selling)
+                    if (!isSelling)
                     {
                         result.Add(text);
                     }

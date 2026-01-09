@@ -1,30 +1,38 @@
 namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFoldersNs;
 
+/// <summary>
+/// Serializable collection of solution folders
+/// </summary>
 public class SolutionFoldersSerialize
 {
-    public List<SolutionFolderSerialize> sfs = new List<SolutionFolderSerialize>();
+    public List<SolutionFolderSerialize> SolutionFolders = new List<SolutionFolderSerialize>();
 
-    public void Insert(int d, SolutionFolderSerialize sfsi)
+    /// <summary>
+    /// Inserts a solution folder at specified index, maintaining max 10 items
+    /// </summary>
+    /// <param name="index">Index to insert at</param>
+    /// <param name="solutionFolder">Solution folder to insert</param>
+    public void Insert(int index, SolutionFolderSerialize solutionFolder)
     {
-        if (sfsi == null)
+        if (solutionFolder == null)
         {
             return;
         }
 
-        for (int i = 0; i < sfs.Count; i++)
+        for (int i = 0; i < SolutionFolders.Count; i++)
         {
-            if (sfs[i].fullPathFolder == sfsi.fullPathFolder)
+            if (SolutionFolders[i].FullPathFolder == solutionFolder.FullPathFolder)
             {
-                sfs.RemoveAt(i);
+                SolutionFolders.RemoveAt(i);
                 break;
             }
         }
-        sfs.Insert(d, sfsi);
-        if (sfs.Count > 10)
+        SolutionFolders.Insert(index, solutionFolder);
+        if (SolutionFolders.Count > 10)
         {
-            for (int i = 10; i < sfs.Count; i++)
+            for (int i = 10; i < SolutionFolders.Count; i++)
             {
-                sfs.RemoveAt(10);
+                SolutionFolders.RemoveAt(10);
             }
         }
         Update();
@@ -32,31 +40,38 @@ public class SolutionFoldersSerialize
 
     public event Action<List<SolutionFolderSerialize>> Updated;
 
+    /// <summary>
+    /// Removes all solution folders with specified displayed text
+    /// </summary>
+    /// <param name="displayedText">Displayed text to match</param>
     public void RemoveWithDisplayedText(string displayedText)
     {
-        sfs.RemoveAll(d => d.displayedText == displayedText);
+        SolutionFolders.RemoveAll(folder => folder.DisplayedText == displayedText);
     }
 
     public void Update()
     {
-        Updated(sfs);
+        Updated(SolutionFolders);
     }
 
     /// <summary>
-    /// if A2 and solution can't be found, save exception. Otherwise save in result null
+    /// Gets solution folders by name with optional error handling
+    /// If isMissingAllowed is false and solution can't be found, saves exception in result
+    /// Otherwise saves null in result Data
     /// </summary>
-    /// <param name="solutionNamesFounded"></param>
-    /// <param name="canMissing"></param>
-    public ResultWithExceptionDC<SolutionFoldersSerialize> GetWithName(List<string> solutionNamesFounded, bool canMissing)
+    /// <param name="solutionNamesToFind">Solution names to find</param>
+    /// <param name="isMissingAllowed">If false, throws exception when solution not found</param>
+    /// <returns>Result with found solution folders or exception</returns>
+    public ResultWithExceptionDC<SolutionFoldersSerialize> GetWithName(List<string> solutionNamesToFind, bool isMissingAllowed)
     {
         ResultWithExceptionDC<SolutionFoldersSerialize> result = new ResultWithExceptionDC<SolutionFoldersSerialize>();
         result.Data = new SolutionFoldersSerialize();
 
-        foreach (var item in solutionNamesFounded)
+        foreach (var solutionName in solutionNamesToFind)
         {
-            SolutionFolderSerialize solutionFolder = sfs.Find(d =>
+            SolutionFolderSerialize solutionFolder = SolutionFolders.Find(folder =>
             {
-                if (d.nameSolution == item)
+                if (folder.NameSolution == solutionName)
                 {
                     return true;
                 }
@@ -65,33 +80,33 @@ public class SolutionFoldersSerialize
 
             if (solutionFolder == null)
             {
-                if (!canMissing)
+                if (!isMissingAllowed)
                 {
-                    result.Exc = Exceptions.ElementCantBeFound("", "solutionNamesFounded", item);
+                    result.Exc = Exceptions.ElementCantBeFound("", "solutionNamesToFind", solutionName);
                 }
             }
             else
             {
-                result.Data.sfs.Add(solutionFolder);
+                result.Data.SolutionFolders.Add(solutionFolder);
             }
         }
 
         return result;
     }
 
-    public void RemoveWithName(List<string> solutionNamesFounded)
+    /// <summary>
+    /// Removes solution folders with specified names
+    /// </summary>
+    /// <param name="solutionNamesToRemove">Solution names to remove</param>
+    public void RemoveWithName(List<string> solutionNamesToRemove)
     {
-        int dex = -1;
-        foreach (var item in solutionNamesFounded)
+        int index = -1;
+        foreach (var solutionName in solutionNamesToRemove)
         {
-
-            if ((dex = sfs.FindIndex(d => d.nameSolution == item)) != -1)
+            if ((index = SolutionFolders.FindIndex(folder => folder.NameSolution == solutionName)) != -1)
             {
-                sfs.RemoveAt(dex);
+                SolutionFolders.RemoveAt(index);
             }
-
-
-
         }
     }
 }

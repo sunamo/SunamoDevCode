@@ -1,22 +1,37 @@
 namespace SunamoDevCode._sunamo.SunamoConverters.Converts;
 
-internal static class ConvertTypeShortcutFullName //: IConvertShortcutFullName
+/// <summary>
+/// Converts between type full names and C# shortcuts
+/// </summary>
+internal static class ConvertTypeShortcutFullName
 {
-    const string systemDot = "System.";
+    private const string SystemDot = "System.";
+
+    /// <summary>
+    /// Converts full type name to C# shortcut (throws exception if not basic type)
+    /// </summary>
+    /// <param name="fullName">Full type name (e.g. "System.String")</param>
+    /// <returns>C# shortcut (e.g. "string")</returns>
     internal static string ToShortcut(string fullName)
     {
         return ToShortcut(fullName, true);
     }
-    /// <param name="fullName"></param>
+
+    /// <summary>
+    /// Converts full type name to C# shortcut
+    /// </summary>
+    /// <param name="fullName">Full type name (e.g. "System.String")</param>
+    /// <param name="throwExceptionWhenNotBasicType">If true, throws exception for non-basic types</param>
+    /// <returns>C# shortcut or original full name if not a basic type</returns>
     internal static string ToShortcut(string fullName, bool throwExceptionWhenNotBasicType)
     {
-        if (!fullName.StartsWith(systemDot))
+        if (!fullName.StartsWith(SystemDot))
         {
-            fullName = systemDot + fullName;
+            fullName = SystemDot + fullName;
         }
         switch (fullName)
         {
-            #region MyRegion
+            #region Basic Type Mappings
             case "System.String":
                 return "string";
             case "System.Int32":
@@ -51,10 +66,8 @@ internal static class ConvertTypeShortcutFullName //: IConvertShortcutFullName
         }
         if (throwExceptionWhenNotBasicType)
         {
-            throw new Exception("Nepodporovan\u00FD typ");
-            return null;
+            throw new Exception("Unsupported type / Nepodporovaný typ");
         }
         return fullName;
     }
-    static Type type = typeof(ConvertTypeShortcutFullName);
 }

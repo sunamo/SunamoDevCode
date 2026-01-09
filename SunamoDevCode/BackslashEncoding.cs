@@ -1,14 +1,12 @@
 namespace SunamoDevCode;
 
 /// <summary>
-/// EN: Helper for handling backslash encoding in strings
-/// CZ: Pomocník pro práci s backslash encoding ve stringech
+/// Helper for handling backslash encoding in strings
 /// </summary>
 public class BackslashEncoding
 {
     /// <summary>
-    /// EN: Removes positions that are inside strings
-    /// CZ: Odstraní pozice které jsou uvnitř stringů
+    /// Removes positions that are inside strings
     /// </summary>
     /// <param name="inputString">Input string to analyze</param>
     /// <param name="positionsList">List of positions to filter</param>

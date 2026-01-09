@@ -1,16 +1,26 @@
 namespace SunamoDevCode._public.SunamoCollectionWithoutDuplicates;
 
-public abstract class CollectionWithoutDuplicatesBaseDC<T> 
+/// <summary>
+/// Base class for collections without duplicates
+/// </summary>
+public abstract class CollectionWithoutDuplicatesBaseDC<T>
 {
-    public List<T> c = null;
-    public List<string> sr = null;
-    bool? _allowNull = false;
+    /// <summary>
+    /// Gets or sets the internal collection
+    /// </summary>
+    public List<T> Collection { get; set; } = null;
 
+    /// <summary>
+    /// Gets or sets the string representations for comparison
+    /// </summary>
+    public List<string> StringRepresentations { get; set; } = null;
 
+    private bool? _allowNull = false;
 
-
-
-    public bool? allowNull
+    /// <summary>
+    /// Gets or sets whether null values are allowed
+    /// </summary>
+    public bool? AllowNull
     {
         get => _allowNull;
         set
@@ -18,46 +28,71 @@ public abstract class CollectionWithoutDuplicatesBaseDC<T>
             _allowNull = value;
             if (value.HasValue && value.Value)
             {
-                sr = new List<string>(count);
+                StringRepresentations = new List<string>(InitialCapacity);
             }
         }
     }
-    public static bool br = false;
-    int count = 10000;
+
+    /// <summary>
+    /// Gets or sets whether to break on construction for debugging
+    /// </summary>
+    public static bool BreakOnConstruction { get; set; } = false;
+
+    private int InitialCapacity { get; set; } = 10000;
+
+    /// <summary>
+    /// Initializes a new collection without duplicates
+    /// </summary>
     public CollectionWithoutDuplicatesBaseDC()
     {
-        if (br)
+        if (BreakOnConstruction)
         {
             System.Diagnostics.Debugger.Break();
         }
-        c = new List<T>();
+        Collection = new List<T>();
     }
-    public CollectionWithoutDuplicatesBaseDC(int count)
+
+    /// <summary>
+    /// Initializes a new collection with specified capacity
+    /// </summary>
+    /// <param name="capacity">Initial capacity</param>
+    public CollectionWithoutDuplicatesBaseDC(int capacity)
     {
-        this.count = count;
-        c = new List<T>(count);
+        this.InitialCapacity = capacity;
+        Collection = new List<T>(capacity);
     }
-    public CollectionWithoutDuplicatesBaseDC(IList<T> l)
+
+    /// <summary>
+    /// Initializes a new collection from existing list
+    /// </summary>
+    /// <param name="initialList">Initial list of items</param>
+    public CollectionWithoutDuplicatesBaseDC(IList<T> initialList)
     {
-        c = new List<T>(l.ToList());
+        Collection = new List<T>(initialList.ToList());
     }
-    public bool Add(T t2)
+
+    /// <summary>
+    /// Adds a value to the collection if it doesn't exist
+    /// </summary>
+    /// <param name="value">Value to add</param>
+    /// <returns>True if value was added, false if it already existed</returns>
+    public bool Add(T value)
     {
         bool result = false;
-        var con = Contains(t2);
-        if (con.HasValue)
+        var containsResult = Contains(value);
+        if (containsResult.HasValue)
         {
-            if (!con.Value)
+            if (!containsResult.Value)
             {
-                c.Add(t2);
+                Collection.Add(value);
                 result = true;
             }
         }
         else
         {
-            if (!allowNull.HasValue)
+            if (!AllowNull.HasValue)
             {
-                c.Add(t2);
+                Collection.Add(value);
                 result = true;
             }
         }
@@ -65,37 +100,72 @@ public abstract class CollectionWithoutDuplicatesBaseDC<T>
         {
             if (IsComparingByString())
             {
-                sr.Add(ts);
+                StringRepresentations.Add(ItemString);
             }
         }
         return result;
     }
+
+    /// <summary>
+    /// Determines if comparison is done by string representation
+    /// </summary>
+    /// <returns>True if comparing by string</returns>
     protected abstract bool IsComparingByString();
-    protected string ts = null;
-    public abstract bool? Contains(T t2);
-    public abstract int AddWithIndex(T t2);
-    public abstract int IndexOf(T path);
-    List<T> wasNotAdded = new List<T>();
 
+    /// <summary>
+    /// Gets or sets the string representation of the current item
+    /// </summary>
+    protected string ItemString { get; set; } = null;
 
+    /// <summary>
+    /// Checks if the collection contains the specified value
+    /// </summary>
+    /// <param name="value">Value to check</param>
+    /// <returns>True if contains, false if not, null if value is null and nulls are not allowed</returns>
+    public abstract bool? Contains(T value);
 
+    /// <summary>
+    /// Adds value and returns its index
+    /// </summary>
+    /// <param name="value">Value to add</param>
+    /// <returns>Index of the value</returns>
+    public abstract int AddWithIndex(T value);
 
+    /// <summary>
+    /// Gets the index of the specified value
+    /// </summary>
+    /// <param name="value">Value to find</param>
+    /// <returns>Index of the value</returns>
+    public abstract int IndexOf(T value);
 
+    private List<T> WasNotAdded { get; set; } = new List<T>();
+
+    /// <summary>
+    /// Adds range of items to the collection
+    /// </summary>
+    /// <param name="list">List of items to add</param>
+    /// <returns>List of items that were not added (already existed)</returns>
     public List<T> AddRange(IList<T> list)
     {
-        wasNotAdded.Clear();
+        WasNotAdded.Clear();
         foreach (var item in list)
         {
             if (!Add(item))
             {
-                wasNotAdded.Add(item);
+                WasNotAdded.Add(item);
             }
         }
-        return wasNotAdded;
+        return WasNotAdded;
     }
-    public string DumpAsString(string operation,  object dumpAsStringHeaderArgs)
+
+    /// <summary>
+    /// Dumps collection as string
+    /// </summary>
+    /// <param name="operation">Operation name</param>
+    /// <param name="dumpAsStringHeaderArgs">Header arguments</param>
+    /// <returns>String representation</returns>
+    public string DumpAsString(string operation, object dumpAsStringHeaderArgs)
     {
-        throw new Exception("Nemůže tu být protože DumpListAsStringOneLine jsem přesouval do sunamo a tam už zůstane");
-    
+        throw new Exception("Cannot be here because DumpListAsStringOneLine was moved to sunamo and will stay there");
     }
 }

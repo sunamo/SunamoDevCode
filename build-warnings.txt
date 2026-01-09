@@ -1,0 +1,21 @@
+  Determining projects to restore...
+E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\RunnerDevCode\RunnerDevCode.csproj : error NU1202: Package SunamoPaths 25.3.29.1 is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Package SunamoPaths 25.3.29.1 supports: net9.0 (.NETCoreApp,Version=v9.0) [E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.sln]
+E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\RunnerDevCode\RunnerDevCode.csproj : error NU1202: Package SunamoTest 25.3.16.1 is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Package SunamoTest 25.3.16.1 supports: net9.0 (.NETCoreApp,Version=v9.0) [E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.sln]
+E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.Tests\SunamoDevCode.Tests.csproj : error NU1202: Package SunamoPaths 25.3.29.1 is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Package SunamoPaths 25.3.29.1 supports: net9.0 (.NETCoreApp,Version=v9.0) [E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.sln]
+E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.Tests\SunamoDevCode.Tests.csproj : error NU1202: Package SunamoTest 25.3.16.1 is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Package SunamoTest 25.3.16.1 supports: net9.0 (.NETCoreApp,Version=v9.0) [E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.sln]
+  Restored E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoStringGetLines\SunamoStringGetLines\SunamoStringGetLines.csproj (in 271 ms).
+  Restored E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode\SunamoDevCode.csproj (in 271 ms).
+  Restored E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoString\SunamoString\SunamoString.csproj (in 271 ms).
+  Failed to restore E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.Tests\SunamoDevCode.Tests.csproj (in 271 ms).
+  Failed to restore E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\RunnerDevCode\RunnerDevCode.csproj (in 271 ms).
+
+Build FAILED.
+
+E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\RunnerDevCode\RunnerDevCode.csproj : error NU1202: Package SunamoPaths 25.3.29.1 is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Package SunamoPaths 25.3.29.1 supports: net9.0 (.NETCoreApp,Version=v9.0) [E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.sln]
+E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\RunnerDevCode\RunnerDevCode.csproj : error NU1202: Package SunamoTest 25.3.16.1 is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Package SunamoTest 25.3.16.1 supports: net9.0 (.NETCoreApp,Version=v9.0) [E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.sln]
+E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.Tests\SunamoDevCode.Tests.csproj : error NU1202: Package SunamoPaths 25.3.29.1 is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Package SunamoPaths 25.3.29.1 supports: net9.0 (.NETCoreApp,Version=v9.0) [E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.sln]
+E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.Tests\SunamoDevCode.Tests.csproj : error NU1202: Package SunamoTest 25.3.16.1 is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Package SunamoTest 25.3.16.1 supports: net9.0 (.NETCoreApp,Version=v9.0) [E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode.sln]
+    0 Warning(s)
+    4 Error(s)
+
+Time Elapsed 00:00:01.06

@@ -2,18 +2,11 @@ namespace SunamoDevCode.Values;
 
 public class VisualStudioTempFse
 {
-    public static List<string> ignoredForIndexing = null;
-
-    static VisualStudioTempFse()
-    {
-        ignoredForIndexing = CA.JoinIList<string>(foldersInSolutionToDelete,
-foldersInProjectToDelete,
-foldersInSolutionDownloaded,
-foldersAnywhereToDelete,
-foldersInSolutionToKeep,
-foldersInProjectToKeep,
-foldersInProjectDownloaded);
-    }
+    /// <summary>
+    /// List of folders and files to be ignored during indexing operations.
+    /// Aggregated from all delete, keep, and downloaded categories.
+    /// </summary>
+    public static List<string> IgnoredForIndexing = null;
 
     //public static List<string> foldersInSolutionToDeleteWithWildcard = new List<string> { "Backup*" };
     /// <summary>
@@ -28,48 +21,125 @@ foldersInProjectDownloaded);
     //    foldersInSolutionToDelete = foldersInSolutionToDeleteWithWildcard.Concat(foldersInSolutionToDeleteWoWildcard).ToArray();
     //}
     // Is in foldersInSolutionToKeep
-    public const string gitFolderName = ".git";
-    public const string gitignoreFile = ".gitignore";
+    /// <summary>
+    /// Name of the Git folder (.git).
+    /// </summary>
+    public const string GitFolderName = ".git";
+
+    /// <summary>
+    /// Name of the .gitignore file.
+    /// </summary>
+    public const string GitignoreFile = ".gitignore";
 
     #region 1) To delete
-    public static List<string> foldersInSolutionToDelete = new List<string>([".vs", "_UpgradeReport_Files", "obj", "Backup*", "bin", "obj", "TestResults", "MigrationBackup"]);
-    public static List<string> foldersInProjectToDelete = new List<string>([".vs", "obj", "bin", "BundleArtifacts"]);
-    public static List<string> foldersAnywhereToDelete = new List<string> { };
+    /// <summary>
+    /// Folders to delete in solution directory (.vs, obj, bin, TestResults, etc.).
+    /// </summary>
+    public static List<string> FoldersInSolutionToDelete = new List<string>([".vs", "_UpgradeReport_Files", "obj", "Backup*", "bin", "obj", "TestResults", "MigrationBackup"]);
+    /// <summary>
+    /// Folders to delete in project directory (.vs, obj, bin, BundleArtifacts).
+    /// </summary>
+    public static List<string> FoldersInProjectToDelete = new List<string>([".vs", "obj", "bin", "BundleArtifacts"]);
+    /// <summary>
+    /// Folders to delete anywhere in the hierarchy (currently empty).
+    /// </summary>
+    public static List<string> FoldersAnywhereToDelete = new List<string> { };
 
-    public static ExtensionSortedCollection filesInSolutionToDelete = new ExtensionSortedCollection("UpgradeLog*.htm", "UpgradeLog*.htm", "*.suo");
-    public static ExtensionSortedCollection filesInProjectToDelete = new ExtensionSortedCollection("*.user");
-    public static ExtensionSortedCollection filesAnywhereToDelete = new ExtensionSortedCollection("Thumbs.db", "*.TMP", "*.tmp");
+    /// <summary>
+    /// Files to delete in solution directory (UpgradeLog files, .suo files).
+    /// </summary>
+    public static ExtensionSortedCollection FilesInSolutionToDelete = new ExtensionSortedCollection("UpgradeLog*.htm", "UpgradeLog*.htm", "*.suo");
+    /// <summary>
+    /// Files to delete in project directory (*.user files).
+    /// </summary>
+    public static ExtensionSortedCollection FilesInProjectToDelete = new ExtensionSortedCollection("*.user");
+    /// <summary>
+    /// Files to delete anywhere (Thumbs.db, temporary files).
+    /// </summary>
+    public static ExtensionSortedCollection FilesAnywhereToDelete = new ExtensionSortedCollection("Thumbs.db", "*.TMP", "*.tmp");
     #endregion
 
     #region 2) To keep
-    public static List<string> foldersInSolutionToKeep = new List<string> { gitFolderName };
-    public static List<string> foldersInProjectToKeep = new List<string> { "AppPackages", "Assets", "BundleArtifacts", "Fonts", "MultilingualResources", "Properties", "Service References", "screenshots", "Import Schema Logs", "Stored Procedures", "XMLSchemaCollections", "User Defined Types" };
-    public static List<string> foldersAnywhereToKeep = new List<string> { };
+    /// <summary>
+    /// Folders to keep in solution directory (.git).
+    /// </summary>
+    public static List<string> FoldersInSolutionToKeep = new List<string> { GitFolderName };
+    /// <summary>
+    /// Folders to keep in project directory (AppPackages, Assets, Properties, etc.).
+    /// </summary>
+    public static List<string> FoldersInProjectToKeep = new List<string> { "AppPackages", "Assets", "BundleArtifacts", "Fonts", "MultilingualResources", "Properties", "Service References", "screenshots", "Import Schema Logs", "Stored Procedures", "XMLSchemaCollections", "User Defined Types" };
+    /// <summary>
+    /// Folders to keep anywhere in the hierarchy (currently empty).
+    /// </summary>
+    public static List<string> FoldersAnywhereToKeep = new List<string> { };
 
-    public static List<string> filesInSolutionToKeep = new List<string> { };
-    public static List<string> filesInProjectToKeep = new List<string> { "*.suo" };
-    public static List<string> filesAnywhereToKeep = new List<string> { "*_TemporaryKey.pfx", "*.png", "*.jpg", "*.bmp", "*.ico", "*.dll", "README.md", "*.resx", "*.mdf", "*.ldf", "project.json", "project.lock.json", "*.nuget.targets" };
+    /// <summary>
+    /// Files to keep in solution directory (currently empty).
+    /// </summary>
+    public static List<string> FilesInSolutionToKeep = new List<string> { };
+    /// <summary>
+    /// Files to keep in project directory (*.suo).
+    /// </summary>
+    public static List<string> FilesInProjectToKeep = new List<string> { "*.suo" };
+    /// <summary>
+    /// Files to keep anywhere (temporary keys, images, DLLs, README, resource files, database files, NuGet files).
+    /// </summary>
+    public static List<string> FilesAnywhereToKeep = new List<string> { "*_TemporaryKey.pfx", "*.png", "*.jpg", "*.bmp", "*.ico", "*.dll", "README.md", "*.resx", "*.mdf", "*.ldf", "project.json", "project.lock.json", "*.nuget.targets" };
     #endregion
 
     #region 3) Downloaded
     /// <summary>
     /// save meaning as keep
     /// </summary>
-    public static List<string> foldersInSolutionDownloaded = new List<string> { "packages", gitFolderName, "node_modules", "x64", ".vs", ".vscode", "lib", ".idea", ".nuget", ".svn", ".*" };
-    public static List<string> foldersInProjectDownloaded = new List<string> { };
-    public static List<string> foldersAnywhereDownloaded = new List<string> { };
+    /// <summary>
+    /// Folders downloaded/generated by package managers and tools (packages, node_modules, .vs, .git, etc.).
+    /// Save meaning is same as keep - these should not be deleted or modified.
+    /// </summary>
+    public static List<string> FoldersInSolutionDownloaded = new List<string> { "packages", GitFolderName, "node_modules", "x64", ".vs", ".vscode", "lib", ".idea", ".nuget", ".svn", ".*" };
+    /// <summary>
+    /// Folders downloaded in project directory (currently empty).
+    /// </summary>
+    public static List<string> FoldersInProjectDownloaded = new List<string> { };
+    /// <summary>
+    /// Folders downloaded anywhere in hierarchy (currently empty).
+    /// </summary>
+    public static List<string> FoldersAnywhereDownloaded = new List<string> { };
 
     // next all files starting with dot - ".gitignore", ".browserslistrc"
     // also all .json
-    public static ExtensionSortedCollection filesInSolutionDownloaded = new ExtensionSortedCollection(".gitattributes", gitignoreFile, "package-lock.json", "README.md");
-    public static List<string> filesInProjectDownloaded = new List<string> { };
-    public static List<string> filesAnywhereDownloaded = new List<string> { };
+    /// <summary>
+    /// Files downloaded/generated by tools (.gitattributes, .gitignore, package-lock.json, README.md).
+    /// Also includes all files starting with dot and all .json files.
+    /// </summary>
+    public static ExtensionSortedCollection FilesInSolutionDownloaded = new ExtensionSortedCollection(".gitattributes", GitignoreFile, "package-lock.json", "README.md");
+    /// <summary>
+    /// Files downloaded in project directory (currently empty).
+    /// </summary>
+    public static List<string> FilesInProjectDownloaded = new List<string> { };
+    /// <summary>
+    /// Files downloaded anywhere in hierarchy (currently empty).
+    /// </summary>
+    public static List<string> FilesAnywhereDownloaded = new List<string> { };
     #endregion
 
-    public static List<string> filesWeb = new List<string>() {  "img",
+    /// <summary>
+    /// Web-related file extensions and folders (img, ts, js, css, Scripts, bower_components).
+    /// </summary>
+    public static List<string> FilesWeb = new List<string>() {  "img",
 "ts",
 "js",
 "css",
 "Scripts",
 "bower_components"};
+
+    static VisualStudioTempFse()
+    {
+        IgnoredForIndexing = CA.JoinIList<string>(FoldersInSolutionToDelete,
+FoldersInProjectToDelete,
+FoldersInSolutionDownloaded,
+FoldersAnywhereToDelete,
+FoldersInSolutionToKeep,
+FoldersInProjectToKeep,
+FoldersInProjectDownloaded);
+    }
 }
