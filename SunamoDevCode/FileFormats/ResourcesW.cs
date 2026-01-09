@@ -5,4 +5,7 @@ namespace SunamoDevCode.FileFormats;
 /// </summary>
 public class ResourcesW
 {
+	#region MyRegion
+	//
+	#endregion
 }
