@@ -1,43 +1,45 @@
+// variables names: ok
 namespace SunamoDevCode;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
 {
     /// <summary>
-    ///     Do A1 byly uloženy v pořadí typ, název, typ, název
-    ///     Statický konstruktor zde nevytvoříte
+    /// EN: Generates a constructor with automatic field assignment. Parameters are stored in pairs: type, name, type, name. Static constructors cannot be created here.
+    /// CZ: Generuje konstruktor s automatickým přiřazením polí. Parametry jsou uloženy v párech: typ, název, typ, název. Statický konstruktor zde nelze vytvořit.
     /// </summary>
-    /// <param name = "tableName"></param>
-    /// <param name = "autoAssing"></param>
-    /// <param name = "args"></param>
-    public void Ctor(int tabCount, ModifiersConstructor mc, string ctorName, bool autoAssing, bool isBase, params string[] args)
+    /// <param name="tabCount">Number of tabs for indentation</param>
+    /// <param name="modifierType">Constructor modifier (public, private, etc.)</param>
+    /// <param name="constructorName">Name of the constructor (should match class name)</param>
+    /// <param name="autoAssign">Whether to automatically assign parameters to fields</param>
+    /// <param name="isBase">Whether this is a base class constructor</param>
+    /// <param name="parameters">Alternating type and name pairs for parameters</param>
+    public void Ctor(int tabCount, ModifiersConstructor modifierType, string constructorName, bool autoAssign, bool isBase, params string[] parameters)
     {
         AddTab(tabCount);
-        var sb2 = new StringBuilder(mc.ToString());
-        sb2[0] = char.ToLower(sb2[0]);
-        sb.AddItem(sb2.ToString());
-        sb.AddItem(ctorName);
+        var modifierBuilder = new StringBuilder(modifierType.ToString());
+        modifierBuilder[0] = char.ToLower(modifierBuilder[0]);
+        sb.AddItem(modifierBuilder.ToString());
+        sb.AddItem(constructorName);
         StartParenthesis();
-        var nazevParams = new List<string>(args.Length / 2);
-        for (var i = 0; i < args.Length; i++)
+        var parameterNames = new List<string>(parameters.Length / 2);
+        for (var i = 0; i < parameters.Length; i++)
         {
-            sb.AddItem(args[i]);
-            var nazevParam = args[++i];
-            nazevParams.Add(nazevParam);
-            if (i != args.Length - 1)
-                sb.AddItem(nazevParam + ",");
+            sb.AddItem(parameters[i]);
+            var parameterName = parameters[++i];
+            parameterNames.Add(parameterName);
+            if (i != parameters.Length - 1)
+                sb.AddItem(parameterName + ",");
             else
-                sb.AddItem(nazevParam);
+                sb.AddItem(parameterName);
         }
 
         EndParenthesis();
         if (!isBase)
-            if (nazevParams.Count > 0)
-                sb.AddItem(": base(" + string.Join(',', nazevParams.ToArray()) + ")");
+            if (parameterNames.Count > 0)
+                sb.AddItem(": base(" + string.Join(',', parameterNames.ToArray()) + ")");
         StartBrace(tabCount);
-        if (autoAssing && isBase)
-            foreach (var item in nazevParams)
+        if (autoAssign && isBase)
+            foreach (var item in parameterNames)
             {
                 This(tabCount, item);
                 sb.AddItem("=");
@@ -50,21 +52,24 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     }
 
     /// <summary>
-    ///     _get, _set can be string or bool
+    /// EN: Generates a property with getter and setter. The get and set parameters can be string (custom implementation) or bool (auto-implementation).
+    /// CZ: Generuje vlastnost s getterem a setterem. Parametry get a set mohou být string (vlastní implementace) nebo bool (auto-implementace).
     /// </summary>
-    /// <param name = "tabCount"></param>
-    /// <param name = "_public"></param>
-    /// <param name = "_static"></param>
-    /// <param name = "returnType"></param>
-    /// <param name = "name"></param>
-    /// <param name = "_get"></param>
-    /// <param name = "_set"></param>
-    /// <param name = "field"></param>
-    public void Property(int tabCount, AccessModifiers _public, bool _static, string returnType, string name, object _get, object _set, string field, bool shortGet, bool shortSet)
+    /// <param name="tabCount">Number of tabs for indentation</param>
+    /// <param name="accessModifier">Access modifier for the property</param>
+    /// <param name="isStatic">Whether the property is static</param>
+    /// <param name="returnType">Type of the property</param>
+    /// <param name="name">Name of the property</param>
+    /// <param name="getImplementation">Getter implementation: true for auto-implementation, string for custom code, null/false for none</param>
+    /// <param name="setImplementation">Setter implementation: true for auto-implementation, string for custom code, null/false for none</param>
+    /// <param name="field">Backing field name</param>
+    /// <param name="shortGet">Whether to use short getter syntax (get;)</param>
+    /// <param name="shortSet">Whether to use short setter syntax (set;)</param>
+    public void Property(int tabCount, AccessModifiers accessModifier, bool isStatic, string returnType, string name, object getImplementation, object setImplementation, string field, bool shortGet, bool shortSet)
     {
 #region MyRegion
         AddTab(tabCount);
-        PublicStatic(_public, _static);
+        PublicStatic(accessModifier, isStatic);
 #endregion
         ReturnTypeName(returnType, name);
         AddTab(tabCount);
@@ -72,53 +77,53 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
             sb.AddItem("{");
         else
             StartBrace(tabCount);
-        var settedGet = !(_get == null || _get.ToString() == false.ToString());
-        if (settedGet)
+        var hasGetterImplementation = !(getImplementation == null || getImplementation.ToString() == false.ToString());
+        if (hasGetterImplementation)
         {
             if (shortGet)
-                throw new Exception("Can't be set shortGet and _get in one time");
-            var text = _get.ToString();
+                throw new Exception("Can't be set shortGet and getImplementation in one time");
+            var getterCode = getImplementation.ToString();
             AddTab(tabCount + 1);
             sb.AddItem("get");
             StartBrace(tabCount + 1);
             AddTab(tabCount + 2);
-            if (text == true.ToString())
+            if (getterCode == true.ToString())
                 sb.AddItem("return " + field + ";");
             else
-                sb.AddItem(text);
+                sb.AddItem(getterCode);
             sb.AppendLine();
             EndBrace(tabCount + 1);
         }
 
-        var settedSet = !(_set == null || _set.ToString() == false.ToString());
-        if (settedSet)
+        var hasSetterImplementation = !(setImplementation == null || setImplementation.ToString() == false.ToString());
+        if (hasSetterImplementation)
         {
             if (shortSet)
-                throw new Exception("Can't be set shortSet and _set in one time");
+                throw new Exception("Can't be set shortSet and setImplementation in one time");
             AddTab(tabCount + 1);
             sb.AddItem("set");
             StartBrace(tabCount + 1);
             AddTab(tabCount + 2);
-            var text = _set.ToString();
-            if (text == true.ToString())
+            var setterCode = setImplementation.ToString();
+            if (setterCode == true.ToString())
                 sb.AddItem(field + " = value;");
             else
-                sb.AddItem(text);
+                sb.AddItem(setterCode);
             sb.AppendLine();
             EndBrace(tabCount + 1);
         }
 
         if (shortGet)
         {
-            if (settedSet)
-                throw new Exception("Can't be set shortGet and _get in one time");
+            if (hasSetterImplementation)
+                throw new Exception("Can't be set shortGet and getImplementation in one time");
             sb.AddItem("get;");
         }
 
         if (shortSet)
         {
-            if (settedGet)
-                throw new Exception("Can't be set shortGet and _get in one time");
+            if (hasGetterImplementation)
+                throw new Exception("Can't be set shortGet and getImplementation in one time");
             sb.AddItem("set;");
         }
 
@@ -127,26 +132,28 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     }
 
     /// <summary>
-    ///     A6 inner již musí býy odsazené pro tuto metod
+    /// EN: Generates a method declaration with body. The inner content must already be indented for this method.
+    /// CZ: Generuje deklaraci metody s tělem. Vnitřní obsah již musí být odsazený pro tuto metodu.
     /// </summary>
-    /// <param name = "_public"></param>
-    /// <param name = "_static"></param>
-    /// <param name = "returnType"></param>
-    /// <param name = "name"></param>
-    /// <param name = "inner"></param>
-    /// <param name = "args"></param>
-    public void Method(int tabCount, AccessModifiers _public, bool _static, string returnType, string name, string inner, string args)
+    /// <param name="tabCount">Number of tabs for indentation</param>
+    /// <param name="accessModifier">Access modifier for the method</param>
+    /// <param name="isStatic">Whether the method is static</param>
+    /// <param name="returnType">Return type of the method</param>
+    /// <param name="name">Name of the method</param>
+    /// <param name="bodyContent">Body content of the method (already indented)</param>
+    /// <param name="parametersDeclaration">Method parameters declaration</param>
+    public void Method(int tabCount, AccessModifiers accessModifier, bool isStatic, string returnType, string name, string bodyContent, string parametersDeclaration)
     {
         AddTab(tabCount);
-        PublicStatic(_public, _static);
+        PublicStatic(accessModifier, isStatic);
         ReturnTypeName(returnType, name);
         StartParenthesis();
-        sb.AddItem(args);
+        sb.AddItem(parametersDeclaration);
         EndParenthesis();
         AppendLine();
         StartBrace(tabCount);
         AddTab(tabCount + 1);
-        sb.AddItem(inner);
+        sb.AddItem(bodyContent);
         sb.AppendLine();
         EndBrace(tabCount);
         sb.AppendLine();
@@ -158,50 +165,58 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         sb.AddItem(name);
     }
 
-    public void Method(int tabCount, string header, string inner)
+    /// <summary>
+    /// EN: Generates a method with pre-formatted header and body content
+    /// CZ: Generuje metodu s předformátovanou hlavičkou a obsahem těla
+    /// </summary>
+    /// <param name="tabCount">Number of tabs for indentation</param>
+    /// <param name="header">Pre-formatted method header</param>
+    /// <param name="bodyContent">Body content of the method</param>
+    public void Method(int tabCount, string header, string bodyContent)
     {
         AddTab(tabCount);
         sb.AddItem(header);
         StartBrace(tabCount);
         //AddTab(tabCount + 1);
-        sb.AddItem(inner);
+        sb.AddItem(bodyContent);
         sb.AppendLine("");
         EndBrace(tabCount);
         sb.AppendLine();
     }
 
-    /// <param name = "usings"></param>
-    public void Using(string usings)
+    /// <summary>
+    /// EN: Generates a using directive, automatically adding 'using' keyword and semicolon if needed
+    /// CZ: Generuje using direktivu, automaticky přidává klíčové slovo 'using' a středník pokud chybí
+    /// </summary>
+    /// <param name="usingStatement">Using statement (with or without 'using' keyword and semicolon)</param>
+    public void Using(string usingStatement)
     {
-        if (!usings.StartsWith("using "))
-            usings = "using " + usings + ";";
-        else if (!usings.Trim().EndsWith(";"))
-            usings += ";";
-        sb.AddItem(usings);
+        if (!usingStatement.StartsWith("using "))
+            usingStatement = "using " + usingStatement + ";";
+        else if (!usingStatement.Trim().EndsWith(";"))
+            usingStatement += ";";
+        sb.AddItem(usingStatement);
         sb.AppendLine();
     }
 
     /// <summary>
-    ///     Pokud chceš nový řádek bez jakéhokoliv textu, zadej například 2, ""
-    ///     Nepoužívej na to metodu jen text tabCount, protože ji pak IntelliSense nevidělo.
+    /// EN: Generates an if statement with opening brace. Automatically adds the opening brace.
+    /// CZ: Generuje if příkaz s otevírací závorkou. Automaticky přidává počáteční závorku.
     /// </summary>
-    /// <param name = "tabCount"></param>
-    /// <param name = "p"></param>
-    /// <param name = "p2"></param>
-    /// <summary>
-    ///     Automaticky doplní počáteční závorku
-    /// </summary>
-    /// <param name = "podminka"></param>
-    public void If(int tabCount, string podminka)
+    /// <param name="tabCount">Number of tabs for indentation</param>
+    /// <param name="condition">Condition for the if statement</param>
+    public void If(int tabCount, string condition)
     {
         AddTab(tabCount);
-        sb.AppendLine("if(" + podminka + ")");
+        sb.AppendLine("if(" + condition + ")");
         StartBrace(tabCount);
     }
 
     /// <summary>
-    ///     Automaticky doplní počáteční závorku
+    /// EN: Generates an else statement with opening brace. Automatically adds the opening brace.
+    /// CZ: Generuje else příkaz s otevírací závorkou. Automaticky přidává počáteční závorku.
     /// </summary>
+    /// <param name="tabCount">Number of tabs for indentation</param>
     public void Else(int tabCount)
     {
         AddTab(tabCount);
@@ -209,13 +224,21 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         StartBrace(tabCount);
     }
 
-    public void EnumWithComments(int tabCount, AccessModifiers _public, string nameEnum, Dictionary<string, string> nameCommentEnums)
+    /// <summary>
+    /// EN: Generates an enum with XML summary comments for each member
+    /// CZ: Generuje enum s XML summary komentáři pro každý člen
+    /// </summary>
+    /// <param name="tabCount">Number of tabs for indentation</param>
+    /// <param name="accessModifier">Access modifier for the enum</param>
+    /// <param name="enumName">Name of the enum</param>
+    /// <param name="memberComments">Dictionary mapping enum member names to their comments</param>
+    public void EnumWithComments(int tabCount, AccessModifiers accessModifier, string enumName, Dictionary<string, string> memberComments)
     {
-        WriteAccessModifiers(_public);
+        WriteAccessModifiers(accessModifier);
         AddTab(tabCount);
-        sb.AddItem("enum " + nameEnum);
+        sb.AddItem("enum " + enumName);
         StartBrace(tabCount);
-        foreach (var item in nameCommentEnums)
+        foreach (var item in memberComments)
         {
             XmlSummary(tabCount + 1, item.Value);
             AppendLine(tabCount + 1, item.Key + ",");
@@ -224,11 +247,18 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         EndBrace(tabCount);
     }
 
-    private void AppendAttribute(int tabCount, string name, string inParentheses)
+    /// <summary>
+    /// EN: Appends an attribute with optional parameters
+    /// CZ: Přidává atribut s volitelnými parametry
+    /// </summary>
+    /// <param name="tabCount">Number of tabs for indentation</param>
+    /// <param name="attributeName">Name of the attribute</param>
+    /// <param name="attributeParameters">Content inside parentheses (can be null)</param>
+    private void AppendAttribute(int tabCount, string attributeName, string attributeParameters)
     {
-        var zav = "";
-        if (inParentheses != null)
-            zav = "(" + inParentheses + ")";
-        AppendLine(tabCount, "[" + name + zav + "]");
+        var parentheses = "";
+        if (attributeParameters != null)
+            parentheses = "(" + attributeParameters + ")";
+        AppendLine(tabCount, "[" + attributeName + parentheses + "]");
     }
 }

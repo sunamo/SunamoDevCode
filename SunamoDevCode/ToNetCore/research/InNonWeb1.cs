@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
@@ -45,7 +46,7 @@ public partial class MoveToNet5
 #if DEBUG
         if (csprojFilePath.EndsWith(@"sunamo.web.csproj"))
         {
-            ThisApp.check = true;
+            ThisApp.Check = true;
         }
 #endif
         var xmlDocumentResult =
@@ -132,7 +133,7 @@ public partial class MoveToNet5
             TF.WriteAllText(csprojFilePath, modifiedXmlContent);
         }
 
-        ThisApp.check = false;
+        ThisApp.Check = false;
     }
 
     private static string ReferenceLongest(string xmlElementName, string reference)

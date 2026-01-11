@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 /// <summary>
@@ -9,10 +10,10 @@ public class GlobalUsingsHelper
     public const string globalUsing = "global using ";
     public const string global = "global ";
 
-    public static ParseGlobalUsingsResult Parse(List<string> content)
+    public static ParseGlobalUsingsResult Parse(List<string> list)
     {
         var result = new ParseGlobalUsingsResult();
-        foreach (var item in content)
+        foreach (var item in list)
             if (item.StartsWith(globalUsing))
             {
                 result.GlobalUsings.Add(item.Replace(globalUsing, "").Replace(";", ""));

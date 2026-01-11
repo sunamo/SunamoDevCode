@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoCSharp;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -86,7 +87,7 @@ public static partial class CSharpHelper
 
     public static string GetConsts(List<string> names, List<string> list, bool? toCamelConventionFirstCharLower)
     {
-        return GetConsts(names, list, toCamelConventionFirstCharLower, Types.tString);
+        return GetConsts(names, list, toCamelConventionFirstCharLower, Types.StringType);
     }
 
     /// <summary>
@@ -103,7 +104,7 @@ public static partial class CSharpHelper
     public static string GetConsts(List<string> names, List<string> list, bool? toCamelConventionFirstCharLower, Type type)
     {
         bool addHyphensToValue = true;
-        if (type != Types.tString)
+        if (type != Types.StringType)
         {
             addHyphensToValue = false;
         }
@@ -212,9 +213,9 @@ public static partial class CSharpHelper
 ";
     public static string GenerateProperties(GeneratePropertiesArgs argument)
     {
-        var lines = argument.input;
+        var lines = argument.Input;
         Dictionary<string, string> data = null;
-        if (argument.allStrings)
+        if (argument.AllStrings)
         {
             data = new Dictionary<string, string>(lines.Count);
             foreach (var item in lines)

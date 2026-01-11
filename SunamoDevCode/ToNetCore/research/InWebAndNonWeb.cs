@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
@@ -24,7 +25,7 @@ public partial class MoveToNet5
         var desktopInNonWeb = nonWebFn.Where(projectName => projectName.Contains("desktop"));
 
         int webIndex, nonWebIndex;
-        List<Tuple<ProjFw, ProjFw>> toTable = new List<Tuple<ProjFw, ProjFw>>();
+        //List<Tuple<ProjFw, ProjFw>> toTable = new List<Tuple<ProjFw, ProjFw>>();
 
         foreach (var projectName in both)
         {
@@ -51,7 +52,7 @@ public partial class MoveToNet5
     {
         foreach (var filePath in filePaths)
         {
-            var backupFilePath = filePath + AllExtensions.old;
+            var backupFilePath = filePath + AllExtensions.OldExtension;
             if (FS.ExistsFile(backupFilePath))
             {
                 FS.MoveFile(backupFilePath, filePath, FileMoveCollisionOptionDC.Overwrite);
@@ -87,7 +88,7 @@ public partial class MoveToNet5
     await
 #endif
  FindProjectsWhichIsSdkStyle(logger, false, isWeb);
-        foreach (var projectPath in sdkStyleResult.nonCsprojSdkStyleList)
+        foreach (var projectPath in sdkStyleResult.NonCsprojSdkStyleList)
         {
             if (projectPath.EndsWith("_b.csproj"))
             {

@@ -1,10 +1,13 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 using Microsoft.Extensions.Logging;
 
 /// <summary>
-/// Toto je sice z CommandsToAllCsprojs.Shared ale hodí se na to všechny CommandsToAll*
-/// Nepřidávám to tam jako soubor ale jako celý csproj
+/// EN: Although this is from CommandsToAllCsprojs.Shared, it is useful for all CommandsToAll* projects
+/// EN: Not adding it there as a single file but as an entire csproj
+/// CZ: Toto je sice z CommandsToAllCsprojs.Shared ale hodí se na to všechny CommandsToAll*
+/// CZ: Nepřidávám to tam jako soubor ale jako celý csproj
 /// </summary>
 public class CsprojShared
 {
@@ -72,14 +75,14 @@ public class CsprojShared
         return null;
     }
 
-    public static string GetCsprojForFolder(ILogger logger, string path, bool throwExOrReturnNull)
+    public static string GetCsprojForFolder(ILogger logger, string path, bool isThrowingExceptionOrReturningNull)
     {
-        return GetExtForFolder(logger, path, throwExOrReturnNull, "csproj");
+        return GetExtForFolder(logger, path, isThrowingExceptionOrReturningNull, "csproj");
     }
 
-    public static string GetSlnForFolder(ILogger logger, string path, bool throwExOrReturnNull)
+    public static string GetSlnForFolder(ILogger logger, string path, bool isThrowingExceptionOrReturningNull)
     {
-        var result = GetExtForFolder(logger, path, throwExOrReturnNull, "sln");
+        var result = GetExtForFolder(logger, path, isThrowingExceptionOrReturningNull, "sln");
         // VS sometimes generate sln in folder of project
         if (result != null && result.EndsWith(".generated.sln"))
         {
@@ -95,15 +98,15 @@ public class CsprojShared
         return result;
     }
 
-    public static string GetExtForFolder(ILogger logger, string path, bool throwExOrReturnNull, string ext)
+    public static string GetExtForFolder(ILogger logger, string path, bool isThrowingExceptionOrReturningNull, string ext)
     {
         ext = ext.TrimStart('.');
 
-        var sln = FSGetFiles.GetFilesEveryFolder(logger, path, "*." + ext, SearchOption.TopDirectoryOnly);
+        var matchingFiles = FSGetFiles.GetFilesEveryFolder(logger, path, "*." + ext, SearchOption.TopDirectoryOnly);
 
-        if (sln.Count > 1)
+        if (matchingFiles.Count > 1)
         {
-            if (throwExOrReturnNull)
+            if (isThrowingExceptionOrReturningNull)
             {
                 throw new Exception("More than 1 ." + ext);
             }
@@ -112,9 +115,9 @@ public class CsprojShared
                 return null;
             }
         }
-        else if (sln.Count == 0)
+        else if (matchingFiles.Count == 0)
         {
-            if (throwExOrReturnNull)
+            if (isThrowingExceptionOrReturningNull)
             {
                 throw new Exception("No " + ext);
             }
@@ -124,7 +127,7 @@ public class CsprojShared
             }
         }
 
-        return sln[0];
+        return matchingFiles[0];
     }
 
 

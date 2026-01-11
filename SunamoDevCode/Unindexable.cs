@@ -1,10 +1,11 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public class Unindexable
 {
-    public PpkOnDriveDC unindexableFileNames = null;
-    public PpkOnDriveDC unindexableFileNamesExactly = null;
-    public PpkOnDriveDC unindexablePathEnds = null;
-    public PpkOnDriveDC unindexablePathParts = null;
-    public PpkOnDriveDC unindexablePathStarts = null;
+    public PpkOnDriveDC UnindexableFileNames { get; set; } = null;
+    public PpkOnDriveDC UnindexableFileNamesExactly { get; set; } = null;
+    public PpkOnDriveDC UnindexablePathEnds { get; set; } = null;
+    public PpkOnDriveDC UnindexablePathParts { get; set; } = null;
+    public PpkOnDriveDC UnindexablePathStarts { get; set; } = null;
 }

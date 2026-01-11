@@ -30,9 +30,9 @@ public static partial class XmlLocalisationInterchangeFileFormat
         GetTransUnits(fn);
         List<XElement> tus = new List<XElement>();
         //string source =
-        for (int i = data.trans_units.Count - 1; i >= 0; i--)
+        for (int i = data.TransUnits.Count - 1; i >= 0; i--)
         {
-            var item = data.trans_units[i];
+            var item = data.TransUnits[i];
             var el = SourceTarget(item);
             if (xp == XlfParts.Source)
             {
@@ -40,7 +40,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
                 {
                     if (el.Item1.Value.Trim() == string.Empty)
                     {
-                        if (a.removeWholeTransUnit)
+                        if (a.RemoveWholeTransUnit)
                         {
                             el.Item1.Remove();
                         }
@@ -58,7 +58,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
                 {
                     if (el.Item2.Value.Trim() == string.Empty)
                     {
-                        if (a.removeWholeTransUnit)
+                        if (a.RemoveWholeTransUnit)
                         {
                             el.Item2.Remove();
                         }
@@ -72,12 +72,12 @@ public static partial class XmlLocalisationInterchangeFileFormat
             }
         }
 
-        if (a.save)
+        if (a.Save)
         {
-            data.xd.Save(fn);
+            data.XmlDocument.Save(fn);
         }
 
-        return data.xd.ToString();
+        return data.XmlDocument.ToString();
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
 #endif
         GetTransUnits(fn);
         List<XElement> tus = new List<XElement>();
-        foreach (XElement item in data.trans_units)
+        foreach (XElement item in data.TransUnits)
         {
             XElement source = null;
             XElement target = null;
@@ -111,7 +111,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
             TrimValueIfNot(target);
         }
 
-        data.xd.Save(fn);
+        data.XmlDocument.Save(fn);
     }
 
     /// <summary>
@@ -134,22 +134,22 @@ public static partial class XmlLocalisationInterchangeFileFormat
 #endif
         File.ReadAllTextAsync(fn);
         XlfData data = new XlfData();
-        data.path = fn;
+        data.Path = fn;
         XmlNamespacesHolder h = new XmlNamespacesHolder();
         h.ParseAndRemoveNamespacesXmlDocument(enS);
-        data.xd = 
+        data.XmlDocument = 
 #if ASYNC
             await
 #endif
         XHelper.CreateXDocument(fn);
         XHelper.AddXmlNamespaces(h.nsmgr);
-        XElement xliff = XHelper.GetElementOfName(data.xd, "xliff");
+        XElement xliff = XHelper.GetElementOfName(data.XmlDocument, "xliff");
         var allElements = XHelper.GetElementsOfNameWithAttrContains(xliff, "file", "target-language", toL.ToString());
         var resources = allElements.Where(d2 => XHelper.Attr(d2, "original").Contains("/" + "RESOURCES" + "/"));
         XElement file = resources.First();
         XElement body = XHelper.GetElementOfName(file, "body");
-        data.group = XHelper.GetElementOfName(body, "group");
-        data.trans_units = XHelper.GetElementsOfName(data.group, TransUnit.tTransUnit);
+        data.Group = XHelper.GetElementOfName(body, "group");
+        data.TransUnits = XHelper.GetElementsOfName(data.Group, TransUnit.TransUnitTagName);
         return data;
     }
 
@@ -174,23 +174,23 @@ public static partial class XmlLocalisationInterchangeFileFormat
             await
 #endif
         GetTransUnits(fn);
-        var exists = XHelper.GetElementOfNameWithAttr(data.group, TransUnit.tTransUnit, "id", pascal);
+        var exists = XHelper.GetElementOfNameWithAttr(data.Group, TransUnit.TransUnitTagName, "id", pascal);
         if (exists != null)
         {
             return;
         }
 
         Append( /*source,*/target, pascal, data);
-        data.xd.Save(fn);
+        data.XmlDocument.Save(fn);
         await XHelper.FormatXml(fn);
     }
 
     public static void Append( /*string source, */string target, string pascal, XlfData data)
     {
         TransUnit tu = new TransUnit();
-        tu.id = pascal;
+        tu.Id = pascal;
         // Directly set to null due to not inserting into .xlf
-        tu.source = null;
+        tu.Source = null;
         //tu.translate = true;
         // Inlined from SHTrim.TrimStartAndEnd - ořezává znaky ze začátku a konce podle podmínky
         var trimmedTarget = target;
@@ -221,11 +221,11 @@ public static partial class XmlLocalisationInterchangeFileFormat
             }
         }
 
-        tu.target = trimmedTarget;
+        tu.Target = trimmedTarget;
         var xml = tu.ToString();
         XElement xe = XElement.Parse(xml);
         xe = XHelper.MakeAllElementsWithDefaultNs(xe);
-        data.group.Add(xe);
+        data.Group.Add(xe);
     }
 
     public static async Task RemoveFromXlfAndXlfKeys(string fn, List<string> idsEndingEnd)

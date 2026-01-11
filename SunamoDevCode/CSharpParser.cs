@@ -1,13 +1,20 @@
+// variables names: ok
 namespace SunamoDevCode;
 
+/// <summary>
+/// Parser for C# code, specifically for handling const declarations.
+/// </summary>
 public class CSharpParser
 {
+    /// <summary>
+    /// Public modifier keyword with trailing space.
+    /// </summary>
     public const string PublicModifier = "public ";
+
+    /// <summary>
+    /// Static readonly modifier keywords with trailing space.
+    /// </summary>
     public const string StaticReadonlyModifier = "static readonly ";
-
-    //public const string c = "const string";
-
-    //public static string c => XmlLocalisationInterchangeFileFormatSunamo.cs;
 
 
 
@@ -49,7 +56,7 @@ public class CSharpParser
         for (var i = lines.Count - 1; i >= 0; i--)
         {
             var text = lines[i].Trim();
-            if (text.Contains(XmlLocalisationInterchangeFileFormatSunamo.cs))
+            if (text.Contains(XmlLocalisationInterchangeFileFormatSunamo.Cs))
             {
                 var key = XmlLocalisationInterchangeFileFormatSunamo.GetConstsFromLine(text);
                 var keyIndex = remove.IndexOf(key);
@@ -68,6 +75,12 @@ public class CSharpParser
         }
     }
 
+    /// <summary>
+    /// Parses const declarations from lines, tracking the first occurrence index.
+    /// </summary>
+    /// <param name="lines">Lines of C# code to parse.</param>
+    /// <param name="first">Output parameter for the index of the first const declaration found.</param>
+    /// <returns>List of const keys found in the lines.</returns>
     public static List<string> ParseConsts(List<string> lines, out int first)
     {
         var keys = new List<string>();
@@ -75,7 +88,7 @@ public class CSharpParser
         for (var i = 0; i < lines.Count; i++)
         {
             var text = lines[i].Trim();
-            if (text.Contains(XmlLocalisationInterchangeFileFormatSunamo.cs))
+            if (text.Contains(XmlLocalisationInterchangeFileFormatSunamo.Cs))
             {
                 if (first == -1) first = i;
 
@@ -87,23 +100,19 @@ public class CSharpParser
         return keys;
     }
 
+    /// <summary>
+    /// Parses const declarations from all lines without filtering.
+    /// </summary>
+    /// <param name="lines">Lines of C# code to parse.</param>
+    /// <returns>List of const keys found in the lines.</returns>
     public static List<string> ParseConstsAllLines(List<string> lines)
     {
         var keys = new List<string>();
-        //first = -1;
         for (var i = 0; i < lines.Count; i++)
         {
             var text = lines[i].Trim();
-            //if (text.Contains(CSharpParser.c))
-            //{
-            //if (first == -1)
-            //{
-            //    first = i;
-            //}
-
             var key = XmlLocalisationInterchangeFileFormatSunamo.GetConstsFromLine(text);
             keys.Add(key);
-            //}
         }
 
         return keys;

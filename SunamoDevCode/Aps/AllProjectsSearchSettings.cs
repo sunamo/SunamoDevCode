@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps;
 
 internal static partial class AllProjectsSearchSettings
@@ -23,7 +24,7 @@ internal static partial class AllProjectsSearchSettings
 #endif
  TF.ReadAllLines(fn);
             // Inlined from SF.RemoveComments - odstraňuje prázdné řádky a řádky začínající '#'
-            DontReplaceReferencesIn = DontReplaceReferencesIn.Where(d => !string.IsNullOrWhiteSpace(d) && !d.StartsWith("#")).ToList();
+            DontReplaceReferencesIn = DontReplaceReferencesIn.Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#")).ToList();
         }
         return DontReplaceReferencesIn;
     }

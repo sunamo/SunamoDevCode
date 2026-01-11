@@ -1,8 +1,6 @@
+// variables names: ok
 namespace SunamoDevCode;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-// Instance variables refactored according to C# conventions
 /// <summary>
 ///     Cant be derived from FiltersNotTranslateAble because easy of finding instances of CsFileFilter
 /// </summary>
@@ -45,19 +43,19 @@ public partial class CsFileFilter : ICsFileFilter
         }
     }
 
-    public bool AllowOnly(string item)
+    public bool AllowOnly(string filePath)
     {
-        return AllowOnly(item, true);
+        return AllowOnly(filePath, true);
     }
 
-    public bool AllowOnly(string item, bool alsoEnds)
+    public bool AllowOnly(string filePath, bool isAlsoCheckingEnds)
     {
-        var end2 = true;
-        return !AllowOnly(item, endArgs, containsArgs, ref end2, alsoEnds);
+        var hasEndMatch = true;
+        return !AllowOnly(filePath, endArgs, containsArgs, ref hasEndMatch, isAlsoCheckingEnds);
     }
 
-    public bool AllowOnlyContains(string i)
+    public bool AllowOnlyContains(string itemPath)
     {
-        return !AllowOnlyContains(i, containsArgs);
+        return !AllowOnlyContains(itemPath, containsArgs);
     }
 }

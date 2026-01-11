@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5

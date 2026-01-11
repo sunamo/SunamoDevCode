@@ -19,7 +19,7 @@
 //    /// <summary>
 //    /// Složka ve které se má hledat na složku Projects a složky Visual Studia
 //    /// </summary>
-//    public FoldersWithSolutionsList fwss = new FoldersWithSolutionsList();
+//    public FoldersWithSolutionsList Fwss = new FoldersWithSolutionsList();
 
 //    #region ctor
 //    /// <summary>
@@ -45,7 +45,7 @@
 //        }
 
 //        // musím nastavit až na konci když přiřadím veškeré proměnné
-//        fwss.Add(new FoldersWithSolutions(this));
+//        Fwss.Add(new FoldersWithSolutions(this));
 //    }
 //    #endregion
 
@@ -134,9 +134,9 @@
 //    {
 //        if (allCsprojGlobal.Count == 0)
 //        {
-//            foreach (var item in fwss)
+//            foreach (var item in Fwss)
 //            {
-//                foreach (var sln in item.Solutions(usedRepository))
+//                foreach (var sln in item.GetSolutions(usedRepository))
 //                {
 //                    SolutionFolder.GetCsprojs(sln);
 //                    foreach (var item2 in sln.projectsGetCsprojs)
@@ -218,7 +218,7 @@
 
 //    public SolutionFolder CreateSolutionFolder(SolutionFolderSerialize solutionFolder, PpkOnDriveDC toSelling, bool useBp, string projName = null)
 //    {
-//        return CreateSolutionFolder(null, solutionFolder.fullPathFolder, toSelling, useBp, projName);
+//        return CreateSolutionFolder(null, solutionFolder.FullPathFolder, toSelling, useBp, projName);
 //    }
 
 //    /// <summary>
@@ -261,11 +261,11 @@
 
 //        FoldersWithSolutions.IdentifyProjectType(documentsFolder, solutionFolder, sf, useBp);
 
-//        sf.displayedText = GetDisplayedName(solutionFolder);
-//        sf.fullPathFolder = solutionFolder;
+//        sf.DisplayedText = GetDisplayedName(solutionFolder);
+//        sf.FullPathFolder = solutionFolder;
 
 //        // Nevím zda je to nutné tak jsem to zakomentoval aby to bylo rychlejší
-//        //sf.projects = new DebugCollection<string>( SolutionsIndexerHelper.ProjectsInSolution(true, sf.fullPathFolder));
+//        //sf.projects = new DebugCollection<string>( SolutionsIndexerHelper.ProjectsInSolution(true, sf.FullPathFolder));
 //        //sf.SourceOfProjects = SourceOfProjects.ProjectsInSolution;
 
 //        sf.UpdateModules(toSelling);
@@ -312,7 +312,7 @@
 //    public IList<SolutionFolder> SolutionsUap(IList<string> skipThese = null)
 //    {
 //        var slns = Solutions(RepositoryLocal.Vs17, false, skipThese);
-//        var uap = slns.Where(d => d.fullPathFolder.Contains(@"\_Uap\")).ToList();
+//        var uap = slns.Where(d => d.FullPathFolder.Contains(@"\_Uap\")).ToList();
 //        return uap;
 //    }
 
@@ -329,7 +329,7 @@
 
 //        for (int i = result.Count - 1; i >= 0; i--)
 //        {
-//            var ns = result[i].nameSolution;
+//            var ns = result[i].NameSolution;
 //            if (!SH.MatchWildcard(ns, mayWildcard))
 //            {
 //                result.RemoveAt(i);
@@ -397,7 +397,7 @@
 //            var it = result[i];
 //            foreach (var item in dict)
 //            {
-//                if (item.Value.IsMatch(it.nameSolution))
+//                if (item.Value.IsMatch(it.NameSolution))
 //                {
 //                    result.RemoveAt(i);
 //                    break;
@@ -582,21 +582,21 @@
 //        // TODO: dodělat to podle ProjectsTypes prioritize, ale otázka je jestli to vůbec potřebuji
 
 //        List<string> ls = new List<string>();
-//        foreach (var item in fwss)
+//        foreach (var item in Fwss)
 //        {
-//            var slns = item.Solutions(usedRepository);
+//            var slns = item.GetSolutions(usedRepository);
 
 //            foreach (var sln in slns)
 //            {
 //                if (returnOnlyThese != null)
 //                {
 //#if DEBUG
-//                    if (sln.nameSolution.Contains("OnlyWeb"))
+//                    if (sln.NameSolution.Contains("OnlyWeb"))
 //                    {
 
 //                    }
 //#endif
-//                    if (!returnOnlyThese.Contains(sln.nameSolution))
+//                    if (!returnOnlyThese.Contains(sln.NameSolution))
 //                    {
 //                        continue;
 //                    }
@@ -604,9 +604,9 @@
 
 //                if (sf != null)
 //                {
-//                    sf.Add(sln.fullPathFolder, sln);
+//                    sf.Add(sln.FullPathFolder, sln);
 //                }
-//                ls.Add(sln.fullPathFolder);
+//                ls.Add(sln.FullPathFolder);
 //            }
 //        }
 //        return ls;

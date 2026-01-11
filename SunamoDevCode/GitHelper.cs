@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 /// <summary>
@@ -10,36 +11,47 @@ public class GitHelper
     //https://5vzabodsgurc2qeufb56xlzu7hggrf2qyy3fatubdadxb5oto53q@radekjancik.visualstudio.com/AllProjectsSearch.Cmd.Parallel/_git/AllProjectsSearch.Cmd.Parallel
 
     /// <summary>
-    ///     https://radekjancik.visualstudio.com/_git/AllProjectsSearch
+    /// Base URL for Visual Studio git repository pattern 1
+    /// https://radekjancik.visualstudio.com/_git/AllProjectsSearch
     /// </summary>
-    private const string b1 =
+    private const string BaseUrlVisualStudioGit =
         "https://5vzabodsgurc2qeufb56xlzu7hggrf2qyy3fatubdadxb5oto53q@radekjancik.visualstudio.com/_git/";
 
     /// <summary>
-    ///     https://radekjancik@dev.azure.com/radekjancik/CodeProjects_Bobril/_git/CodeProjects_Bobril
+    /// Base URL prefix for Visual Studio git repository pattern 2
+    /// https://radekjancik@dev.azure.com/radekjancik/CodeProjects_Bobril/_git/CodeProjects_Bobril
     /// </summary>
-    private const string b2_s =
+    private const string BaseUrlVisualStudioPrefix =
         "https://5vzabodsgurc2qeufb56xlzu7hggrf2qyy3fatubdadxb5oto53q@radekjancik.visualstudio.com/";
 
-    private const string b2_e = "/_git/";
+    /// <summary>
+    /// Git path suffix for pattern 2
+    /// </summary>
+    private const string GitPathSuffix = "/_git/";
 
     /// <summary>
-    ///     https://radekjancik.visualstudio.com/AllProjectsSearch.ToNet5/_git/AllProjectsSearch.ToNet5
+    /// Base URL prefix for Visual Studio repository pattern 3
+    /// https://radekjancik.visualstudio.com/AllProjectsSearch.ToNet5/_git/AllProjectsSearch.ToNet5
     /// </summary>
-    private const string b3_s = "https://radekjancik.visualstudio.com/";
+    private const string BaseUrlVisualStudioShort = "https://radekjancik.visualstudio.com/";
 
     /// <summary>
-    ///     https://github.com/sunamo/sunamo.git
+    /// Base URL for GitHub repositories
+    /// https://github.com/sunamo/sunamo.git
     /// </summary>
-    private const string b4 = "https://github.com/sunamo/";
+    private const string BaseUrlGitHub = "https://github.com/sunamo/";
 
     /// <summary>
-    ///     https://dev.azure.com/radekjancik/_git/sunamo.webWithoutDep
+    /// Base URL for Azure DevOps git repositories
+    /// https://dev.azure.com/radekjancik/_git/sunamo.webWithoutDep
     /// </summary>
-    private const string b5 = "https://dev.azure.com/radekjancik/_git/";
+    private const string BaseUrlAzureDevOps = "https://dev.azure.com/radekjancik/_git/";
 
-    // https://bitbucket.org/sunamo/1gp-gopay-master
-    private const string b6 = @"https://bitbucket.org/sunamo/";
+    /// <summary>
+    /// Base URL for Bitbucket repositories
+    /// https://bitbucket.org/sunamo/1gp-gopay-master
+    /// </summary>
+    private const string BaseUrlBitbucket = @"https://bitbucket.org/sunamo/";
 
     public static string PowershellForPull(List<string> folders)
     {
@@ -89,7 +101,7 @@ public class GitHelper
 
             var statusOutput = result[1];
             // If solution has changes
-            var hasChanges = statusOutput.Where(d => d.Contains("nothing to commit")).Count() == 0;
+            var hasChanges = statusOutput.Where(line => line.Contains("nothing to commit")).Count() == 0;
             if (!hasChanges)
                 foreach (var lineStatus in statusOutput)
                 {
@@ -116,7 +128,7 @@ public class GitHelper
 
             // or/and is a git repository
             var isGitRepository =
-                statusOutput.Where(d => d.Contains("not a git repository")).Count() ==
+                statusOutput.Where(line => line.Contains("not a git repository")).Count() ==
                 0; // CA.ReturnWhichContains(, ).Count == 0;
             if (hasChanges && isGitRepository)
             {
@@ -138,7 +150,7 @@ public class GitHelper
 
                 // Dont run, better is paste into powershell due to checking errors
                 //var git = gitBashBuilder.Commands;
-                //PowershellRunner.ci.Invoke(git);
+                //PowershellRunner.Instance.Invoke(git);
 
                 return true;
             }
@@ -147,37 +159,42 @@ public class GitHelper
         return false;
     }
 
-    public static string NameOfRepoFromOriginUri(string s)
+    /// <summary>
+    /// Extracts repository name from git origin URI
+    /// </summary>
+    /// <param name="originUri">Git origin URI to parse</param>
+    /// <returns>Repository name extracted from the URI</returns>
+    public static string NameOfRepoFromOriginUri(string originUri)
     {
-        s = HttpUtility.UrlDecode(s);
-        if (s.StartsWith(b1))
+        originUri = HttpUtility.UrlDecode(originUri);
+        if (originUri.StartsWith(BaseUrlVisualStudioGit))
         {
-            s = s.Replace(b1, string.Empty);
+            originUri = originUri.Replace(BaseUrlVisualStudioGit, string.Empty);
         }
-        else if (s.StartsWith(b2_s))
+        else if (originUri.StartsWith(BaseUrlVisualStudioPrefix))
         {
-            s = SH.GetTextBetweenSimple(s, b2_s, b2_e);
+            originUri = SH.GetTextBetweenSimple(originUri, BaseUrlVisualStudioPrefix, GitPathSuffix);
         }
-        else if (s.StartsWith(b3_s))
+        else if (originUri.StartsWith(BaseUrlVisualStudioShort))
         {
-            s = SH.GetTextBetweenSimple(s, b3_s, b2_e);
+            originUri = SH.GetTextBetweenSimple(originUri, BaseUrlVisualStudioShort, GitPathSuffix);
         }
-        else if (s.StartsWith(b4))
+        else if (originUri.StartsWith(BaseUrlGitHub))
         {
-            s = s.Replace(b4, string.Empty);
-            s = SHTrim.TrimEnd(s, ".git");
+            originUri = originUri.Replace(BaseUrlGitHub, string.Empty);
+            originUri = SHTrim.TrimEnd(originUri, ".git");
         }
-        else if (s.StartsWith(b5))
+        else if (originUri.StartsWith(BaseUrlAzureDevOps))
         {
-            s = s.Replace(b5, string.Empty);
+            originUri = originUri.Replace(BaseUrlAzureDevOps, string.Empty);
         }
-        else if (s.StartsWith(b6))
+        else if (originUri.StartsWith(BaseUrlBitbucket))
         {
-            s = s.Replace(b6, string.Empty);
+            originUri = originUri.Replace(BaseUrlBitbucket, string.Empty);
         }
 
-        if (s.Contains("/")) throw new Exception(s + " - name of repo contains still /");
+        if (originUri.Contains("/")) throw new Exception(originUri + " - name of repo contains still /");
 
-        return s;
+        return originUri;
     }
 }

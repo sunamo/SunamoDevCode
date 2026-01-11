@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoCSharp.Helpers;
 
 /// <summary>

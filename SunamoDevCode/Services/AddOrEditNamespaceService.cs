@@ -1,9 +1,19 @@
+// variables names: ok
 namespace SunamoDevCode.Services;
 
 public class AddOrEditNamespaceService
 {
+    /// <summary>
+    /// Adds or edits namespace declaration in a single C# file and saves it
+    /// </summary>
+    /// <param name="pathToCsprojFolder">Path to csproj folder</param>
+    /// <param name="projectName">Project name for namespace</param>
+    /// <param name="csPath">Path to C# file</param>
+    /// <param name="linesFile">Optional pre-loaded file lines</param>
+    /// <param name="pathToSave">Optional alternative save path</param>
+    /// <returns>New namespace or null if file was skipped</returns>
     public async Task<string?> AddOrEditNamespaceForSingleFileAndSave(string pathToCsprojFolder, string projectName
-        , string csPath, List<string> linesFile = null, string pathToSave = null)
+        , string csPath, List<string>? linesFile = null, string? pathToSave = null)
     {
         if (linesFile == null)
         {
@@ -14,12 +24,12 @@ public class AddOrEditNamespaceService
             return null;
         }
 
-        var fnwoe = Path.GetFileNameWithoutExtension(csPath);
+        var filenameWithoutExtension = Path.GetFileNameWithoutExtension(csPath);
         if (csPath.EndsWith(".xaml.cs")) return null;
         if (csPath.Contains(@"\obj\")) return null;
-        var fn = Path.GetFileNameWithoutExtension(csPath);
-        if (fn == "GlobalSuppressions") return null;
-        if (fn == "GlobalUsings") return null;
+        var filename = Path.GetFileNameWithoutExtension(csPath);
+        if (filename == "GlobalSuppressions") return null;
+        if (filename == "GlobalUsings") return null;
         if (pathToSave != null)
         {
             csPath = pathToSave;
@@ -37,15 +47,15 @@ public class AddOrEditNamespaceService
         // Prvně je nutné odstranit FS NS. druhá metoda musí být 100% správně.
         var linesFileOri = linesFile.ToList();
         linesFile = await RemoveFileScopedNamespaceWhenIsInSharpIf(linesFile);
-        var newNs2 = projectName + (parts.Count == 0 ? "" : ".") + string.Join(".", parts);
-        linesFile = AddNamespaceIfIsMissingInCs(linesFile, newNs2);
+        var fullNamespace = projectName + (parts.Count == 0 ? "" : ".") + string.Join(".", parts);
+        linesFile = AddNamespaceIfIsMissingInCs(linesFile, fullNamespace);
         linesFile = RemoveIfContainsMoreNamespace(linesFile);
         if (!linesFileOri.SequenceEqual(linesFile))
         {
             await TFCsFormat
                 .WriteAllLines(pathToSave == null ? csPath : pathToSave, linesFile);
         }
-        return newNs2;
+        return fullNamespace;
     }
     private List<string> RemoveIfContainsMoreNamespace(List<string> list)
     {
@@ -86,7 +96,7 @@ public class AddOrEditNamespaceService
         // todo napsat testy na toto
         //var lastIndexOfUsing = -1;
         var isNsOuter = false;
-        var dxNamespaceLine = -1;
+        var namespaceLineIndex = -1;
         RemoveEmptyLinesService removeEmptyLinesService = new RemoveEmptyLinesService();
         for (var i = 0; i < lines.Count; i++)
         {
@@ -97,7 +107,7 @@ public class AddOrEditNamespaceService
             if (isNsOuter)
             {
                 //isNsOuter = isNs;
-                dxNamespaceLine = i;
+                namespaceLineIndex = i;
                 break;
             }
             if (classCodeElements.Any(d => list.Contains(d)))
@@ -112,7 +122,7 @@ public class AddOrEditNamespaceService
             //}
         }
         // todo zde je problém. přidává mi to NS i když už je v #elif. stačí potom zakomentovat RemoveFileScopedNamespaceWhenIsInSharpIf
-        if (dxNamespaceLine != -1 && lines[dxNamespaceLine].Trim() == "namespace")
+        if (namespaceLineIndex != -1 && lines[namespaceLineIndex].Trim() == "namespace")
         {
             // kontrola zda je pod #else správný NS
             var dx = lines.IndexOf("#else");
@@ -133,17 +143,17 @@ public class AddOrEditNamespaceService
                 // EN: Check if namespace is already correct at line 0 - skip processing to avoid corruption
                 // CZ: Zkontroluj zda je namespace už správně na řádku 0 - skipni processing aby se nepokazil soubor
                 var expectedNs = "namespace " + newNs + ";";
-                if (dxNamespaceLine == 0 && lines[0].Trim() == expectedNs.Trim())
+                if (namespaceLineIndex == 0 && lines[0].Trim() == expectedNs.Trim())
                 {
                     // EN: Namespace is already correct, do nothing
                     // CZ: Namespace je již správně, nedělej nic
                     return lines;
                 }
 
-                if (dxNamespaceLine != 0)
+                if (namespaceLineIndex != 0)
                 {
-                    //lines.RemoveAt(dxNamespaceLine);
-                    if (!lines[dxNamespaceLine].Contains(";"))
+                    //lines.RemoveAt(namespaceLineIndex);
+                    if (!lines[namespaceLineIndex].Contains(";"))
                     {
                         removeEmptyLinesService.RemoveEmptyLinesFromStartAndEnd(lines);
                         lines[0] = lines[0].TrimStart('{');
@@ -151,7 +161,7 @@ public class AddOrEditNamespaceService
                     }
                     //AddNamespaceOnBegin(newNs, lines);
                     #region Tohle jsem nemusel dělat, od toho tu mám už TFCsFormat
-                    lines.RemoveAt(dxNamespaceLine);
+                    lines.RemoveAt(namespaceLineIndex);
                     lines.Insert(0, "");
                     lines.Insert(0, "namespace " + newNs + ";");
                     #endregion

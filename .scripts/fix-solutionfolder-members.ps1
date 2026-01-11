@@ -1,30 +1,21 @@
-$replacements = @{
-    '\.displayedText\b' = '.DisplayedText'
-    '\.projectFolder\b' = '.ProjectFolder'
-    '\.slnFullPath\b' = '.SlnFullPath'
-    '\.nameSolution\b' = '.NameSolution'
-    '\.nameSolutionWithoutDiacritic\b' = '.NameSolutionWithoutDiacritic'
-    '\.repository\b' = '.Repository'
-    '\.fullPathFolder\b' = '.FullPathFolder'
-}
+$projectRoot = 'E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode'
 
-$files = Get-ChildItem -Path 'E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode' -Filter '*.cs' -Recurse
-$fixedCount = 0
+Write-Host "Fixing SolutionFolder member references..."
 
-foreach($file in $files) {
-    $content = Get-Content $file.FullName -Raw
-    $originalContent = $content
+Get-ChildItem -Path $projectRoot -Filter "*.cs" -Recurse | ForEach-Object {
+    $content = Get-Content -Path $_.FullName -Raw
+    $newContent = $content
 
-    foreach($pattern in $replacements.Keys) {
-        $replacement = $replacements[$pattern]
-        $content = $content -replace $pattern, $replacement
-    }
+    # Fix SolutionFolder member references
+    $newContent = $newContent -replace '\.projectsGetCsprojs\b', '.ProjectsGetCsprojs'
+    $newContent = $newContent -replace '\.fullPathFolder\b', '.FullPathFolder'
+    $newContent = $newContent -replace '\.nameSolutionWithoutDiacritic\b', '.NameSolutionWithoutDiacritic'
+    $newContent = $newContent -replace '\.repository\b', '.Repository'
 
-    if ($content -ne $originalContent) {
-        Set-Content $file.FullName -Value $content -NoNewline
-        Write-Host "Fixed: $($file.FullName.Replace('E:\vs\Projects\PlatformIndependentNuGetPackages\SunamoDevCode\SunamoDevCode\', ''))" -ForegroundColor Green
-        $fixedCount++
+    if ($content -ne $newContent) {
+        Set-Content -Path $_.FullName -Value $newContent -NoNewline
+        Write-Host "Fixed: $($_.FullName)"
     }
 }
 
-Write-Host "`nTotal files fixed: $fixedCount" -ForegroundColor Cyan
+Write-Host "Done!"

@@ -1,35 +1,45 @@
 namespace SunamoDevCode._sunamo.SunamoTextOutputGenerator;
 
 /// <summary>
-/// In Comparing
+/// Text output generator for formatting structured text output.
 /// </summary>
-internal class TextOutputGenerator //: ITextOutputGenerator
+internal class TextOutputGenerator
 {
-    private readonly static string s_znakNadpisu = "*";
-    // při převádění na nugety jsem to změnil na TextBuilderDC stringBuilder = TextBuilder.Create();
-    // ale asi to byla blbost, teď mám v _sunamo Create() která je ale null místo abych použil ctor
-    // takže vracím nazpět.
-    //internal TextBuilder stringBuilder = new TextBuilder();
+    private readonly static string HeaderCharacter = "*";
+
+    // EN: During NuGet conversion, I changed this to TextBuilderDC stringBuilder = TextBuilder.Create();
+    // but that was probably a mistake, now in _sunamo I have Create() which returns null instead of using ctor
+    // so I'm reverting it back.
     internal StringBuilder stringBuilder = new StringBuilder();
-    //internal string prependEveryNoWhite
-    //{
-    //    get => stringBuilder.prependEveryNoWhite;
-    //    set => stringBuilder.prependEveryNoWhite = value;
-    //}
+
     #region Static texts
-        #endregion
+    #endregion
     #region Templates
-        #endregion
+    #endregion
     #region AppendLine
+    /// <summary>
+    /// Appends a StringBuilder content as a new line.
+    /// </summary>
+    /// <param name="text">The text builder content to append.</param>
     internal void AppendLine(StringBuilder text)
     {
         stringBuilder.AppendLine(text.ToString());
     }
+
+    /// <summary>
+    /// Appends text without adding a new line.
+    /// </summary>
+    /// <param name="text">The text to append.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void Append(string text)
     {
         stringBuilder.Append(text);
     }
+
+    /// <summary>
+    /// Appends text with a new line.
+    /// </summary>
+    /// <param name="text">The text to append.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void AppendLine(string text)
     {
@@ -37,81 +47,111 @@ internal class TextOutputGenerator //: ITextOutputGenerator
     }
     #endregion
     #region Other adding methods
-    internal void Header(string v)
+    /// <summary>
+    /// Adds a header with empty lines before and after.
+    /// </summary>
+    /// <param name="headerText">The header text.</param>
+    internal void Header(string headerText)
     {
         stringBuilder.AppendLine();
-        AppendLine(v);
+        AppendLine(headerText);
         stringBuilder.AppendLine();
     }
     #endregion
+    /// <summary>
+    /// Converts the generated output to a string.
+    /// </summary>
+    /// <returns>The complete generated text.</returns>
     public override string ToString()
     {
-        var ts = stringBuilder.ToString();
-        return ts;
+        var result = stringBuilder.ToString();
+        return result;
     }
     #region List
-    internal void ListSB(StringBuilder onlyStart, string v)
+    /// <summary>
+    /// Adds a list with a header from StringBuilder.
+    /// </summary>
+    /// <param name="onlyStart">The start content.</param>
+    /// <param name="headerText">The header text.</param>
+    internal void ListSB(StringBuilder onlyStart, string headerText)
     {
-        Header(v);
+        Header(headerText);
         AppendLine(onlyStart);
     }
-        internal void List<Value>(IList<Value> files1, string deli = "\r\n", string whenNoEntries = "")
+
+    /// <summary>
+    /// Adds a list of items with custom delimiter.
+    /// </summary>
+    /// <typeparam name="Value">Type of the list items.</typeparam>
+    /// <param name="items">The list of items to output.</param>
+    /// <param name="delimiter">Delimiter between items (default: CRLF).</param>
+    /// <param name="whenNoEntries">Text to show when list is empty.</param>
+    internal void List<Value>(IList<Value> items, string delimiter = "\r\n", string whenNoEntries = "")
     {
-        if (files1.Count == 0)
+        if (items.Count == 0)
         {
             stringBuilder.AppendLine(whenNoEntries);
         }
         else
         {
-            foreach (var item in files1)
+            foreach (var item in items)
             {
-                Append(item.ToString() + deli);
+                Append(item.ToString() + delimiter);
             }
-            //stringBuilder.AppendLine();
         }
     }
-        internal void List(IList<string> files1, string header)
-    {
-        List<string, string>(files1, header, new TextOutputGeneratorArgs { headerWrappedEmptyLines = true, insertCount = false });
-    }
+
     /// <summary>
-    /// Use DictionaryHelper.CategoryParser
+    /// Adds a list of strings with a header.
     /// </summary>
-    /// <typeparam name="Header"></typeparam>
-    /// <typeparam name="Value"></typeparam>
-    /// <param name="files1"></param>
-    /// <param name="header"></param>
-    /// <param name="a"></param>
-    internal void List<Header, Value>(IList<Value> files1, Header header, TextOutputGeneratorArgs a) where Header : IEnumerable<char>
+    /// <param name="items">The list of items to output.</param>
+    /// <param name="header">The header text.</param>
+    internal void List(IList<string> items, string header)
     {
-        if (a.insertCount)
-        {
-            //throw new Exception("later");
-            //header = (Header)((IList<char>)CA.JoinIList<char>(header, " (" + files1.Count() + ")"));
-        }
-        if (a.headerWrappedEmptyLines)
+        List<string, string>(items, header, new TextOutputGeneratorArgs { headerWrappedEmptyLines = true, insertCount = false });
+    }
+
+    /// <summary>
+    /// Adds a list with custom header type and formatting args.
+    /// Use DictionaryHelper.CategoryParser for dictionary parsing.
+    /// </summary>
+    /// <typeparam name="Header">Type of the header (must be IEnumerable&lt;char&gt;).</typeparam>
+    /// <typeparam name="Value">Type of the list items.</typeparam>
+    /// <param name="items">The list of items to output.</param>
+    /// <param name="header">The header text.</param>
+    /// <param name="args">Arguments for formatting the output.</param>
+    internal void List<Header, Value>(IList<Value> items, Header header, TextOutputGeneratorArgs args) where Header : IEnumerable<char>
+    {
+        if (args.headerWrappedEmptyLines)
         {
             stringBuilder.AppendLine();
         }
         stringBuilder.AppendLine(header + ":");
-        if (a.headerWrappedEmptyLines)
+        if (args.headerWrappedEmptyLines)
         {
             stringBuilder.AppendLine();
         }
-        List(files1, a.delimiter, a.whenNoEntries);
+        List(items, args.delimiter, args.whenNoEntries);
     }
     #endregion
     #region Paragraph
+    /// <summary>
+    /// Adds a paragraph from StringBuilder with a header.
+    /// </summary>
+    /// <param name="wrongNumberOfParts">The StringBuilder containing the paragraph text.</param>
+    /// <param name="header">The header text.</param>
     internal void Paragraph(StringBuilder wrongNumberOfParts, string header)
     {
         string text = wrongNumberOfParts.ToString().Trim();
         Paragraph(text, header);
     }
+
     /// <summary>
-    /// For ordinary text use Append*
+    /// Adds a paragraph with a header.
+    /// For ordinary text use Append methods instead.
     /// </summary>
-    /// <param name="text"></param>
-    /// <param name="header"></param>
+    /// <param name="text">The paragraph text.</param>
+    /// <param name="header">The header text.</param>
     internal void Paragraph(string text, string header)
     {
         if (text != string.Empty)
@@ -123,12 +163,16 @@ internal class TextOutputGenerator //: ITextOutputGenerator
     }
     #endregion
     #region Dictionary
-    internal void Dictionary(Dictionary<string, List<string>> ls)
+    /// <summary>
+    /// Adds a dictionary as categorized lists.
+    /// </summary>
+    /// <param name="dictionary">The dictionary with categories as keys and lists as values.</param>
+    internal void Dictionary(Dictionary<string, List<string>> dictionary)
     {
-        foreach (var item in ls)
+        foreach (var item in dictionary)
         {
             List(item.Value, item.Key);
         }
     }
-            #endregion
+    #endregion
 }

@@ -1,26 +1,76 @@
+// variables names: ok
 namespace SunamoDevCode.Values;
 
+/// <summary>
+/// Lists of C# keywords categorized by type.
+/// </summary>
 public class CsKeywordsList
 {
-    public static List<string> modifier = null;
-    public static List<string> accessModifier = null;
-    public static List<string> statement = null;
-    public static List<string> methodParameter = null;
-    public static List<string> _namespace = null;
-    public static List<string> _operator = null;
-    public static List<string> access = null;
-    public static List<string> literal = null;
-    public static List<string> type = null;
-    public static List<string> contextual = null;
-    public static List<string> query = null;
+    /// <summary>
+    /// Gets or sets modifier keywords (abstract, async, const, etc.).
+    /// </summary>
+    public static List<string> Modifier { get; set; } = null;
 
-    static bool initialized = false;
+    /// <summary>
+    /// Gets or sets access modifier keywords (public, private, internal, protected).
+    /// </summary>
+    public static List<string> AccessModifier { get; set; } = null;
 
+    /// <summary>
+    /// Gets or sets statement keywords (if, else, switch, for, etc.).
+    /// </summary>
+    public static List<string> Statement { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets method parameter keywords (params, ref, out).
+    /// </summary>
+    public static List<string> MethodParameter { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets namespace keywords (using, extern alias).
+    /// </summary>
+    public static List<string> Namespace { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets operator keywords (as, await, is, new, sizeof, typeof, etc.).
+    /// </summary>
+    public static List<string> Operator { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets access keywords (base, this).
+    /// </summary>
+    public static List<string> Access { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets literal keywords (null, false, true, value, void).
+    /// </summary>
+    public static List<string> Literal { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets type keywords (bool, byte, char, class, decimal, double, etc.).
+    /// </summary>
+    public static List<string> Type { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets contextual keywords (add, var, dynamic, global, set, value).
+    /// </summary>
+    public static List<string> Contextual { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets query keywords (from, where, select, group, etc.).
+    /// </summary>
+    public static List<string> Query { get; set; } = null;
+
+    private static bool initialized = false;
+
+    /// <summary>
+    /// Initializes all keyword lists.
+    /// </summary>
     public static void Init()
     {
         if (!initialized)
         {
-            modifier = SHGetLines.GetLines(@"abstract
+            Modifier = SHGetLines.GetLines(@"abstract
 async
 const
 event
@@ -35,12 +85,12 @@ unsafe
 virtual
 volatile");
 
-            accessModifier = SHGetLines.GetLines(@"public
+            AccessModifier = SHGetLines.GetLines(@"public
 private
 internal
 protected");
 
-            statement = SHGetLines.GetLines(@"if
+            Statement = SHGetLines.GetLines(@"if
 else
 switch
 case
@@ -64,16 +114,14 @@ unchecked
 fixed
 lock");
 
-            methodParameter = SHGetLines.GetLines(@"params
+            MethodParameter = SHGetLines.GetLines(@"params
 ref
 out");
 
-            /*. operator
-:: operator*/
-            _namespace = SHGetLines.GetLines(@"using
+            Namespace = SHGetLines.GetLines(@"using
 extern alias");
 
-            _operator = SHGetLines.GetLines(@"as
+            Operator = SHGetLines.GetLines(@"as
 await
 is
 new
@@ -83,16 +131,16 @@ stackalloc
 checked
 unchecked");
 
-            access = SHGetLines.GetLines(@"base
+            Access = SHGetLines.GetLines(@"base
 this");
 
-            literal = SHGetLines.GetLines(@"null
+            Literal = SHGetLines.GetLines(@"null
 false
 true
 value
 void");
 
-            type = SHGetLines.GetLines(@"bool
+            Type = SHGetLines.GetLines(@"bool
 byte
 char
 class
@@ -110,14 +158,14 @@ uint
 ulong
 ushort");
 
-            contextual = SHGetLines.GetLines( @"add
+            Contextual = SHGetLines.GetLines(@"add
 var
 dynamic
 global
 set
 value");
 
-            query = SHGetLines.GetLines(@"from
+            Query = SHGetLines.GetLines(@"from
 where
 select
 group
@@ -131,7 +179,8 @@ equals
 by
 ascending
 descending");
+
+            initialized = true;
         }
     }
-
 }

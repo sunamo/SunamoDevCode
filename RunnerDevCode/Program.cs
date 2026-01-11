@@ -1,11 +1,11 @@
-// Instance variables refactored according to C# conventions
+// variables names: ok
 using SunamoDevCode.Tests.SunamoSolutionsIndexer;
 
 namespace RunnerDevCode;
 
 internal class Program
 {
-    const string pinp = @"E:\vs\Projects\PlatformIndependentNuGetPackages\";
+    const string pinpPath = @"E:\vs\Projects\PlatformIndependentNuGetPackages\";
 
     static void Main()
     {
@@ -50,7 +50,7 @@ internal class Program
         //t.RemoveCommentsKeepLinesTest();
         //await t.IsEmptyCommentedOrOnlyWithNamespaceTest();
 
-        //var directoryFiles = FSGetFilesDC.GetFilesDC(pinp, "XlfKeys.cs", SearchOption.AllDirectories, new GetFilesDCArgs { OnlyIn_Sunamo = true });
+        //var directoryFiles = FSGetFilesDC.GetFilesDC(pinpPath, "XlfKeys.cs", SearchOption.AllDirectories, new GetFilesDCArgs { OnlyIn_Sunamo = true });
 
         //foreach (var filePath in directoryFiles)
         //{

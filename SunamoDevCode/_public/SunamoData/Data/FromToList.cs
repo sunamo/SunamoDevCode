@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode._public.SunamoData.Data;
 
 public class FromToList

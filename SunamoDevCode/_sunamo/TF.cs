@@ -1,24 +1,48 @@
+// variables names: ok
 namespace SunamoDevCode._sunamo;
 
+/// <summary>
+/// Text file operations helper
+/// </summary>
 internal class TF
 {
-    internal static async Task<List<string>?> ReadAllLines(string fn)
+    /// <summary>
+    /// Reads all lines from a file asynchronously
+    /// </summary>
+    /// <param name="filePath">Path to the file</param>
+    /// <returns>List of lines from the file</returns>
+    internal static async Task<List<string>?> ReadAllLines(string filePath)
     {
-        return (await File.ReadAllLinesAsync(fn)).ToList();
+        return (await File.ReadAllLinesAsync(filePath)).ToList();
     }
 
-    internal static async Task<string?> ReadAllText(string f)
+    /// <summary>
+    /// Reads all text from a file asynchronously
+    /// </summary>
+    /// <param name="filePath">Path to the file</param>
+    /// <returns>File contents as string</returns>
+    internal static async Task<string?> ReadAllText(string filePath)
     {
-        return await File.ReadAllTextAsync(f);
+        return await File.ReadAllTextAsync(filePath);
     }
 
-    internal static async Task WriteAllLines(string item2, List<string> l)
+    /// <summary>
+    /// Writes all lines to a file asynchronously
+    /// </summary>
+    /// <param name="filePath">Path to the file</param>
+    /// <param name="lines">Lines to write</param>
+    internal static async Task WriteAllLines(string filePath, List<string> lines)
     {
-        await File.WriteAllLinesAsync(item2, l);
+        await File.WriteAllLinesAsync(filePath, lines);
     }
 
-    internal static async Task WriteAllText(string csProj, string c)
+    /// <summary>
+    /// Writes all text to a file asynchronously
+    /// </summary>
+    /// <param name="filePath">Path to the file</param>
+    /// <param name="content">Content to write</param>
+    internal static async Task WriteAllText(string filePath, string content)
     {
-        await File.WriteAllTextAsync(csProj, c);
+        await File.WriteAllTextAsync(filePath, content);
     }
 }

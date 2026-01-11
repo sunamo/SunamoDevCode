@@ -10,7 +10,7 @@ public enum ApsPlugins : byte
     /// 0
     /// </summary>
     Other,
-    /// <summiDeleteDuplicateSolutionsary>
+    /// <summary>
     /// 1
     /// </summary>
     Compare,

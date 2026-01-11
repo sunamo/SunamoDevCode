@@ -1,7 +1,6 @@
+// variables names: ok
 namespace SunamoDevCode;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 partial class GetCsprojs
 {
     /// <summary>

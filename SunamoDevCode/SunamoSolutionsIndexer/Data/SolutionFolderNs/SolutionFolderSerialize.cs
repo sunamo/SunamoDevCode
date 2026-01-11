@@ -1,86 +1,104 @@
 namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 
+/// <summary>
+/// Serializable solution folder data.
+/// </summary>
 public class SolutionFolderSerialize : IListBoxHelperItem, ISolutionFolderSerialize
 {
+    /// <summary>
+    /// Returns the displayed text for this solution folder.
+    /// </summary>
+    /// <returns>Displayed text.</returns>
     public override string ToString()
     {
-        return displayedText;
+        return DisplayedText;
     }
 
-    public static Type type = typeof(SolutionFolderSerialize);
-
-    string _displayedText = "";
-
     /// <summary>
-    /// Is assingned in FoldersWithSolutions
-    /// Zobrazovaný text v LB, například 2013/PHP Projects/PHPWebSite
+    /// Gets the type of SolutionFolderSerialize class.
     /// </summary>
-    public string displayedText
-    {
-        get => _displayedText;
-        set => _displayedText = value;
-    }
-    public string _fullPathFolder = "";
-    public string _nameSolution = "";
+    public static Type Type { get; } = typeof(SolutionFolderSerialize);
+
+    private string _DisplayedText = "";
+
     /// <summary>
-    /// Defaultly null
-    /// Is filled up in SolutionsIndexerHelper.GetProjectFolderAndSlnPath
+    /// Gets or sets the displayed text in listbox, e.g., 2013/PHP Projects/PHPWebSite.
+    /// Is assigned in FoldersWithSolutions.
+    /// </summary>
+    public string DisplayedText
+    {
+        get => _DisplayedText;
+        set => _DisplayedText = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the full path to folder (internal backing field).
+    /// </summary>
+    public string _FullPathFolder = "";
+
+    /// <summary>
+    /// Gets or sets the solution name (internal backing field).
+    /// </summary>
+    public string _NameSolution = "";
+
+    /// <summary>
+    /// Gets or sets the project folder.
+    /// Defaultly null.
+    /// Is filled up in SolutionsIndexerHelper.GetProjectFolderAndSlnPath.
     /// Scripts_Projects and so.
     /// </summary>
-    public string projectFolder;
+    public string projectFolder { get; set; }
+
     /// <summary>
-    /// Is not full path to sln folder, for these reason it's here _fullPathFolder.
-    /// Is filled up in AllProjectsSearchHelper.GetProjectFolderAndSlnPath
-    /// _Uap/apps
-    /// relative path to solution folder from Project folder
+    /// Gets or sets the solution full path.
+    /// Is not full path to sln folder, for this reason there's _FullPathFolder.
+    /// Is filled up in AllProjectsSearchHelper.GetProjectFolderAndSlnPath.
+    /// _Uap/apps - relative path to solution folder from Project folder.
     /// </summary>
-    public string slnFullPath;
+    public string slnFullPath { get; set; }
+
     /// <summary>
-    /// C:\Documents\vs\sunamo\
-    /// Jedná se o cestu ke složce, proto musí mít na konci backslash, tak jako proměnné složek ve všech mých aplikacích. 
-    /// Proto všude dej veřejnou jen vlastnost která když proměnnou vrátí hodnotu bez backslash, vyhodí výjimku
-    /// Plná cesta k řešení, musí to být v samostatné proměnné a nemůže se to počítat z displayedText, protože existují speciální složky, které třeba mohou být v C:\Mona a ne dokumenty
+    /// Gets or sets the full path to folder (e.g., C:\Documents\vs\sunamo\).
+    /// Path to folder must have backslash at the end, like folder variables in all my applications.
+    /// Full path to solution, must be in separate variable and can't be computed from DisplayedText,
+    /// because there are special folders that may be in C:\Mona and not in documents.
     /// </summary>
-    public string fullPathFolder
+    public string FullPathFolder
     {
-        get
-        {
-            return _fullPathFolder;
-        }
+        get => _FullPathFolder;
         set
         {
-            //ThrowEx.CheckBackslashEnd(Exceptions.GetStackTrace(), value);
-            _fullPathFolder = value;
-            _nameSolution = Path.GetFileName(value.TrimEnd('\\'));
-            if (SolutionsIndexerSettings.ignorePartAfterUnderscore)
+            _FullPathFolder = value;
+            _NameSolution = Path.GetFileName(value.TrimEnd('\\'));
+            if (SolutionsIndexerSettings.IgnorePartAfterUnderscore)
             {
-                // Inlined from SHParts.RemoveAfterLast - odstraňuje vše za posledním výskytem znaku
-                int dex = _nameSolution.LastIndexOf('_');
-                if (dex != -1)
+                int lastUnderscoreIndex = _NameSolution.LastIndexOf('_');
+                if (lastUnderscoreIndex != -1)
                 {
-                    _nameSolution = _nameSolution.Substring(0, dex);
+                    _NameSolution = _NameSolution.Substring(0, lastUnderscoreIndex);
                 }
             }
         }
     }
+
     /// <summary>
-    /// Konečný název řešení, například PHPWebSite
-    /// If contains hiearchy (as _Uap, won't be included)
+    /// Gets the final solution name, e.g., PHPWebSite.
+    /// If contains hierarchy (as _Uap, won't be included).
     /// </summary>
-    public string nameSolution
-    {
-        get
-        {
-            return _nameSolution;
-        }
-    }
-    public string RunOne
-    {
-        get
-        {
-            return fullPathFolder;
-        }
-    }
-    public string ShortName => _nameSolution;
-    public string LongName => _fullPathFolder;
+    public string NameSolution => _NameSolution;
+
+    /// <summary>
+    /// Gets the full path to folder for RunOne operation.
+    /// </summary>
+    public string RunOne => FullPathFolder;
+
+    /// <summary>
+    /// Gets the short name (solution name).
+    /// </summary>
+    public string ShortName => _NameSolution;
+
+    /// <summary>
+    /// Gets the long name (full path to folder).
+    /// </summary>
+    public string LongName => _FullPathFolder;
 }

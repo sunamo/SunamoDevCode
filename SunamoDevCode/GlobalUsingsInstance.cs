@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public class GlobalUsingsInstance
@@ -14,9 +15,9 @@ public class GlobalUsingsInstance
         r = GlobalUsingsHelper.Parse(list.ToList());
     }
 
-    public void AddNewGlobalUsing(string usng)
+    public void AddNewGlobalUsing(string _using)
     {
-        if (!r.GlobalUsings.Contains(usng)) r.GlobalUsings.Add(usng);
+        if (!r.GlobalUsings.Contains(_using)) r.GlobalUsings.Add(_using);
     }
 
     /// <summary>

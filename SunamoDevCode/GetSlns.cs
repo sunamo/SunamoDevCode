@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 using System.Collections.Generic;
@@ -12,12 +13,12 @@ public class GetSlns
         FoldersWithSolutions d = new FoldersWithSolutions(logger, parameter, null, false);
         d.Reload(logger, parameter, null);
 
-        List<SolutionFolder> solutionFolders = d.Solutions(SunamoDevCode.Enums.RepositoryLocal.Vs17);
+        List<SolutionFolder> solutionFolders = d.GetSolutions(SunamoDevCode.Enums.RepositoryLocal.Vs17);
         if (onlyCs)
         {
-            solutionFolders = solutionFolders.Where(d => d.typeProjectFolder == ProjectsTypes.Cs).ToList();
+            solutionFolders = solutionFolders.Where(d => d.TypeProjectFolder == ProjectsTypes.Cs).ToList();
         }
 
-        return solutionFolders.Select(d => d.fullPathFolder).ToList();
+        return solutionFolders.Select(d => d.FullPathFolder).ToList();
     }
 }

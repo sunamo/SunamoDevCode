@@ -1,33 +1,55 @@
 namespace SunamoDevCode._sunamo.SunamoStringTrim;
 
+/// <summary>
+/// Helper class for string trimming operations.
+/// </summary>
 internal class SHTrim
 {
-    internal static string Trim(string s, string args)
+    /// <summary>
+    /// Trims a specific value from both start and end of the text.
+    /// </summary>
+    /// <param name="text">The text to trim.</param>
+    /// <param name="valueToTrim">The value to remove from both ends.</param>
+    /// <returns>The trimmed text.</returns>
+    internal static string Trim(string text, string valueToTrim)
     {
-        s = TrimStart(s, args);
-        s = TrimEnd(s, args);
+        text = TrimStart(text, valueToTrim);
+        text = TrimEnd(text, valueToTrim);
 
-        return s;
-    }
-    // Metoda TrimLeadingNumbersAtStart byla odstraněna - inlined v ConstsManager.cs:110
-
-    internal static string TrimEnd(string name, string ext)
-    {
-        while (name.EndsWith(ext)) return name.Substring(0, name.Length - ext.Length);
-
-        return name;
+        return text;
     }
 
-    // Metoda TrimStartAndEnd byla odstraněna - inlined v XmlLocalisationInterchangeFileFormat2.cs:691
+    // EN: Method TrimLeadingNumbersAtStart was removed - inlined in ConstsManager.cs:110
 
-    internal static string TrimStart(string v, string s)
+    /// <summary>
+    /// Trims a specific suffix from the end of the text repeatedly until it doesn't end with it.
+    /// </summary>
+    /// <param name="text">The text to trim.</param>
+    /// <param name="suffix">The suffix to remove from the end.</param>
+    /// <returns>The trimmed text.</returns>
+    internal static string TrimEnd(string text, string suffix)
     {
-        while (v.StartsWith(s))
+        while (text.EndsWith(suffix)) return text.Substring(0, text.Length - suffix.Length);
+
+        return text;
+    }
+
+    // EN: Method TrimStartAndEnd was removed - inlined in XmlLocalisationInterchangeFileFormat2.cs:691
+
+    /// <summary>
+    /// Trims a specific prefix from the start of the text repeatedly until it doesn't start with it.
+    /// </summary>
+    /// <param name="text">The text to trim.</param>
+    /// <param name="prefix">The prefix to remove from the start.</param>
+    /// <returns>The trimmed text.</returns>
+    internal static string TrimStart(string text, string prefix)
+    {
+        while (text.StartsWith(prefix))
         {
-            v = v.Substring(s.Length);
+            text = text.Substring(prefix.Length);
         }
 
-        return v;
+        return text;
     }
 
 }

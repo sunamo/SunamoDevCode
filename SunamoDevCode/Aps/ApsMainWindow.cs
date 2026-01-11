@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps;
 
 /// <summary>
@@ -31,7 +32,7 @@ public class ApsMainWindow : IMainWindowCsFileFilter, IAbstractCatalog<string, s
     /// EN: Gets folders with solutions list
     /// CZ: Získá seznam složek se solutions
     /// </summary>
-    public FoldersWithSolutionsList fwss => FoldersWithSolutions.fwss;
+    public FoldersWithSolutionsList Fwss => FoldersWithSolutions.Fwss;
     #endregion
 
     /// <summary>
@@ -58,7 +59,7 @@ public class ApsMainWindow : IMainWindowCsFileFilter, IAbstractCatalog<string, s
     /// EN: Gets or sets whether running in command line mode
     /// CZ: Získá nebo nastaví zda běží v režimu příkazové řádky
     /// </summary>
-    public bool cmd { get { return MainWindowAps == null ? true : MainWindowAps.cmd; } set { if (MainWindowAps != null) MainWindowAps.cmd = value; } }
+    public bool cmd { get { return MainWindowAps == null ? true : MainWindowAps.Cmd; } set { if (MainWindowAps != null) MainWindowAps.Cmd = value; } }
 
     #region ICsFileFilter
     /// <summary>
@@ -71,6 +72,6 @@ public class ApsMainWindow : IMainWindowCsFileFilter, IAbstractCatalog<string, s
     /// EN: Gets or sets the C# file filter
     /// CZ: Získá nebo nastaví filtr C# souborů
     /// </summary>
-    public CsFileFilter csFileFilter { get => CsFileFilterInstance; set => CsFileFilterInstance = value; }
+    public CsFileFilter CsFileFilter { get => CsFileFilterInstance; set => CsFileFilterInstance = value; }
     #endregion
 }

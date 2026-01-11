@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps;
 
 /// <summary>
@@ -27,13 +28,13 @@ public partial class ApsHelper : ApsPluginStatic
     {
         List<string> webProjects = new List<string>();
         List<string> notWebProjects = new List<string>();
-        foreach (var item in FoldersWithSolutions.fwss)
+        foreach (var item in FoldersWithSolutions.Fwss)
         {
-            var solutions = item.Solutions(RepositoryLocal.Vs17);
+            var solutions = item.GetSolutions(RepositoryLocal.Vs17);
             foreach (var sln in solutions)
             {
                 SolutionFolder.GetCsprojs(logger, sln);
-                foreach (var projectPath in sln.projectsGetCsprojs)
+                foreach (var projectPath in sln.ProjectsGetCsprojs)
                 {
                     var finalProjectPath = withCsprojs ? projectPath : FS.GetDirectoryName(projectPath);
                     if (IsWeb(projectPath))
@@ -107,14 +108,14 @@ public partial class ApsHelper : ApsPluginStatic
 
             bool isCs = pushSolutionsData.cs.HasValue;
             bool cs = false;
-            foreach (var item in fwss)
+            foreach (var item in Fwss)
             {
                 // Its only push, no delete or change file so A2 can be true here
-                var slns = item.Solutions(usedRepository, true, skipTheseGit);
+                var slns = item.GetSolutions(UsedRepository, true, skipTheseGit);
                 foreach (var sln in slns)
                 {
 #if DEBUG
-                    //if (sln.nameSolution != "AllProjectsSearch.Cmd")
+                    //if (sln.NameSolution != "AllProjectsSearch.Cmd")
                     //{
                     //    continue;
                     //}
@@ -122,19 +123,19 @@ public partial class ApsHelper : ApsPluginStatic
                     if (isCs)
                     {
 #region MyRegion
-                    //cs = sln.fullPathFolder.Contains(@"\Projects\");
+                    //cs = sln.FullPathFolder.Contains(@"\Projects\");
                     //if (cs != pushSolutionsData.cs.Value)
                     //{
                     //    continue;
                     //}
                     //if (cs)
                     //{
-                    //    if (sln.fullPathFolder.Contains("_"))
+                    //    if (sln.FullPathFolder.Contains("_"))
                     //    {
                     //        continue;
                     //    }
                     //}
-                    //if (sln.nameSolution != "sunamo64")
+                    //if (sln.NameSolution != "sunamo64")
                     //{
                     //    continue;
                     //}
@@ -147,7 +148,7 @@ public partial class ApsHelper : ApsPluginStatic
                     push = true;
                     if (pushSolutionsData.onlyThese != null)
                     {
-                        if (!pushSolutionsData.onlyThese.Contains(sln.nameSolution))
+                        if (!pushSolutionsData.onlyThese.Contains(sln.NameSolution))
                         {
                             push = false;
                         }
@@ -160,7 +161,7 @@ public partial class ApsHelper : ApsPluginStatic
                     else
                     {
 #if DEBUG
-                        //DebugLogger.Instance.WriteLine("Dont push: " + sln.nameSolution);
+                        //DebugLogger.Instance.WriteLine("Dont push: " + sln.NameSolution);
 #endif
                     }
                 }
@@ -168,13 +169,13 @@ public partial class ApsHelper : ApsPluginStatic
 
             AsyncPushSolutions al = new AsyncPushSolutions
             {
-                foldersWithSolutions = foldersWithSolutions,
-                release = release,
-                gitBashBuilder = gitBashBuilder,
-                pushArgs = pushArgs,
-                commitMessage = commitMessage,
-                pushSolutionsData = pushSolutionsData,
-                gitStatus = gitStatus
+                FoldersWithSolutions = foldersWithSolutions,
+                Release = release,
+                GitBashBuilder = gitBashBuilder,
+                PushArgs = pushArgs,
+                CommitMessage = commitMessage,
+                PushSolutionsData = pushSolutionsData,
+                GitStatus = gitStatus
             };
             if (cmd)
             {

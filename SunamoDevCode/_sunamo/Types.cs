@@ -1,37 +1,41 @@
+// variables names: ok
 namespace SunamoDevCode._sunamo;
 
+/// <summary>
+/// Type constants for common .NET types
+/// </summary>
 internal class Types
 {
-    internal static readonly Type tObject = typeof(object);
-    internal static readonly Type tStringBuilder = typeof(StringBuilder);
-    internal static readonly Type tIEnumerable = typeof(IEnumerable);
-    internal static readonly Type tString = typeof(string);
-    internal static readonly Type tFloat = typeof(float);
-    internal static readonly Type tDouble = typeof(double);
-    internal static readonly Type tInt = typeof(int);
-    internal static readonly Type tLong = typeof(long);
-    internal static readonly Type tShort = typeof(short);
-    internal static readonly Type tDecimal = typeof(decimal);
-    internal static readonly Type tSbyte = typeof(sbyte);
-    internal static readonly Type tByte = typeof(byte);
-    internal static readonly Type tUshort = typeof(ushort);
-    internal static readonly Type tUint = typeof(uint);
-    internal static readonly Type tUlong = typeof(ulong);
-    internal static readonly Type tDateTime = typeof(DateTime);
-    internal static readonly Type tBinary = typeof(byte[]);
-    internal static readonly Type tChar = typeof(char);
-    internal static readonly List<Type> allBasicTypes = new()
+    internal static readonly Type ObjectType = typeof(object);
+    internal static readonly Type StringBuilderType = typeof(StringBuilder);
+    internal static readonly Type IEnumerableType = typeof(IEnumerable);
+    internal static readonly Type StringType = typeof(string);
+    internal static readonly Type FloatType = typeof(float);
+    internal static readonly Type DoubleType = typeof(double);
+    internal static readonly Type IntType = typeof(int);
+    internal static readonly Type LongType = typeof(long);
+    internal static readonly Type ShortType = typeof(short);
+    internal static readonly Type DecimalType = typeof(decimal);
+    internal static readonly Type SbyteType = typeof(sbyte);
+    internal static readonly Type ByteType = typeof(byte);
+    internal static readonly Type UshortType = typeof(ushort);
+    internal static readonly Type UintType = typeof(uint);
+    internal static readonly Type UlongType = typeof(ulong);
+    internal static readonly Type DateTimeType = typeof(DateTime);
+    internal static readonly Type BinaryType = typeof(byte[]);
+    internal static readonly Type CharType = typeof(char);
+    internal static readonly List<Type> AllBasicTypes = new()
 {
-tObject, tString, tStringBuilder, tInt, tDateTime,
-tDouble, tFloat, tChar, tBinary, tByte, tShort, tBinary, tLong, tDecimal, tSbyte, tUshort, tUint, tUlong
+ObjectType, StringType, StringBuilderType, IntType, DateTimeType,
+DoubleType, FloatType, CharType, BinaryType, ByteType, ShortType, BinaryType, LongType, DecimalType, SbyteType, UshortType, UintType, UlongType
 };
-    internal static readonly Type list = typeof(IList);
+    internal static readonly Type ListType = typeof(IList);
     #region Same seria as in DefaultValueForTypeT
-    internal static readonly Type tBool = typeof(bool);
+    internal static readonly Type BoolType = typeof(bool);
     #region Signed numbers
     #endregion
     #region Unsigned numbers
     #endregion
-    internal static readonly Type tGuid = typeof(Guid);
+    internal static readonly Type GuidType = typeof(Guid);
     #endregion
 }

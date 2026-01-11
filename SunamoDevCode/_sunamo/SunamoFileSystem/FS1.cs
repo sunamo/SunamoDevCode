@@ -96,28 +96,28 @@ internal partial class FS
     }
 
     internal static Func<string, bool, List<Process>> fileUtilWhoIsLocking = null;
-    internal static void CopyFile(string jsFiles, string v, bool terminateProcessIfIsInUsed = false)
+    internal static void CopyFile(string sourceFile, string destinationFile, bool isTerminatingProcessIfInUse = false)
     {
         try
         {
-            File.Copy(jsFiles, v, true);
+            File.Copy(sourceFile, destinationFile, true);
         }
         catch (Exception ex)
         {
-            if (ex.Message.Contains("because it is being used by another process") && terminateProcessIfIsInUsed)
+            if (ex.Message.Contains("because it is being used by another process") && isTerminatingProcessIfInUse)
             {
                 if (fileUtilWhoIsLocking != null)
                 {
-                    var pr = fileUtilWhoIsLocking(jsFiles, true);
-                    foreach (var item in pr)
+                    var processes = fileUtilWhoIsLocking(sourceFile, true);
+                    foreach (var item in processes)
                         item.Kill();
                 }
 
                 // Používá se i ve web, musel bych tam includovat spoustu metod
-                //PH.ShutdownProcessWhichOccupyFileHandleExe(jsFiles);
+                //PH.ShutdownProcessWhichOccupyFileHandleExe(sourceFile);
                 try
                 {
-                    File.Copy(jsFiles, v, true);
+                    File.Copy(sourceFile, destinationFile, true);
                 }
                 catch (Exception)
                 {
@@ -131,13 +131,13 @@ internal partial class FS
         }
     }
 
-    private static void MoveOrCopy(string parameter, string to, FileMoveCollisionOptionDC co, bool move, string item)
+    private static void MoveOrCopy(string sourceDirectory, string destinationDirectory, FileMoveCollisionOptionDC collisionOption, bool isMoving, string filePath)
     {
-        var fileTo = to + item.Substring(parameter.Length);
-        if (move)
-            MoveFile(item, fileTo, co);
+        var destinationFile = destinationDirectory + filePath.Substring(sourceDirectory.Length);
+        if (isMoving)
+            MoveFile(filePath, destinationFile, collisionOption);
         else
-            CopyFile(item, fileTo, co);
+            CopyFile(filePath, destinationFile, collisionOption);
     }
 
     internal static void CopyFile(string item, string fileTo2, FileMoveCollisionOptionDC co)
@@ -151,31 +151,31 @@ internal partial class FS
         }
     }
 
-    private static void CopyMoveAllFilesRecursively(ILogger logger, string parameter, string to, FileMoveCollisionOptionDC co, bool move, string mustContains, SearchOption so)
+    private static void CopyMoveAllFilesRecursively(ILogger logger, string sourceDirectory, string destinationDirectory, FileMoveCollisionOptionDC collisionOption, bool isMoving, string mustContain, SearchOption searchOption)
     {
-        var files = FSGetFiles.GetFiles(logger, parameter, "*", so);
-        if (!string.IsNullOrEmpty(mustContains))
+        var files = FSGetFiles.GetFiles(logger, sourceDirectory, "*", searchOption);
+        if (!string.IsNullOrEmpty(mustContain))
         {
             foreach (var item in files)
-                if (SH.IsContained(item, mustContains))
+                if (SH.IsContained(item, mustContain))
                 {
-                    MoveOrCopy(parameter, to, co, move, item);
+                    MoveOrCopy(sourceDirectory, destinationDirectory, collisionOption, isMoving, item);
                 }
         }
         else
         {
             foreach (var item in files)
-                MoveOrCopy(parameter, to, co, move, item);
+                MoveOrCopy(sourceDirectory, destinationDirectory, collisionOption, isMoving, item);
         }
     }
 
-    internal static void MoveAllRecursivelyAndThenDirectory(ILogger logger, string parameter, string to, FileMoveCollisionOptionDC co)
+    internal static void MoveAllRecursivelyAndThenDirectory(ILogger logger, string sourceDirectory, string destinationDirectory, FileMoveCollisionOptionDC collisionOption)
     {
-        CopyMoveAllFilesRecursively(logger, parameter, to, co, true, null, SearchOption.TopDirectoryOnly);
-        var dirs = Directory.GetDirectories(parameter, "*", SearchOption.AllDirectories);
-        for (var i = dirs.Length - 1; i >= 0; i--)
-            TryDeleteDirectory(dirs[i]);
-        TryDeleteDirectory(parameter);
+        CopyMoveAllFilesRecursively(logger, sourceDirectory, destinationDirectory, collisionOption, true, null, SearchOption.TopDirectoryOnly);
+        var directories = Directory.GetDirectories(sourceDirectory, "*", SearchOption.AllDirectories);
+        for (var i = directories.Length - 1; i >= 0; i--)
+            TryDeleteDirectory(directories[i]);
+        TryDeleteDirectory(sourceDirectory);
     }
 
     internal static Dictionary<string, List<string>> GetDictionaryByExtension(ILogger logger, string folder, string mask, SearchOption searchOption)
@@ -197,72 +197,70 @@ internal partial class FS
         return extDict;
     }
 
-    internal static string AddUpfoldersToRelativePath(int i2, string file, char delimiter)
+    internal static string AddUpfoldersToRelativePath(int levelsUp, string file, char delimiter)
     {
         var jumpUp = ".." + delimiter;
         var stringBuilder = new StringBuilder();
-        for (var i = 0; i < i2; i++)
+        for (var i = 0; i < levelsUp; i++)
             stringBuilder.Append(jumpUp);
         stringBuilder.Append(file);
         return stringBuilder.ToString();
     //return SHJoin.JoinTimes(i, jumpUp) + file;
     }
 
-    internal static string MascFromExtension(string ext2 = "*")
+    internal static string MascFromExtension(string extension = "*")
     {
-        if (char.IsLetterOrDigit(ext2[0]))
+        if (char.IsLetterOrDigit(extension[0]))
         {
             // For wildcard, dot (simply non letters) include .
-            ext2 = "." + ext2;
+            extension = "." + extension;
         }
 
-        if (!ext2.StartsWith("*"))
+        if (!extension.StartsWith("*"))
         {
-            ext2 = "*" + ext2;
+            extension = "*" + extension;
         }
 
-        if (!ext2.StartsWith("*.") && ext2.StartsWith("."))
+        if (!extension.StartsWith("*.") && extension.StartsWith("."))
         {
-            ext2 = "*." + ext2;
+            extension = "*." + extension;
         }
 
-        return ext2;
+        return extension;
     }
 
-    internal static void CreateUpfoldersPsysicallyUnlessThere(string nad)
+    internal static void CreateUpfoldersPsysicallyUnlessThere(string path)
     {
-        CreateFoldersPsysicallyUnlessThere(Path.GetDirectoryName(nad));
+        CreateFoldersPsysicallyUnlessThere(Path.GetDirectoryName(path));
     }
 
-    internal static void CreateFoldersPsysicallyUnlessThere(string nad)
+    internal static void CreateFoldersPsysicallyUnlessThere(string path)
     {
-        ThrowEx.IsNullOrEmpty("nad", nad);
-        //ThrowEx.IsNotWindowsPathFormat("nad", nad);
-        if (Directory.Exists(nad))
+        ThrowEx.IsNullOrEmpty(nameof(path), path);
+        //ThrowEx.IsNotWindowsPathFormat(nameof(path), path);
+        if (Directory.Exists(path))
         {
             return;
         }
 
-        List<string> slozkyKVytvoreni = new List<string>
+        List<string> foldersToCreate = new List<string>
         {
-            nad
+            path
         };
         while (true)
         {
-            nad = Path.GetDirectoryName(nad);
-            if (Directory.Exists(nad))
+            path = Path.GetDirectoryName(path);
+            if (Directory.Exists(path))
             {
                 break;
             }
 
-            string kopia = nad;
-            slozkyKVytvoreni.Add(kopia);
+            foldersToCreate.Add(path);
         }
 
-        slozkyKVytvoreni.Reverse();
-        foreach (string item in slozkyKVytvoreni)
+        foldersToCreate.Reverse();
+        foreach (string folder in foldersToCreate)
         {
-            string folder = item;
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);

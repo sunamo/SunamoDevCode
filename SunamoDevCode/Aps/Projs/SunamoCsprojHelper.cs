@@ -1,7 +1,6 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Projs;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public partial class SunamoCsprojHelper
 {
     /// <summary>
@@ -76,13 +75,13 @@ public partial class SunamoCsprojHelper
 
         return new IsProjectCsprojSdkStyleResult
         {
-            content = fileOrContent,
-            isProjectCsprojSdkStyleIsCore = 
+            Content = fileOrContent,
+            IsProjectCsprojSdkStyleIsCore =
 #if ASYNC
     await
 #endif
             IsProjectCsprojSdkStyleIsCore(fileOrContent, true),
-            isNetstandard = netstandard
+            IsNetstandard = netstandard
         };
     }
 
@@ -178,116 +177,138 @@ public partial class SunamoCsprojHelper
         return SupportedNetFw.BadXml;
     }
 
-    public static 
+    /// <summary>
+    /// Builds a list of project dependency tree paths for the given .csproj file.
+    /// </summary>
+    /// <param name="csprojPath">Path to the .csproj file to analyze.</param>
+    /// <param name="dictToAvoidCollectionWasChanged">Dictionary to avoid collection modification during iteration.</param>
+    /// <returns>List of project dependency paths.</returns>
+    public static
 #if ASYNC
         async Task<List<string>>
 #else
-    List<string> 
+    List<string>
 #endif
-    BuildProjectsDependencyTreeList(string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged)
+    BuildProjectsDependencyTreeList(string csprojPath, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged)
     {
-        XmlDocumentsCache.cantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull.Clear();
-        var result = 
+        XmlDocumentsCache.CantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull.Clear();
+        var result =
 #if ASYNC
             await
 #endif
-        BuildProjectsDependencyTree2(csproj, dictToAvoidCollectionWasChanged);
-        return result.c;
+        BuildProjectsDependencyTree2(csprojPath, dictToAvoidCollectionWasChanged);
+        return result.Collection;
     }
 
-    static 
+    /// <summary>
+    /// Builds a collection of project dependency tree paths for the given .csproj file.
+    /// </summary>
+    /// <param name="csprojPath">Path to the .csproj file to analyze.</param>
+    /// <param name="dictToAvoidCollectionWasChanged">Dictionary to avoid collection modification during iteration.</param>
+    /// <returns>Collection of unique project dependency paths.</returns>
+    static
 #if ASYNC
         async Task<CollectionWithoutDuplicatesDC<string>>
 #else
-    CollectionWithoutDuplicates<string> 
+    CollectionWithoutDuplicates<string>
 #endif
-    BuildProjectsDependencyTree2(string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
+    BuildProjectsDependencyTree2(string csprojPath, Dictionary<string, XmlDocument>? dictToAvoidCollectionWasChanged = null)
     {
-        CollectionWithoutDuplicatesDC<string> path = new CollectionWithoutDuplicatesDC<string>();
+        CollectionWithoutDuplicatesDC<string> paths = new CollectionWithoutDuplicatesDC<string>();
 #if ASYNC
         await
 #endif
-        BuildProjectsDependencyTree(path, csproj, dictToAvoidCollectionWasChanged);
-        return path;
+        BuildProjectsDependencyTree(paths, csprojPath, dictToAvoidCollectionWasChanged);
+        return paths;
     }
 
-    static 
+    /// <summary>
+    /// Recursively builds the project dependency tree.
+    /// </summary>
+    /// <param name="paths">Collection to store discovered project paths.</param>
+    /// <param name="csprojPath">Path to the .csproj file to analyze.</param>
+    /// <param name="dictToAvoidCollectionWasChanged">Dictionary to avoid collection modification during iteration.</param>
+    static
 #if ASYNC
         async Task
 #else
-    void 
+    void
 #endif
-    BuildProjectsDependencyTree(CollectionWithoutDuplicatesDC<string> path, string csproj, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged = null)
+    BuildProjectsDependencyTree(CollectionWithoutDuplicatesDC<string> paths, string csprojPath, Dictionary<string, XmlDocument>? dictToAvoidCollectionWasChanged = null)
     {
-        //E:\vs\Projects\PhotosSczClientCmd\PhotosSczClientCmd\PhotosSczClientCmd.csproj
-        if (Ignored.IsIgnored(csproj))
+        if (Ignored.IsIgnored(csprojPath))
         {
             return;
         }
 
-        // Tohle je nějaké jeblé. value této situaci mám už jen nepoškozené projekty.
-        // Třeba pro E:\vs\Projects\AllProjectsSearch.Cmd.CsprojPaths\AllProjectsSearch.Cmd.CsprojPaths\AllProjectsSearch.Cmd.CsprojPaths.csproj
-        // mi to vyhodilo chybu ale když jsem pustil znovu jen text tímto souborem, prošlo to
-        var result = 
+        // This is problematic - in this situation I have only undamaged projects.
+        // For example, for E:\vs\Projects\AllProjectsSearch.Cmd.CsprojPaths\AllProjectsSearch.Cmd.CsprojPaths\AllProjectsSearch.Cmd.CsprojPaths.csproj
+        // it threw an error, but when I ran it again with just this file, it passed
+        var result =
 #if ASYNC
             await
 #endif
-        VsProjectsFileHelper.GetProjectReferences(csproj, dictToAvoidCollectionWasChanged);
-        if (result.projs == null)
+        VsProjectsFileHelper.GetProjectReferences(csprojPath, dictToAvoidCollectionWasChanged);
+        if (result.Projects == null)
         {
-            // teď to laď krok za krokem
-            result = 
+            // debug step by step now
+            result =
 #if ASYNC
                 await
 #endif
-            VsProjectsFileHelper.GetProjectReferences(csproj, null);
-            if (result.projs == null)
+            VsProjectsFileHelper.GetProjectReferences(csprojPath, null);
+            if (result.Projects == null)
             {
-                result = 
+                result =
 #if ASYNC
                     await
 #endif
-                VsProjectsFileHelper.GetProjectReferences(csproj, dictToAvoidCollectionWasChanged);
+                VsProjectsFileHelper.GetProjectReferences(csprojPath, dictToAvoidCollectionWasChanged);
                 System.Diagnostics.Debugger.Break();
             }
             else
             {
-                XmlDocumentsCache.cantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull.Add(csproj);
+                XmlDocumentsCache.CantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull.Add(csprojPath);
             }
         }
 
-        // Nechápu jak je to možné ale pro někteér projekty na vps mi to vrací cesty jak existují na mb. proto musím kontrolovat na null
-        if (result.projs != null)
+        // I don't understand how this is possible, but for some projects on VPS it returns paths as they exist on my machine, so I must check for null
+        if (result.Projects != null)
         {
-            path.AddRange(result.projs);
-            foreach (var item in result.projs)
+            paths.AddRange(result.Projects);
+            foreach (var item in result.Projects)
             {
                 if (FS.ExistsFile(item))
                 {
-                    await BuildProjectsDependencyTree(path, item, dictToAvoidCollectionWasChanged);
+                    await BuildProjectsDependencyTree(paths, item, dictToAvoidCollectionWasChanged);
                 }
             }
         }
     }
 
-    public static 
+    /// <summary>
+    /// Adds missing projects to a solution.
+    /// </summary>
+    /// <param name="solutionFolder">The solution folder to add projects to.</param>
+    /// <param name="isAddingDependencies">Whether to also add project dependencies.</param>
+    public static
 #if ASYNC
         async Task
 #else
-    void 
+    void
 #endif
-    AddMissingProjects(SolutionFolder sln, bool addAlsoDepencies = false)
+    AddMissingProjects(SolutionFolder solutionFolder, bool isAddingDependencies = false)
     {
-        var text = ApsHelper.ci.MainSln(sln);
+        var text = ApsHelper.Instance.MainSln(solutionFolder);
         if (text == null)
         {
-            ThisApp.Error($"Sln with name {sln.nameSolution} doesn't have main sln");
+            ThisApp.Error($"Sln with name {solutionFolder.NameSolution} doesn't have main sln");
             return;
         }
 
 #if ASYNC
         await
 #endif
-        AddMissingProjectsAlsoString(text, addAlsoDepencies);
+        AddMissingProjectsAlsoString(text, isAddingDependencies);
     }
 }

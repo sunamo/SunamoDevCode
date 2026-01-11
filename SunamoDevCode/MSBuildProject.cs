@@ -1,1 +1,1 @@
-﻿
+// variables names: ok

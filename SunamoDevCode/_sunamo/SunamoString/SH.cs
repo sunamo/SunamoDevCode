@@ -106,10 +106,10 @@ internal class SH
         return result;
     }
 
-    internal static string WhiteSpaceFromStart(string v)
+    internal static string WhiteSpaceFromStart(string text)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        foreach (var item in v)
+        foreach (var item in text)
         {
             if (char.IsWhiteSpace(item))
             {
@@ -141,40 +141,40 @@ internal class SH
         return whitespaces + item;
     }
 
-    internal static string WrapWith(string value, string h)
+    internal static string WrapWith(string value, string wrapper)
     {
-        return h + value + h;
+        return wrapper + value + wrapper;
     }
 
     internal static string WrapWithQm(string value)
     {
-        var h = "\"";
-        return h + value + h;
+        var wrapper = "\"";
+        return wrapper + value + wrapper;
     }
 
     internal static string WrapWithBs(string value)
     {
-        var h = "\\";
-        return h + value + h;
+        var wrapper = "\\";
+        return wrapper + value + wrapper;
     }
 
     #region SH.FirstCharUpper
-    internal static string FirstCharUpper(ref string nazevPP)
+    internal static string FirstCharUpper(ref string text)
     {
-        nazevPP = FirstCharUpper(nazevPP);
-        return nazevPP;
+        text = FirstCharUpper(text);
+        return text;
     }
 
 
-    internal static string FirstCharUpper(string nazevPP)
+    internal static string FirstCharUpper(string text)
     {
-        if (nazevPP.Length == 1)
+        if (text.Length == 1)
         {
-            return nazevPP.ToUpper();
+            return text.ToUpper();
         }
 
-        string stringBuilder = nazevPP.Substring(1);
-        return nazevPP[0].ToString().ToUpper() + stringBuilder;
+        string rest = text.Substring(1);
+        return text[0].ToString().ToUpper() + rest;
     }
     #endregion
 
@@ -183,76 +183,76 @@ internal class SH
         return IsMatchRegex(name, mask, '?', '*');
     }
 
-    private static bool IsMatchRegex(string str, string pat, char singleWildcard, char multipleWildcard)
+    private static bool IsMatchRegex(string text, string pattern, char singleWildcard, char multipleWildcard)
     {
         // If I compared .vs with .vs, return false before
-        if (str == pat)
+        if (text == pattern)
         {
             return true;
         }
 
         string escapedSingle = Regex.Escape(new string(singleWildcard, 1));
         string escapedMultiple = Regex.Escape(new string(multipleWildcard, 1));
-        pat = Regex.Escape(pat);
-        pat = pat.Replace(escapedSingle, ".");
-        pat = "^" + pat.Replace(escapedMultiple, ".*") + "$";
-        Regex reg = new Regex(pat);
-        return reg.IsMatch(str);
+        pattern = Regex.Escape(pattern);
+        pattern = pattern.Replace(escapedSingle, ".");
+        pattern = "^" + pattern.Replace(escapedMultiple, ".*") + "$";
+        Regex regex = new Regex(pattern);
+        return regex.IsMatch(text);
     }
 
 
-    internal static (string, string) GetPartsByLocationNoOut(string text, char or)
+    internal static (string, string) GetPartsByLocationNoOut(string text, char delimiter)
     {
-        GetPartsByLocation(out var pred, out var za, text, or);
-        return (pred, za);
+        GetPartsByLocation(out var before, out var after, text, delimiter);
+        return (before, after);
     }
 
-    internal static void GetPartsByLocation(out string pred, out string za, string text, char or)
+    internal static void GetPartsByLocation(out string before, out string after, string text, char delimiter)
     {
-        int dex = text.IndexOf(or);
-        GetPartsByLocation(out pred, out za, text, dex);
+        int index = text.IndexOf(delimiter);
+        GetPartsByLocation(out before, out after, text, index);
     }
 
-    internal static void GetPartsByLocation(out string pred, out string za, string text, int pozice)
+    internal static void GetPartsByLocation(out string before, out string after, string text, int position)
     {
-        if (pozice == -1)
+        if (position == -1)
         {
-            pred = text;
-            za = "";
+            before = text;
+            after = "";
         }
         else
         {
-            pred = text.Substring(0, pozice);
-            if (text.Length > pozice + 1)
+            before = text.Substring(0, position);
+            if (text.Length > position + 1)
             {
-                za = text.Substring(pozice + 1);
+                after = text.Substring(position + 1);
             }
             else
             {
-                za = string.Empty;
+                after = string.Empty;
             }
         }
     }
 
-    internal static List<int> ReturnOccurencesOfString(string vcem, string co)
+    internal static List<int> ReturnOccurencesOfString(string text, string searchText)
     {
 
-        List<int> Results = new List<int>();
-        for (int Index = 0; Index < (vcem.Length - co.Length) + 1; Index++)
+        List<int> results = new List<int>();
+        for (int index = 0; index < (text.Length - searchText.Length) + 1; index++)
         {
-            var subs = vcem.Substring(Index, co.Length);
-            ////////DebugLogger.Instance.WriteLine(subs);
+            var substring = text.Substring(index, searchText.Length);
+            ////////DebugLogger.Instance.WriteLine(substring);
             // non-breaking space. &nbsp; code 160
             // 32 space
-            char ch = subs[0];
-            char ch2 = co[0];
-            if (subs == "")
+            char firstChar = substring[0];
+            char searchFirstChar = searchText[0];
+            if (substring == "")
             {
             }
-            if (subs == co)
-                Results.Add(Index);
+            if (substring == searchText)
+                results.Add(index);
         }
-        return Results;
+        return results;
     }
 
 

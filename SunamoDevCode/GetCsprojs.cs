@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 using Microsoft.Extensions.Logging;
@@ -16,7 +17,7 @@ public partial class GetCsprojs
     public static List<string> GetCsprojsAll(ILogger logger, bool __NotCore_Projects = false, bool __NotCoreWeb_Projects = false, bool __OnlyWindowsCore_Projects = false)
     {
         var slns = GetSlns.GetSolutions(logger);
-        //FoldersWithSolutions.fwss.Where(d => d.)
+        //FoldersWithSolutions.Fwss.Where(d => d.)
 
         if (!__NotCore_Projects)
         {

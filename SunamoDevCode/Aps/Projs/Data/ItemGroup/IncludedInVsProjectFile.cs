@@ -1,6 +1,13 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
 
+/// <summary>
+/// Represents items included in a Visual Studio project file.
+/// </summary>
 public class IncludedInVsProjectFile
 {
-    public List<CompileItemGroup> Compile = new List<CompileItemGroup>();
+    /// <summary>
+    /// Gets or sets the list of compile item groups.
+    /// </summary>
+    public List<CompileItemGroup> Compile { get; set; } = new List<CompileItemGroup>();
 }

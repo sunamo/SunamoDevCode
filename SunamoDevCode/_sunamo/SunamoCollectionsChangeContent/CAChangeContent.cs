@@ -1,116 +1,139 @@
 namespace SunamoDevCode._sunamo.SunamoCollectionsChangeContent;
 
+/// <summary>
+/// Collection content change helper
+/// </summary>
 internal class CAChangeContent
 {
-    private static void RemoveNullOrEmpty(ChangeContentArgsDC a, List<string> files_in)
+    /// <summary>
+    /// Removes null or empty values from list based on arguments
+    /// </summary>
+    /// <param name="args">Arguments specifying what to remove</param>
+    /// <param name="list">List to process</param>
+    private static void RemoveNullOrEmpty(ChangeContentArgsDC args, List<string> list)
     {
-        if (a != null)
+        if (args != null)
         {
-            if (a.RemoveNull)
+            if (args.RemoveNull)
             {
-                files_in.Remove(null);
+                list.Remove(null);
             }
-            if (a.RemoveEmpty)
+            if (args.RemoveEmpty)
             {
-                for (int i = files_in.Count - 1; i >= 0; i--)
+                for (int i = list.Count - 1; i >= 0; i--)
                 {
-                    if (files_in[i].Trim() == string.Empty)
+                    if (list[i].Trim() == string.Empty)
                     {
-                        files_in.RemoveAt(i);
+                        list.RemoveAt(i);
                     }
                 }
             }
         }
     }
+
     /// <summary>
-    /// Direct edit
-    /// If not every element fullfil pattern, is good to remove null (or values returned if cant be changed) from result
-    ///
-    /// Poslední číslo je počet parametrů jež se předávají do delegátu
+    /// Direct edit - Changes content of list using provided function with 0 additional parameters
+    /// If not every element fulfills pattern, it is good to remove null (or values returned if can't be changed) from result
     /// </summary>
-    /// <param name="files_in"></param>
-    /// <param name="func"></param>
-    internal static List<string> ChangeContent0(ChangeContentArgsDC a, List<string> files_in, Func<string, string> func)
+    /// <param name="args">Arguments for change operation</param>
+    /// <param name="list">List to process</param>
+    /// <param name="func">Function to apply to each element</param>
+    /// <returns>Modified list</returns>
+    internal static List<string> ChangeContent0(ChangeContentArgsDC args, List<string> list, Func<string, string> func)
     {
-        for (int i = 0; i < files_in.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            files_in[i] = func.Invoke(files_in[i]);
+            list[i] = func.Invoke(list[i]);
         }
-        RemoveNullOrEmpty(a, files_in);
-        return files_in;
+        RemoveNullOrEmpty(args, list);
+        return list;
     }
+
     /// <summary>
-    /// Direct edit
-    ///
-    /// Poslední číslo je počet parametrů jež se předávají do delegátu
+    /// Direct edit - Changes content of list using provided function with 1 additional parameter
     /// </summary>
-    /// <param name="a"></param>
-    /// <param name="files_in"></param>
-    /// <param name="func"></param>
-    /// <param name="a1"></param>
-    /// <returns></returns>
-    internal static List<string> ChangeContent1(ChangeContentArgsDC a, List<string> files_in, Func<string, string, string> func, string a1)
+    /// <param name="args">Arguments for change operation</param>
+    /// <param name="list">List to process</param>
+    /// <param name="func">Function to apply to each element</param>
+    /// <param name="argument1">First additional argument</param>
+    /// <returns>Modified list</returns>
+    internal static List<string> ChangeContent1(ChangeContentArgsDC args, List<string> list, Func<string, string, string> func, string argument1)
     {
-        var result = ChangeContent<string>(a, files_in, func, a1);
+        var result = ChangeContent<string>(args, list, func, argument1);
         return result;
     }
-            #region Vem obojí
-    internal static List<string> ChangeContentSwitch12<Arg1>(List<string> files_in, Func<Arg1, string, string> func, Arg1 arg)
+
+    #region Switch first and second argument
+    /// <summary>
+    /// Changes content with switched argument order
+    /// </summary>
+    /// <typeparam name="Arg1">Type of first argument</typeparam>
+    /// <param name="list">List to process</param>
+    /// <param name="func">Function with switched arguments</param>
+    /// <param name="argument">Argument to pass</param>
+    /// <returns>Modified list</returns>
+    internal static List<string> ChangeContentSwitch12<Arg1>(List<string> list, Func<Arg1, string, string> func, Arg1 argument)
     {
-        for (int i = 0; i < files_in.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            files_in[i] = func.Invoke(arg, files_in[i]);
+            list[i] = func.Invoke(argument, list[i]);
         }
-        return files_in;
+        return list;
     }
+
     /// <summary>
     /// Direct edit input collection
-    ///
-    /// Dříve to bylo List<string> files_in, Func<string,
+    /// Changes content of list using provided function with 1 additional parameter
     /// </summary>
-    /// <typeparam name="Arg1"></typeparam>
-    /// <param name="files_in"></param>
-    /// <param name="func"></param>
-    /// <param name="arg"></param>
-    internal static List<string> ChangeContent<Arg1>(ChangeContentArgsDC a, List<string> files_in, Func<string, Arg1, string> func, Arg1 arg, Func<Arg1, string, string> funcSwitch12 = null)
+    /// <typeparam name="Arg1">Type of first argument</typeparam>
+    /// <param name="args">Arguments for change operation</param>
+    /// <param name="list">List to process</param>
+    /// <param name="func">Function to apply to each element</param>
+    /// <param name="argument">Argument to pass to function</param>
+    /// <param name="funcSwitch12">Function with switched argument order (optional)</param>
+    /// <returns>Modified list</returns>
+    internal static List<string> ChangeContent<Arg1>(ChangeContentArgsDC args, List<string> list, Func<string, Arg1, string> func, Arg1 argument, Func<Arg1, string, string> funcSwitch12 = null)
     {
-        if (a == null)
+        if (args == null)
         {
-            a = new();
+            args = new();
         }
-        if (a.SwitchFirstAndSecondArg)
+        if (args.SwitchFirstAndSecondArg)
         {
-            files_in = ChangeContentSwitch12<Arg1>(files_in, funcSwitch12, arg);
+            list = ChangeContentSwitch12<Arg1>(list, funcSwitch12, argument);
         }
         else
         {
-            for (int i = 0; i < files_in.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                files_in[i] = func.Invoke(files_in[i], arg);
+                list[i] = func.Invoke(list[i], argument);
             }
         }
-        RemoveNullOrEmpty(a, files_in);
-        return files_in;
+        RemoveNullOrEmpty(args, list);
+        return list;
     }
     #endregion
+
     #region ChangeContent for easy copy
-            /// <summary>
-    /// Direct edit
+    /// <summary>
+    /// Direct edit - Changes content of list using provided function with 2 additional parameters
     /// </summary>
-    /// <typeparam name="Arg1"></typeparam>
-    /// <typeparam name="Arg2"></typeparam>
-    /// <param name="files_in"></param>
-    /// <param name="func"></param>
-    /// <param name="arg1"></param>
-    /// <param name="arg2"></param>
-    internal static List<string> ChangeContent<Arg1, Arg2>(ChangeContentArgsDC a, List<string> files_in, Func<string, Arg1, Arg2, string> func, Arg1 arg1, Arg2 arg2)
+    /// <typeparam name="Arg1">Type of first argument</typeparam>
+    /// <typeparam name="Arg2">Type of second argument</typeparam>
+    /// <param name="args">Arguments for change operation</param>
+    /// <param name="list">List to process</param>
+    /// <param name="func">Function to apply to each element</param>
+    /// <param name="argument1">First additional argument</param>
+    /// <param name="argument2">Second additional argument</param>
+    /// <returns>Modified list</returns>
+    internal static List<string> ChangeContent<Arg1, Arg2>(ChangeContentArgsDC args, List<string> list, Func<string, Arg1, Arg2, string> func, Arg1 argument1, Arg2 argument2)
     {
-        for (int i = 0; i < files_in.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            files_in[i] = func.Invoke(files_in[i], arg1, arg2);
+            list[i] = func.Invoke(list[i], argument1, argument2);
         }
-        RemoveNullOrEmpty(a, files_in);
-        return files_in;
+        RemoveNullOrEmpty(args, list);
+        return list;
     }
     #endregion
 }

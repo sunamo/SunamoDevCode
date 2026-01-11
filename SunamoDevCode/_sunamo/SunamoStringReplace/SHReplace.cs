@@ -1,40 +1,66 @@
 namespace SunamoDevCode._sunamo.SunamoStringReplace;
 
+/// <summary>
+/// Helper class for string replacement operations.
+/// </summary>
 internal class SHReplace
 {
-    internal static string ReplaceWithIndex(string n, string v, string empty, ref int dx)
+    /// <summary>
+    /// Replaces the first occurrence of a value in text and returns the index where it was found.
+    /// </summary>
+    /// <param name="text">The text to search and modify.</param>
+    /// <param name="searchValue">The value to search for.</param>
+    /// <param name="replacement">The replacement text.</param>
+    /// <param name="foundIndex">Output: Index where the value was found (-1 if not found or already set).</param>
+    /// <returns>The modified text.</returns>
+    internal static string ReplaceWithIndex(string text, string searchValue, string replacement, ref int foundIndex)
     {
-        if (dx == -1)
+        if (foundIndex == -1)
         {
-            dx = n.IndexOf(v);
-            if (dx != -1)
+            foundIndex = text.IndexOf(searchValue);
+            if (foundIndex != -1)
             {
-                n = n.Remove(dx, v.Length);
-                n = n.Insert(dx, empty);
+                text = text.Remove(foundIndex, searchValue.Length);
+                text = text.Insert(foundIndex, replacement);
             }
         }
 
-        return n;
+        return text;
     }
-    internal static string ReplaceAll(string vstup, string zaCo, params string[] co)
+
+    /// <summary>
+    /// Replaces all occurrences of multiple search values with a single replacement value.
+    /// </summary>
+    /// <param name="text">The text to modify.</param>
+    /// <param name="replacement">The replacement text.</param>
+    /// <param name="searchValues">The values to search for and replace.</param>
+    /// <returns>The modified text.</returns>
+    internal static string ReplaceAll(string text, string replacement, params string[] searchValues)
     {
-        foreach (var item in co)
+        foreach (var item in searchValues)
         {
             if (string.IsNullOrEmpty(item))
             {
-                return vstup;
+                return text;
             }
         }
 
-        foreach (var item in co)
+        foreach (var item in searchValues)
         {
-            vstup = vstup.Replace(item, zaCo);
+            text = text.Replace(item, replacement);
         }
-        return vstup;
+        return text;
     }
 
-    internal static string ReplaceOnce(string input, string what, string zaco)
+    /// <summary>
+    /// Replaces only the first occurrence of a pattern using regex.
+    /// </summary>
+    /// <param name="input">The input text.</param>
+    /// <param name="pattern">The regex pattern to search for.</param>
+    /// <param name="replacement">The replacement text.</param>
+    /// <returns>The modified text.</returns>
+    internal static string ReplaceOnce(string input, string pattern, string replacement)
     {
-        return new Regex(what).Replace(input, zaco, 1);
+        return new Regex(pattern).Replace(input, replacement, 1);
     }
 }

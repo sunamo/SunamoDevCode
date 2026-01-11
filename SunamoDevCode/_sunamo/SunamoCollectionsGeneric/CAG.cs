@@ -1,104 +1,127 @@
 namespace SunamoDevCode._sunamo.SunamoCollectionsGeneric;
 
+/// <summary>
+/// Collection Array Generic helper methods
+/// </summary>
 internal class CAG
 {
     /// <summary>
-    /// Return what exists in both
-    /// Modify both A1 and A2 - keep only which is only in one
+    /// Return what exists in both lists
+    /// Modify both firstList and secondList - keep only which is only in one
     /// </summary>
-    /// <param name="c1"></param>
-    /// <param name="c2"></param>
-    internal static List<T> CompareList<T>(List<T> c1, List<T> c2) where T : IEquatable<T>
+    /// <param name="firstList">First list to compare</param>
+    /// <param name="secondList">Second list to compare</param>
+    /// <returns>List of items that exist in both lists</returns>
+    internal static List<T> CompareList<T>(List<T> firstList, List<T> secondList) where T : IEquatable<T>
     {
         List<T> existsInBoth = new List<T>();
 
-        int dex = -1;
+        int foundIndex = -1;
 
-        for (int i = c2.Count - 1; i >= 0; i--)
+        for (int i = secondList.Count - 1; i >= 0; i--)
         {
-            T item = c2[i];
-            dex = c1.IndexOf(item);
+            T currentItem = secondList[i];
+            foundIndex = firstList.IndexOf(currentItem);
 
-            if (dex != -1)
+            if (foundIndex != -1)
             {
-                existsInBoth.Add(item);
-                c2.RemoveAt(i);
-                c1.RemoveAt(dex);
+                existsInBoth.Add(currentItem);
+                secondList.RemoveAt(i);
+                firstList.RemoveAt(foundIndex);
             }
         }
 
-        for (int i = c1.Count - 1; i >= 0; i--)
+        for (int i = firstList.Count - 1; i >= 0; i--)
         {
-            T item = c1[i];
-            dex = c2.IndexOf(item);
+            T currentItem = firstList[i];
+            foundIndex = secondList.IndexOf(currentItem);
 
-            if (dex != -1)
+            if (foundIndex != -1)
             {
-                existsInBoth.Add(item);
-                c1.RemoveAt(i);
-                c2.RemoveAt(dex);
+                existsInBoth.Add(currentItem);
+                firstList.RemoveAt(i);
+                secondList.RemoveAt(foundIndex);
             }
         }
 
         return existsInBoth;
     }
 
-    internal static List<T> GetDuplicities<T>(List<T> clipboardL)
+    /// <summary>
+    /// Gets duplicate items from list
+    /// </summary>
+    /// <typeparam name="T">Type of list elements</typeparam>
+    /// <param name="list">List to check for duplicates</param>
+    /// <returns>List of duplicate items</returns>
+    internal static List<T> GetDuplicities<T>(List<T> list)
     {
         List<T> alreadyProcessed;
-        return GetDuplicities<T>(clipboardL, out alreadyProcessed);
-    }
-
-    internal static List<T> GetDuplicities<T>(List<T> clipboardL, out List<T> alreadyProcessed)
-    {
-        alreadyProcessed = new List<T>(clipboardL.Count);
-        CollectionWithoutDuplicatesDC<T> duplicated = new CollectionWithoutDuplicatesDC<T>();
-        foreach (var item in clipboardL)
-        {
-            if (alreadyProcessed.Contains(item))
-            {
-                duplicated.Add(item);
-            }
-            else
-            {
-                alreadyProcessed.Add(item);
-            }
-        }
-        return duplicated.c;
+        return GetDuplicities<T>(list, out alreadyProcessed);
     }
 
     /// <summary>
-    /// direct edit
-    /// Remove duplicities from A1
-    /// In return value is from every one instance
-    /// In A2 is every duplicities (maybe the same more times)
+    /// Gets duplicate items from list with already processed items output
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="idKesek"></param>
-    /// <param name="foundedDuplicities"></param>
-    internal static List<T> RemoveDuplicitiesList<T>(IList<T> idKesek, out List<T> foundedDuplicities)
+    /// <typeparam name="T">Type of list elements</typeparam>
+    /// <param name="list">List to check for duplicates</param>
+    /// <param name="alreadyProcessed">Output list of already processed items</param>
+    /// <returns>List of duplicate items</returns>
+    internal static List<T> GetDuplicities<T>(List<T> list, out List<T> alreadyProcessed)
     {
-        foundedDuplicities = new List<T>();
-        List<T> h = new List<T>();
-        for (int i = idKesek.Count - 1; i >= 0; i--)
+        alreadyProcessed = new List<T>(list.Count);
+        CollectionWithoutDuplicatesDC<T> duplicated = new CollectionWithoutDuplicatesDC<T>();
+        foreach (var currentItem in list)
         {
-            var item = idKesek[i];
-            if (!h.Contains(item))
+            if (alreadyProcessed.Contains(currentItem))
             {
-                h.Add(item);
+                duplicated.Add(currentItem);
             }
             else
             {
-                idKesek.RemoveAt(i);
-                foundedDuplicities.Add(item);
+                alreadyProcessed.Add(currentItem);
+            }
+        }
+        return duplicated.Collection;
+    }
+
+    /// <summary>
+    /// Direct edit - Remove duplicities from list
+    /// In return value is from every one instance
+    /// In foundedDuplicities is every duplicities (maybe the same more times)
+    /// </summary>
+    /// <typeparam name="T">Type of list elements</typeparam>
+    /// <param name="list">List to remove duplicates from</param>
+    /// <param name="foundedDuplicities">Output list of found duplicates</param>
+    /// <returns>List of unique items</returns>
+    internal static List<T> RemoveDuplicitiesList<T>(IList<T> list, out List<T> foundedDuplicities)
+    {
+        foundedDuplicities = new List<T>();
+        List<T> uniqueItems = new List<T>();
+        for (int i = list.Count - 1; i >= 0; i--)
+        {
+            var currentItem = list[i];
+            if (!uniqueItems.Contains(currentItem))
+            {
+                uniqueItems.Add(currentItem);
+            }
+            else
+            {
+                list.RemoveAt(i);
+                foundedDuplicities.Add(currentItem);
             }
         }
 
-        return h;
+        return uniqueItems;
     }
 
-    internal static List<T> ToList<T>(params T[] old)
+    /// <summary>
+    /// Converts params array to List
+    /// </summary>
+    /// <typeparam name="T">Type of array elements</typeparam>
+    /// <param name="items">Items to convert to list</param>
+    /// <returns>List containing all items</returns>
+    internal static List<T> ToList<T>(params T[] items)
     {
-        return new List<T>(old);
+        return new List<T>(items);
     }
 }

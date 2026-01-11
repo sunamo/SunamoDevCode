@@ -1,177 +1,193 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+/// <summary>
+/// Represents a solution folder with projects and modules.
+/// </summary>
 public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
 {
-    public static Type type = typeof(SolutionFolder);
     /// <summary>
-    /// Return csproj full paths in subfolders of A1 (one depth)
-    /// Must use as A1 SolutionFolder, coz in CreateSolutionFolder is filled projects variable
-    ///
-    /// From every folder is taked all csproj => even only file name is shown is good keep also upfolder
-    ///
-    /// A2 whether return only names to csproj files without path
+    /// Gets the type of SolutionFolder class.
     /// </summary>
-    /// <param name = "sf"></param>
-    /// <param name = "onlyNames"></param>
-    public static void GetCsprojs(ILogger logger, SolutionFolder sf, GetCsprojsArgs a = null)
+    public new static Type Type { get; } = typeof(SolutionFolder);
+    /// <summary>
+    /// Returns csproj full paths in subfolders of solution folder (one depth).
+    /// Must use SolutionFolder, because in CreateSolutionFolder is filled projects variable.
+    /// From every folder all csproj files are taken.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="solutionFolder">Solution folder to process.</param>
+    /// <param name="args">Arguments for getting csproj files.</param>
+    public static void GetCsprojs(ILogger logger, SolutionFolder solutionFolder, GetCsprojsArgs args = null)
     {
-        if (a == null)
+        if (args == null)
         {
-            a = new GetCsprojsArgs();
+            args = new GetCsprojsArgs();
         }
 
-        // && sf.projectsGetCsprojs.Count == 0 - for better performance, when will have zero, its not VS sln
-        if (sf.projectsGetCsprojs == null || a.forceReload)
+        if (solutionFolder.ProjectsGetCsprojs == null || args.ForceReload)
         {
-#if DEBUG
-
-            if (sf.fullPathFolder.TrimEnd('\\') == @"\monoConsoleSqlClient")
-            {
-
-            }
-#endif
             List<string> csprojs = new List<string>();
-            var projectsFolder = SolutionsIndexerHelper.ProjectsInSolution(true, sf.fullPathFolder, false);
+            var projectsFolder = SolutionsIndexerHelper.ProjectsInSolution(true, solutionFolder.FullPathFolder, false);
             foreach (var projectFolder in projectsFolder)
             {
-                var files = FSGetFiles.GetFiles(logger, projectFolder, "*.csproj", SearchOption.TopDirectoryOnly, new GetFilesArgsDC { TrimA1AndLeadingBs = a.onlyNames });
+                var files = FSGetFiles.GetFiles(logger, projectFolder, "*.csproj", SearchOption.TopDirectoryOnly, new GetFilesArgsDC { TrimA1AndLeadingBs = args.OnlyNames });
                 foreach (var item in files)
                 {
                     csprojs.Add(item);
                 }
             }
 
-#if DEBUG
-            if (sf.fullPathFolder.TrimEnd('\\') == @"\monoConsoleSqlClient")
-            {
-
-            }
-#endif
-            sf.projectsGetCsprojs = new List<string>(csprojs);
-            sf.SourceOfProjects = SourceOfProjects.GetCsprojs;
+            solutionFolder.ProjectsGetCsprojs = new List<string>(csprojs);
+            solutionFolder.SourceOfProjects = SourceOfProjects.GetCsprojs;
         }
         else
         {
-            if (sf.projectsGetCsprojs == null)
+            if (solutionFolder.ProjectsGetCsprojs == null)
             {
-                sf.projectsGetCsprojs = new List<string>();
+                solutionFolder.ProjectsGetCsprojs = new List<string>();
             }
-        }
-    }
-
-    public SolutionFolder(SolutionFolderSerialize t)
-    {
-        displayedText = t.displayedText;
-        _fullPathFolder = t._fullPathFolder;
-        _nameSolution = t._nameSolution;
-        projectFolder = t.projectFolder;
-        slnFullPath = t.slnFullPath;
-        if (t.GetType() == type)
-        {
-            var t2 = (SolutionFolder)t;
-            slnNameWoExt = t2.slnNameWoExt;
         }
     }
 
     /// <summary>
-    /// C# Projects
-    /// PHP PHP_Projects etc.
+    /// Initializes a new instance of the <see cref="SolutionFolder"/> class from serialized data.
     /// </summary>
-    public ProjectsTypes typeProjectFolder { get; set; } = ProjectsTypes.None;
+    /// <param name="source">Source solution folder data.</param>
+    public SolutionFolder(SolutionFolderSerialize source)
+    {
+        DisplayedText = source.DisplayedText;
+        _FullPathFolder = source._FullPathFolder;
+        _NameSolution = source._NameSolution;
+        projectFolder = source.projectFolder;
+        slnFullPath = source.slnFullPath;
+        if (source.GetType() == Type)
+        {
+            var sourceSolutionFolder = (SolutionFolder)source;
+            SlnNameWithoutExtension = sourceSolutionFolder.SlnNameWithoutExtension;
+        }
+    }
 
+    /// <summary>
+    /// Gets or sets the type of project folder (C# Projects, PHP PHP_Projects, etc.).
+    /// </summary>
+    public ProjectsTypes TypeProjectFolder { get; set; } = ProjectsTypes.None;
+
+    /// <summary>
+    /// Updates modules in the solution.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="toSelling">PPK on drive for selling modules.</param>
     public void UpdateModules(ILogger logger, PpkOnDriveDC toSelling)
     {
         if (toSelling != null)
         {
-            modulesSelling = SolutionsIndexerHelper.ModulesInSolution(logger, projectsInSolution, fullPathFolder, true, toSelling);
-            modulesNotSelling = SolutionsIndexerHelper.ModulesInSolution(logger, projectsInSolution, fullPathFolder, false, toSelling);
+            ModulesSelling = SolutionsIndexerHelper.ModulesInSolution(logger, ProjectsInSolution, FullPathFolder, true, toSelling);
+            ModulesNotSelling = SolutionsIndexerHelper.ModulesInSolution(logger, ProjectsInSolution, FullPathFolder, false, toSelling);
         }
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SolutionFolder"/> class.
+    /// </summary>
     public SolutionFolder()
     {
     }
 
     /// <summary>
-    /// SolutionFolder.GetCsprojs. SolutionsIndexerHelper.ProjectsInSolution
+    /// Gets or sets the source of projects (SolutionFolder.GetCsprojs or SolutionsIndexerHelper.ProjectsInSolution).
     /// </summary>
-    public SourceOfProjects SourceOfProjects;
-    List<string> _projects = new List<string>();
-    /// <summary>
-    /// Only name without path
-    /// Is filled in ctor with CreateSolutionFolder()
-    /// Only subfolders. csproj files must be find out manually
-    /// Csproj are available to get with AP.GetCsprojs()
-    /// </summary>
-    public List<string> projectsInSolution { get => _projects; set => _projects = value; }
+    public SourceOfProjects SourceOfProjects { get; set; }
 
-    List<string> _projectsGetCsprojs = null;
+    private List<string> _projects = new List<string>();
+
     /// <summary>
-    /// SolutionFolder.GetCsprojs
-    ///
+    /// Gets or sets projects in solution.
+    /// Only name without path.
+    /// Is filled in constructor with CreateSolutionFolder().
+    /// Only subfolders. Csproj files must be found out manually.
+    /// Csproj are available to get with GetCsprojs().
     /// </summary>
-    public List<string> projectsGetCsprojs
+    public List<string> ProjectsInSolution { get => _projects; set => _projects = value; }
+
+    private List<string> _projectsGetCsprojs = null;
+
+    /// <summary>
+    /// Gets or sets projects from SolutionFolder.GetCsprojs method.
+    /// </summary>
+    public List<string> ProjectsGetCsprojs
     {
-        get
-        {
-            return _projectsGetCsprojs;
-        }
-
-        set
-        {
-            if (fullPathFolder.Contains("Mixed") && value.Count == 0)
-            {
-            }
-
-            _projectsGetCsprojs = value;
-        }
+        get => _projectsGetCsprojs;
+        set => _projectsGetCsprojs = value;
     }
 
     /// <summary>
-    /// In format solution name\project name\module name
+    /// Gets or sets modules for selling in format solution name\project name\module name.
     /// </summary>
-    public List<string> modulesSelling = new List<string>();
+    public List<string> ModulesSelling { get; set; } = new List<string>();
+
     /// <summary>
-    /// In format solution name\project name\module name
+    /// Gets or sets modules not for selling in format solution name\project name\module name.
     /// </summary>
-    public List<string> modulesNotSelling = new List<string>();
-    public string nameSolutionWithoutDiacritic = "";
+    public List<string> ModulesNotSelling { get; set; } = new List<string>();
+
     /// <summary>
-    ///
+    /// Gets or sets the solution name without diacritics.
     /// </summary>
-    public int countOfImages = 0;
-    public bool InVsFolder = false;
-    public RepositoryLocal repository;
-    public string slnNameWoExt = null;
+    public string NameSolutionWithoutDiacritic { get; set; } = "";
+
+    /// <summary>
+    /// Gets or sets the count of images in the solution.
+    /// </summary>
+    public int CountOfImages { get; set; } = 0;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the solution is in Visual Studio folder.
+    /// </summary>
+    public bool InVsFolder { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the repository location.
+    /// </summary>
+    public RepositoryLocal Repository { get; set; }
+
+    /// <summary>
+    /// Gets or sets the solution name without extension.
+    /// </summary>
+    public string SlnNameWithoutExtension { get; set; } = null;
+    /// <summary>
+    /// Returns the string representation of the solution folder.
+    /// </summary>
+    /// <returns>String representation including image count if present.</returns>
     public override string ToString()
     {
-        if (countOfImages != 0)
+        if (CountOfImages != 0)
         {
-            return displayedText + " (" + countOfImages.ToString() + " images)";
+            return DisplayedText + " (" + CountOfImages.ToString() + " images)";
         }
 
-        return displayedText;
+        return DisplayedText;
     }
 
-    public static bool operator>(SolutionFolder a, SolutionFolder b)
+    /// <summary>
+    /// Compares two solution folders by their image count.
+    /// </summary>
+    /// <param name="left">First solution folder.</param>
+    /// <param name="right">Second solution folder.</param>
+    /// <returns>True if left has more images than right.</returns>
+    public static bool operator>(SolutionFolder left, SolutionFolder right)
     {
-        if (a.countOfImages > b.countOfImages)
-        {
-            return true;
-        }
-
-        return false;
+        return left.CountOfImages > right.CountOfImages;
     }
 
-    public static bool operator <(SolutionFolder a, SolutionFolder b)
+    /// <summary>
+    /// Compares two solution folders by their image count.
+    /// </summary>
+    /// <param name="left">First solution folder.</param>
+    /// <param name="right">Second solution folder.</param>
+    /// <returns>True if left has fewer images than right.</returns>
+    public static bool operator <(SolutionFolder left, SolutionFolder right)
     {
-        if (a.countOfImages < b.countOfImages)
-        {
-            return true;
-        }
-
-        return false;
+        return left.CountOfImages < right.CountOfImages;
     }
 }

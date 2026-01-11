@@ -1,3 +1,4 @@
+// variables names: ok
 //using System;
 //using System.Collections.Generic;
 //using System.Linq;
@@ -11,7 +12,7 @@
 //    /// </summary>
 //    public Dictionary<string, List<string>> c = new Dictionary<string, List<string>>();
 
-//    public static ProjectsDependencyTreeCache ci = new ProjectsDependencyTreeCache();
+//    public static ProjectsDependencyTreeCache Instance = new ProjectsDependencyTreeCache();
 
 //    public ProjectsDependencyTreeCache()
 //    {

@@ -1,10 +1,11 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public abstract class PpkOnDriveDevCodeBase<T> : List<T>
 {
     #region DPP
 
-    protected PpkOnDriveDevCodeArgs a;
+    protected PpkOnDriveDevCodeArgs args;
 
     #endregion
 
@@ -27,12 +28,12 @@ void
 #if ASYNC
         await
 #endif
-            File.WriteAllTextAsync(a.file, string.Empty);
+            File.WriteAllTextAsync(args.File, string.Empty);
     }
 
-    public new async Task Remove(T t)
+    public new async Task Remove(T value)
     {
-        base.Remove(t);
+        base.Remove(value);
         await Save();
     }
 
@@ -50,32 +51,32 @@ void
 #endif
         Load();
 
-    public void AddWithoutSave(T t)
+    public void AddWithoutSave(T value)
     {
-        if (!Contains(t)) base.Add(t);
+        if (!Contains(value)) base.Add(value);
     }
 
-    public async Task Add(IList<T> prvek)
+    public async Task Add(IList<T> items)
     {
-        foreach (var item in prvek) await Add(item);
+        foreach (var item in items) await Add(item);
     }
 
-    public new async Task<bool> Add(T prvek)
+    public new async Task<bool> Add(T value)
     {
-        var builder = false;
-        if (!Contains(prvek))
+        var wasAdded = false;
+        if (!Contains(value))
         {
-            if (prvek.ToString().Trim() != string.Empty)
+            if (value.ToString().Trim() != string.Empty)
             {
-                base.Add(prvek);
-                builder = true;
+                base.Add(value);
+                wasAdded = true;
             }
             // keep on false
         }
 
         // keep on false
         await Save();
-        return builder;
+        return wasAdded;
     }
 
     private void Load(bool loadImmediately)
@@ -85,19 +86,19 @@ void
 
     public async Task Save()
     {
-        if (a.save)
+        if (args.Save)
         {
             isSaving = true;
             var removedOrNotExists = false;
-            //if (FS.ExistsFile(a.file))
+            //if (FS.ExistsFile(args.File))
             //{
-            //    removedOrNotExists = FS.TryDeleteFile(a.file);
+            //    removedOrNotExists = FS.TryDeleteFile(args.File);
             //}
             if (removedOrNotExists)
             {
-                string obsah;
-                obsah = ReturnContent();
-                await File.WriteAllTextAsync(a.file, obsah);
+                string content;
+                content = ReturnContent();
+                await File.WriteAllTextAsync(args.File, content);
             }
 
             isSaving = false;
@@ -106,11 +107,11 @@ void
 
     private string ReturnContent()
     {
-        string obsah;
+        string content;
         var stringBuilder = new StringBuilder();
-        foreach (var var in this) stringBuilder.AppendLine(var.ToString());
-        obsah = stringBuilder.ToString();
-        return obsah;
+        foreach (var item in this) stringBuilder.AppendLine(item.ToString());
+        content = stringBuilder.ToString();
+        return content;
     }
 
     public override string ToString()
@@ -120,16 +121,16 @@ void
 
     #region base
 
-    public PpkOnDriveDevCodeBase(PpkOnDriveDevCodeArgs a)
+    public PpkOnDriveDevCodeBase(PpkOnDriveDevCodeArgs args)
     {
-        this.a = a;
-        File.AppendAllText(a.file, "");
-        //FS.CreateFileIfDoesntExists(a.file);
-        Load(a.load);
-        if (a.loadChangesFromDrive)
+        this.args = args;
+        File.AppendAllText(args.File, "");
+        //FS.CreateFileIfDoesntExists(args.File);
+        Load(args.Load);
+        if (args.LoadChangesFromDrive)
         {
-            w = new FileSystemWatcher(Path.GetDirectoryName(a.file));
-            w.Filter = a.file;
+            w = new FileSystemWatcher(Path.GetDirectoryName(args.File));
+            w.Filter = args.File;
             w.Changed += W_Changed;
         }
     }

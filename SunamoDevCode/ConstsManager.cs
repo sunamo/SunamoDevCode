@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 /// <summary>
@@ -61,7 +62,7 @@ public class ConstsManager
 #endif
         GetConsts()
     {
-        var first = -1;
+        var firstLineIndex = -1;
 
         var lines = SHGetLines.GetLines(
 #if ASYNC
@@ -69,8 +70,8 @@ public class ConstsManager
 #endif
                 File.ReadAllTextAsync(PathXlfKeys)).ToList();
 
-        var keys = CSharpParser.ParseConsts(lines, out first);
-        return new OutRef3DC<List<string>, int, List<string>>(keys, first, lines);
+        var keys = CSharpParser.ParseConsts(lines, out firstLineIndex);
+        return new OutRef3DC<List<string>, int, List<string>>(keys, firstLineIndex, lines);
     }
 
     /// <summary>
@@ -97,7 +98,7 @@ public class ConstsManager
     {
         var generator = new CSharpGenerator();
 
-        var append = string.Empty;
+        var prefix = string.Empty;
 
         if (valuesAll == null)
         {
@@ -116,9 +117,9 @@ public class ConstsManager
 
             if (shouldIncludeInXlfKeys(key))
             {
-                append = string.Empty;
+                prefix = string.Empty;
 
-                if (char.IsDigit(key[0])) append = "_";
+                if (char.IsDigit(key[0])) prefix = "_";
 
                 // Inline from SHTrim.TrimLeadingNumbersAtStart - removes digits from start of string
                 var trimmedKey = key;
@@ -126,7 +127,7 @@ public class ConstsManager
                 {
                     trimmedKey = trimmedKey.Substring(1);
                 }
-                AddConst(generator, append + trimmedKey, constantValue);
+                AddConst(generator, prefix + trimmedKey, constantValue);
             }
         }
 

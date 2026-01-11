@@ -2,12 +2,12 @@ namespace SunamoDevCode._sunamo.SunamoResult;
 
 internal class MayExcHelper
 {
-    internal static bool MayExc(string exc)
+    internal static bool MayExc(string exception)
     {
-        if (exc != null)
+        if (exception != null)
         {
-            Console.WriteLine(exc);
-            //ThisApp.Error( result.exc);
+            Console.WriteLine(exception);
+            //ThisApp.Error( result.exception);
             return true;
         }
 

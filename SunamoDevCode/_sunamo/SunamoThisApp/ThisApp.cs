@@ -1,43 +1,89 @@
 namespace SunamoDevCode._sunamo.SunamoThisApp;
 
+/// <summary>
+/// Application-level status and messaging helper.
+/// </summary>
 internal class ThisApp
 {
+    /// <summary>
+    /// Name of the event log for this application.
+    /// </summary>
     internal static string EventLogName;
-    internal static string Name;
-    internal static bool check;
 
-    //internal static LangsShared l;
-    internal static void Success(string v, params string[] o)
+    /// <summary>
+    /// Name of the application.
+    /// </summary>
+    internal static string Name;
+
+    /// <summary>
+    /// Check flag for application state.
+    /// </summary>
+    internal static bool Check;
+
+    /// <summary>
+    /// Logs a success message.
+    /// </summary>
+    /// <param name="message">The message format string.</param>
+    /// <param name="args">Format arguments for the message.</param>
+    internal static void Success(string message, params string[] args)
     {
-        SetStatus(TypeOfMessageShared.Success, v, o);
+        SetStatus(TypeOfMessageShared.Success, message, args);
     }
-    internal static void Info(string v, params string[] o)
+
+    /// <summary>
+    /// Logs an informational message.
+    /// </summary>
+    /// <param name="message">The message format string.</param>
+    /// <param name="args">Format arguments for the message.</param>
+    internal static void Info(string message, params string[] args)
     {
-        SetStatus(TypeOfMessageShared.Information, v, o);
+        SetStatus(TypeOfMessageShared.Information, message, args);
     }
-    internal static void Error(string v, params string[] o)
+
+    /// <summary>
+    /// Logs an error message.
+    /// </summary>
+    /// <param name="message">The message format string.</param>
+    /// <param name="args">Format arguments for the message.</param>
+    internal static void Error(string message, params string[] args)
     {
-        SetStatus(TypeOfMessageShared.Error, v, o);
+        SetStatus(TypeOfMessageShared.Error, message, args);
     }
-    internal static void Appeal(string v, params string[] o)
+
+    /// <summary>
+    /// Logs an appeal message.
+    /// </summary>
+    /// <param name="message">The message format string.</param>
+    /// <param name="args">Format arguments for the message.</param>
+    internal static void Appeal(string message, params string[] args)
     {
-        SetStatus(TypeOfMessageShared.Appeal, v, o);
+        SetStatus(TypeOfMessageShared.Appeal, message, args);
     }
-    internal static void SetStatus(TypeOfMessageShared st, string status, params string[] args)
+
+    /// <summary>
+    /// Sets the application status with a formatted message.
+    /// </summary>
+    /// <param name="messageType">The type of message.</param>
+    /// <param name="status">The status message format string.</param>
+    /// <param name="args">Format arguments for the message.</param>
+    internal static void SetStatus(TypeOfMessageShared messageType, string status, params string[] args)
     {
-        var format = /*string.Format*/ string.Format(status, args);
-        if (format.Trim() != string.Empty)
+        var formattedMessage = string.Format(status, args);
+        if (formattedMessage.Trim() != string.Empty)
         {
             if (StatusSetted == null)
             {
-                // For unit tests
-                //////////DebugLogger.Instance.WriteLine(st + ": " + format);
+                // For unit tests - no handler attached
             }
             else
             {
-                StatusSetted(st, format);
+                StatusSetted(messageType, formattedMessage);
             }
         }
     }
+
+    /// <summary>
+    /// Event fired when a status message is set.
+    /// </summary>
     internal static event Action<TypeOfMessageShared, string> StatusSetted;
 }

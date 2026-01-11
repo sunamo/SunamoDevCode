@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive;
 
 internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
@@ -6,17 +7,17 @@ internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// whether duplicates should be removed on load and whether duplicate items should not even be saved
     /// </summary>
     protected bool removeDuplicates = false;
-    protected CollectionOnDriveArgs a = new();
+    protected CollectionOnDriveArgs args = new();
     private bool isSaving;
-    private FileSystemWatcher? w;
+    private FileSystemWatcher? watcher;
     internal async Task RemoveAll()
     {
         await ClearWithSave();
-        await File.WriteAllTextAsync(a.path, string.Empty);
+        await File.WriteAllTextAsync(args.path, string.Empty);
     }
-    internal async Task RemoveWithSave(T t)
+    internal async Task RemoveWithSave(T element)
     {
-        Remove(t);
+        Remove(element);
         await Save();
     }
     internal async Task ClearWithSave()
@@ -28,8 +29,8 @@ internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// <summary>
     /// Check whether T is already contained.
     /// </summary>
-    /// <param name="t"></param>
-    internal virtual void AddWithoutSave(T t)
+    /// <param name="element"></param>
+    internal virtual void AddWithoutSave(T element)
     {
         if (logger == NullLogger.Instance)
         {
@@ -37,14 +38,14 @@ internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
         }
         if (removeDuplicates)
         {
-            if (!Contains(t))
+            if (!Contains(element))
             {
-                Add(t);
+                Add(element);
             }
         }
         else
         {
-            Add(t);
+            Add(element);
         }
     }
     /// <summary>
@@ -68,8 +69,8 @@ internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
         {
             if (!Contains(element))
             {
-                var ts = element.ToString() ?? throw new Exception($"ToString of type ${element} cannot return null");
-                if (ts.Trim() != string.Empty)
+                var stringValue = element.ToString() ?? throw new Exception($"ToString of type ${element} cannot return null");
+                if (stringValue.Trim() != string.Empty)
                 {
                     Add(element);
                     wasChanged = true;
@@ -90,7 +91,7 @@ internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     internal async Task Save()
     {
         isSaving = true;
-        await File.WriteAllTextAsync(a.path, SHJoin.JoinNL(this));
+        await File.WriteAllTextAsync(args.path, SHJoin.JoinNL(this));
         isSaving = false;
     }
     public override string ToString()
@@ -101,25 +102,25 @@ internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// <summary>
     /// optional call only if you want to set by CollectionOnDriveArgs. Calling Load() for already existing records is important.
     /// </summary>
-    /// <param name="a"></param>
-    internal void Init(CollectionOnDriveArgs a)
+    /// <param name="arguments"></param>
+    internal void Init(CollectionOnDriveArgs arguments)
     {
-        this.a = a;
-        if (a.loadChangesFromDrive)
+        this.args = arguments;
+        if (arguments.loadChangesFromDrive)
         {
-            var up = Path.GetDirectoryName(a.path);
-            if (up is null)
+            var parentDirectory = Path.GetDirectoryName(arguments.path);
+            if (parentDirectory is null)
             {
                 logger.LogWarning("FileSystemWatcher cannot be registered because null value");
                 return;
             }
             else
             {
-                w = new FileSystemWatcher
+                watcher = new FileSystemWatcher
                 {
-                    Path = a.path
+                    Path = arguments.path
                 };
-                w.Changed += W_Changed;
+                watcher.Changed += W_Changed;
             }
         }
     }

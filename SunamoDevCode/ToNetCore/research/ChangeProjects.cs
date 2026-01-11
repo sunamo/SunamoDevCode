@@ -26,7 +26,7 @@ public class ChangeProjects
     }
     //public static void ChangeProjectsTo(ILogger logger, string to2, bool web)
     //{
-    //    var text = MoveToNet5.ci.WebAndNonWebProjects(logger, true);
+    //    var text = MoveToNet5.Instance.WebAndNonWebProjects(logger, true);
     //    ChangeProjectsTo( to2, web);
     //}
     public static IsNetCore5UpMonikerResult IsNetCore5UpMoniker(string moniker)
@@ -43,7 +43,7 @@ public class ChangeProjects
         {
             // Inlined from SHSubstring.SubstringIfAvailableStart - vytváří substring pokud je dostupný
             var platformTfm = moniker.Length > 6 ? moniker.Substring(6) : moniker;
-            return new IsNetCore5UpMonikerResult { targetFramework = moniker.Substring(0, 6), platformTfm = platformTfm };
+            return new IsNetCore5UpMonikerResult { TargetFramework = moniker.Substring(0, 6), PlatformTfm = platformTfm };
         }
         return null;
     }
@@ -111,7 +111,7 @@ public class ChangeProjects
         }
         var parsedMonikerFrom = IsNetCore5UpMoniker(tf);
         // už nechci, nestačí aby byly stejné targetFramework, musí být stejné i TFM. Vše na mém kompu bude -windows
-        //if (parsedMonikerFrom?.targetFramework == parsedMonikerTo?.targetFramework)
+        //if (parsedMonikerFrom?.TargetFramework == parsedMonikerTo?.TargetFramework)
         //{
         //    return;
         //}
@@ -128,12 +128,12 @@ public class ChangeProjects
             else
             {
                 IsNetCore5UpMonikerResult monikerTo = null;
-                if (parsedMonikerFrom.platformTfm != "")
+                if (parsedMonikerFrom.PlatformTfm != "")
                 {
                     monikerTo = new IsNetCore5UpMonikerResult()
                     {
-                        targetFramework = parsedMonikerTo.targetFramework,
-                        platformTfm = parsedMonikerFrom.platformTfm
+                        TargetFramework = parsedMonikerTo.TargetFramework,
+                        PlatformTfm = parsedMonikerFrom.PlatformTfm
                     };
                 }
                 else

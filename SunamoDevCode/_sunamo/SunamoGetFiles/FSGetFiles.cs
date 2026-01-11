@@ -2,11 +2,11 @@ namespace SunamoDevCode._sunamo.SunamoGetFiles;
 
 internal class FSGetFiles
 {
-    internal static List<string> GetFilesEveryFolder(ILogger logger, string fi, string v, SearchOption topDirectoryOnly)
+    internal static List<string> GetFilesEveryFolder(ILogger logger, string folder, string mask, SearchOption searchOption)
     {
         try
         {
-            return Directory.GetFiles(fi, v, topDirectoryOnly).ToList();
+            return Directory.GetFiles(folder, mask, searchOption).ToList();
         }
         catch (Exception ex)
         {
@@ -15,13 +15,13 @@ internal class FSGetFiles
         }
     }
 
-    internal static List<string> GetFiles(ILogger logger, string folder2, string mask, bool b, GetFilesArgsDC getFilesArgs = null)
+    internal static List<string> GetFiles(ILogger logger, string folder, string mask, bool isRecursive, GetFilesArgsDC getFilesArgs = null)
     {
-        return GetFiles(logger, folder2, mask, b ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, getFilesArgs);
+        return GetFiles(logger, folder, mask, isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, getFilesArgs);
     }
 
 #pragma warning disable
-    internal static List<string> GetFiles(ILogger logger, string folder2, string mask, SearchOption searchOption, GetFilesArgsDC getFilesArgs = null)
+    internal static List<string> GetFiles(ILogger logger, string folder, string mask, SearchOption searchOption, GetFilesArgsDC getFilesArgs = null)
 #pragma warning restore
     {
         if (getFilesArgs != null)
@@ -29,13 +29,13 @@ internal class FSGetFiles
             ThrowEx.Custom("getFilesArgs is not null");
         }
 
-        return Directory.GetFiles(folder2, mask, searchOption).ToList();
+        return Directory.GetFiles(folder, mask, searchOption).ToList();
     }
 
 #pragma warning disable
-    internal static List<string> GetFiles(ILogger logger, string p, bool v)
+    internal static List<string> GetFiles(ILogger logger, string folder, bool isRecursive)
 #pragma warning restore
     {
-        return Directory.GetFiles(p, "*", v ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).ToList();
+        return Directory.GetFiles(folder, "*", isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).ToList();
     }
 }

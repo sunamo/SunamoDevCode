@@ -1,5 +1,6 @@
+// variables names: ok
 public interface IMainWindowCsFileFilter
 {
-    CsFileFilter csFileFilter { get; set; }
+    CsFileFilter CsFileFilter { get; set; }
     
 }

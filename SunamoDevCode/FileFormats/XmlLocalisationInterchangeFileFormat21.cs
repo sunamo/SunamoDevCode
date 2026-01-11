@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.FileFormats;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -48,11 +49,11 @@ Into A1 insert:
             result.Add(item, new StringBuilder());
         }
 
-        foreach (var item in data.trans_units)
+        foreach (var item in data.TransUnits)
         {
             string id = null;
             var lastLetter = GetLastLetter(item, out id).ToString();
-            if (list.Any(data => data == lastLetter))
+            if (list.Any(letter => letter == lastLetter))
             {
                 result[lastLetter].AppendLine(GetTarget(item).Value);
                 idsEndingOn.Add(id);
@@ -97,9 +98,9 @@ Into A1 insert:
             var keys = GetKeysInCsWithRLDataEn(ref key, content);
             if (keys.Count > 0)
             {
-                foreach (var k in keys)
+                foreach (var keyWithUnderscore in keys)
                 {
-                    DictionaryHelper.AddOrSet(withWithoutUnderscore, k, ReplacerXlf.Instance.WithoutUnderscore(k));
+                    DictionaryHelper.AddOrSet(withWithoutUnderscore, keyWithUnderscore, ReplacerXlf.Instance.WithoutUnderscore(keyWithUnderscore));
                 }
 
                 foreach (var item2 in withWithoutUnderscore)
@@ -137,7 +138,7 @@ Into A1 insert:
         var temp = SHSplit.SplitFromReplaceManyFormatList(pairsReplace);
         var from = temp.Item1;
         var to = temp.Item2;
-        foreach (var item in xlfSolutions)
+        foreach (var item in __xlfSolutions)
         {
             var files = GetFilesCs(logger, item);
             foreach (var item2 in files)
@@ -197,8 +198,7 @@ Into A1 insert:
             await
 #endif
         GetTransUnits(fn);
-        List<XElement> tus = new List<XElement>();
-        foreach (XElement item in data.trans_units)
+        foreach (XElement item in data.TransUnits)
         {
             string id;
             var ch = GetLastLetter(item, out id);
@@ -212,10 +212,6 @@ Into A1 insert:
 
         allLastLetters = allLastLetters.Distinct().ToList();
         allLastLetters.Sort();
-        if (saveAllLastLetterToClipboard)
-        {
-        //ClipboardHelper.SetLines(allLastLetters.count.ConvertAll(data => data.ToString()));
-        }
 
         return ids;
     }

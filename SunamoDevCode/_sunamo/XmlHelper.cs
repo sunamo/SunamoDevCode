@@ -1,54 +1,99 @@
+// variables names: ok
 namespace SunamoDevCode._sunamo;
 
+/// <summary>
+/// Helper methods for XML operations
+/// </summary>
 internal class XmlHelper
 {
-    internal static IList<XmlNode> GetElementsOfName(XmlNode e, string v)
+    /// <summary>
+    /// Gets all child elements with the specified name
+    /// </summary>
+    /// <param name="node">Parent element to search in</param>
+    /// <param name="name">Name of elements to find</param>
+    /// <returns>List of matching XML nodes</returns>
+    internal static IList<XmlNode> GetElementsOfName(XmlNode node, string name)
     {
-        return e.ChildNodes.WithName(v);
+        return node.ChildNodes.WithName(name);
     }
-    internal static XmlNode GetElementOfName(XmlNode e, string n)
+
+    /// <summary>
+    /// Gets the first child element with the specified name
+    /// </summary>
+    /// <param name="node">Parent element to search in</param>
+    /// <param name="name">Name of element to find</param>
+    /// <returns>First matching XML node</returns>
+    internal static XmlNode GetElementOfName(XmlNode node, string name)
     {
-        return e.ChildNodes.First(n);
+        return node.ChildNodes.First(name);
     }
-    internal static string InnerTextOfNode(XmlNode xe)
+
+    /// <summary>
+    /// Gets the inner text of an XML node
+    /// </summary>
+    /// <param name="node">Node to get text from</param>
+    /// <returns>Inner text of the node</returns>
+    internal static string InnerTextOfNode(XmlNode node)
     {
-        return xe.InnerText;
+        return node.InnerText;
     }
-    internal static void SetAttribute(XmlNode node, string include, string rel)
+
+    /// <summary>
+    /// Sets an attribute value on an XML node
+    /// </summary>
+    /// <param name="node">Node to set attribute on</param>
+    /// <param name="attributeName">Name of the attribute</param>
+    /// <param name="attributeValue">Value to set</param>
+    internal static void SetAttribute(XmlNode node, string attributeName, string attributeValue)
     {
-        var xe = (XmlElement)node;
-        if (xe != null)
+        var element = (XmlElement)node;
+        if (element != null)
         {
-            xe.SetAttribute(include, rel);
+            element.SetAttribute(attributeName, attributeValue);
             return;
         }
         // Working only when attribute
-        var atrValue = Attr(node, include);
-        if (atrValue == null)
+        var attributeValueExisting = Attr(node, attributeName);
+        if (attributeValueExisting == null)
         {
-            var xa = node.OwnerDocument.CreateAttribute(include);
-            node.Attributes.Append(xa);
+            var newAttribute = node.OwnerDocument.CreateAttribute(attributeName);
+            node.Attributes.Append(newAttribute);
         }
-        node.Attributes[include].Value = rel;
+        node.Attributes[attributeName].Value = attributeValue;
     }
-    internal static string Attr(XmlNode d, string v)
+
+    /// <summary>
+    /// Gets the value of an attribute
+    /// </summary>
+    /// <param name="node">Node to get attribute from</param>
+    /// <param name="attributeName">Name of the attribute</param>
+    /// <returns>Attribute value or null if not found</returns>
+    internal static string Attr(XmlNode node, string attributeName)
     {
-        var argument = GetAttributeWithName(d, v);
+        var argument = GetAttributeWithName(node, attributeName);
         if (argument != null)
         {
             return argument.Value;
         }
         return null;
     }
-    internal static XmlAttribute foundedNode = null;
-    internal static XmlNode GetAttributeWithName(XmlNode item, string p)
+
+    internal static XmlAttribute FoundedNode = null;
+
+    /// <summary>
+    /// Gets an attribute with the specified name
+    /// </summary>
+    /// <param name="node">Node to search in</param>
+    /// <param name="attributeName">Name of the attribute to find</param>
+    /// <returns>Matching attribute or null if not found</returns>
+    internal static XmlNode GetAttributeWithName(XmlNode node, string attributeName)
     {
-        foreach (XmlAttribute item2 in item.Attributes)
+        foreach (XmlAttribute attribute in node.Attributes)
         {
-            if (item2.Name == p)
+            if (attribute.Name == attributeName)
             {
-                foundedNode = item2;
-                return item2;
+                FoundedNode = attribute;
+                return attribute;
             }
         }
         return null;

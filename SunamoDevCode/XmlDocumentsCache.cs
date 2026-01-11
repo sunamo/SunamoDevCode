@@ -1,17 +1,21 @@
+// variables names: ok
 namespace SunamoDevCode;
 
+/// <summary>
+/// Cache for XML documents (typically csproj files) to avoid repeated parsing.
+/// </summary>
 public class XmlDocumentsCache
 {
-    private const string nullable = "<Nullable>enable</Nullable>";
-    private const string debugTypeNone = "<DebugType>none</DebugType>";
-    public static Type type = typeof(XmlDocumentsCache);
-    public static Dictionary<string, XmlDocument> cache = new();
+    private const string Nullable = "<Nullable>enable</Nullable>";
+    private const string DebugTypeNone = "<DebugType>none</DebugType>";
+    public static Type Type = typeof(XmlDocumentsCache);
+    public static Dictionary<string, XmlDocument> Cache = new();
 
     /// <summary>
     ///     In key is csproj path
     ///     In value is absolute path of references (recursive)
     /// </summary>
-    public static Dictionary<string, List<string>> projectDeps = new();
+    public static Dictionary<string, List<string>> ProjectDeps = new();
 
     public static Func<string, Dictionary<string, XmlDocument>,
 #if ASYNC
@@ -20,11 +24,11 @@ public class XmlDocumentsCache
 List<string>
 #endif
         >
-        buildProjectsDependencyTreeList;
+        BuildProjectsDependencyTreeList;
 
-    public static int nulled;
-    public static IProgressBarDC clpb = null;
-    public static List<string> cantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull = new();
+    public static int Nulled;
+    public static IProgressBarDC Clpb = null;
+    public static List<string> CantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull = new();
 
     /// <summary>
     ///     Nemůže se volat společně s .Result! viz. https://stackoverflow.com/a/65820543/9327173 Způsobí to deadlock! Musím to
@@ -50,11 +54,11 @@ ResultWithException<XmlDocument>
 #endif
         // Tady to mít je píčovina. To se nemůže nikdy s malým vyskytnout
         //path = SH.FirstCharUpper(path);
-        if (cache.ContainsKey(path)) return new ResultWithExceptionDC<XmlDocument>(cache[path]);
+        if (Cache.ContainsKey(path)) return new ResultWithExceptionDC<XmlDocument>(Cache[path]);
         if (Ignored.IsIgnored(path))
         {
-            cache.Add(path, null);
-            nulled++;
+            Cache.Add(path, null);
+            Nulled++;
             return new ResultWithExceptionDC<XmlDocument> { Exc = "csproj is ignored: " + path };
         }
 
@@ -84,21 +88,21 @@ ResultWithException<XmlDocument>
         //}
         if (xml.Contains(GitConsts.startingHead))
         {
-            cache.Add(path, null);
-            nulled++;
+            Cache.Add(path, null);
+            Nulled++;
             return new ResultWithExceptionDC<XmlDocument>();
         }
 
         var save = false;
-        if (xml.Contains(nullable))
+        if (xml.Contains(Nullable))
         {
-            xml = xml.Replace(nullable, string.Empty);
+            xml = xml.Replace(Nullable, string.Empty);
             save = true;
         }
 
-        if (xml.Contains(debugTypeNone))
+        if (xml.Contains(DebugTypeNone))
         {
-            xml = xml.Replace(debugTypeNone, string.Empty);
+            xml = xml.Replace(DebugTypeNone, string.Empty);
             save = true;
         }
 
@@ -111,17 +115,17 @@ ResultWithException<XmlDocument>
             doc.LoadXml(xml);
             // Zřejmě mi toto vyhazovalo výjimku
             //var ox = doc.OuterXml;
-            //if (cache.ContainsKey(path))
+            //if (Cache.ContainsKey(path))
             //{
-            //    return cache[path];
+            //    return Cache[path];
             //}
-            cache.Add(path, doc);
+            Cache.Add(path, doc);
         }
         catch
         {
-            var parameter = cache.Keys.ToList().IndexOf(path);
-            cache.Add(path, null);
-            nulled++;
+            var index = Cache.Keys.ToList().IndexOf(path);
+            Cache.Add(path, null);
+            Nulled++;
             //ThrowEx.NotValidXml(path, ex);
             return new ResultWithExceptionDC<XmlDocument>();
         }
@@ -129,14 +133,14 @@ ResultWithException<XmlDocument>
         //lock (_lock)
         //{
         // Toto bych měl dělat mimo Parallel
-        if (buildProjectsDependencyTreeList != null)
+        if (BuildProjectsDependencyTreeList != null)
         {
             var list =
 #if ASYNC
                 await
 #endif
-                    buildProjectsDependencyTreeList(path, null);
-            projectDeps.Add(path, list);
+                    BuildProjectsDependencyTreeList(path, null);
+            ProjectDeps.Add(path, list);
         }
 
         //}
@@ -161,20 +165,24 @@ ResultWithException<XmlDocument>
     {
         var xd = new Dictionary<string, XmlDocument>();
         // Všechny načtené XML dokumenty do xd
-        foreach (var item in cache)
-            // Zde je problémů několik. xd má pouhý 1 element, ačkoliv XmlDocumentsCache.cache jich má 41
-            // projectDeps má poté 41.
+        foreach (var item in Cache)
+            // Zde je problémů několik. xd má pouhý 1 element, ačkoliv XmlDocumentsCache.Cache jich má 41
+            // ProjectDeps má poté 41.
             if (item.Value != null)
                 xd.Add(item.Key, item.Value);
         return xd;
     }
 
+    /// <summary>
+    /// Returns paths of projects with invalid XML.
+    /// </summary>
+    /// <returns>List of project paths with null XmlDocument values.</returns>
     public static List<string> BadXml()
     {
-        var withNull = cache.Where(s => s.Value == null);
-        var bx = new List<string>();
-        foreach (var item in withNull) bx.Add(item.Key);
-        return bx;
+        var withNull = Cache.Where(entry => entry.Value == null);
+        var badXmlPaths = new List<string>();
+        foreach (var item in withNull) badXmlPaths.Add(item.Key);
+        return badXmlPaths;
     }
 
     public static
@@ -183,11 +191,11 @@ ResultWithException<XmlDocument>
 #else
 void
 #endif
-        Set(string path, string v, bool saveToFile = false)
+        Set(string path, string xmlContent, bool saveToFile = false)
     {
         var xd = new XmlDocument();
         xd.PreserveWhitespace = true;
-        xd.LoadXml(v);
+        xd.LoadXml(xmlContent);
 #if ASYNC
         await
 #endif
@@ -200,17 +208,17 @@ void
 #else
 void
 #endif
-        Set(string path, XmlDocument v, bool saveToFile = false)
+        Set(string path, XmlDocument document, bool saveToFile = false)
     {
         if (saveToFile)
         {
-            v.PreserveWhitespace = true;
+            document.PreserveWhitespace = true;
 #if ASYNC
             await
 #endif
-                File.WriteAllTextAsync(path, v.OuterXml);
+                File.WriteAllTextAsync(path, document.OuterXml);
         }
 
-        DictionaryHelper.AddOrSet(cache, path, v);
+        DictionaryHelper.AddOrSet(Cache, path, document);
     }
 }

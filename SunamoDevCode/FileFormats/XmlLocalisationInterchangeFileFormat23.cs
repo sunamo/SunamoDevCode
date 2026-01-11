@@ -27,7 +27,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         List<string> r = new List<string>();
         if (p == XlfParts.Id)
         {
-            foreach (var item in data.trans_units)
+            foreach (var item in data.TransUnits)
             {
                 string idTransUnit = null;
                 GetLastLetter(item, out idTransUnit);
@@ -42,7 +42,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
         else if (p == XlfParts.Target)
         {
-            foreach (var item in data.trans_units)
+            foreach (var item in data.TransUnits)
             {
                 var target = GetTarget(item).Value;
                 string idTransUnit = null;
@@ -81,7 +81,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         {
             for (int i = idsEndingEnd.Count - 1; i >= 0; i--)
             {
-                foreach (var item in data.trans_units)
+                foreach (var item in data.TransUnits)
                 {
                     string idTransUnit = null;
                     GetLastLetter(item, out idTransUnit);
@@ -99,7 +99,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
             for (int i = idsEndingEnd.Count - 1; i >= 0; i--)
             {
                 removed = false;
-                foreach (var item in data.trans_units)
+                foreach (var item in data.TransUnits)
                 {
                     var target = HtmlAssistant.HtmlDecode(GetTarget(item).Value);
                     var id = idsEndingEnd[i];
@@ -129,8 +129,8 @@ public static partial class XmlLocalisationInterchangeFileFormat
             }
         }
 
-        await CSharpParser.RemoveConsts(XmlLocalisationInterchangeFileFormatSunamo.pathXlfKeys, idsEndingEnd);
-        data.xd.Save(fn);
+        await CSharpParser.RemoveConsts(XmlLocalisationInterchangeFileFormatSunamo.PathXlfKeys, idsEndingEnd);
+        data.XmlDocument.Save(fn);
     }
 
     public static 
@@ -155,10 +155,10 @@ public static partial class XmlLocalisationInterchangeFileFormat
         {
         //XlfData data;
         //var ids = GetIds(xlfPath, out data);
-        //data.xd.XPathSelectElement("/xliff/file[original=@'WPF.TESTS/RESOURCES/EN-US.RESX']");
+        //data.XmlDocument.XPathSelectElement("/xliff/file[original=@'WPF.TESTS/RESOURCES/EN-US.RESX']");
         //List<string> duplicated;
         //CAG.RemoveDuplicitiesList(ids, out duplicated);
-        //var b2 = data.xd.Descendants().Count();
+        //var b2 = data.XmlDocument.Descendants().Count();
         //foreach (var item in duplicated)
         //{
         //    var elements = data.group.Elements().ToList();
@@ -172,8 +172,8 @@ public static partial class XmlLocalisationInterchangeFileFormat
         //        }
         //    }
         //}
-        //var b3 = data.xd.Descendants().Count();
-        //data.xd.Save(xlfPath);
+        //var b3 = data.XmlDocument.Descendants().Count();
+        //data.XmlDocument.Save(xlfPath);
         }
 
         var allIds = 
@@ -186,11 +186,11 @@ public static partial class XmlLocalisationInterchangeFileFormat
         CAG.RemoveDuplicitiesList<string>(allIds.Item1, out duplicated);
         foreach (var item in duplicated)
         {
-            xlfData.trans_units.First(data => XHelper.Attr(data, "id") == item).Remove();
+            xlfData.TransUnits.First(data => XHelper.Attr(data, "id") == item).Remove();
         }
 
-        var outer = xlfData.xd.ToString();
-        xlfData.xd.Save(xlfPath);
+        var outer = xlfData.XmlDocument.ToString();
+        xlfData.XmlDocument.Save(xlfPath);
     }
 
     /// <summary>
@@ -213,7 +213,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
 #endif
         XmlLocalisationInterchangeFileFormat.GetTransUnits(xlfPath);
         xlfData.FillIds();
-        return new OutRefDC<List<string>, XlfData>(xlfData.allids, xlfData);
+        return new OutRefDC<List<string>, XlfData>(xlfData.AllIds, xlfData);
     }
 
     public static 

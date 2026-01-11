@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public class FrameworkNameDetector
@@ -14,19 +15,19 @@ public class FrameworkNameDetector
     public static FrameworkName Detect(/*MSBuildProject*/ object project)
 #pragma warning restore
     {
-        throw new Exception(@"Už ani nevím odkud MSBuildProject je
-Instaloval jsem tyto:
+        throw new Exception(@"I don't even know where MSBuildProject comes from anymore.
+I installed these packages:
 Microsoft.Build
 Microsoft.CodeAnalysis
 Microsoft.CodeAnalysis.Common
 Microsoft.CodeAnalysis.CSharp
 Microsoft.CodeAnalysis.Workspaces.Common
-a ani v jednom. Navíc na netu taky od MS žádná zmínka. Asi už v době používání byl obsolete. udělat to tady z xml
-Dole je kousek kódu:
+and it's not in any of them. Moreover, there's also no mention from MS on the web. It was probably already obsolete when it was being used. Should do this from XML here.
+Below is a piece of code:
 var msb = new MSBuildProject();
         await msb.LoadAsync(path);
-ale stejně na netu žádná zmínka
-to jen znamená že to byla sračka a nikdo to nevyužíval, když se to nikde nevyužívalo");
+but still no mention on the web.
+This just means it was garbage and nobody used it, since it wasn't used anywhere.");
         //var group = project.PropertyGroups.FirstOrDefault(x =>
         //    x.Properties.Any(p => p.Name.Contains("TargetFramework")));
         //var identifier = DefaultIdentifier;

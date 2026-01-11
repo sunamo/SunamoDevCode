@@ -1,6 +1,7 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Interfaces;
 
 public interface IMainWindowAps
 {
-    bool cmd { get; set; }
+    bool Cmd { get; set; }
 }

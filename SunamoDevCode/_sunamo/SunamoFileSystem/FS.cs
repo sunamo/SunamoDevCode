@@ -148,25 +148,24 @@ internal partial class FS
         return SHSplit.Split(path, delimiter);
     }
 
-    internal static List<string> OnlyNamesWithoutExtensionCopy(List<string> p2)
+    internal static List<string> OnlyNamesWithoutExtensionCopy(List<string> filePaths)
     {
-        var parameter = new List<string>(p2.Count);
-        //CA.InitFillWith(parameter, p2.Count);
-        for (var i = 0; i < p2.Count; i++)
-            parameter[i] = Path.GetFileNameWithoutExtension(p2[i]);
-        return parameter;
+        var result = new List<string>(filePaths.Count);
+        for (var i = 0; i < filePaths.Count; i++)
+            result.Add(Path.GetFileNameWithoutExtension(filePaths[i]));
+        return result;
     }
 
-    internal static string ReplaceDirectoryThrowExceptionIfFromDoesntExists(string parameter, string folderWithProjectsFolders, string folderWithTemporaryMovedContentWithoutBackslash)
+    internal static string ReplaceDirectoryThrowExceptionIfFromDoesntExists(string path, string folderWithProjectsFolders, string folderWithTemporaryMovedContentWithoutBackslash)
     {
-        parameter = SH.FirstCharUpper(parameter);
+        path = SH.FirstCharUpper(path);
         folderWithProjectsFolders = SH.FirstCharUpper(folderWithProjectsFolders);
         folderWithTemporaryMovedContentWithoutBackslash = SH.FirstCharUpper(folderWithTemporaryMovedContentWithoutBackslash);
-        if (!ThrowEx.NotContains(parameter, folderWithProjectsFolders))
+        if (!ThrowEx.NotContains(path, folderWithProjectsFolders))
             // Here can never accomplish when exc was throwed
-            return parameter;
+            return path;
         // Here can never accomplish when exc was throwed
-        return parameter.Replace(folderWithProjectsFolders, folderWithTemporaryMovedContentWithoutBackslash);
+        return path.Replace(folderWithProjectsFolders, folderWithTemporaryMovedContentWithoutBackslash);
     }
 
     internal static string MakeUncLongPath(ref string path)

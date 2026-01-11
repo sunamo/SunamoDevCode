@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps;
 
 /// <summary>
@@ -10,7 +11,7 @@ public class ApsPluginStatic
     /// EN: Gets whether running in command line mode
     /// CZ: Získá zda běží v režimu příkazové řádky
     /// </summary>
-    public bool cmd
+    public bool Cmd
     {
         get
         {
@@ -22,11 +23,11 @@ public class ApsPluginStatic
     /// EN: Gets folders with solutions list
     /// CZ: Získá seznam složek se solutions
     /// </summary>
-    public static FoldersWithSolutionsList fwss
+    public static FoldersWithSolutionsList Fwss
     {
         get
         {
-            return FoldersWithSolutions.fwss;
+            return FoldersWithSolutions.Fwss;
         }
     }
 
@@ -34,9 +35,9 @@ public class ApsPluginStatic
     /// EN: Gets or sets the used repository
     /// CZ: Získá nebo nastaví používané repository
     /// </summary>
-    public static RepositoryLocal usedRepository
+    public static RepositoryLocal UsedRepository
     {
-        set => FoldersWithSolutions.usedRepository = value;
-        get => FoldersWithSolutions.usedRepository;
+        set => FoldersWithSolutions.UsedRepository = value;
+        get => FoldersWithSolutions.UsedRepository;
     }
 }

@@ -1,6 +1,11 @@
+// variables names: ok
 namespace SunamoDevCode._public;
 
-public class GetFilesBaseArgsDC /*: GetFoldersEveryFolderArgs - nevracet - číst koment výše*/
+/// <summary>
+/// EN: Base arguments class for getting files
+/// CZ: Základní třída argumentů pro získávání souborů
+/// </summary>
+public class GetFilesBaseArgsDC /*: GetFoldersEveryFolderArgs - do not inherit - read comment above*/
 {
     internal bool FollowJunctions { get; set; } = false;
     internal Func<string, bool> IsJunctionPoint { get; set; } = null;

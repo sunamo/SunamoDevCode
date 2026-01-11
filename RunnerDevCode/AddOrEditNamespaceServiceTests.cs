@@ -1,4 +1,5 @@
-﻿namespace RunnerDevCode;
+// variables names: ok
+namespace RunnerDevCode;
 
 public class AddOrEditNamespaceServiceTests
 {

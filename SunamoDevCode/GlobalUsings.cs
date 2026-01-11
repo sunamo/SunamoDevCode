@@ -36,7 +36,7 @@ global using SunamoDevCode._sunamo.SunamoArgs;
 global using SunamoDevCode._sunamo.SunamoBts;
 global using SunamoDevCode._sunamo.SunamoCollectionsChangeContent;
 global using SunamoDevCode._sunamo.SunamoCollectionsGeneric;
-global using SunamoDevCode._sunamo.SunamoCollectionsIndexesWithNull;
+// global using SunamoDevCode._sunamo.SunamoCollectionsIndexesWithNull; // Folder is empty
 global using SunamoDevCode._sunamo.SunamoEmbeddedResources;
 global using SunamoDevCode._sunamo.SunamoEnumsHelper;
 global using SunamoDevCode._sunamo.SunamoExceptions;
@@ -102,7 +102,6 @@ global using SunamoDevCode._sunamo.SunamoThisApp;
 global using System.Runtime.Versioning;
 global using TextCopy;
 global using ILogger = Microsoft.Extensions.Logging.ILogger;
-global using Microsoft.Extensions.Logging;
 global using SunamoDevCode.Aps.Args;
 global using SunamoDevCode.Aps.Helpers;
 global using SunamoDevCode.Aps.Projs;

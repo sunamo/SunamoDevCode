@@ -1,71 +1,68 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Projs;
 
 public partial class VsProjectsFileHelper
 {
     /// <summary>
-    /// Used in:
-    /// MoveClassElementIntoSharedFileUC
-    /// AddFilesToCsproj
-    ///
-    /// Work with purely xml class
-    /// Using for Compile tag
-    /// If A4 = null, no control whether already exists
+    /// Adds an ItemGroup element to an SDK-style .csproj file.
+    /// Used in: MoveClassElementIntoSharedFileUC, AddFilesToCsproj.
+    /// Works with pure XML classes, primarily for Compile tags.
     /// </summary>
-    /// <param name="pathCsproj"></param>
-    /// <param name="ig"></param>
-    /// <param name="ige"></param>
+    /// <param name="csprojPath">Path to the .csproj file.</param>
+    /// <param name="itemGroups">The type of ItemGroup to add (Compile, Reference, etc.).</param>
+    /// <param name="itemGroupElement">The ItemGroup element to add to the project.</param>
+    /// <param name="isWritingToStorage">Whether to write changes to storage immediately.</param>
     public static
 #if ASYNC
             async Task
 #else
         void
 #endif
-                AddItemGroupSdkStyle(string pathCsproj, ItemGroups ig, ItemGroupElement ige, bool writeToStorage)
+                AddItemGroupSdkStyle(string csprojPath, ItemGroups itemGroups, ItemGroupElement itemGroupElement, bool isWritingToStorage)
     {
-        ResultWithException<XmlDocument> xd2 = null;
+        ResultWithException<XmlDocument> xmlDocumentResult = null;
 #if ASYNC
         await
 #endif
-XmlDocumentsCache.Get(pathCsproj);
-        if (MayExcHelper.MayExc(xd2.Exc))
+XmlDocumentsCache.Get(csprojPath);
+        if (MayExcHelper.MayExc(xmlDocumentResult.Exc))
         {
             return;
         }
-        if (xd2.Data == null)
+        if (xmlDocumentResult.Data == null)
         {
             return;
         }
-        XmlDocument xd = new XmlDocument();
-        string content = xd2.Data.OuterXml; //TF.ReadAllText(pathCsproj);
+        XmlDocument xmlDocument = new XmlDocument();
+        string content = xmlDocumentResult.Data.OuterXml;
         string uri = "https://schemas.microsoft.com/developer/msbuild/2003";
         string from = "xmlns=\"";
         string to = "xmlns2=\"";
-        //content = content.Replace(uri, string.Empty);
         content = content.Replace(from, to);
-        XmlNamespaceManager nsmgr;
+        XmlNamespaceManager namespaceManager;
         XmlNode itemGroup, parent, project;
-        LoadXml(ig, xd, content, out nsmgr, out itemGroup, out parent, out project);
+        LoadXml(itemGroups, xmlDocument, content, out namespaceManager, out itemGroup, out parent, out project);
         if (itemGroup == null)
         {
             #region No ItemGroup, add new
-            itemGroup = AddNewItemGroup(pathCsproj, xd, nsmgr, itemGroup, project);
+            itemGroup = AddNewItemGroup(csprojPath, xmlDocument, namespaceManager, itemGroup, project);
             #endregion
         }
         else
         {
-            var igs = ig.ToString();
+            var itemGroupsString = itemGroups.ToString();
             #region Item group isnt null
-            if (xd.SelectSingleNode(@"//Project/ItemGroup/" + igs + "[@Include='" + ige.Include + "']", nsmgr) != null)
+            if (xmlDocument.SelectSingleNode(@"//Project/ItemGroup/" + itemGroupsString + "[@Include='" + itemGroupElement.Include + "']", namespaceManager) != null)
             {
                 // Already Exists
                 return;
             }
-            parent = xd.SelectSingleNode(@"//Project/ItemGroup/" + igs, nsmgr);
+            parent = xmlDocument.SelectSingleNode(@"//Project/ItemGroup/" + itemGroupsString, namespaceManager);
             if (parent == null)
             {
-                if (ig == ItemGroups.Compile)
+                if (itemGroups == ItemGroups.Compile)
                 {
-                    // Is .net standard project whcih dont have any compile
+                    // Is .net standard project which doesn't have any compile
                     return;
                 }
             }
@@ -75,79 +72,38 @@ XmlDocumentsCache.Get(pathCsproj);
             }
             else
             {
-                itemGroup = AddNewItemGroup(pathCsproj, xd, nsmgr, itemGroup, project);
+                itemGroup = AddNewItemGroup(csprojPath, xmlDocument, namespaceManager, itemGroup, project);
             }
-            #region MyRegion
-            //if (parent == null)
-            //{
-            //    var nodes = xd.SelectNodes("//Project/ItemGroup/Compile", nsmgr);
-            //    parent = nodes[0].ParentNode;
-            //}
-            //else
-            //{
-            //    parent = parent.ParentNode;
-            //}
-            #endregion
             #endregion
         }
-        Type tIge = ige.GetType();
-        if (tIge == typeof(CompileItemGroup))
+        Type itemGroupElementType = itemGroupElement.GetType();
+        if (itemGroupElementType == typeof(CompileItemGroup))
         {
             #region Add ItemGroup
-            CompileItemGroup compileItemGroup = (CompileItemGroup)ige;
-            #region MyRegion
-            //string include = string.Empty;
-            //// originally was here this. But dont know purpose of it. If I add reference to sunamo from sunamo.web need it without Substring(6)
-            ////include = compileItemGroup.Include.Substring(6);
-            //include = compileItemGroup.Include;
-            //Dictionary<string, string> dict = new Dictionary<string, string>();
-            //if (!string.IsNullOrWhiteSpace(compileItemGroup.Link))
-            //{
-            //    dict.Add("Link", compileItemGroup.Link);
-            //}
-            #endregion
-            var xn = compileItemGroup.ToXml(xd);
-            xn = xd.ImportNode(xn, true);
-            //string s2 = xn.OuterXml;
-            itemGroup.PrependChild(xn);
+            CompileItemGroup compileItem = (CompileItemGroup)itemGroupElement;
+            var xmlNode = compileItem.ToXml(xmlDocument);
+            xmlNode = xmlDocument.ImportNode(xmlNode, true);
+            itemGroup.PrependChild(xmlNode);
             #endregion
         }
-        else if (tIge == ProjectReferenceItemGroup.type)
+        else if (itemGroupElementType == ProjectReferenceItemGroup.Type)
         {
-            ProjectReferenceItemGroup compileItemGroup = (ProjectReferenceItemGroup)ige;
-            #region MyRegion
-            //string include = string.Empty;
-            //// originally was here this. But dont know purpose of it. If I add reference to sunamo from sunamo.web need it without Substring(6)
-            ////include = compileItemGroup.Include.Substring(6);
-            //include = compileItemGroup.Include;
-            //Dictionary<string, string> dict = new Dictionary<string, string>();
-            //if (!string.IsNullOrWhiteSpace(compileItemGroup.Link))
-            //{
-            //    dict.Add("Link", compileItemGroup.Link);
-            //}
-            #endregion
-            var xn = compileItemGroup.ToXml(xd);
-            xn = xd.ImportNode(xn, true);
-            itemGroup.PrependChild(xn);
+            ProjectReferenceItemGroup projectReferenceItem = (ProjectReferenceItemGroup)itemGroupElement;
+            var xmlNode = projectReferenceItem.ToXml(xmlDocument);
+            xmlNode = xmlDocument.ImportNode(xmlNode, true);
+            itemGroup.PrependChild(xmlNode);
         }
-        else if (tIge == ReferenceItemGroup.type)
+        else if (itemGroupElementType == ReferenceItemGroup.Type)
         {
-            ReferenceItemGroup compileItemGroup = (ReferenceItemGroup)ige;
-            var xn = compileItemGroup.ToXml(xd);
-            xn = xd.ImportNode(xn, true);
-            itemGroup.PrependChild(xn);
+            ReferenceItemGroup referenceItem = (ReferenceItemGroup)itemGroupElement;
+            var xmlNode = referenceItem.ToXml(xmlDocument);
+            xmlNode = xmlDocument.ImportNode(xmlNode, true);
+            itemGroup.PrependChild(xmlNode);
         }
         else
         {
-            ThrowEx.NotImplementedCase(tIge);
+            ThrowEx.NotImplementedCase(itemGroupElementType);
         }
-        if (content.Contains(uri))
-        {
-            ////nsmgr.AddNamespace("ns", uri);
-            //var attr = xd.CreateAttribute("xmlns2");
-            //attr.Value = uri;
-            //project.Attributes.Append(attr);
-        }
-        await XmlDocumentsCache.Set(pathCsproj, xd, writeToStorage);
+        await XmlDocumentsCache.Set(csprojPath, xmlDocument, isWritingToStorage);
     }
 }

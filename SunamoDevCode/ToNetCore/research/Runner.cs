@@ -1,8 +1,9 @@
+// variables names: ok
 namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5 //: ProgramShared
 {
-    public List<FoldersWithSolutions> fwss => FoldersWithSolutions.fwss;
+    public List<FoldersWithSolutions> Fwss => FoldersWithSolutions.Fwss;
 
     #region Helper methods
 

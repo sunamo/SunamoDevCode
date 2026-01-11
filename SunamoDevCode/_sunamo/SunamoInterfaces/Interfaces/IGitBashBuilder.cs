@@ -4,25 +4,25 @@ namespace SunamoDevCode._sunamo.SunamoInterfaces.Interfaces;
 internal interface IGitBashBuilder
 {
     List<string> Commands { get; }
-    void Add(string v);
-    void AddNewRemote(string s);
+    void Add(string filePattern);
+    void AddNewRemote(string remoteName);
     void Append(string text);
     void AppendLine();
     void AppendLine(string text);
-    void Cd(string key);
-    void Checkout(string arg);
-    void Clean(string v);
+    void Cd(string directory);
+    void Checkout(string branchName);
+    void Clean(string options);
     void Clear();
-    void Clone(string args);
-    void Commit(bool addAllUntrackedFiles, string commitMessage);
-    void Config(string v);
-    void Fetch(string s = "");
+    void Clone(string repositoryUrl);
+    void Commit(bool isAddingAllUntrackedFiles, string commitMessage);
+    void Config(string configOption);
+    void Fetch(string remoteName = "");
     void Init();
-    void Merge(string v);
+    void Merge(string branchName);
     void Pull();
-    void Push(bool force);
-    void Push(string arg);
-    void Remote(string arg);
+    void Push(bool isForce);
+    void Push(string remoteName);
+    void Remote(string command);
     void Status();
     string ToString();
 }

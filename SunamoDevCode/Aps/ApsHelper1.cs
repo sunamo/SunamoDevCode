@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps;
 
 public partial class ApsHelper : ApsPluginStatic
@@ -15,18 +16,18 @@ public partial class ApsHelper : ApsPluginStatic
         foreach (var sln in asyncPushSolutions.FoldersWithSolutions)
         {
 #if DEBUG
-            //DebugLogger.Instance.WriteLine("Push: " + sln.nameSolution);
+            //DebugLogger.Instance.WriteLine("Push: " + sln.NameSolution);
 #endif
             if (
 #if ASYNC
     await
 #endif
-            GitHelper.PushSolution(asyncPushSolutions.Release, asyncPushSolutions.GitBashBuilder, asyncPushSolutions.PushArgs, asyncPushSolutions.CommitMessage, sln.fullPathFolder, pushSolutionsData, asyncPushSolutions.GitStatus, psInvoke))
+            GitHelper.PushSolution(asyncPushSolutions.Release, asyncPushSolutions.GitBashBuilder, asyncPushSolutions.PushArgs, asyncPushSolutions.CommitMessage, sln.FullPathFolder, pushSolutionsData, asyncPushSolutions.GitStatus, psInvoke))
             {
-                var fn = FS.GetFileName(sln.fullPathFolder);
-                if (pushSolutionsData.onlyThese == VpsHelperDevCode.listVpsNew)
+                var fn = FS.GetFileName(sln.FullPathFolder);
+                if (pushSolutionsData.onlyThese == VpsHelperDevCode.ListVpsNew)
                 {
-                    if (!pushSolutionsData.onlyThese.Contains(sln.nameSolution))
+                    if (!pushSolutionsData.onlyThese.Contains(sln.NameSolution))
                     {
                         continue;
                     }
@@ -60,11 +61,11 @@ public partial class ApsHelper : ApsPluginStatic
     {
         if (cmd)
         {
-            typed = SNumConsts.mTwo;
-            while (typed == SNumConsts.mTwo)
+            typed = SNumConsts.MTwo;
+            while (typed == SNumConsts.MTwo)
             {
-                typed = CL.UserMustTypeMultiLine("Output of powershell. Enter -2 for copy again push commands", SNumConsts.mTwo);
-                if (typed == SNumConsts.mTwo)
+                typed = CL.UserMustTypeMultiLine("Output of powershell. Enter -2 for copy again push commands", SNumConsts.MTwo);
+                if (typed == SNumConsts.MTwo)
                 {
                     ClipboardService.SetText(gitBashBuilder);
                     break;

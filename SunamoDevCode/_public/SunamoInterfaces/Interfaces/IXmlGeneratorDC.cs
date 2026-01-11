@@ -21,7 +21,7 @@ public interface IXmlGeneratorDC
     void WriteRaw(string rawContent);
     void WriteTag(string tagName);
     void WriteTagNamespaceManager(object rss, XmlNamespaceManager nsmgr, string namespaceUri, string prefix);
-    void WriteTagNamespaceManager(string nameTag, XmlNamespaceManager nsmgr, params string[] args);
+    void WriteTagNamespaceManager(string tagName, XmlNamespaceManager nsmgr, params string[] args);
     void WriteTagWith2Attrs(string tagName, string attr1Name, string attr1Value, string attr2Name, string attr2Value);
     void WriteTagWithAttr(string tag, string attributeName, string attributeValue, bool skipEmptyOrNull = false);
     void WriteTagWithAttrs(string tagName, List<string> attributes);

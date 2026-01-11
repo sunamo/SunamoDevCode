@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Projs;
 
 /// <summary>
@@ -20,9 +21,9 @@ public partial class VsProjectsFileHelper
     #region Use cacheProjectReferences
     public static Dictionary<string, ProjectReferences> cacheProjectReferences = new Dictionary<string, ProjectReferences>();
     /// <summary>
-    /// Is working for .net core & fw
+    /// Is working for .net core &amp; fw
     /// To call, must be installed Microsoft.Build
-    /// 
+    ///
     /// Get full path in one csproj
     /// TO full tree use BuildProjectsDependencyTree
     /// </summary>
@@ -35,7 +36,7 @@ public partial class VsProjectsFileHelper
 #else
             ProjectReferences
 #endif
-        GetProjectReferences(string csprojPath, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged, UriKind uri = UriKind.Absolute)
+        GetProjectReferences(string csprojPath, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged, UriKind uriKind = UriKind.Absolute)
     {
         // Not 
         //ThrowEx.FirstLetterIsNotUpper(csprojPath);
@@ -61,15 +62,15 @@ FS.ExistsFile(csprojPath))
         var nodes = vs.ReturnAllItemGroup(ItemGroups.ProjectReference);
         var projectReferences = nodes.Select(d => XmlHelper.Attr(d, "Include")).ToList();
         var dr = FS.GetDirectoryName(csprojPath);
-        if (uri == UriKind.Absolute)
+        if (uriKind == UriKind.Absolute)
         {
             CAChangeContent.ChangeContent(new ChangeContentArgsDC { }, projectReferences, FS.GetAbsolutePath2, dr);
         }
-        else if (uri == UriKind.Relative)
+        else if (uriKind == UriKind.Relative)
         {
             CAChangeContent.ChangeContent(new ChangeContentArgsDC { SwitchFirstAndSecondArg = true }, projectReferences, null, dr, Path.GetRelativePath);
         }
-        var pr = new ProjectReferences { projs = projectReferences, nodes = nodes };
+        var pr = new ProjectReferences { Projects = projectReferences, Nodes = nodes };
         if (!cacheProjectReferences.ContainsKey(csprojPath))
         {
             cacheProjectReferences.Add(csprojPath, pr);
@@ -96,7 +97,7 @@ FS.ExistsFile(csprojPath))
             if (!containedFiles.Contains(item))
             {
                 CompileItemGroup c = new CompileItemGroup(csprojpath);
-                var relativePathFromSolution = ApsHelper.ci.GetRelativePathFromSolution(sln, item);
+                var relativePathFromSolution = ApsHelper.Instance.GetRelativePathFromSolution(sln, item);
                 var tokens = FS.GetTokens(relativePathFromSolution);
                 tokens.RemoveAt(0);
                 tokens.RemoveAt(0);

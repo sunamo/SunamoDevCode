@@ -1,20 +1,35 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
 
+/// <summary>
+/// Base class for item group elements in a Visual Studio project file.
+/// </summary>
 public abstract class ItemGroupElement
 {
-    public ItemGroupElement(string _FullPath)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ItemGroupElement"/> class.
+    /// </summary>
+    /// <param name="fullPath">Full path to the csproj file.</param>
+    public ItemGroupElement(string fullPath)
     {
-        this._FullPath = _FullPath;
+        this.FullPath = fullPath;
     }
 
-
+    /// <summary>
+    /// Gets or sets the full path to the csproj file.
+    /// Must exist. From it and relative structure, other properties are filled.
+    /// </summary>
+    public string FullPath { get; set; }
 
     /// <summary>
-    /// To csproj. Must exists. From it and relative structure is filled other properties
+    /// Gets or sets the Include attribute value.
     /// </summary>
-    public string _FullPath;
+    public string Include { get; set; }
 
-    public string Include;
-
-    public abstract XmlNode ToXml(XmlDocument xd);
+    /// <summary>
+    /// Converts the item group element to an XML node.
+    /// </summary>
+    /// <param name="xmlDocument">The XML document to use for creating the node.</param>
+    /// <returns>The XML node representing the item group element.</returns>
+    public abstract XmlNode ToXml(XmlDocument xmlDocument);
 }

@@ -1,17 +1,19 @@
 namespace SunamoDevCode._sunamo.SunamoCollectionsGeneric;
 
+/// <summary>
+/// Collection Array Generic constants
+/// This must be here because SunamoValues cannot inherit from SunamoCollectionGeneric - it would create a cycle dependency
+/// </summary>
 internal class CAGConsts
 {
-
     /// <summary>
-    /// Tady to musí být, SunamoValues nemůže dědit od SunamoCollectionGeneric - vzniklo by Cycle detected
-    /// Těch pár řádků mě snad nezabije.
+    /// Converts params array to List
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="t"></param>
-    /// <returns></returns>
-    internal static List<T> ToList<T>(params T[] t)
+    /// <typeparam name="T">Type of array elements</typeparam>
+    /// <param name="items">Items to convert to list</param>
+    /// <returns>List containing all items</returns>
+    internal static List<T> ToList<T>(params T[] items)
     {
-        return t.ToList();
+        return items.ToList();
     }
 }

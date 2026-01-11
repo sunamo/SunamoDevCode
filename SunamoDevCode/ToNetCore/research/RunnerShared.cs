@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
@@ -18,12 +19,12 @@ public partial class MoveToNet5
         List<string> webProjects = new List<string>();
         List<string> notWebProjects = new List<string>();
 
-        foreach (var item in FoldersWithSolutions.fwss)
+        foreach (var item in FoldersWithSolutions.Fwss)
         {
-            var text = item.Solutions(RepositoryLocal.Vs17);
+            var text = item.GetSolutions(RepositoryLocal.Vs17);
             foreach (var sln in text)
             {
-                var slnFullPathFolder = sln.fullPathFolder;
+                var slnFullPathFolder = sln.FullPathFolder;
                 if (ApsHelper.IsWeb(slnFullPathFolder))
                 {
                     webProjects.Add(slnFullPathFolder);

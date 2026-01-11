@@ -1,101 +1,73 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+/// <summary>
+/// Partial class containing additional methods for SolutionFolder.
+/// </summary>
 public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
 {
     /// <summary>
-    /// A3 = jestli už jsem vytvořil sln s project distinctions (.Wpf, .Cmd atd.)
-    /// 
+    /// Gets the path to the executable to be released.
     /// </summary>
-    /// <param name = "sln"></param>
-    /// <param name = "projectDistinction"></param>
-    /// <param name = "standaloneSlnForProject"></param>
-    /// <param name = "addProtectedWhenSelling"></param>
-    /// <returns></returns>
-    public string ExeToRelease(SolutionFolder sln, string projectDistinction, bool standaloneSlnForProject, bool addProtectedWhenSelling = false, bool publish = false)
+    /// <param name="solution">Solution folder.</param>
+    /// <param name="projectDistinction">Project distinction (.Wpf, .Cmd, etc.).</param>
+    /// <param name="standaloneSlnForProject">Whether to create standalone solution for project.</param>
+    /// <param name="addProtectedWhenSelling">Whether to add protected when selling.</param>
+    /// <param name="publish">Whether to use publish folder.</param>
+    /// <returns>Path to the executable or null if not found.</returns>
+    public string ExeToRelease(SolutionFolder solution, string projectDistinction, bool standaloneSlnForProject, bool addProtectedWhenSelling = false, bool publish = false)
     {
-#if DEBUG
-        if (sln.nameSolution.Contains("GitForDebug") || projectDistinction.Contains("Wpf"))
-        {
-
-        }
-#endif
-        // zde můžu přiřadit jen ty co skutečně existují
         string existingExeReleaseFolder = null;
-        // 
-        var solutionFolder = sln.fullPathFolder.TrimEnd('\\');
-        var exeName = sln.nameSolution;
-        string exeNameWithExt = exeName + AllExtensions.exe;
+        var solutionFolder = solution.FullPathFolder.TrimEnd('\\');
+        var exeName = solution.NameSolution;
+        string exeNameWithExt = exeName + AllExtensions.ExeExtension;
         var projectFolderPath = Path.Combine(solutionFolder, exeName);
         if (!Directory.Exists(projectFolderPath))
         {
             return null;
         }
 
-        var bp = Path.Combine(projectFolderPath, @"bin\");
-        string p1 = null;
-#if DEBUG
-        if (sln.nameSolution.Contains("ConsoleApp1") || projectDistinction.Contains("Wpf"))
-        {
-
-        }
-#endif
-#region MyRegion
         var baseReleaseFolder = Path.Combine(projectFolderPath, @"bin\Release\");
 
-        // EN: Find the highest available .NET version starting from net15.0 and going down
-        // CZ: Najdi nejvyšší dostupnou .NET verzi začínající od net15.0 a jdi dolů
-        var net7 = FindHighestAvailableNetVersion(baseReleaseFolder, false);
-        var net7Windows = FindHighestAvailableNetVersion(baseReleaseFolder, true);
+        var net7Path = FindHighestAvailableNetVersion(baseReleaseFolder, false);
+        var net7WindowsPath = FindHighestAvailableNetVersion(baseReleaseFolder, true);
 
         if (publish)
         {
-            if (net7 != null) net7 += "win-x64\\publish\\";
-            if (net7Windows != null) net7Windows += "win-x64\\publish\\";
+            if (net7Path != null) net7Path += "win-x64\\publish\\";
+            if (net7WindowsPath != null) net7WindowsPath += "win-x64\\publish\\";
         }
 
-        var b1 = net7 != null && Directory.Exists(net7);
-        var b2 = net7Windows != null && Directory.Exists(net7Windows);
+        var isNet7Exists = net7Path != null && Directory.Exists(net7Path);
+        var isNet7WindowsExists = net7WindowsPath != null && Directory.Exists(net7WindowsPath);
         string exePath = null;
-        if (b1)
+
+        if (isNet7Exists)
         {
-            exePath = Path.Combine(net7, exeName + ".exe");
+            exePath = Path.Combine(net7Path, exeName + ".exe");
             if (File.Exists(exePath))
             {
-                existingExeReleaseFolder = net7;
+                existingExeReleaseFolder = net7Path;
             }
             else
             {
-                existingExeReleaseFolder = FindExistingFolderWithRightArchitecture(net7, exeNameWithExt);
+                existingExeReleaseFolder = FindExistingFolderWithRightArchitecture(net7Path, exeNameWithExt);
             }
         }
 
-        if (b2 && existingExeReleaseFolder == null)
+        if (isNet7WindowsExists && existingExeReleaseFolder == null)
         {
-            exePath = Path.Combine(net7Windows, exeName + ".exe");
+            exePath = Path.Combine(net7WindowsPath, exeName + ".exe");
             if (File.Exists(exePath))
             {
-                existingExeReleaseFolder = net7Windows;
+                existingExeReleaseFolder = net7WindowsPath;
             }
             else
             {
-                existingExeReleaseFolder = FindExistingFolderWithRightArchitecture(net7Windows, exeNameWithExt);
+                existingExeReleaseFolder = FindExistingFolderWithRightArchitecture(net7WindowsPath, exeNameWithExt);
             }
         }
 
-#endregion
-        // Kontroluje mi pouze na cestu zda existuje. soubor jako takový nemusí existovat
-        //if (File.Exists(net4))
-        //{
-        //    return null;
-        //}
-#if DEBUG
-        if (sln.nameSolution.Contains("ConsoleApp1") || projectDistinction.Contains("Wpf"))
-        {
-
-        }
-#endif
         if (existingExeReleaseFolder == null)
         {
             return null;
@@ -106,16 +78,13 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     }
 
     /// <summary>
-    /// EN: Finds the highest available .NET version folder starting from net15.0 and going down
-    /// CZ: Najde nejvyšší dostupnou složku .NET verze začínající od net15.0 a jde dolů
+    /// Finds the highest available .NET version folder starting from net15.0 and going down.
     /// </summary>
-    /// <param name="baseReleaseFolder">Base release folder path</param>
-    /// <param name="isWindows">True for net*-windows, false for net*</param>
-    /// <returns>Full path to the found folder or null if none exists</returns>
+    /// <param name="baseReleaseFolder">Base release folder path.</param>
+    /// <param name="isWindows">True for net*-windows, false for net*.</param>
+    /// <returns>Full path to the found folder or null if none exists.</returns>
     private string FindHighestAvailableNetVersion(string baseReleaseFolder, bool isWindows)
     {
-        // EN: Start from version 15 and go down to version 5
-        // CZ: Začni od verze 15 a jdi dolů k verzi 5
         for (int version = 15; version >= 5; version--)
         {
             var netFolder = isWindows
@@ -133,16 +102,22 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
         return null;
     }
 
-    private string FindExistingFolderWithRightArchitecture(string net7, string exeNameWithExt)
+    /// <summary>
+    /// Finds existing folder with the right architecture (win-x64 or win-x86).
+    /// </summary>
+    /// <param name="basePath">Base path to search in.</param>
+    /// <param name="exeNameWithExt">Executable name with extension.</param>
+    /// <returns>Directory path if found, otherwise null.</returns>
+    private string FindExistingFolderWithRightArchitecture(string basePath, string exeNameWithExt)
     {
         // https://learn.microsoft.com/en-us/dotnet/core/rid-catalog
-        var maybe = Path.Combine(net7, "win-x64", exeNameWithExt);
+        var maybe = Path.Combine(basePath, "win-x64", exeNameWithExt);
         if (File.Exists(maybe))
         {
             return Path.GetDirectoryName(maybe);
         }
 
-        maybe = Path.Combine(net7, "win-x86", exeNameWithExt);
+        maybe = Path.Combine(basePath, "win-x86", exeNameWithExt);
         if (File.Exists(maybe))
         {
             return Path.GetDirectoryName(maybe);
@@ -152,12 +127,13 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     }
 
     /// <summary>
-    /// Working
+    /// Checks whether the solution folder has a .git folder.
     /// </summary>
+    /// <returns>True if .git folder exists, otherwise false.</returns>
     public bool HaveGitFolder()
     {
-        var f = Path.Combine(fullPathFolder, VisualStudioTempFse.gitFolderName);
-        bool vr = Directory.Exists(f);
-        return vr;
+        var gitFolderPath = Path.Combine(FullPathFolder, VisualStudioTempFse.GitFolderName);
+        bool exists = Directory.Exists(gitFolderPath);
+        return exists;
     }
 }

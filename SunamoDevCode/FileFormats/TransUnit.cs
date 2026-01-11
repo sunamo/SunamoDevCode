@@ -1,15 +1,33 @@
+// variables names: ok
 namespace SunamoDevCode.FileFormats;
 
+/// <summary>
+/// Represents a trans-unit element in an XLF (XML Localization Interchange File Format) file.
+/// </summary>
 public class TransUnit
 {
-    public string id;
-    public bool translate;
-    public string xml_space;
+    /// <summary>
+    /// Gets or sets the unique identifier for this translation unit.
+    /// </summary>
+    public string Id { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this unit should be translated.
+    /// </summary>
+    public bool Translate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the xml:space attribute value (typically "preserve").
+    /// </summary>
+    public string XmlSpace { get; set; }
 
     private string _source;
 
-    public string source
+    /// <summary>
+    /// Gets or sets the source text (original language).
+    /// The setter automatically decodes, trims, and HTML-encodes the value.
+    /// </summary>
+    public string Source
     {
         get
         {
@@ -28,7 +46,12 @@ public class TransUnit
     }
 
     private string _target;
-    public string target
+
+    /// <summary>
+    /// Gets or sets the target text (translated language).
+    /// The setter automatically decodes, trims, and HTML-encodes the value.
+    /// </summary>
+    public string Target
     {
         get
         {
@@ -43,20 +66,27 @@ public class TransUnit
         }
     }
 
-    public const string tTransUnit = "trans-unit";
+    /// <summary>
+    /// The XML tag name for trans-unit elements.
+    /// </summary>
+    public const string TransUnitTagName = "trans-unit";
 
-    public string ToString(IXmlGeneratorDC g)
+    /// <summary>
+    /// Converts this trans-unit to an XML string representation.
+    /// </summary>
+    /// <param name="generator">XML generator to use for creating the XML.</param>
+    /// <returns>XML string representation of the trans-unit.</returns>
+    public string ToString(IXmlGeneratorDC generator)
     {
-        //XmlGenerator g = new XmlGenerator();
-        g.WriteTagWithAttrs(tTransUnit, "id", id, "translate", BTS.BoolToString(translate, true), "xml:space", "preserve");
-        g.WriteElement("source", source);
+        generator.WriteTagWithAttrs(TransUnitTagName, "id", Id, "translate", BTS.BoolToString(Translate, true), "xml:space", "preserve");
+        generator.WriteElement("source", Source);
 
-        g.WriteTagWithAttr("target", "state", "translated");
-        g.WriteRaw(target);
-        g.TerminateTag("target");
+        generator.WriteTagWithAttr("target", "state", "translated");
+        generator.WriteRaw(Target);
+        generator.TerminateTag("target");
 
-        g.TerminateTag(tTransUnit);
+        generator.TerminateTag(TransUnitTagName);
 
-        return g.ToString();
+        return generator.ToString();
     }
 }

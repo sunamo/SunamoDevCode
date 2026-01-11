@@ -1,16 +1,17 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public class FiltersNotTranslateAble
 {
     public static FiltersNotTranslateAble Instance = new();
 
-    public readonly List<string> contains;
+    public readonly List<string> Contains;
 
 
     /// <summary>
     ///     Is good include the most files as is possible due to performamce
     /// </summary>
-    public readonly List<string> ending;
+    public readonly List<string> Ending;
 
     public string AssemblyInfo = "AssemblyInfo.cs";
     public string Attributes = "Attributes";
@@ -22,7 +23,7 @@ public class FiltersNotTranslateAble
     public string Layer = "Layer.cs";
     public string NotTranslateAbleCs = "NotTranslateAble.cs";
     public string NotTranslateAblePp = "NotTranslateAble";
-    public string standard = @"\standard\";
+    public string Standard = @"\standard\";
 
     /// <summary>
     ///     in XLF is not available sess coz is in sunamo
@@ -37,8 +38,8 @@ public class FiltersNotTranslateAble
 
     private FiltersNotTranslateAble()
     {
-        ending = new List<string>([AssemblyInfo, Layer, NotTranslateAbleCs]);
-        contains = new List<string>([SunamoXlf, WithoutDep, Credentials, Interfaces, Enums, NotTranslateAblePp, Consts,
-            standard]);
+        Ending = new List<string>([AssemblyInfo, Layer, NotTranslateAbleCs]);
+        Contains = new List<string>([SunamoXlf, WithoutDep, Credentials, Interfaces, Enums, NotTranslateAblePp, Consts,
+            Standard]);
     }
 }

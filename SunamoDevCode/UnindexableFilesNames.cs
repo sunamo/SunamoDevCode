@@ -1,14 +1,15 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public class UnindexableFilesNames
 {
-    public static UnindexableFilesNames ci = new();
-    public string fileUnindexableFileNames = "unindexableFileNames.txt";
-    public string fileUnindexableFileNamesExactly = "unindexableFileNamesExactly.txt";
-    public string fileUnindexablePathEnds = "unindexablePathEnds.txt";
+    public static UnindexableFilesNames Instance { get; } = new();
+    public string FileUnindexableFileNames { get; } = "unindexableFileNames.txt";
+    public string FileUnindexableFileNamesExactly { get; } = "unindexableFileNamesExactly.txt";
+    public string FileUnindexablePathEnds { get; } = "unindexablePathEnds.txt";
 
-    public string fileUnindexablePathParts = "unindexablePathParts.txt";
-    public string fileUnindexablePathStarts = "unindexablePathStarts.txt";
+    public string FileUnindexablePathParts { get; } = "unindexablePathParts.txt";
+    public string FileUnindexablePathStarts { get; } = "unindexablePathStarts.txt";
 
     private UnindexableFilesNames()
     {

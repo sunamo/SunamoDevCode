@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Projs;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -8,16 +9,16 @@ public partial class SunamoCsprojHelper
     /// <summary>
     /// Must be async
     /// </summary>
-    /// <param name = "s"></param>
-    /// <param name = "addAlsoDepencies"></param>
+    /// <param name = "text">Solution path or SolutionFolder object</param>
+    /// <param name = "addAlsoDepedencies">Whether to add also dependencies</param>
     /// <returns></returns>
-    public static 
+    public static
 #if ASYNC
         async Task<object>
 #else
-    object 
+    object
 #endif
-    AddMissingProjectsAlsoString(object text, bool addAlsoDepencies = false)
+    AddMissingProjectsAlsoString(object text, bool addAlsoDepedencies = false)
     {
         throw new Exception("Používá se tu fubucsproj. přepsat do dotnet cmd");
     //        string ts2 = null;
@@ -25,24 +26,24 @@ public partial class SunamoCsprojHelper
     //        sfs.slnFullPath = ts2;
     //        SolutionFolder sln = null;
     //        var ts = text.GetType();
-    //        if (ts == Types.tString)
+    //        if (ts == Types.StringType)
     //        {
     //            ts2 = text.ToString();
-    //            if (ts2.EndsWith(AllExtensions.sln))
+    //            if (ts2.EndsWith(AllExtensions.SlnExtension))
     //            {
     //                ts2 = FS.GetDirectoryName(ts2);
     //            }
     //            sln = FoldersWithSolutions.CreateSolutionFolder(ts2, SellingUCAps.toSelling);
     //        }
-    //        else if (ts == SolutionFolder.type)
+    //        else if (ts == SolutionFolder.Type)
     //        {
     //            sln = (SolutionFolder)text;
-    //            ts2 = ApsHelper.ci.MainSln(sln);
+    //            ts2 = ApsHelper.Instance.MainSln(sln);
     //        }
-    //        else if (ts == SolutionFolderSerialize.type)
+    //        else if (ts == SolutionFolderSerialize.Type)
     //        {
     //            sln = new SolutionFolder((SolutionFolderSerialize)text);
-    //            ts2 = ApsHelper.ci.MainSln(sln);
+    //            ts2 = ApsHelper.Instance.MainSln(sln);
     //        }
     //        else
     //        {
@@ -53,13 +54,13 @@ public partial class SunamoCsprojHelper
     //    await
     //#endif
     // FubuCsprojFile.Solution.LoadFrom(text.ToString());
-    //        sln.projectsInSolution = SolutionsIndexerHelper.ProjectsInSolution(true, sln.fullPathFolder);
+    //        sln.projectsInSolution = SolutionsIndexerHelper.ProjectsInSolution(true, sln.FullPathFolder);
     //        var pr = sln.projectsInSolution;
     //        CollectionWithoutDuplicates<string> projectsOnWhichDepend = new CollectionWithoutDuplicates<string>();
     //        foreach (var prr in pr)
     //        {
-    //            var path = Path.Combine(sln.fullPathFolder, prr);
-    //            var d2 = ApsHelper.ci.GetCsprojsOnlyTopDirectory(path);
+    //            var path = Path.Combine(sln.FullPathFolder, prr);
+    //            var d2 = ApsHelper.Instance.GetCsprojsOnlyTopDirectory(path);
     //            foreach (var item2 in d2)
     //            {
     //                FubuCsprojFile.CsprojFile csp = new CsprojFile(item2);

@@ -1,18 +1,49 @@
 namespace SunamoDevCode._sunamo.SunamoLang.SunamoXlf;
 
+/// <summary>
+/// Helper class for managing base paths used in localization.
+/// </summary>
 internal class BasePathsHelper
 {
-    // Tohle už nepoužívat. předávat v parametrech. ať to mám co nejjednodušší
-    //internal static string bp = null;
-    internal static string vsProjects = null;
-    internal static string actualPlatform;
-    internal static string vs;
+    // EN: Don't use this anymore. Pass in parameters to keep it as simple as possible.
 
-    internal const string cRepos = @"C:\repos";
+    /// <summary>
+    /// Path to the Visual Studio projects directory.
+    /// </summary>
+    internal static string VsProjects = null;
 
-    internal const string bpMb = @"E:\vs\";
-    internal const string bpQ = @"C:\repos\_\";
-    internal const string bpVps = @"C:\_\";
+    /// <summary>
+    /// Path for the actual platform being used.
+    /// </summary>
+    internal static string ActualPlatform;
 
-    internal const string bpBb = @"D:\Documents\BitBucket\";
+    /// <summary>
+    /// Path to the Visual Studio directory.
+    /// </summary>
+    internal static string Vs;
+
+    /// <summary>
+    /// Constant path for C:\repos directory.
+    /// </summary>
+    internal const string CRepos = @"C:\repos";
+
+    /// <summary>
+    /// Base path for main machine (MB): E:\vs\
+    /// </summary>
+    internal const string BpMb = @"E:\vs\";
+
+    /// <summary>
+    /// Base path for Q environment: C:\repos\_\
+    /// </summary>
+    internal const string BpQ = @"C:\repos\_\";
+
+    /// <summary>
+    /// Base path for VPS: C:\_\
+    /// </summary>
+    internal const string BpVps = @"C:\_\";
+
+    /// <summary>
+    /// Base path for BitBucket: D:\Documents\BitBucket\
+    /// </summary>
+    internal const string BpBb = @"D:\Documents\BitBucket\";
 }

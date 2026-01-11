@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Projs;
 
 /// <summary>
@@ -108,9 +109,9 @@ public class VsProjectFile
     //public void SetToItemGroup(ItemGroups ig, List<XmlNode> old, List<XmlNode> n)
     //{
     //}
-    public static XmlNode GetElementOfName(XmlNode e, string n)
+    public static XmlNode GetElementOfName(XmlNode element, string name)
     {
-        return e.ChildNodes.First(n);
+        return element.ChildNodes.First(name);
     }
     public List<XmlNode> ReturnAllItemGroup(ItemGroups ig)
     {

@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoCSharp;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -150,7 +151,7 @@ public static partial class CSharpHelper
 
     public static string GetDictionaryValuesFromTwoList(List<string> names, List<string> chars)
     {
-        return CSharpHelper.GetDictionaryValuesFromTwoList<string, string>(2, "a", names, chars, new CSharpGeneratorArgs { splitKeyWith = "," });
+        return CSharpHelper.GetDictionaryValuesFromTwoList<string, string>(2, "a", names, chars, new CSharpGeneratorArgs { SplitKeyWith = "," });
     }
 
     public static string GetDictionaryValuesFromDictionary(Dictionary<string, string> data)

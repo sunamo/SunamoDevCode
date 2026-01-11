@@ -1,38 +1,43 @@
 namespace SunamoDevCode._sunamo.SunamoConverters.Converts;
 
-internal class ConvertPascalConvention //: IConvertConvention
+/// <summary>
+/// Converter to PascalCase convention
+/// </summary>
+internal class ConvertPascalConvention
 {
-        /// <summary>
+    /// <summary>
+    /// Converts string to PascalCase convention
     /// Will include numbers
     /// hello world = HelloWorld
     /// Hello world = HelloWorld
     /// helloWorld = HelloWorld
     /// </summary>
-    /// <param name="p"></param>
-    internal static string ToConvention(string p)
+    /// <param name="input">Input string to convert</param>
+    /// <returns>String in PascalCase convention</returns>
+    internal static string ToConvention(string input)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        bool dalsiVelke = false;
-        foreach (char item in p)
+        bool shouldCapitalizeNext = false;
+        foreach (char character in input)
         {
-            if (dalsiVelke)
+            if (shouldCapitalizeNext)
             {
-                if (char.IsUpper(item))
+                if (char.IsUpper(character))
                 {
-                    dalsiVelke = false;
-                    stringBuilder.Append(item);
+                    shouldCapitalizeNext = false;
+                    stringBuilder.Append(character);
                     continue;
                 }
-                else if (char.IsLower(item))
+                else if (char.IsLower(character))
                 {
-                    dalsiVelke = false;
-                    stringBuilder.Append(char.ToUpper(item));
+                    shouldCapitalizeNext = false;
+                    stringBuilder.Append(char.ToUpper(character));
                     continue;
                 }
-                else if (char.IsDigit(item))
+                else if (char.IsDigit(character))
                 {
-                    dalsiVelke = true;
-                    stringBuilder.Append(item);
+                    shouldCapitalizeNext = true;
+                    stringBuilder.Append(character);
                     continue;
                 }
                 else
@@ -40,27 +45,26 @@ internal class ConvertPascalConvention //: IConvertConvention
                     continue;
                 }
             }
-            if (char.IsUpper(item))
+            if (char.IsUpper(character))
             {
-                stringBuilder.Append(item);
+                stringBuilder.Append(character);
             }
-            else if (char.IsLower(item))
+            else if (char.IsLower(character))
             {
-                stringBuilder.Append(item);
+                stringBuilder.Append(character);
             }
-            else if (char.IsDigit(item))
+            else if (char.IsDigit(character))
             {
-                stringBuilder.Append(item);
+                stringBuilder.Append(character);
             }
             else
             {
-                dalsiVelke = true;
+                shouldCapitalizeNext = true;
             }
         }
         var result = stringBuilder.ToString().Trim();
-        StringBuilder sb2 = new StringBuilder(result);
-        sb2[0] = char.ToUpper(sb2[0]);
-        //result = SH.FirstCharUpper(result);
+        StringBuilder resultBuilder = new StringBuilder(result);
+        resultBuilder[0] = char.ToUpper(resultBuilder[0]);
         return result;
     }
 }

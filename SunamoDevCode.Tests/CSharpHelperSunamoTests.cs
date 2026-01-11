@@ -1,3 +1,4 @@
+// variables names: ok
 using SunamoStringGetLines;
 using SunamoString;
 
@@ -15,18 +16,18 @@ cook.Expires = DateTime.Now.AddYears(1);
  
 }");
 
-        var excepted = SHGetLines.GetLines( @"for (int i = 0; i < args.Length; i++)
+        var expected = SHGetLines.GetLines( @"for (int i = 0; i < args.Length; i++)
 {
     string nazev = args[i];
     HttpCookie cook = new HttpCookie(nazev, args[++i]);
     cook.Expires = DateTime.Now.AddYears(1);
     Response.Cookies.Set(cook);
- 
+
 }");
 
 
         SH.IndentAsPreviousLine(input);
 
-        Assert.Equal(excepted, input);
+        Assert.Equal(expected, input);
     }
 }

@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoSolutionsIndexer.Tests;
 
 public class UnitTest1

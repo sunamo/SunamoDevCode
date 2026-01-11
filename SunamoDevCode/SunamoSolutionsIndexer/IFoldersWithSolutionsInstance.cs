@@ -1,14 +1,15 @@
+// variables names: ok
 //namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 //public interface IFoldersWithSolutions
 //{
-//    FoldersWithSolutionsList fwss { get; }
+//    FoldersWithSolutionsList Fwss { get; }
 
 
 //    /*
 //#region IMainWindowAps
 //    public static IMainWindowAps fws = null;
-//    public FoldersWithSolutionsList fwss => fws.fwss; 
+//    public FoldersWithSolutionsList Fwss => fws.Fwss; 
 //    #endregion
 //     */
 //}

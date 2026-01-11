@@ -1,41 +1,66 @@
+// variables names: ok
 namespace SunamoDevCode;
 
+/// <summary>
+/// Helper class for managing Unindexable paths and files configuration.
+/// </summary>
 public class UnindexableHelper
 {
-    public static Unindexable unindexable;
+    /// <summary>
+    /// Gets or sets the Unindexable configuration.
+    /// </summary>
+    public static Unindexable Unindexable;
 
-    public static PpkOnDriveDC unindexablePathParts => unindexable.unindexablePathParts;
-    public static PpkOnDriveDC unindexableFileNames => unindexable.unindexableFileNames;
-    public static PpkOnDriveDC unindexablePathEnds => unindexable.unindexablePathEnds;
-    public static PpkOnDriveDC unindexablePathStarts => unindexable.unindexablePathStarts;
+    /// <summary>
+    /// Gets the Unindexable path parts configuration.
+    /// </summary>
+    public static PpkOnDriveDC UnindexablePathParts => Unindexable.UnindexablePathParts;
+
+    /// <summary>
+    /// Gets the Unindexable file names configuration.
+    /// </summary>
+    public static PpkOnDriveDC UnindexableFileNames => Unindexable.UnindexableFileNames;
+
+    /// <summary>
+    /// Gets the Unindexable path ends configuration.
+    /// </summary>
+    public static PpkOnDriveDC UnindexablePathEnds => Unindexable.UnindexablePathEnds;
+
+    /// <summary>
+    /// Gets the Unindexable path starts configuration.
+    /// </summary>
+    public static PpkOnDriveDC UnindexablePathStarts => Unindexable.UnindexablePathStarts;
 
     /// <summary>
     ///     Into A1 insert SearchCodeElementsUC .ufp
     /// </summary>
-    /// <param name="f"></param>
-    public static void Load(UnindexableFilesPaths f)
+    /// <param name="filePaths">Unindexable file paths configuration</param>
+    public static void Load(UnindexableFilesPaths filePaths)
     {
-        unindexable = new Unindexable();
+        Unindexable = new Unindexable();
 
-        //ClipboardService.SetText(f.fileUnindexablePathParts);
-        //PD.ShowMb(f.fileUnindexablePathParts);
+        //ClipboardService.SetText(filePaths.fileUnindexablePathParts);
+        //PD.ShowMb(filePaths.fileUnindexablePathParts);
 
-        unindexable.unindexablePathParts = new PpkOnDriveDC(f.fileUnindexablePathParts);
+        Unindexable.UnindexablePathParts = new PpkOnDriveDC(filePaths.FileUnindexablePathParts);
 
-        unindexable.unindexableFileNames = new PpkOnDriveDC(f.fileUnindexableFileNames);
-        unindexable.unindexableFileNamesExactly = new PpkOnDriveDC(f.fileUnindexableFileNamesExactly);
-        unindexable.unindexablePathEnds = new PpkOnDriveDC(f.fileUnindexablePathEnds);
-        unindexable.unindexablePathStarts = new PpkOnDriveDC(f.fileUnindexablePathStarts);
+        Unindexable.UnindexableFileNames = new PpkOnDriveDC(filePaths.FileUnindexableFileNames);
+        Unindexable.UnindexableFileNamesExactly = new PpkOnDriveDC(filePaths.FileUnindexableFileNamesExactly);
+        Unindexable.UnindexablePathEnds = new PpkOnDriveDC(filePaths.FileUnindexablePathEnds);
+        Unindexable.UnindexablePathStarts = new PpkOnDriveDC(filePaths.FileUnindexablePathStarts);
     }
 
-    public static bool IsToIndexedFolder(string d)
+    /// <summary>
+    /// Determines whether the specified path should be indexed based on folder rules.
+    /// </summary>
+    /// <param name="path">The path to check.</param>
+    /// <returns>True if the folder should be indexed, false otherwise.</returns>
+    public static bool IsToIndexedFolder(string path)
     {
-
-
-        if (unindexablePathStarts != null && unindexablePathParts != null)
+        if (UnindexablePathStarts != null && UnindexablePathParts != null)
         {
-            if (unindexablePathParts.TrueForAll(e => !d.Contains(e)))
-                if (unindexablePathStarts.TrueForAll(e => !d.StartsWith(e)))
+            if (UnindexablePathParts.TrueForAll(part => !path.Contains(part)))
+                if (UnindexablePathStarts.TrueForAll(start => !path.StartsWith(start)))
                     return true;
         }
         else
@@ -46,17 +71,24 @@ public class UnindexableHelper
         return false;
     }
 
-    public static bool IsToIndexed(string d, string fn, Func<string, bool> sci_IsIndexed)
+    /// <summary>
+    /// Determines whether the specified file should be indexed based on path and file name rules.
+    /// </summary>
+    /// <param name="path">The file path to check.</param>
+    /// <param name="fileName">The file name to check.</param>
+    /// <param name="sci_IsIndexed">Optional additional indexing check function.</param>
+    /// <returns>True if the file should be indexed, false otherwise.</returns>
+    public static bool IsToIndexed(string path, string fileName, Func<string, bool> sci_IsIndexed)
     {
-        if (unindexablePathEnds != null && unindexableFileNames != null)
+        if (UnindexablePathEnds != null && UnindexableFileNames != null)
         {
             //Checking for sth for which is checking in SourceCodeIndexerRoslyn.ProcessFile
-            if (unindexablePathEnds.TrueForAll(e => !d.EndsWith(e)))
-                if (unindexableFileNames.TrueForAll(e => !fn.Contains(e)))
+            if (UnindexablePathEnds.TrueForAll(ending => !path.EndsWith(ending)))
+                if (UnindexableFileNames.TrueForAll(name => !fileName.Contains(name)))
                 {
                     if (sci_IsIndexed == null)
                         return true;
-                    return sci_IsIndexed(d);
+                    return sci_IsIndexed(path);
                 }
         }
         else

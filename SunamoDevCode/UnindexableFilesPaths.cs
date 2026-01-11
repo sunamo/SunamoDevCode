@@ -1,20 +1,21 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public class UnindexableFilesPaths
 {
-    public string fileUnindexableFileNames;
-    public string fileUnindexableFileNamesExactly;
-    public string fileUnindexablePathEnds;
-    public string fileUnindexablePathParts;
-    public string fileUnindexablePathStarts;
+    public string FileUnindexableFileNames { get; set; }
+    public string FileUnindexableFileNamesExactly { get; set; }
+    public string FileUnindexablePathEnds { get; set; }
+    public string FileUnindexablePathParts { get; set; }
+    public string FileUnindexablePathStarts { get; set; }
 
-    public UnindexableFilesPaths(string p)
+    public UnindexableFilesPaths(string basePath)
     {
-        var f = UnindexableFilesNames.ci;
-        fileUnindexablePathParts = p + f.fileUnindexablePathParts;
-        fileUnindexableFileNames = p + f.fileUnindexableFileNames;
-        fileUnindexableFileNamesExactly = p + f.fileUnindexableFileNamesExactly;
-        fileUnindexablePathEnds = p + f.fileUnindexablePathEnds;
-        fileUnindexablePathStarts = p + f.fileUnindexablePathStarts;
+        var fileNames = UnindexableFilesNames.Instance;
+        FileUnindexablePathParts = basePath + fileNames.FileUnindexablePathParts;
+        FileUnindexableFileNames = basePath + fileNames.FileUnindexableFileNames;
+        FileUnindexableFileNamesExactly = basePath + fileNames.FileUnindexableFileNamesExactly;
+        FileUnindexablePathEnds = basePath + fileNames.FileUnindexablePathEnds;
+        FileUnindexablePathStarts = basePath + fileNames.FileUnindexablePathStarts;
     }
 }

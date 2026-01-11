@@ -1,41 +1,43 @@
 namespace SunamoDevCode._sunamo.SunamoEmbeddedResources;
 
 /// <summary>
-///
-/// Require assembly and default namespace.
+/// Helper for embedded resources
+/// Requires assembly and default namespace.
 /// Content is referred like with ResourcesH - with fs path
 /// </summary>
-internal class EmbeddedResourcesH //: IResourceHelper
+internal class EmbeddedResourcesH
 {
-    /*usage:
-uri = new Uri("Wpf.Tests.Resources.EmbeddedResource.txt", UriKind.Relative);
-GetString(uri.ToString()) - the same string as passed in ctor Uri
-     */
+    /// <summary>
+    /// Singleton instance for entry assembly
+    /// </summary>
+    internal static EmbeddedResourcesH Instance = null;
 
     /// <summary>
-    /// For entry assembly
+    /// Protected constructor for inheritance
     /// </summary>
-    internal static EmbeddedResourcesH ci = null;
-
     protected EmbeddedResourcesH()
     {
 
     }
 
     /// <summary>
-    /// internal to use in assembly like SunamoNTextCat
-    /// A2 is name of project, therefore don't insert typeResourcesSunamo.Namespace
+    /// Constructor for use in assembly like SunamoNTextCat
+    /// Parameter is name of project, therefore don't insert typeResourcesSunamo.Namespace
     /// </summary>
-    /// <param name="_entryAssembly"></param>
-    internal EmbeddedResourcesH(Assembly _entryAssembly, string defaultNamespace)
+    /// <param name="entryAssembly">Entry assembly</param>
+    /// <param name="defaultNamespace">Default namespace for resources</param>
+    internal EmbeddedResourcesH(Assembly entryAssembly, string defaultNamespace)
     {
-        this._entryAssembly = _entryAssembly;
+        this._entryAssembly = entryAssembly;
         _defaultNamespace = defaultNamespace;
     }
 
     protected Assembly _entryAssembly = null;
     protected string _defaultNamespace;
 
+    /// <summary>
+    /// Gets the entry assembly
+    /// </summary>
     protected Assembly entryAssembly
     {
         get
@@ -47,7 +49,4 @@ GetString(uri.ToString()) - the same string as passed in ctor Uri
             return _entryAssembly;
         }
     }
-
-
-    
-    }
+}

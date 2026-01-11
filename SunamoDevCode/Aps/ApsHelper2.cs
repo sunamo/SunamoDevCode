@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps;
 
 public partial class ApsHelper : ApsPluginStatic
@@ -35,7 +36,7 @@ public partial class ApsHelper : ApsPluginStatic
             gitBashCommands = stringBuilder.ToString();
         }
 
-        if (pushSolutionsData.onlyThese != VpsHelperDevCode.listVpsNew)
+        if (pushSolutionsData.onlyThese != VpsHelperDevCode.ListVpsNew)
         {
             string vpsPath = eVs;
             //string localPath = SH.PostfixIfNotEmpty(DefaultPaths.eVsProjects, "\\");
@@ -50,7 +51,7 @@ public partial class ApsHelper : ApsPluginStatic
                     var pathParts = SHSplit.SplitChar(parts[1], '\\');
                     var slnName = pathParts[0].TrimEnd('"');
                     var sfo = SolutionsIndexerHelper.SolutionWithName(slnName);
-                    var dn = FS.GetDirectoryName(sfo.fullPathFolder);
+                    var dn = FS.GetDirectoryName(sfo.FullPathFolder);
                     list[i] = list[i].Replace(vpsPath, dn);
                 }
             }
@@ -91,9 +92,9 @@ public partial class ApsHelper : ApsPluginStatic
     public List<SolutionFolder> AllSolutions(RepositoryLocal vs17)
     {
         var data = new List<SolutionFolder>();
-        foreach (var item in ApsMainWindow.Instance.fwss)
+        foreach (var item in ApsMainWindow.Instance.Fwss)
         {
-            var sln = item.Solutions(vs17);
+            var sln = item.GetSolutions(vs17);
             data.AddRange(sln);
         }
 
@@ -106,15 +107,15 @@ public partial class ApsHelper : ApsPluginStatic
     /// </summary>
     public async Task<bool> IsWebProject(ILogger logger, SolutionFolder sln, GetFileSettings getFileSettings)
     {
-        var data = await AllProjectsSearchSettings.GetWebProjectsWildCard(logger, getFileSettings);
-        if (data.Count == 0)
+        var webProjectsWildcard = await AllProjectsSearchSettings.GetWebProjectsWildCard(logger, getFileSettings);
+        if (webProjectsWildcard.Count == 0)
         {
-            ThrowEx.IsEmpty(data, "d", "For all elements will return false");
+            ThrowEx.IsEmpty(webProjectsWildcard, "webProjectsWildcard", "For all elements will return false");
         }
 
-        foreach (var item in data)
+        foreach (var item in webProjectsWildcard)
         {
-            if (item.Value.IsMatch(sln.nameSolution))
+            if (item.Value.IsMatch(sln.NameSolution))
             {
                 return true;
             }
@@ -126,29 +127,29 @@ public partial class ApsHelper : ApsPluginStatic
     public string MainSln2(string fullPathFolder)
     {
         string slnPath = null;
-        slnPath = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder) + AllExtensions.sln);
+        slnPath = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder) + AllExtensions.SlnExtension);
         if (FS.ExistsFile(slnPath))
         {
             return slnPath;
         }
         else
         {
-            //slnPath = ApsHelper.ci.GetSlns(fullPathFolder).FirstOrDefault();
+            //slnPath = ApsHelper.Instance.GetSlns(fullPathFolder).FirstOrDefault();
             return null;
         }
     }
 
     public string MainSln(SolutionFolder sln)
     {
-        string fullPathFolder = sln.fullPathFolder;
+        string fullPathFolder = sln.FullPathFolder;
         string slnPath = null;
-        if (sln.slnNameWoExt == null)
+        if (sln.SlnNameWithoutExtension == null)
         {
-            slnPath = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder) + AllExtensions.sln);
+            slnPath = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder) + AllExtensions.SlnExtension);
         }
         else
         {
-            slnPath = Path.Combine(fullPathFolder, sln.slnNameWoExt + AllExtensions.sln);
+            slnPath = Path.Combine(fullPathFolder, sln.SlnNameWithoutExtension + AllExtensions.SlnExtension);
         }
 
         if (slnPath.Contains("apps.sunamo.cz"))
@@ -161,41 +162,41 @@ public partial class ApsHelper : ApsPluginStatic
         }
         else
         {
-            //slnPath = ApsHelper.ci.GetSlns(fullPathFolder).FirstOrDefault();
+            //slnPath = ApsHelper.Instance.GetSlns(fullPathFolder).FirstOrDefault();
             return null;
         }
     }
 
-    public string AbsolutePathOfProject(string project, string sln, string eVsProjects)
+    public string AbsolutePathOfProject(string project, string slnName, string eVsProjects)
     {
-        var path = Path.Combine(eVsProjects, sln, project, project + ".csproj");
+        var path = Path.Combine(eVsProjects, slnName, project, project + ".csproj");
         return path;
     }
 
     public string SlnFilePathFromFolder(string fullPathFolder)
     {
         var folderName = FS.GetFileName(fullPathFolder);
-        return Path.Combine(fullPathFolder, folderName + AllExtensions.sln);
+        return Path.Combine(fullPathFolder, folderName + AllExtensions.SlnExtension);
     }
 
     /// <summary>
     /// Save to A1 variables projectFolder and slnFullPath
     /// A2 can be null, then will be detected automatically
     /// </summary>
-    /// <param name = "item"></param>
+    /// <param name = "sln"></param>
     /// <param name = "documentsFolder"></param>
-    public void GetProjectFolderAndSlnPath(SolutionFolder item, string documentsFolder = null)
+    public void GetProjectFolderAndSlnPath(SolutionFolder sln, string? documentsFolder = null)
     {
         if (documentsFolder == null)
         {
-            documentsFolder = ci.DetectDocumentsFolder(item);
+            documentsFolder = Instance.DetectDocumentsFolder(sln);
         }
 
-        string relativeFromProjectFolder = item.fullPathFolder.Substring(documentsFolder.Length);
+        string relativeFromProjectFolder = sln.FullPathFolder.Substring(documentsFolder.Length);
         var arr = SHSplit.SplitToParts(relativeFromProjectFolder, 3, "\\");
         // 0 - VS folder
-        item.projectFolder = arr[1];
-        item.slnFullPath = arr[2];
+        sln.projectFolder = arr[1];
+        sln.slnFullPath = arr[2];
     }
 
     /// <summary>
@@ -210,7 +211,7 @@ public partial class ApsHelper : ApsPluginStatic
     /// <param name = "fullPathCsproj"></param>
     public string GetRelativePathFromSolution(SolutionFolder sln, string fullPathCsproj)
     {
-        GetProjectFolderAndSlnPath(sln, ci.DetectDocumentsFolder(sln));
+        GetProjectFolderAndSlnPath(sln, Instance.DetectDocumentsFolder(sln));
         var projectFolder = SH.WrapWith(sln.projectFolder, "\\");
         int projectFolderIndex = fullPathCsproj.IndexOf(projectFolder);
         string result = fullPathCsproj.Substring(projectFolderIndex + projectFolder.Length);
@@ -246,7 +247,7 @@ public partial class ApsHelper : ApsPluginStatic
     /// <param name = "up"></param>
     /// <param name = "getFilesArgs"></param>
     /// <returns></returns>
-    public List<string> GetSlns(ILogger logger, string path, GetFilesArgsDC getFilesArgs = null)
+    public List<string> GetSlns(ILogger logger, string path, GetFilesArgsDC? getFilesArgs = null)
     {
         if (getFilesArgs == null)
         {
@@ -259,11 +260,11 @@ public partial class ApsHelper : ApsPluginStatic
 
     public string DetectDocumentsFolder(SolutionFolder sln)
     {
-        foreach (var item in ApsMainWindow.Instance.fwss)
+        foreach (var item in ApsMainWindow.Instance.Fwss)
         {
-            if (sln.fullPathFolder.Contains(item.documentsFolder))
+            if (sln.FullPathFolder.Contains(item.DocumentsFolder))
             {
-                return item.documentsFolder;
+                return item.DocumentsFolder;
             }
         }
 

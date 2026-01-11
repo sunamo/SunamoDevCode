@@ -1,20 +1,32 @@
 namespace SunamoDevCode._sunamo.SunamoCollections;
 
+/// <summary>
+/// Service for removing empty lines from collections
+/// </summary>
 internal class RemoveEmptyLinesService
 {
-    internal void RemoveEmptyLinesFromStartAndEnd(List<string> c)
+    /// <summary>
+    /// Removes empty lines from both start and end of list
+    /// </summary>
+    /// <param name="lines">List of lines to process</param>
+    internal void RemoveEmptyLinesFromStartAndEnd(List<string> lines)
     {
-        RemoveEmptyLinesToFirstNonEmpty(c);
-        RemoveEmptyLinesFromBack(c);
+        RemoveEmptyLinesToFirstNonEmpty(lines);
+        RemoveEmptyLinesFromBack(lines);
     }
-    internal void RemoveEmptyLinesToFirstNonEmpty(List<string> content)
+
+    /// <summary>
+    /// Removes empty lines from the beginning until first non-empty line
+    /// </summary>
+    /// <param name="lines">List of lines to process</param>
+    internal void RemoveEmptyLinesToFirstNonEmpty(List<string> lines)
     {
-        for (var i = 0; i < content.Count; i++)
+        for (var i = 0; i < lines.Count; i++)
         {
-            var line = content[i];
+            var line = lines[i];
             if (line.Trim() == string.Empty)
             {
-                content.RemoveAt(i);
+                lines.RemoveAt(i);
                 i--;
             }
             else
@@ -23,13 +35,18 @@ internal class RemoveEmptyLinesService
             }
         }
     }
-    internal void RemoveEmptyLinesFromBack(List<string> c)
+
+    /// <summary>
+    /// Removes empty lines from the end until first non-empty line
+    /// </summary>
+    /// <param name="lines">List of lines to process</param>
+    internal void RemoveEmptyLinesFromBack(List<string> lines)
     {
-        for (var i = c.Count - 1; i >= 0; i--)
+        for (var i = lines.Count - 1; i >= 0; i--)
         {
-            var line = c[i];
+            var line = lines[i];
             if (line.Trim() == string.Empty)
-                c.RemoveAt(i);
+                lines.RemoveAt(i);
             else
                 break;
         }

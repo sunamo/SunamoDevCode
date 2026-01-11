@@ -1,50 +1,59 @@
+// variables names: ok
 namespace SunamoDevCode.Services;
 
+/// <summary>
+/// Service for parsing dotnet build output
+/// </summary>
 public class DotnetOutputService
 {
-    public DotnetBuildOutputLine? GetPartsFromDotnetBuildLine(string line2)
+    /// <summary>
+    /// Parses a single line from dotnet build output into structured format
+    /// </summary>
+    /// <param name="line">Line from dotnet build output</param>
+    /// <returns>Parsed output line or null if line is not parseable</returns>
+    public DotnetBuildOutputLine? GetPartsFromDotnetBuildLine(string line)
     {
-        if (line2.StartsWith("MSBuild version"))
+        if (line.StartsWith("MSBuild version"))
         {
             // MSBuild version 17.8.3+195e7f5a3 for .NET
             return null;
         }
-        if (line2.Trim() == string.Empty)
+        if (line.Trim() == string.Empty)
         {
             return null;
         }
-        var parameter = SHSplit.SplitToParts(line2, 4, ":");
-        var p1Trim = parameter[1].Trim();
+        var parts = SHSplit.SplitToParts(line, 4, ":");
+        var locationPart = parts[1].Trim();
         string path = null;
-        int line = -1;
-        int column = -1;
-        if (p1Trim.Contains("("))
+        int lineNumber = -1;
+        int columnNumber = -1;
+        if (locationPart.Contains("("))
         {
-            var p3 = SHSplit.Split(p1Trim, "(");
-            var last = p3[p3.Count - 1];
-            p3.RemoveAt(p3.Count - 1);
-            var p4 = SHSplit.Split(last, ",");
-            line = int.Parse(p4[0]);
-            column = int.Parse(p4[1].TrimEnd(')'));
-            path = parameter[0] + ":" + string.Join("(", p3);
+            var locationParts = SHSplit.Split(locationPart, "(");
+            var coordinates = locationParts[locationParts.Count - 1];
+            locationParts.RemoveAt(locationParts.Count - 1);
+            var lineColumnParts = SHSplit.Split(coordinates, ",");
+            lineNumber = int.Parse(lineColumnParts[0]);
+            columnNumber = int.Parse(lineColumnParts[1].TrimEnd(')'));
+            path = parts[0] + ":" + string.Join("(", locationParts);
         }
         else
         {
-            path = parameter[0] + ":" + p1Trim;
+            path = parts[0] + ":" + locationPart;
         }
-        var p2 = SHSplit.Split(parameter[2].Trim(), " ");
+        var typeParts = SHSplit.Split(parts[2].Trim(), " ");
         string type = null;
         string errorCode = null;
-        if (p2.Count > 1)
+        if (typeParts.Count > 1)
         {
-            type = p2[0];
-            errorCode = p2[1];
+            type = typeParts[0];
+            errorCode = typeParts[1];
         }
         else
         {
             return null;
         }
-        var message = parameter[3].Trim();
-        return new DotnetBuildOutputLine { Path = path, Line = line, Column = column, Type = type, ErrorCode = errorCode, Message = message };
+        var message = parts[3].Trim();
+        return new DotnetBuildOutputLine { Path = path, Line = lineNumber, Column = columnNumber, Type = type, ErrorCode = errorCode, Message = message };
     }
 }

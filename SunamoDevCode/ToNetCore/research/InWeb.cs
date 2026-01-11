@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.ToNetCore.research;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -50,10 +51,10 @@ public partial class MoveToNet5
 #endif
         FindProjectsWhichIsSdkStyle(logger, false);
         StringBuilder stringBuilder = new StringBuilder();
-        if (temp.netstandardList.Count > 0)
+        if (temp.NetstandardList.Count > 0)
         {
             stringBuilder.AppendLine("Web projects which is in web standard");
-            foreach (var item in temp.netstandardList)
+            foreach (var item in temp.NetstandardList)
             {
                 stringBuilder.AppendLine(item);
             }
@@ -61,7 +62,7 @@ public partial class MoveToNet5
 
         var l2 = SHGetLines.GetLines(neededWebReferences);
         //CA.PostfixIfNotEnding(".dll", l2);
-        foreach (var item in temp.csprojSdkStyleList)
+        foreach (var item in temp.CsprojSdkStyleList)
         {
             foreach (var item2 in l2)
             {
@@ -74,7 +75,7 @@ public partial class MoveToNet5
         // 1 = sdk style, not netstandard2.0
         // 2 = sdk style, netstandard2.0
         // 3 = non sdk style
-        foreach (var item in temp.nonCsprojSdkStyleList)
+        foreach (var item in temp.NonCsprojSdkStyleList)
         {
             foreach (var item2 in l2)
             {
@@ -102,7 +103,7 @@ public partial class MoveToNet5
     await
 #endif
         FindProjectsWhichIsSdkStyle(logger, false);
-        await ChangeProjects.ChangeProjectsTo(ChangeProjects.netstandard20, list.csprojSdkStyleList);
+        await ChangeProjects.ChangeProjectsTo(ChangeProjects.netstandard20, list.CsprojSdkStyleList);
     }
 
     public 
@@ -121,7 +122,7 @@ public partial class MoveToNet5
     await
 #endif
         FindProjectsWhichIsSdkStyle(logger, false);
-        foreach (var item in list.csprojSdkStyleList)
+        foreach (var item in list.CsprojSdkStyleList)
         {
             throw new Exception("žádné koncovky old v csproj tu nemám. tak tedy nevím co jsem tu chtěl dělat ");
         //var old = item + ".old";
@@ -279,9 +280,9 @@ public partial class MoveToNet5
 #endif
         FindProjectsWhichIsSdkStyle(logger, appendHeaderForWeb, web);
         TextOutputGenerator tog = new TextOutputGenerator();
-        tog.List(result.csprojSdkStyleList, nameof(result.csprojSdkStyleList));
-        tog.List(result.netstandardList, nameof(result.netstandardList));
-        tog.List(result.nonCsprojSdkStyleList, nameof(result.nonCsprojSdkStyleList));
+        tog.List(result.CsprojSdkStyleList, nameof(result.CsprojSdkStyleList));
+        tog.List(result.NetstandardList, nameof(result.NetstandardList));
+        tog.List(result.NonCsprojSdkStyleList, nameof(result.NonCsprojSdkStyleList));
         //ProgramShared.Output = tog.ToString();
         //ProgramShared.OutputOpen();
         return tog.ToString();

@@ -1,34 +1,46 @@
 namespace SunamoDevCode._sunamo.SunamoStringSplit;
 
+/// <summary>
+/// String Helper for splitting strings.
+/// </summary>
 internal class SHSplit
 {
-    internal static List<string> Split(string parameter, params string[] newLine)
+    /// <summary>
+    /// Splits a string by specified delimiters, removing empty entries.
+    /// </summary>
+    /// <param name="text">The text to split.</param>
+    /// <param name="delimiters">Delimiters to split by.</param>
+    /// <returns>List of split parts.</returns>
+    internal static List<string> Split(string text, params string[] delimiters)
     {
-        return parameter.Split(newLine, StringSplitOptions.RemoveEmptyEntries).ToList();
+        return text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
     /// <summary>
-    ///     Get null if count of getted parts was under A2.
-    ///     Automatically add empty padding items at end if got lower than A2
-    ///     Automatically join overloaded items to last by A2.
+    /// Splits a string into a specific number of parts.
+    /// Returns null if count of parts is under the required amount.
+    /// Automatically adds empty padding items at end if got lower than required.
+    /// Automatically joins overloaded items to last part.
     /// </summary>
-    /// <param name="p"></param>
-    /// <param name="p_2"></param>
-    internal static List<string> SplitToParts(string what, int parts, string deli)
+    /// <param name="what">The text to split.</param>
+    /// <param name="parts">Required number of parts.</param>
+    /// <param name="delimiter">Delimiter to split by.</param>
+    /// <returns>List with exact number of parts, or null if insufficient parts.</returns>
+    internal static List<string> SplitToParts(string what, int parts, string delimiter)
     {
-        var text = Split(what.RemoveInvisibleChars(), deli);
+        var text = Split(what.RemoveInvisibleChars(), delimiter);
         if (text.Count < parts)
         {
             // Pokud je pocet ziskanych partu mensi, vlozim do zbytku prazdne retezce
             if (text.Count > 0)
             {
-                var vr2 = new List<string>();
+                var paddedResult = new List<string>();
                 for (var i = 0; i < parts; i++)
                     if (i < text.Count)
-                        vr2.Add(text[i]);
+                        paddedResult.Add(text[i]);
                     else
-                        vr2.Add("");
-                return vr2;
+                        paddedResult.Add("");
+                return paddedResult;
                 //return new string[] { text[0] };
             }
 
@@ -40,37 +52,48 @@ internal class SHSplit
             return text;
         // Pokud je pocet ziskanych partu vetsi nez kolik ma byt, pripojim ty co josu navic do zbytku
         parts--;
-        var vr = new List<string>();
+        var result = new List<string>();
         for (var i = 0; i < text.Count; i++)
             if (i < parts)
-                vr.Add(text[i]);
+                result.Add(text[i]);
             else if (i == parts)
-                vr.Add(text[i] + deli);
+                result.Add(text[i] + delimiter);
             else if (i != text.Count - 1)
-                vr[parts] += text[i] + deli;
+                result[parts] += text[i] + delimiter;
             else
-                vr[parts] += text[i];
-        return vr;
+                result[parts] += text[i];
+        return result;
     }
 
-    internal static List<string> SplitChar(string parametry, char deli)
+    /// <summary>
+    /// Splits a string by a single character delimiter.
+    /// </summary>
+    /// <param name="text">The text to split.</param>
+    /// <param name="delimiter">The character delimiter.</param>
+    /// <returns>List of split parts.</returns>
+    internal static List<string> SplitChar(string text, char delimiter)
     {
-        return Split(StringSplitOptions.RemoveEmptyEntries, parametry, (new List<char>([deli]).ConvertAll(d => d.ToString()).ToArray()));
+        return Split(StringSplitOptions.RemoveEmptyEntries, text, (new List<char>([delimiter]).ConvertAll(character => character.ToString()).ToArray()));
     }
 
-    internal static List<string> Split(StringSplitOptions stringSplitOptions, string text, params string[] deli)
+    /// <summary>
+    /// Splits a string by specified delimiters with custom split options.
+    /// </summary>
+    /// <param name="stringSplitOptions">Options for splitting behavior.</param>
+    /// <param name="text">The text to split.</param>
+    /// <param name="delimiter">Delimiters to split by.</param>
+    /// <returns>List of trimmed split parts.</returns>
+    internal static List<string> Split(StringSplitOptions stringSplitOptions, string text, params string[] delimiter)
     {
-        if (deli == null || deli.Length == 0)
+        if (delimiter == null || delimiter.Length == 0)
         {
             throw new Exception("NoDelimiterDetermined");
         }
-        //var ie = CA.OneElementCollectionToMulti(deli);
-        //var deli3 = new List<string>IEnumerable2(ie);
-        var result = text.Split(deli, stringSplitOptions).ToList();
+        var result = text.Split(delimiter, stringSplitOptions).ToList();
         CA.Trim(result);
         if (stringSplitOptions == StringSplitOptions.RemoveEmptyEntries)
         {
-            result = result.Where(d => d.Trim() != string.Empty).ToList();
+            result = result.Where(line => line.Trim() != string.Empty).ToList();
         }
 
         return result;
@@ -79,12 +102,23 @@ internal class SHSplit
 
 
 
-    internal static List<string> SplitByWhiteSpaces(string innerText)
+    /// <summary>
+    /// Splits a string by all whitespace characters.
+    /// </summary>
+    /// <param name="text">The text to split.</param>
+    /// <returns>List of parts split by whitespace.</returns>
+    internal static List<string> SplitByWhiteSpaces(string text)
     {
         WhitespaceCharService whitespaceChar = new();
-        return innerText.Split(whitespaceChar.whiteSpaceChars.ToArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+        return text.Split(whitespaceChar.WhiteSpaceChars.ToArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
+    /// <summary>
+    /// Splits replacement format strings into from and to parts.
+    /// Format: "from->to" on each line.
+    /// </summary>
+    /// <param name="input">Input string in replacement format.</param>
+    /// <returns>Tuple with from and to strings.</returns>
     internal static Tuple<string, string> SplitFromReplaceManyFormat(string input)
     {
         StringBuilder to = new StringBuilder();
@@ -94,13 +128,13 @@ internal class SHSplit
         {
             var lines = SHGetLines.GetLines(input);
 
-            lines = lines.ConvertAll(d => d.Trim());
+            lines = lines.ConvertAll(line => line.Trim());
 
             foreach (var item in lines)
             {
-                var parameter = SHSplit.Split(item, "->");
-                from.AppendLine(parameter[0]);
-                to.AppendLine(parameter[1]);
+                var parts = SHSplit.Split(item, "->");
+                from.AppendLine(parts[0]);
+                to.AppendLine(parts[1]);
             }
         }
         else
@@ -108,11 +142,14 @@ internal class SHSplit
             from.AppendLine(input);
         }
 
-
         return new Tuple<string, string>(from.ToString(), to.ToString());
-
     }
 
+    /// <summary>
+    /// Splits replacement format strings into from and to lists.
+    /// </summary>
+    /// <param name="input">Input string in replacement format.</param>
+    /// <returns>Tuple with from and to lists.</returns>
     internal static Tuple<List<string>, List<string>> SplitFromReplaceManyFormatList(string input)
     {
         var temp = SplitFromReplaceManyFormat(input);

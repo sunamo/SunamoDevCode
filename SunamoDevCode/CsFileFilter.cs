@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 /// <summary>
@@ -10,7 +11,7 @@ namespace SunamoDevCode;
 public partial class CsFileFilter : ICsFileFilter
 {
     private static readonly FiltersNotTranslateAble filtersNotTranslateable = FiltersNotTranslateAble.Instance;
-    private static bool? _rv;
+    private static bool? _returnValue;
     private ContainsArgs containsArgs;
     private EndArgs endArgs;
     /// <summary>
@@ -21,9 +22,9 @@ public partial class CsFileFilter : ICsFileFilter
     {
     }
 
-    private static bool? rv
+    private static bool? returnValue
     {
-        get => _rv;
+        get => _returnValue;
         set
         {
             if (value.HasValue)
@@ -31,77 +32,85 @@ public partial class CsFileFilter : ICsFileFilter
                 {
                 }
 
-            _rv = value;
+            _returnValue = value;
         }
     }
 
-    public List<string> GetFilesFiltered(string searchPath, string fileMask, SearchOption searchOption)
+    /// <summary>
+    /// Gets filtered list of C# files based on configured filtering rules
+    /// </summary>
+    /// <param name="path">Directory path to search</param>
+    /// <param name="searchPattern">File search pattern (e.g., "*.cs")</param>
+    /// <param name="searchOption">Search option (TopDirectoryOnly or AllDirectories)</param>
+    /// <returns>Filtered list of file paths</returns>
+    public List<string> GetFilesFiltered(string path, string searchPattern, SearchOption searchOption)
     {
-        var filesList = Directory.GetFiles(searchPath, fileMask, searchOption).ToList();
-        filesList.RemoveAll(AllowOnly);
-        filesList.RemoveAll(AllowOnlyContains);
-        return filesList;
+        var files = Directory.GetFiles(path, searchPattern, searchOption).ToList();
+        files.RemoveAll(AllowOnly);
+        files.RemoveAll(AllowOnlyContains);
+        return files;
     }
 
-    public static bool AllowOnly(string item, EndArgs end, ContainsArgs containsArgs)
+    public static bool AllowOnly(string filePath, EndArgs end, ContainsArgs containsArgs)
     {
-        var end2 = false;
-        return AllowOnly(item, end, containsArgs, ref end2, true);
+        var hasEndMatch = false;
+        return AllowOnly(filePath, end, containsArgs, ref hasEndMatch, true);
     }
 
     /// <summary>
     ///     A2 is also for master.designer.cs and aspx.designer.cs
     ///     A2,3 can be null
     /// </summary>
-    /// <param name = "item"></param>
-    /// <param name = "designerCs"></param>
-    /// <param name = "xamlCs"></param>
-    /// <param name = "sharedCs"></param>
-    public static bool AllowOnly(string item, EndArgs end, ContainsArgs containsArgs, ref bool end2, bool alsoEnds)
+    /// <param name = "filePath">File path to check</param>
+    /// <param name = "end">End arguments for filtering</param>
+    /// <param name = "containsArgs">Contains arguments for filtering</param>
+    /// <param name = "hasEndMatch">Output parameter indicating if end pattern matched</param>
+    /// <param name = "isAlsoCheckingEnds">Whether to also check end patterns</param>
+    public static bool AllowOnly(string filePath, EndArgs end, ContainsArgs containsArgs, ref bool hasEndMatch, bool isAlsoCheckingEnds)
     {
-        rv = null;
-        if (alsoEnds && end != null)
+        returnValue = null;
+        if (isAlsoCheckingEnds && end != null)
         {
-            end2 = true;
-            if (!end.designerCs && item.EndsWith(End.designerCsPp))
-                rv = false;
-            if (!end.xamlCs && item.EndsWith(End.xamlCsPp))
-                rv = false;
-            if (!end.sharedCs && item.EndsWith(End.sharedCsPp))
-                rv = false;
-            if (!end.iCs && item.EndsWith(End.iCsPp))
-                rv = false;
-            if (!end.gICs && item.EndsWith(End.gICsPp))
-                rv = false;
-            if (!end.gCs && item.EndsWith(End.gCsPp))
-                rv = false;
-            if (!end.tmp && item.EndsWith(End.tmpPp))
-                rv = false;
-            if (!end.TMP && item.EndsWith(End.TMPPp))
-                rv = false;
-            if (!end.DesignerCs && item.EndsWith(End.DesignerCsPp))
-                rv = false;
-            if (!end.notTranslateAble && item.EndsWith(End.NotTranslateAblePp))
-                rv = false;
+            hasEndMatch = true;
+            if (!end.designerCs && filePath.EndsWith(End.designerCsPp))
+                returnValue = false;
+            if (!end.xamlCs && filePath.EndsWith(End.xamlCsPp))
+                returnValue = false;
+            if (!end.sharedCs && filePath.EndsWith(End.sharedCsPp))
+                returnValue = false;
+            if (!end.iCs && filePath.EndsWith(End.iCsPp))
+                returnValue = false;
+            if (!end.gICs && filePath.EndsWith(End.gICsPp))
+                returnValue = false;
+            if (!end.gCs && filePath.EndsWith(End.gCsPp))
+                returnValue = false;
+            if (!end.tmp && filePath.EndsWith(End.tmpPp))
+                returnValue = false;
+            if (!end.TMP && filePath.EndsWith(End.TMPPp))
+                returnValue = false;
+            if (!end.DesignerCs && filePath.EndsWith(End.DesignerCsPp))
+                returnValue = false;
+            if (!end.notTranslateAble && filePath.EndsWith(End.NotTranslateAblePp))
+                returnValue = false;
         }
 
-        if (rv.HasValue)
+        if (returnValue.HasValue)
             // Always false
-            return rv.Value;
-        end2 = false;
+            return returnValue.Value;
+        hasEndMatch = false;
         if (containsArgs != null)
         {
-            if (!containsArgs.binFp && item.Contains(Contains.binFp))
-                rv = false;
-            if (!containsArgs.objFp && item.Contains(Contains.objFp))
-                rv = false;
-            if (!containsArgs.tildaRF && item.Contains(Contains.tildaRFFp))
-                rv = false;
+            if (!containsArgs.binFp && filePath.Contains(Contains.binFp))
+                returnValue = false;
+            if (!containsArgs.objFp && filePath.Contains(Contains.objFp))
+                returnValue = false;
+            if (!containsArgs.tildaRF && filePath.Contains(Contains.tildaRFFp))
+                returnValue = false;
         }
 
-        if (rv.HasValue)
+        if (returnValue.HasValue)
             // Always false
-            return rv.Value;
+            return returnValue.Value;
         return true;
     }
 
@@ -119,10 +128,10 @@ public partial class CsFileFilter : ICsFileFilter
     }
 
     /// <summary>
-    ///     A1 = negate
+    ///     Gets list of "contains" patterns based on flags
     /// </summary>
-    /// <param name = "n"></param>
-    /// <returns></returns>
+    /// <param name = "negate">Whether to negate the flag values</param>
+    /// <returns>List of contains patterns</returns>
     public List<string> GetContainsByFlags(bool negate)
     {
         var containsList = new List<string>();
@@ -163,9 +172,9 @@ public partial class CsFileFilter : ICsFileFilter
         return endingsList;
     }
 
-    private bool Is(bool temporaryFlag, bool negate)
+    private bool Is(bool flagValue, bool negate)
     {
-        return BTS.Is(temporaryFlag, negate);
+        return BTS.Is(flagValue, negate);
     }
 
     public static bool AllowOnlyContains(string itemPath, ContainsArgs containsArgs)
@@ -185,22 +194,22 @@ public partial class CsFileFilter : ICsFileFilter
         public static string objFp = @"\obj\";
         public static string binFp = @"\bin\";
         public static string tildaRFFp = "~RF";
-        public static List<string> u;
+        private static List<string> unindexablePaths;
         /// <summary>
         ///     Into A1 is inserting copy to leave only unindexed
         /// </summary>
-        /// <param name = "unindexablePathEnds"></param>
-        /// <returns></returns>
+        /// <param name = "unindexablePathEnds">List of unindexable path endings</param>
+        /// <returns>Configured ContainsArgs instance</returns>
         public static ContainsArgs FillEndFromFileList(List<string> unindexablePathEnds)
         {
-            u = unindexablePathEnds;
-            var ea = new ContainsArgs(c(objFp), c(binFp), c(tildaRFFp) /*, c(notTranslateAbleFp)*/);
+            unindexablePaths = unindexablePathEnds;
+            var ea = new ContainsArgs(ContainsPattern(objFp), ContainsPattern(binFp), ContainsPattern(tildaRFFp) /*, ContainsPattern(notTranslateAbleFp)*/);
             return ea;
         }
 
-        private static bool c(string k)
+        private static bool ContainsPattern(string pattern)
         {
-            return u.Contains(k);
+            return unindexablePaths.Contains(pattern);
         }
     }
 
@@ -236,26 +245,25 @@ public partial class CsFileFilter : ICsFileFilter
         public const string gCsPp = ".g.cs";
         public const string tmpPp = ".tmp";
         public const string TMPPp = ".TMP";
-        public static List<string> u;
+        private static List<string> unindexablePaths;
         /// <summary>
         ///     Into A1 is inserting copy to leave only unindexed
         /// </summary>
-        /// <param name = "unindexablePathEnds"></param>
-        /// <returns></returns>
+        /// <param name = "unindexablePathEnds">List of unindexable path endings</param>
+        /// <returns>Configured EndArgs instance</returns>
         public static EndArgs FillEndFromFileList(List<string> unindexablePathEnds)
         {
-            u = unindexablePathEnds;
-            var xValue = c(xamlCsPp);
-            var ea = new EndArgs(c(designerCsPp), xValue, c(sharedCsPp), c(iCsPp) /*, c(gICsPp)*/, c(gCsPp), c(tmpPp), c(TMPPp), c(DesignerCsPp));
+            unindexablePaths = unindexablePathEnds;
+            var ea = new EndArgs(ContainsPattern(designerCsPp), ContainsPattern(xamlCsPp), ContainsPattern(sharedCsPp), ContainsPattern(iCsPp) /*, ContainsPattern(gICsPp)*/, ContainsPattern(gCsPp), ContainsPattern(tmpPp), ContainsPattern(TMPPp), ContainsPattern(DesignerCsPp));
             return ea;
         }
 
-        private static bool c(string k)
+        private static bool ContainsPattern(string pattern)
         {
-            if (u.Contains(k))
+            if (unindexablePaths.Contains(pattern))
             {
                 // Really I want to delete it
-                u.Remove(k);
+                unindexablePaths.Remove(pattern);
                 return false;
             }
 

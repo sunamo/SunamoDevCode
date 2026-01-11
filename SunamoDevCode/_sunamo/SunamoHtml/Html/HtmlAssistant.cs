@@ -16,8 +16,8 @@ internal class HtmlAssistant
         //}
         //return hd.DocumentNode.OuterHtml;
     }
-    internal static string HtmlDecode(string v)
+    internal static string HtmlDecode(string encodedText)
     {
-        return WebUtility.HtmlDecode(v);
+        return WebUtility.HtmlDecode(encodedText);
     }
 }

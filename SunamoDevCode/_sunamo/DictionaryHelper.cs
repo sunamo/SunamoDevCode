@@ -1,17 +1,18 @@
+// variables names: ok
 namespace SunamoDevCode._sunamo;
 
 internal class DictionaryHelper
 {
     // Metoda AppendLineOrCreate byla odstraněna - inlined v InWeb.cs:161
     internal static IList<string> GetIfExists(Dictionary<string, List<string>> filesInSolutionReal, string prefix,
-       string v, bool postfixWithA2)
+       string extension, bool postfixWithA2)
     {
-        if (filesInSolutionReal.ContainsKey(v))
+        if (filesInSolutionReal.ContainsKey(extension))
         {
-            var result = filesInSolutionReal[v];
+            var result = filesInSolutionReal[extension];
             if (postfixWithA2)
             {
-                if (!string.IsNullOrEmpty(v)) result = CA.PostfixIfNotEnding(v, result);
+                if (!string.IsNullOrEmpty(extension)) result = CA.PostfixIfNotEnding(extension, result);
                 CA.Prepend(prefix, result);
             }
 
@@ -20,32 +21,32 @@ internal class DictionaryHelper
 
         return new List<string>();
     }
-    internal static void AddOrCreateIfDontExists<Key, Value>(Dictionary<Key, List<Value>> sl, Key key, Value value)
+    internal static void AddOrCreateIfDontExists<Key, Value>(Dictionary<Key, List<Value>> dictionary, Key key, Value value)
     {
-        if (sl.ContainsKey(key))
+        if (dictionary.ContainsKey(key))
         {
-            if (!sl[key].Contains(value))
+            if (!dictionary[key].Contains(value))
             {
-                sl[key].Add(value);
+                dictionary[key].Add(value);
             }
         }
         else
         {
-            List<Value> ad = new List<Value>();
-            ad.Add(value);
-            sl.Add(key, ad);
+            List<Value> newList = new List<Value>();
+            newList.Add(value);
+            dictionary.Add(key, newList);
         }
     }
 
-    internal static void AddOrSet<T1, T2>(IDictionary<T1, T2> qs, T1 k, T2 v)
+    internal static void AddOrSet<T1, T2>(IDictionary<T1, T2> dictionary, T1 key, T2 value)
     {
-        if (qs.ContainsKey(k))
+        if (dictionary.ContainsKey(key))
         {
-            qs[k] = v;
+            dictionary[key] = value;
         }
         else
         {
-            qs.Add(k, v);
+            dictionary.Add(key, value);
         }
     }
 
@@ -94,15 +95,15 @@ internal class DictionaryHelper
             }
             else
             {
-                List<Value> ad = new();
-                ad.Add(value);
-                dict.Add(key, ad);
+                List<Value> newList = new();
+                newList.Add(value);
+                dict.Add(key, newList);
 
                 if (compWithString)
                 {
-                    List<string> ad2 = new();
-                    ad2.Add(value.ToString());
-                    dictS.Add(key, ad2);
+                    List<string> newStringList = new();
+                    newStringList.Add(value.ToString());
+                    dictS.Add(key, newStringList);
                 }
             }
         }
@@ -140,9 +141,9 @@ internal class DictionaryHelper
                 {
                     if (!dict.ContainsKey(key))
                     {
-                        List<Value> ad = new();
-                        ad.Add(value);
-                        dict.Add(key, ad);
+                        List<Value> newList = new();
+                        newList.Add(value);
+                        dict.Add(key, newList);
                     }
                     else
                     {
@@ -153,9 +154,9 @@ internal class DictionaryHelper
                     {
                         if (!dictS.ContainsKey(key))
                         {
-                            List<string> ad2 = new();
-                            ad2.Add(value.ToString());
-                            dictS.Add(key, ad2);
+                            List<string> newStringList = new();
+                            newStringList.Add(value.ToString());
+                            dictS.Add(key, newStringList);
                         }
                         else
                         {
@@ -171,15 +172,17 @@ internal class DictionaryHelper
     ///     Pokud A1 bude obsahovat skupinu pod názvem A2, vložím do této skupiny prvek A3
     ///     Jinak do A1 vytvořím novou skupinu s klíčem A2 s hodnotou A3
     /// </summary>
-    /// <typeparam name="Key"></typeparam>
-    /// <typeparam name="Value"></typeparam>
-    /// <param name="sl"></param>
-    /// <param name="key"></param>
-    /// <param name="p"></param>
-    internal static void AddOrCreate<Key, Value>(IDictionary<Key, List<Value>> sl, Key key, Value value,
+    /// <typeparam name="Key">Type of dictionary key</typeparam>
+    /// <typeparam name="Value">Type of dictionary value</typeparam>
+    /// <param name="dictionary">Dictionary to add or update</param>
+    /// <param name="key">Key to add or update</param>
+    /// <param name="value">Value to add</param>
+    /// <param name="withoutDuplicitiesInValue">Whether to avoid duplicate values</param>
+    /// <param name="dictS">Optional string comparison dictionary</param>
+    internal static void AddOrCreate<Key, Value>(IDictionary<Key, List<Value>> dictionary, Key key, Value value,
     bool withoutDuplicitiesInValue = false, Dictionary<Key, List<string>> dictS = null)
     {
-        AddOrCreate<Key, Value, object>(sl, key, value, withoutDuplicitiesInValue, dictS);
+        AddOrCreate<Key, Value, object>(dictionary, key, value, withoutDuplicitiesInValue, dictS);
     }
     #endregion
 

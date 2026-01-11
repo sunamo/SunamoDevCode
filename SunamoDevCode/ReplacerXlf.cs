@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 /// <summary>
@@ -6,17 +7,17 @@ namespace SunamoDevCode;
 public class ReplacerXlf
 {
     private static ReplacerXlf instance;
-    private readonly List<string> val;
-    public Dictionary<string, string> withWithoutUnderscore = new();
+    private readonly List<string> values;
+    public Dictionary<string, string> WithWithoutUnderscore { get; set; } = new();
 
     private ReplacerXlf()
     {
         AllLists.InitHtmlEntitiesFullNames();
 
-        val = AllLists.htmlEntitiesFullNames.Values.ToList();
+        values = AllLists.htmlEntitiesFullNames.Values.ToList();
 
-        //val.Sort(SunamoComparer.StringLength.Instance.Desc);
-        CA.Prepend("_", val);
+        //values.Sort(SunamoComparer.StringLength.Instance.Desc);
+        CA.Prepend("_", values);
     }
 
     public static ReplacerXlf Instance
@@ -29,10 +30,10 @@ public class ReplacerXlf
         }
     }
 
-    public string WithoutUnderscore(string s)
+    public string WithoutUnderscore(string text)
     {
-        foreach (var item2 in val) s = s.Replace(item2, string.Empty);
-        return s;
+        foreach (var item in values) text = text.Replace(item, string.Empty);
+        return text;
     }
 
     //public static void AddKeys(List<string> k)

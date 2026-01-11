@@ -1,19 +1,29 @@
+// variables names: ok
 namespace SunamoDevCode.CodeGenerator;
 
+/// <summary>
+/// Generator for TypeScript code.
+/// </summary>
 public class TypeScriptGenerator
 {
-    StringBuilder stringBuilder = new StringBuilder();
+    private StringBuilder stringBuilder = new StringBuilder();
 
-    public void Interface(bool export, string name, params TWithNameTDC<string>[] vars)
+    /// <summary>
+    /// Generates a TypeScript interface.
+    /// </summary>
+    /// <param name="isExporting">If true, adds the export keyword.</param>
+    /// <param name="name">Name of the interface.</param>
+    /// <param name="properties">Array of properties with their types.</param>
+    public void Interface(bool isExporting, string name, params TWithNameTDC<string>[] properties)
     {
-        if (export)
+        if (isExporting)
         {
             stringBuilder.Append("export ");
         }
         stringBuilder.Append("interface ");
         stringBuilder.AppendLine(name);
         stringBuilder.AppendLine("{");
-        foreach (var item in vars)
+        foreach (var item in properties)
         {
             stringBuilder.AppendLine(item.name + ": " + item.t + ";");
         }
@@ -21,19 +31,34 @@ public class TypeScriptGenerator
         stringBuilder.AppendLine();
     }
 
-    public void Append(string v)
+    /// <summary>
+    /// Appends text to the generated code.
+    /// </summary>
+    /// <param name="text">Text to append.</param>
+    public void Append(string text)
     {
-        stringBuilder.Append(v);
+        stringBuilder.Append(text);
     }
 
-    public void AppendLine(string v)
+    /// <summary>
+    /// Appends a line of text to the generated code.
+    /// </summary>
+    /// <param name="text">Text to append.</param>
+    public void AppendLine(string text)
     {
-        stringBuilder.AppendLine(v);
+        stringBuilder.AppendLine(text);
     }
 
-    public void ClassVariable(bool export, TypesTs type, string name, string value)
+    /// <summary>
+    /// Generates a TypeScript class variable declaration.
+    /// </summary>
+    /// <param name="isExporting">If true, adds the export keyword.</param>
+    /// <param name="type">Type of the variable.</param>
+    /// <param name="name">Name of the variable.</param>
+    /// <param name="value">Initial value for the variable.</param>
+    public void ClassVariable(bool isExporting, TypesTs type, string name, string value)
     {
-        if (export)
+        if (isExporting)
         {
             stringBuilder.Append("export ");
         }
@@ -50,9 +75,14 @@ public class TypeScriptGenerator
         stringBuilder.Append(";");
     }
 
-    public void ArrayWithKeyValueObjectStart(string innerType, params string[] values)
+    /// <summary>
+    /// Generates the start of a TypeScript array with key-value objects.
+    /// </summary>
+    /// <param name="itemType">Type of array items.</param>
+    /// <param name="values">Initial values for the array.</param>
+    public void ArrayWithKeyValueObjectStart(string itemType, params string[] values)
     {
-        if (innerType == "string")
+        if (itemType == "string")
         {
             for (int i = 0; i < values.Length; i++)
             {
@@ -60,37 +90,63 @@ public class TypeScriptGenerator
             }
         }
 
-        stringBuilder.AppendLine("const arr : " + innerType + "[] = [" + string.Join(", ", values) + "]");
+        stringBuilder.AppendLine("const arr : " + itemType + "[] = [" + string.Join(", ", values) + "]");
     }
 
+    /// <summary>
+    /// Generates the end of a TypeScript array with key-value objects.
+    /// </summary>
     public void ArrayWithKeyValueObjectEnd()
     {
         stringBuilder.AppendLine("];");
     }
 
+    /// <summary>
+    /// Returns the generated TypeScript code as a string.
+    /// </summary>
+    /// <returns>The generated TypeScript code.</returns>
     public override string ToString()
     {
         return stringBuilder.ToString();
     }
 
-    const string let = "let";
-    const string const_ = "const";
+    private const string LetKeyword = "let";
+    private const string ConstKeyword = "const";
 
-    public void Const(string item, string type)
+    /// <summary>
+    /// Generates a const field declaration.
+    /// </summary>
+    /// <param name="name">Name of the field.</param>
+    /// <param name="type">Type of the field.</param>
+    public void Const(string name, string type)
     {
-        Field(const_, item, type);
+        Field(ConstKeyword, name, type);
     }
 
-    public void Let(string item, string type)
+    /// <summary>
+    /// Generates a let field declaration.
+    /// </summary>
+    /// <param name="name">Name of the field.</param>
+    /// <param name="type">Type of the field.</param>
+    public void Let(string name, string type)
     {
-        Field(let, item, type);
+        Field(LetKeyword, name, type);
     }
 
-    void Field(string keyword, string item, string type)
+    /// <summary>
+    /// Generates a field declaration with specified keyword.
+    /// </summary>
+    /// <param name="keyword">Keyword (let or const).</param>
+    /// <param name="name">Name of the field.</param>
+    /// <param name="type">Type of the field.</param>
+    private void Field(string keyword, string name, string type)
     {
-        stringBuilder.AppendLine(keyword + " " + item + ":" + type + "= " + TypeScriptHelper.DefaultValueForType(type));
+        stringBuilder.AppendLine(keyword + " " + name + ":" + type + "= " + TypeScriptHelper.DefaultValueForType(type));
     }
 
+    /// <summary>
+    /// Appends an empty line to the generated code.
+    /// </summary>
     public void AppendLine()
     {
         stringBuilder.AppendLine();

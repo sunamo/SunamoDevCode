@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.FileFormats;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -89,14 +90,14 @@ public static partial class XmlLocalisationInterchangeFileFormat
         solutionsExcludeWhileWorkingOnSourceCode.Add("AllProjectsSearchTestFiles");
         CA.WrapWith(solutionsExcludeWhileWorkingOnSourceCode, @"\");
         Dictionary<string, string> filesWithXlf = new Dictionary<string, string>();
-        var files = Directory.GetFiles(BasePathsHelper.vsProjects, "*.cs", SearchOption.AllDirectories);
+        var files = Directory.GetFiles(BasePathsHelper.VsProjects, "*.cs", SearchOption.AllDirectories);
         Dictionary<string, string> idTarget = new Dictionary<string, string>();
         var data = 
 #if ASYNC
             await
 #endif
         GetTransUnits(path);
-        foreach (var item in data.trans_units)
+        foreach (var item in data.TransUnits)
         {
             var temp = GetTransUnit(item);
             if (ids.Contains(temp.Item1))

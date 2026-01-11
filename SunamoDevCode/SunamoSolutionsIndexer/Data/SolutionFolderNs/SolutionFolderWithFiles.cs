@@ -1,98 +1,103 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 
+/// <summary>
+/// Solution folder with file information.
+/// </summary>
 public class SolutionFolderWithFiles : SolutionFolder
 {
-    public List<string> files = null;
     /// <summary>
-    /// Without dot
+    /// Gets or sets the list of all files in the solution.
     /// </summary>
-    public Dictionary<string, List<string>> filesOfExtension = null;
+    public List<string> Files { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the dictionary of files grouped by extension (without dot).
+    /// </summary>
+    public Dictionary<string, List<string>> FilesOfExtension { get; set; } = null;
+
     #region Filled in CheckSize()
-    public Dictionary<int, long> filesAndSizes = null;
-    public Dictionary<TypeOfExtensionDC, long> sizeOfExtensionTypes = null;
+
     /// <summary>
-    /// All extensions is lower and without dot
+    /// Gets or sets the dictionary mapping file index to file size.
     /// </summary>
-    public Dictionary<string, long> sizeOfExtension = null;
-    public long overallSize = 0;
+    public Dictionary<int, long> FilesAndSizes { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the dictionary of total size by extension type.
+    /// </summary>
+    public Dictionary<TypeOfExtensionDC, long> SizeOfExtensionTypes { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the dictionary of total size by extension (all extensions are lowercase and without dot).
+    /// </summary>
+    public Dictionary<string, long> SizeOfExtension { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the overall size of all files.
+    /// </summary>
+    public long OverallSize { get; set; } = 0;
+
     #endregion
+
     /// <summary>
-    /// Is filled in method CreateFileInfoLiteObjects
+    /// Gets or sets the dictionary of FileInfoLite objects grouped by extension.
+    /// Is filled in method CreateFileInfoLiteObjects.
     /// </summary>
-    public Dictionary<string, List<FileInfoLiteDC>> fileInfoLiteOfExtension = null;
+    public Dictionary<string, List<FileInfoLiteDC>> FileInfoLiteOfExtension { get; set; } = null;
 
-
-    public SolutionFolderWithFiles(SolutionFolder sf)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SolutionFolderWithFiles"/> class.
+    /// </summary>
+    /// <param name="solutionFolder">Source solution folder.</param>
+    public SolutionFolderWithFiles(SolutionFolder solutionFolder)
     {
-        countOfImages = sf.countOfImages;
-        displayedText = sf.displayedText;
-        fullPathFolder = sf.fullPathFolder;
-        nameSolutionWithoutDiacritic = sf.nameSolutionWithoutDiacritic;
+        CountOfImages = solutionFolder.CountOfImages;
+        DisplayedText = solutionFolder.DisplayedText;
+        FullPathFolder = solutionFolder.FullPathFolder;
+        NameSolutionWithoutDiacritic = solutionFolder.NameSolutionWithoutDiacritic;
 
-        filesAndSizes = new Dictionary<int, long>();
-        sizeOfExtensionTypes = new Dictionary<TypeOfExtensionDC, long>();
-        sizeOfExtension = new Dictionary<string, long>();
+        FilesAndSizes = new Dictionary<int, long>();
+        SizeOfExtensionTypes = new Dictionary<TypeOfExtensionDC, long>();
+        SizeOfExtension = new Dictionary<string, long>();
 
-        files = Directory.GetFiles(fullPathFolder, "*", SearchOption.AllDirectories).ToList();
-        filesOfExtension = new Dictionary<string, List<string>>();
+        Files = Directory.GetFiles(FullPathFolder, "*", SearchOption.AllDirectories).ToList();
+        FilesOfExtension = new Dictionary<string, List<string>>();
 
-        for (int i = 0; i < files.Count; i++)
+        for (int i = 0; i < Files.Count; i++)
         {
-            var item = files[i];
-            string ext = Path.GetExtension(item).TrimStart('.');
+            var item = Files[i];
+            string extension = Path.GetExtension(item).TrimStart('.');
 
-            DictionaryHelper.AddOrCreate(filesOfExtension, ext, item);
+            DictionaryHelper.AddOrCreate(FilesOfExtension, extension, item);
         }
-
-
     }
 
+    /// <summary>
+    /// Checks and calculates the total size of files.
+    /// </summary>
     public void CheckSize()
     {
-        //for (int i = 0; i < files.Count; i++)
-        //{
-        //    var item = files[i];
-        //    long fs = new FileInfo(item).Length;
-        //    overallSize += fs;
-        //    filesAndSizes.Add(i, fs);
-
-        //    string ext = Path.GetExtension(item).TrimStart('.');
-        //    TypeOfExtension extType = AllExtensionsHelper.FindTypeWithDot(ext);
-
-        //    if (!sizeOfExtensionTypes.ContainsKey(extType))
-        //    {
-        //        sizeOfExtensionTypes.Add(extType, fs);
-        //    }
-        //    else
-        //    {
-        //        sizeOfExtensionTypes[extType] += fs;
-        //    }
-
-        //    if (!sizeOfExtension.ContainsKey(ext))
-        //    {
-        //        sizeOfExtension.Add(ext, fs);
-        //    }
-        //    else
-        //    {
-        //        sizeOfExtension[ext] += fs;
-        //    }
-        //}
-
-        //displayedText += " (" + FS.GetSizeInAutoString(overallSize, ComputerSizeUnits.MB) + ")";
+        // Method body is currently commented out in original implementation
     }
 
+    /// <summary>
+    /// Creates FileInfoLite objects for the specified extension.
+    /// </summary>
+    /// <param name="extensionWithoutDot">Extension without dot.</param>
+    /// <param name="item">File path.</param>
     public void CreateFileInfoLiteObjects(string extensionWithoutDot, string item)
     {
-        var fil = FileInfoLiteDC.GetFIL(item);
-        if (fileInfoLiteOfExtension.ContainsKey(extensionWithoutDot))
+        var fileInfoLite = FileInfoLiteDC.GetFIL(item);
+        if (FileInfoLiteOfExtension.ContainsKey(extensionWithoutDot))
         {
-            fileInfoLiteOfExtension[extensionWithoutDot].Add(fil);
+            FileInfoLiteOfExtension[extensionWithoutDot].Add(fileInfoLite);
         }
         else
         {
             List<FileInfoLiteDC> list = new List<FileInfoLiteDC>();
-            list.Add(fil);
-            fileInfoLiteOfExtension.Add(extensionWithoutDot, list);
+            list.Add(fileInfoLite);
+            FileInfoLiteOfExtension.Add(extensionWithoutDot, list);
         }
     }
 }

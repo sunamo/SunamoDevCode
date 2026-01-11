@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode._public.SunamoData.Data;
 
 /// <summary>
@@ -6,25 +7,33 @@ namespace SunamoDevCode._public.SunamoData.Data;
 /// </summary>
 public class FromToDC : FromToTSHDC<long>
 {
+    /// <summary>
+    /// Represents an empty FromTo range.
+    /// </summary>
     public static FromToDC Empty = new(true);
+
+    /// <summary>
+    /// Initializes a new instance of FromToDC class with default values.
+    /// </summary>
     public FromToDC()
     {
     }
+
     /// <summary>
-    ///     Use Empty contstant outside of class
+    /// Private constructor for creating empty instance. Use Empty constant outside of class.
     /// </summary>
-    /// <param name="empty"></param>
+    /// <param name="empty">Marker parameter to create empty instance.</param>
     private FromToDC(bool empty)
     {
         this.empty = empty;
     }
+
     /// <summary>
-    ///     A3 true = DateTime
-    ///     A3 False = None
+    /// Initializes a new instance with from and to values.
     /// </summary>
-    /// <param name="from"></param>
-    /// <param name="to"></param>
-    /// <param name="ftUse"></param>
+    /// <param name="from">Start value (timestamp).</param>
+    /// <param name="to">End value (timestamp).</param>
+    /// <param name="ftUse">Usage type - true for DateTime, false for None.</param>
     public FromToDC(long from, long to, FromToUseDC ftUse = FromToUseDC.DateTime)
     {
         this.from = from;

@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -43,19 +44,19 @@ public partial class FoldersWithSolutions
     public static List<string> FullPathFolders(RepositoryLocal usedRepository, Dictionary<string, SolutionFolder> solutionFoldersMap, List<string> returnOnlyThese = null)
     {
         List<string> lines = new List<string>();
-        foreach (var item in fwss)
+        foreach (var item in Fwss)
         {
-            var slns = item.Solutions(usedRepository);
+            var slns = item.GetSolutions(usedRepository);
             foreach (var sln in slns)
             {
                 if (returnOnlyThese != null)
                 {
 #if DEBUG
-                    if (sln.nameSolution.Contains("OnlyWeb"))
+                    if (sln.NameSolution.Contains("OnlyWeb"))
                     {
                     }
 #endif
-                    if (!returnOnlyThese.Contains(sln.nameSolution))
+                    if (!returnOnlyThese.Contains(sln.NameSolution))
                     {
                         continue;
                     }
@@ -63,10 +64,10 @@ public partial class FoldersWithSolutions
 
                 if (solutionFoldersMap != null)
                 {
-                    solutionFoldersMap.Add(sln.fullPathFolder, sln);
+                    solutionFoldersMap.Add(sln.FullPathFolder, sln);
                 }
 
-                lines.Add(sln.fullPathFolder);
+                lines.Add(sln.FullPathFolder);
             }
         }
 

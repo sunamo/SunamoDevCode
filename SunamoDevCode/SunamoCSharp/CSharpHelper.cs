@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoCSharp;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -8,7 +9,7 @@ public static partial class CSharpHelper
     public const string Import = "import ";
     public static string RemoveUsing(string text, CollectionWithoutDuplicatesDC<string> removedUsings)
     {
-        foreach (var usingNamespace in removedUsings.c)
+        foreach (var usingNamespace in removedUsings.Collection)
         {
             text = SHReplace.ReplaceOnce(text, "using " + usingNamespace + ";", string.Empty);
         }
@@ -234,7 +235,7 @@ public static partial class CSharpHelper
         text = text.Replace("readonly ", "");
         text = text.Replace("static ", "");
         text = text.Replace("const ", "");
-        foreach (var item in CsKeywordsList.accessModifier)
+        foreach (var item in CsKeywordsList.AccessModifier)
         {
             text = text.Replace(item + " ", "");
         }

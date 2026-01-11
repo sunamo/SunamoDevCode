@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
@@ -48,9 +49,9 @@ public partial class MoveToNet5
     await
 #endif
             SunamoCsprojHelper.IsProjectCsprojSdkStyleIsCore( /*ref*/projectPath);
-            if (projectStyleResult.isProjectCsprojSdkStyleIsCore)
+            if (projectStyleResult.IsProjectCsprojSdkStyleIsCore)
             {
-                if (projectStyleResult.isNetstandard)
+                if (projectStyleResult.IsNetstandard)
                 {
                     netstandardList.Add(projectPath);
                 }
@@ -67,9 +68,9 @@ public partial class MoveToNet5
 
         return new FindProjectsWhichIsSdkStyleResult
         {
-            csprojSdkStyleList = csprojSdkStyleList,
-            netstandardList = netstandardList,
-            nonCsprojSdkStyleList = nonCsprojSdkStyleList
+            CsprojSdkStyleList = csprojSdkStyleList,
+            NetstandardList = netstandardList,
+            NonCsprojSdkStyleList = nonCsprojSdkStyleList
         };
     }
 
@@ -86,16 +87,16 @@ public partial class MoveToNet5
     await
 #endif
         FindProjectsWhichIsSdkStyle(logger, true);
-        return SHJoin.JoinNL(sdkStyleResult.nonCsprojSdkStyleList);
+        return SHJoin.JoinNL(sdkStyleResult.NonCsprojSdkStyleList);
     }
 
-    string NameProject = null;
+    string nameProject = null;
     public async void ReplaceProjectReferenceForWeb(ILogger logger, string projectName, string projectNamespace)
     {
         Console.WriteLine("Solution old & new must be in same root folder");
         projectName = SHTrim.TrimEnd(projectName, ".web");
         projectNamespace = SHTrim.TrimEnd(projectNamespace, ".web");
-        NameProject = projectName;
+        nameProject = projectName;
         string oldProjectReference = @"..\..\" + projectNamespace + @"\" + projectName + @"\" + projectName + ".csproj";
         string newProjectReference = @"..\..\" + SolutionNameFor(projectNamespace) + @"\" + projectName + @".web\" + projectName + ".web.csproj";
         var projectsData = WebAndNonWebProjects(logger);
@@ -114,7 +115,7 @@ public partial class MoveToNet5
 
     string WithWebEnd(string text)
     {
-        return text.Replace("<Name>" + NameProject + "</Name>", "<Name>" + NameProject + ".web</Name>");
+        return text.Replace("<Name>" + nameProject + "</Name>", "<Name>" + nameProject + ".web</Name>");
     }
 
     private string SolutionNameFor(string namespaceName)

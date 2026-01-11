@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode._public.SunamoData.Data;
 
 public class TWithNameTDC<T>
@@ -19,8 +20,8 @@ public class TWithNameTDC<T>
     {
         return name;
     }
-    public static TWithNameTDC<T> Get(string nameCb)
+    public static TWithNameTDC<T> Get(string name)
     {
-        return new TWithNameTDC<T> { name = nameCb };
+        return new TWithNameTDC<T> { name = name };
     }
 }

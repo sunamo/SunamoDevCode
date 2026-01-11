@@ -1,23 +1,9 @@
+// variables names: ok
 namespace SunamoDevCode;
 
-// m�m u� EmbeddedResourcesH v SunamoEmbeddedResources
-//class EmbeddedResourcesH
-//{
-//    private Assembly assembly;
-//    private string v;
-
-//    public EmbeddedResourcesH(Assembly assembly, string v)
-//    {
-//        this.assembly = assembly;
-//        this.v = v;
-//    }
-
-//    public static string GetString(string s)
-//    {
-//        return "";
-//    }
-//}
-
+/// <summary>
+/// Helper class for System.Windows controls shortcuts and names
+/// </summary>
 public static class SystemWindowsControls
 {
     private static readonly Type type = typeof(SystemWindowsControls);
@@ -27,6 +13,9 @@ public static class SystemWindowsControls
 
     private static Dictionary<string, string> controlsShortLong;
 
+    /// <summary>
+    /// Initializes the controls short to long mapping dictionary
+    /// </summary>
     public static void InitControlsShortLong()
     {
         Init();
@@ -36,11 +25,14 @@ public static class SystemWindowsControls
             controlsShortLong = new Dictionary<string, string>();
 
             foreach (var item in s_controls)
-            foreach (var item2 in item.Value)
-                controlsShortLong.Add(item2, item.Key);
+            foreach (var shortcut in item.Value)
+                controlsShortLong.Add(shortcut, item.Key);
         }
     }
 
+    /// <summary>
+    /// Initializes the embedded resources and controls dictionary
+    /// </summary>
     public static void Init()
     {
         if (!s_initialized)
@@ -48,39 +40,47 @@ public static class SystemWindowsControls
             s_initialized = true;
 
             s_embeddedResourcesH = new EmbeddedResourcesH(type.Assembly, "SunamoDevCode");
-
-            //var d = SHGetLines.GetLines(s_embeddedResourcesH.GetString("/Resources/SystemWindowsControls.txt"));
-            //foreach (var item in d)
-            //{
-            //    var p = SHSplit.Split(item, " ");
-            //    s_controls.Add(p[0], SHSplit.Split(p[1], ","));
-            //}
         }
     }
 
-    public static bool StartingWithShortcutOfControl(string r)
+    /// <summary>
+    /// Checks if the given text starts with any control shortcut
+    /// </summary>
+    /// <param name="text">Text to check</param>
+    /// <returns>True if text starts with a control shortcut</returns>
+    public static bool StartingWithShortcutOfControl(string text)
     {
         foreach (var item in s_controls)
-        foreach (var item2 in item.Value)
-            if (item2.Length > 2)
-                if (r.StartsWith(item2))
+        foreach (var shortcut in item.Value)
+            if (shortcut.Length > 2)
+                if (text.StartsWith(shortcut))
                     return true;
 
         return false;
     }
 
-    public static bool IsShortcutOfControl(string r)
+    /// <summary>
+    /// Checks if the given text is a control shortcut
+    /// </summary>
+    /// <param name="text">Text to check</param>
+    /// <returns>True if text is a control shortcut</returns>
+    public static bool IsShortcutOfControl(string text)
     {
         foreach (var item in s_controls)
-        foreach (var item2 in item.Value)
-            if (item2 == r)
+        foreach (var shortcut in item.Value)
+            if (shortcut == text)
                 return true;
 
         return false;
     }
 
-    public static bool IsNameOfControl(string r)
+    /// <summary>
+    /// Checks if the given text is a control name
+    /// </summary>
+    /// <param name="text">Text to check</param>
+    /// <returns>True if text is a control name</returns>
+    public static bool IsNameOfControl(string text)
     {
-        return s_controls.ContainsKey(r);
+        return s_controls.ContainsKey(text);
     }
 }

@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -8,16 +9,16 @@ public partial class FoldersWithSolutions
     /// EN: Was static on 3-10-23 but don't know why when solutions is instance field
     /// CZ: 3-10-23 bylo static ale nevím proč když solutions je instanční
     /// </summary>
-    public List<SolutionFolder> solutions { get; set; } = null;
+    public List<SolutionFolder> Solutions { get; set; } = null;
 
     /// <summary>
     /// EN: Path to documents folder, e.g., D:\Documents
     /// CZ: D:\Documents
     /// </summary>
-    public string documentsFolder { get; set; } = null;
+    public string DocumentsFolder { get; set; } = null;
 
-    private static Type type = typeof(FoldersWithSolutions);
-    public static RepositoryLocal usedRepository { get; set; } = RepositoryLocal.Vs17;
+    private static Type Type = typeof(FoldersWithSolutions);
+    public static RepositoryLocal UsedRepository { get; set; } = RepositoryLocal.Vs17;
     protected static void IdentifyProjectType(string documentsFolder, string solutionFolder, SolutionFolder solutionFolderData)
     {
         // SolutionFolderSerialize doesn't have InVsFolder or typeProjectFolder
@@ -30,11 +31,11 @@ public partial class FoldersWithSolutions
             projectTypeFolder = projectTypeFolder.Replace(SolutionsIndexerStrings.ProjectPostfix, string.Empty);
             if (projectTypes.SecondToFirst.ContainsKey(projectTypeFolder))
             {
-                solutionFolderData.typeProjectFolder = projectTypes.SecondToFirst[projectTypeFolder];
+                solutionFolderData.TypeProjectFolder = projectTypes.SecondToFirst[projectTypeFolder];
             }
             else
             {
-                solutionFolderData.typeProjectFolder = ProjectsTypes.Unknown;
+                solutionFolderData.TypeProjectFolder = ProjectsTypes.Unknown;
             }
         }
     }
@@ -43,7 +44,7 @@ public partial class FoldersWithSolutions
     /// EN: Folder where to search for Projects folder and Visual Studio folders. Added here when calling FoldersWithSolutions ctor. If no sln, call new FoldersWithSolutions(BasePathsHelper.vs, null);
     /// CZ: Složka ve které se má hledat na složku Projects a složky Visual Studia. Přidává se mi zde když volám ctor FoldersWithSolutions. Pokud nemám sln, zavolat new FoldersWithSolutions(BasePathsHelper.vs, null);
     /// </summary>
-    public static FoldersWithSolutionsList fwss { get; set; } = new FoldersWithSolutionsList();
+    public static FoldersWithSolutionsList Fwss { get; set; } = new FoldersWithSolutionsList();
     public static void InsertIntoFwss(ILogger logger, string documentsFolder, PpkOnDriveDC toSelling, bool addAlsoSolutions = true)
     {
         new FoldersWithSolutions(logger, documentsFolder, toSelling, addAlsoSolutions);
@@ -58,34 +59,34 @@ public partial class FoldersWithSolutions
     {
         // documentsFolder může být null / SE, stejně to poté doplňuji z actualPlatform
         ThrowEx.DirectoryExists(documentsFolder);
-        this.documentsFolder = documentsFolder;
+        this.DocumentsFolder = documentsFolder;
         if (addAlsoSolutions)
         {
-            solutions = Reload(logger, documentsFolder, toSelling);
-        //if (fwss.Count == 0)
+            Solutions = Reload(logger, documentsFolder, toSelling);
+        //if (Fwss.Count == 0)
         //{
-        //    fwss.AddRange(new FoldersWithSolutions() );
+        //    Fwss.AddRange(new FoldersWithSolutions() );
         //}
         }
 
-        fwss.Add(this);
-    //    FoldersWithSolutions.fwss.Add(new FoldersWithSolutions());
+        Fwss.Add(this);
+    //    FoldersWithSolutions.Fwss.Add(new FoldersWithSolutions());
     // Nemůžu použít, FoldersWithSolutions není odvozené od FoldersWithSolutions
-    //fwss.Add(new FoldersWithSolutions(this));
+    //Fwss.Add(new FoldersWithSolutions(this));
     }
 
     public FoldersWithSolutions(FoldersWithSolutions fws2)
     {
-        solutions = fws2.solutions;
-        documentsFolder = fws2.documentsFolder;
-        fwss = FoldersWithSolutions.fwss;
-        onlyRealLoadedSolutionsFolders = FoldersWithSolutions.onlyRealLoadedSolutionsFolders;
+        Solutions = fws2.Solutions;
+        DocumentsFolder = fws2.DocumentsFolder;
+        Fwss = FoldersWithSolutions.Fwss;
+        OnlyRealLoadedSolutionsFolders = FoldersWithSolutions.OnlyRealLoadedSolutionsFolders;
     }
 
     public List<SolutionFolderWithFiles> SolutionsWithFiles()
     {
         List<SolutionFolderWithFiles> result = new List<SolutionFolderWithFiles>();
-        foreach (var solutionFolder in solutions)
+        foreach (var solutionFolder in Solutions)
         {
             result.Add(new SolutionFolderWithFiles(solutionFolder));
         }
@@ -108,15 +109,15 @@ public partial class FoldersWithSolutions
         var on = FS.OnlyNamesNoDirectEdit(ta);
         projOnlyNames.AddRange(on);
         // Initialize global variable solutions
-        solutions = new List<SolutionFolder>(solutionFolders.Count);
+        Solutions = new List<SolutionFolder>(solutionFolders.Count);
         for (int i = 0; i < solutionFolders.Count; i++)
         {
             var solutionFolder = solutionFolders[i];
             SolutionFolder sf = CreateSolutionFolder(logger, documentsFolder, solutionFolder, toSelling, projOnlyNames[i]);
-            solutions.Add(sf);
+            Solutions.Add(sf);
         }
 
-        return solutions;
+        return Solutions;
     }
 
     private static TwoWayDictionary<ProjectsTypes, string> projectTypes = new TwoWayDictionary<ProjectsTypes, string>();
@@ -177,7 +178,7 @@ public partial class FoldersWithSolutions
         projectTypes.Add(ProjectsTypes.Cs, XlfKeys.Projects);
     }
 
-    public static List<string> onlyRealLoadedSolutionsFolders { get; set; } = new List<string>();
+    public static List<string> OnlyRealLoadedSolutionsFolders { get; set; } = new List<string>();
 
     /// <summary>
     /// EN: In key is filename without .csproj, in value is full path
@@ -198,9 +199,9 @@ public partial class FoldersWithSolutions
     {
         if (allCsprojGlobal.Count == 0)
         {
-            foreach (var item in fwss)
+            foreach (var item in Fwss)
             {
-                foreach (var sln in item.Solutions(usedRepository))
+                foreach (var sln in item.GetSolutions(UsedRepository))
                 {
                     SolutionFolder.GetCsprojs(logger, sln);
                     foreach (var item2 in sln.projectsGetCsprojs)
@@ -234,7 +235,7 @@ public partial class FoldersWithSolutions
         return allCsprojGlobal;
     }
 
-    public static List<string> projectsWithDuplicateName { get; set; } = new List<string>();
+    public static List<string> ProjectsWithDuplicateName { get; set; } = new List<string>();
 
     public static bool IsAllProjectNamesUnique(bool isListToClipboardInsteadOfThrowEx = false)
     {
@@ -258,7 +259,7 @@ public partial class FoldersWithSolutions
                 }
                 else
                 {
-                    projectsWithDuplicateName.Add(Path.GetFileName(projectEntry.Key));
+                    ProjectsWithDuplicateName.Add(Path.GetFileName(projectEntry.Key));
                     for (int i = 1; i < projectEntry.Value.Count; i++)
                     {
                         projectEntry.Value.RemoveAt(i);
@@ -274,6 +275,6 @@ public partial class FoldersWithSolutions
 
     public static SolutionFolder CreateSolutionFolder(ILogger logger, string documentsFolder, SolutionFolderSerialize solutionFolder, PpkOnDriveDC toSelling, string projName = null)
     {
-        return CreateSolutionFolder(logger, documentsFolder, null, solutionFolder.fullPathFolder, toSelling, projName);
+        return CreateSolutionFolder(logger, documentsFolder, null, solutionFolder.FullPathFolder, toSelling, projName);
     }
 }

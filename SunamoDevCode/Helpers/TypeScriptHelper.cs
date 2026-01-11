@@ -1,44 +1,55 @@
+// variables names: ok
 namespace SunamoDevCode.Helpers;
 
+/// <summary>
+/// Helper class for TypeScript code generation and type handling
+/// </summary>
 public class TypeScriptHelper
 {
-    static Dictionary<string, string> types = new Dictionary<string, string>();
-    static Dictionary<string, string> defaultValueForType = new Dictionary<string, string>();
-
+    private static Dictionary<string, string> ___types = new Dictionary<string, string>();
+    private static Dictionary<string, string> ___defaultValueForType = new Dictionary<string, string>();
 
     static TypeScriptHelper()
     {
-
-        //types.Add("string", "string2");
-        //types.Add("boolean", "boolean2");
-
-        defaultValueForType.Add("string", "\"\"");
-        defaultValueForType.Add("number", "0");
-        defaultValueForType.Add("boolean", "false");
-        defaultValueForType.Add("Date", "dt");
+        ___defaultValueForType.Add("string", "\"\"");
+        ___defaultValueForType.Add("number", "0");
+        ___defaultValueForType.Add("boolean", "false");
+        ___defaultValueForType.Add("Date", "dt");
     }
 
-    public static string Type(string d)
+    /// <summary>
+    /// Gets mapped type name or returns original if not mapped
+    /// </summary>
+    /// <param name="typeName">Type name to lookup</param>
+    /// <returns>Mapped type name or original</returns>
+    public static string Type(string typeName)
     {
-        if (types.ContainsKey(d))
+        if (___types.ContainsKey(typeName))
         {
-            return types[d];
+            return ___types[typeName];
         }
 
-        return d;
+        return typeName;
     }
 
-    public static string DefaultValueForType(string temp, string prefixIfString = "", /*bool isArgNumber = false,*/ string nameArgMethod = "")
+    /// <summary>
+    /// Gets default value for TypeScript type
+    /// </summary>
+    /// <param name="typeName">TypeScript type name</param>
+    /// <param name="prefixIfString">Prefix to add for string ___types</param>
+    /// <param name="nameArgMethod">Argument method name to append</param>
+    /// <returns>Default value as string</returns>
+    public static string DefaultValueForType(string typeName, string prefixIfString = "", /*bool isArgNumber = false,*/ string nameArgMethod = "")
     {
-        if (temp.EndsWith("[]"))
+        if (typeName.EndsWith("[]"))
         {
             return "[]";
         }
 
-        if (defaultValueForType.ContainsKey(temp))
+        if (___defaultValueForType.ContainsKey(typeName))
         {
-            var result = defaultValueForType[temp];
-            if (temp == "string")
+            var result = ___defaultValueForType[typeName];
+            if (typeName == "string")
             {
                 result = result.Insert(1, prefixIfString);
                 if (nameArgMethod != "")
@@ -46,7 +57,7 @@ public class TypeScriptHelper
                     result += " + " + nameArgMethod;
                 }
             }
-            else if (temp == "number")
+            else if (typeName == "number")
             {
                 if (nameArgMethod != "")
                 {
@@ -57,55 +68,56 @@ public class TypeScriptHelper
             return result;
         }
 
-        ThrowEx.NotImplementedCase(temp);
+        ThrowEx.NotImplementedCase(typeName);
         return "";
     }
 
 
     /// <summary>
-    /// Nepoužívat toto na interfacy, v těch nesmím mít ?, kromě případů kdy to explicitně povolím
+    /// Splits property declarations into names and ___types
+    /// Do not use for interfaces unless explicitly allowed to have optional (?) modifiers
     /// </summary>
-    /// <param name="l"></param>
-    /// <returns></returns>
+    /// <param name="list">List of property declarations</param>
+    /// <returns>Tuple of (names list, ___types list)</returns>
     public static Tuple<List<string>, List<string>> GetNamesAndTypes(List<string> list)
     {
-        var l2 = list.ToList();
+        var __typesList = list.ToList();
 
         CAChangeContent.ChangeContent(new ChangeContentArgsDC { }, list, SHParts.RemoveAfterFirst, ':');
         CA.Trim(list);
         CA.TrimEnd(list, '?');
         CA.Trim(list);
 
-        // Inlined from SHParts.KeepAfterFirst - ponechává text za prvním výskytem znaku
-        Func<string, string, bool, string> keepAfterFirst = (searchQuery, after, keepDeli) =>
+        // Inlined from SHParts.KeepAfterFirst - keeps text after first occurrence of character
+        Func<string, string, bool, string> keepAfterFirst = (searchQuery, after, isKeepingDelimiter) =>
         {
-            var dx = searchQuery.IndexOf(after);
-            if (dx != -1)
+            var delimiterIndex = searchQuery.IndexOf(after);
+            if (delimiterIndex != -1)
             {
-                // TrimStart helper - odstraňuje řetězec ze začátku
-                string result = searchQuery.Substring(dx);
+                // TrimStart helper - removes string from beginning
+                string result = searchQuery.Substring(delimiterIndex);
                 while (result.StartsWith(after))
                 {
                     result = result.Substring(after.Length);
                 }
                 searchQuery = result;
-                if (keepDeli)
+                if (isKeepingDelimiter)
                 {
                     searchQuery = after + searchQuery;
                 }
             }
             return searchQuery;
         };
-        CAChangeContent.ChangeContent(new ChangeContentArgsDC { }, l2, keepAfterFirst, ":", false);
-        for (int i = 0; i < l2.Count; i++)
+        CAChangeContent.ChangeContent(new ChangeContentArgsDC { }, __typesList, keepAfterFirst, ":", false);
+        for (int i = 0; i < __typesList.Count; i++)
         {
-            var temp = l2[i];
+            var temp = __typesList[i];
             temp = temp.Trim();
             temp = temp.TrimEnd(';');
             temp = temp.Trim('2');
-            l2[i] = temp;
+            __typesList[i] = temp;
         }
 
-        return new Tuple<List<string>, List<string>>(list, l2);
+        return new Tuple<List<string>, List<string>>(list, __typesList);
     }
 }

@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode._sunamo.SunamoCollections;
 
 internal partial class CA

@@ -15,10 +15,10 @@ internal class Translate
     /// <summary>
     ///     Usage: Exceptions.IsNotWindowsPathFormat
     /// </summary>
-    /// <param name="k"></param>
-    /// <returns></returns>
-    internal static string FromKey(string k)
+    /// <param name="key">Translation key.</param>
+    /// <returns>Translated text.</returns>
+    internal static string FromKey(string key)
     {
-        return k;
+        return key;
     }
 }

@@ -1,11 +1,23 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Projs.Results;
 
+/// <summary>
+/// Result of finding projects that use SDK-style csproj format.
+/// </summary>
 public class FindProjectsWhichIsSdkStyleResult
 {
-    // 1 
-    public List<string> csprojSdkStyleList;
-    // 2
-    public List<string> netstandardList;
-    // 3
-    public List<string> nonCsprojSdkStyleList;
+    /// <summary>
+    /// Gets or sets the list of SDK-style csproj projects.
+    /// </summary>
+    public List<string> CsprojSdkStyleList { get; set; }
+
+    /// <summary>
+    /// Gets or sets the list of .NET Standard projects.
+    /// </summary>
+    public List<string> NetstandardList { get; set; }
+
+    /// <summary>
+    /// Gets or sets the list of non-SDK-style csproj projects.
+    /// </summary>
+    public List<string> NonCsprojSdkStyleList { get; set; }
 }

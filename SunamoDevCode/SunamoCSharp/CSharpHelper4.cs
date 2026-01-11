@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoCSharp;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -45,11 +46,11 @@ public static partial class CSharpHelper
         return null;
     }
 
-    public static string WrapWithRegion(string text, string value)
+    public static string WrapWithRegion(string text, string regionName)
     {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.Append("#region ");
-        stringBuilder.AppendLine(value);
+        stringBuilder.AppendLine(regionName);
         stringBuilder.AppendLine(text);
         stringBuilder.AppendLine("#endregion");
         return stringBuilder.ToString();
@@ -63,57 +64,57 @@ public static partial class CSharpHelper
     public static bool IsKeyword(string con)
     {
         //CsKeywords.Init();
-        if (CsKeywordsList.modifier.Contains(con))
+        if (CsKeywordsList.Modifier.Contains(con))
         {
             return true;
         }
 
-        if (CsKeywordsList.accessModifier.Contains(con))
+        if (CsKeywordsList.AccessModifier.Contains(con))
         {
             return true;
         }
 
-        if (CsKeywordsList.statement.Contains(con))
+        if (CsKeywordsList.Statement.Contains(con))
         {
             return true;
         }
 
-        if (CsKeywordsList.methodParameter.Contains(con))
+        if (CsKeywordsList.MethodParameter.Contains(con))
         {
             return true;
         }
 
-        if (CsKeywordsList._namespace.Contains(con))
+        if (CsKeywordsList.Namespace.Contains(con))
         {
             return true;
         }
 
-        if (CsKeywordsList._operator.Contains(con))
+        if (CsKeywordsList.Operator.Contains(con))
         {
             return true;
         }
 
-        if (CsKeywordsList.access.Contains(con))
+        if (CsKeywordsList.Access.Contains(con))
         {
             return true;
         }
 
-        if (CsKeywordsList.literal.Contains(con))
+        if (CsKeywordsList.Literal.Contains(con))
         {
             return true;
         }
 
-        if (CsKeywordsList.type.Contains(con))
+        if (CsKeywordsList.Type.Contains(con))
         {
             return true;
         }
 
-        if (CsKeywordsList.contextual.Contains(con))
+        if (CsKeywordsList.Contextual.Contains(con))
         {
             return true;
         }
 
-        if (CsKeywordsList.query.Contains(con))
+        if (CsKeywordsList.Query.Contains(con))
         {
             return true;
         }
@@ -136,11 +137,11 @@ public static partial class CSharpHelper
 
     public static void WrapWithQuote(Type tKey, ref string keyS)
     {
-        if (tKey == Types.tString)
+        if (tKey == Types.StringType)
         {
             keyS = SH.WrapWithQm(keyS);
         }
-        else if (tKey == Types.tChar)
+        else if (tKey == Types.CharType)
         {
             keyS = SH.WrapWith(keyS, "\'");
         }

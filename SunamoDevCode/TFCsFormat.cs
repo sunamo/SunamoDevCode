@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 using FileMs = File;
@@ -7,24 +8,24 @@ public class TFCsFormat
     private static readonly List<string> classCodeElements = new()
         { "class ", "interface ", "enum ", "struct ", "delegate " };
 
-    private static List<string> OnlyToFirst(List<string> d)
+    private static List<string> OnlyToFirst(List<string> lines)
     {
         var toFirstCodeElement = new List<string>();
 
-        for (var i = 0; i < d.Count; i++)
+        for (var i = 0; i < lines.Count; i++)
         {
-            var line = d[i];
-            if (classCodeElements.Any(d => line.Contains(d)))
+            var line = lines[i];
+            if (classCodeElements.Any(element => line.Contains(element)))
             {
-                for (var yValue = i - 1; yValue >= 0; yValue--)
-                    if (d[yValue].StartsWith("//"))
+                for (var previousIndex = i - 1; previousIndex >= 0; previousIndex--)
+                    if (lines[previousIndex].StartsWith("//"))
                         i--;
                     else
                         break;
 
-                toFirstCodeElement = d.Take(i).ToList();
+                toFirstCodeElement = lines.Take(i).ToList();
 
-                for (var j = toFirstCodeElement.Count - 1; j >= 0; j--) d.RemoveAt(0);
+                for (var j = toFirstCodeElement.Count - 1; j >= 0; j--) lines.RemoveAt(0);
 
                 break;
             }
@@ -33,39 +34,39 @@ public class TFCsFormat
         return toFirstCodeElement;
     }
 
-    public static void WriteAllTextSync(string p, string c)
+    public static void WriteAllTextSync(string filePath, string content)
     {
-        WriteAllText(p, c).GetAwaiter().GetResult();
+        WriteAllText(filePath, content).GetAwaiter().GetResult();
     }
 
-    public static void WriteAllLinesSync(string p, IEnumerable<string> list)
+    public static void WriteAllLinesSync(string filePath, IEnumerable<string> lines)
     {
-        WriteAllLines(p, list).GetAwaiter().GetResult();
+        WriteAllLines(filePath, lines).GetAwaiter().GetResult();
     }
 
-    public static async Task WriteAllText(string p, string c)
+    public static async Task WriteAllText(string filePath, string content)
     {
-        if (!p.EndsWith(".cs") || p.EndsWith("GlobalUsings.cs"))
+        if (!filePath.EndsWith(".cs") || filePath.EndsWith("GlobalUsings.cs"))
         {
-            await FileMs.WriteAllTextAsync(p, c);
+            await FileMs.WriteAllTextAsync(filePath, content);
             return;
         }
 
-        var list = SHGetLines.GetLines(c);
-        await WriteAllLines(p, list);
+        var lines = SHGetLines.GetLines(content);
+        await WriteAllLines(filePath, lines);
     }
 
-    public static async Task WriteAllLines(string p, IEnumerable<string> list)
+    public static async Task WriteAllLines(string filePath, IEnumerable<string> lines)
     {
-        if (!p.EndsWith(".cs") || p.EndsWith("GlobalUsings.cs"))
+        if (!filePath.EndsWith(".cs") || filePath.EndsWith("GlobalUsings.cs"))
         {
-            await FileMs.WriteAllLinesAsync(p, list);
+            await FileMs.WriteAllLinesAsync(filePath, lines);
             return;
         }
 
-        var l2 = list.ToList();
+        var mutableLines = lines.ToList();
 
-        var toFirstCodeElement = OnlyToFirst(l2);
+        var toFirstCodeElement = OnlyToFirst(mutableLines);
 
         var usings = new List<string>();
         var ns = string.Empty;
@@ -94,14 +95,14 @@ public class TFCsFormat
         usings.Insert(0, ns);
         usings.Insert(1, "");
 
-        TrimWhiteSpaceRowFromEnd(l2);
+        TrimWhiteSpaceRowFromEnd(mutableLines);
 
         if (wasBlockScopedNs)
         {
 
-            if (l2[l2.Count - 1] == "}")
+            if (mutableLines[mutableLines.Count - 1] == "}")
             {
-                l2.RemoveAt(l2.Count - 1);
+                mutableLines.RemoveAt(mutableLines.Count - 1);
             }
             else
             {
@@ -109,20 +110,20 @@ public class TFCsFormat
             }
         }
 
-        usings.AddRange(l2);
+        usings.AddRange(mutableLines);
 
-        await FileMs.WriteAllTextAsync(p, SHJoin.JoinNL(usings));
+        await FileMs.WriteAllTextAsync(filePath, SHJoin.JoinNL(usings));
     }
 
-    public static void TrimWhiteSpaceRowFromEnd(List<string> s)
+    public static void TrimWhiteSpaceRowFromEnd(List<string> lines)
     {
-        for (int i = s.Count - 1; i >= 0; i--)
+        for (int i = lines.Count - 1; i >= 0; i--)
         {
-            if (!string.IsNullOrWhiteSpace(s[i]))
+            if (!string.IsNullOrWhiteSpace(lines[i]))
             {
                 break;
             }
-            s.RemoveAt(i);
+            lines.RemoveAt(i);
         }
     }
 }

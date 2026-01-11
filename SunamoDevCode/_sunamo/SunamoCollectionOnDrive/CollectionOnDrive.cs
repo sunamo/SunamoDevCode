@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive;
 
 /// <summary>
@@ -12,15 +13,15 @@ internal sealed class CollectionOnDrive(ILogger logger) : CollectionOnDriveBase<
         {
             ThrowEx.UseNonDummyCollection();
         }
-        a.path = path;
+        args.path = path;
         await Load(removeDuplicates);
     }
     internal override async Task Load(bool removeDuplicates)
     {
-        if (File.Exists(a.path))
+        if (File.Exists(args.path))
         {
             Clear();
-            var rows = SHGetLines.GetLines(await File.ReadAllTextAsync(a.path));
+            var rows = SHGetLines.GetLines(await File.ReadAllTextAsync(args.path));
             rows = rows.Where(line => line.Trim() != string.Empty).ToList();
             AddRange(rows);
             if (removeDuplicates)

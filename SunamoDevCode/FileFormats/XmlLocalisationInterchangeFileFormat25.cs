@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.FileFormats;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -140,8 +141,8 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return count;
     }
 
-    public static string Id(XElement item)
+    public static string Id(XElement element)
     {
-        return XHelper.Attr(item, "id");
+        return XHelper.Attr(element, "id");
     }
 }

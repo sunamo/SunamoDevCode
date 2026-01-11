@@ -1,8 +1,9 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public class XmlLocalisationInterchangeFileFormatSunamo
 {
-    public const string cs = "const string ";
+    public const string Cs = "const string ";
     private const string eqBs = " = \"";
 
     /// <summary>
@@ -16,7 +17,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
     public const string XlfKeysDot = SunamoNotTranslateAble.XlfKeysDot;
     public const string SessI18nShort = SunamoNotTranslateAble.SessI18nShort;
 
-    public static string pathXlfKeys = BasePathsHelper.vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
+    public static string PathXlfKeys = BasePathsHelper.vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
     private static Type type = typeof(XmlLocalisationInterchangeFileFormatSunamo);
     public static string SunamoStringsDot = "SunamoStrings.";
 
@@ -40,12 +41,12 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         var consts = new List<string>();
         AllLists.InitHtmlEntitiesFullNames();
 
-        var val = AllLists.htmlEntitiesFullNames.Values.ToList();
+        var values = AllLists.htmlEntitiesFullNames.Values.ToList();
         int i;
-        for (i = 0; i < val.Count; i++) val[i] = "_" + val[i];
+        for (i = 0; i < values.Count; i++) values[i] = "_" + values[i];
 
 
-        foreach (var item in val) content = content.Replace(item, string.Empty);
+        foreach (var item in values) content = content.Replace(item, string.Empty);
 
 
 #if ASYNC
@@ -72,9 +73,9 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 
         #endregion
 
-        var parameter = SHSplit.SplitFromReplaceManyFormatList(replacePairs);
-        var to = parameter.Item1;
-        var from = parameter.Item2;
+        var splitResult = SHSplit.SplitFromReplaceManyFormatList(replacePairs);
+        var to = splitResult.Item1;
+        var from = splitResult.Item2;
 
         for (i = 0; i < from.Count; i++)
         {
@@ -135,7 +136,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 #if ASYNC
             await
 #endif
-                File.ReadAllTextAsync(pathXlfKeys)).ToList();
+                File.ReadAllTextAsync(PathXlfKeys)).ToList();
 
         for (i = 0; i < lines.Count; i++) lines[i] = lines[i].Trim();
 
@@ -178,7 +179,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
                 lines.RemoveAt(dx);
             }
 
-        await File.WriteAllLinesAsync(pathXlfKeys, lines);
+        await File.WriteAllLinesAsync(PathXlfKeys, lines);
     }
 
     public static
@@ -191,7 +192,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
     {
         int y, i;
         //AllLists.InitHtmlEntitiesDict();
-        var path = pathXlfKeys;
+        var path = PathXlfKeys;
         var sourceList = SHGetLines.GetLines(
 #if ASYNC
             await
@@ -218,9 +219,9 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         await File.WriteAllLinesAsync(path, sourceList);
     }
 
-    public static string GetConstsFromLine(string d4)
+    public static string GetConstsFromLine(string line)
     {
-        return SH.GetTextBetweenSimple(d4, cs, eqBs, false);
+        return SH.GetTextBetweenSimple(line, Cs, eqBs, false);
     }
 
 #pragma warning disable
@@ -244,9 +245,9 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         {
             ext = "." + ext;
         }
-        if (ext == AllExtensions.cs)
+        if (ext == AllExtensions.CsExtension)
             return SessI18n + XlfKeysDot + key2 + ")";
-        if (ext == AllExtensions.ts) return "su.en(\"" + key2 + "\")";
+        if (ext == AllExtensions.TsExtension) return "su.en(\"" + key2 + "\")";
         ThrowEx.NotImplementedCase(ext);
         return null;
     }

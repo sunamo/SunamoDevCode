@@ -1,9 +1,19 @@
+// variables names: ok
 namespace SunamoDevCode.ToNetCore.research;
 
+/// <summary>
+/// Shared utilities for .NET Core migration.
+/// </summary>
 public class Shared
 {
-    public static Type type = typeof(Shared);
+    /// <summary>
+    /// Type of the Shared class for reflection purposes.
+    /// </summary>
+    public static Type Type = typeof(Shared);
 
+    /// <summary>
+    /// Action to extract archives during migration.
+    /// </summary>
     public static Action<string, bool> ExtractArchive;
 
     static
@@ -112,7 +122,7 @@ public class Shared
     {
         if (ExtractArchive != null)
         {
-            var zf = FS.Combine(folderNonRec, FS.GetFileName(folderNonRec) + AllExtensions.zip);
+            var zf = FS.Combine(folderNonRec, FS.GetFileName(folderNonRec) + AllExtensions.ZipExtension);
             ExtractArchive(zf, true);
         }
 

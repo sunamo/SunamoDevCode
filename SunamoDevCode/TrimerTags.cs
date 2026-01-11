@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public static class TrimerTags

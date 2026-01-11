@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -48,10 +49,10 @@ public partial class FoldersWithSolutions
 
         solutionFolderInstance.repository = RepositoryFromFullPath(solutionFolder);
         IdentifyProjectType(documentsFolder, solutionFolder, solutionFolderInstance);
-        solutionFolderInstance.displayedText = GetDisplayedName(solutionFolder);
-        solutionFolderInstance.fullPathFolder = solutionFolder;
+        solutionFolderInstance.DisplayedText = GetDisplayedName(solutionFolder);
+        solutionFolderInstance.FullPathFolder = solutionFolder;
         // Nevím zda je to nutné tak jsem to zakomentoval aby to bylo rychlejší
-        //solutionFolderInstance.projects = new DebugCollection<string>( SolutionsIndexerHelper.ProjectsInSolution(true, solutionFolderInstance.fullPathFolder));
+        //solutionFolderInstance.projects = new DebugCollection<string>( SolutionsIndexerHelper.ProjectsInSolution(true, solutionFolderInstance.FullPathFolder));
         //solutionFolderInstance.SourceOfProjects = SourceOfProjects.ProjectsInSolution;
         solutionFolderInstance.UpdateModules(logger, toSelling);
         solutionFolderInstance.nameSolutionWithoutDiacritic = SH.TextWithoutDiacritic(projName);
@@ -93,7 +94,7 @@ public partial class FoldersWithSolutions
     public List<SolutionFolder> SolutionsUap(IList<string> skipThese = null)
     {
         var slns = Solutions(RepositoryLocal.Vs17, false, skipThese);
-        var uap = slns.Where(d => d.fullPathFolder.Contains(@"\_Uap\")).ToList();
+        var uap = slns.Where(d => d.FullPathFolder.Contains(@"\_Uap\")).ToList();
         return uap;
     }
 
@@ -108,7 +109,7 @@ public partial class FoldersWithSolutions
         var result = Solutions(repository);
         for (int i = result.Count - 1; i >= 0; i--)
         {
-            var solutionName = result[i].nameSolution;
+            var solutionName = result[i].NameSolution;
             if (!SH.MatchWildcard(solutionName, wildcardPattern))
             {
                 result.RemoveAt(i);
@@ -127,9 +128,9 @@ public partial class FoldersWithSolutions
     /// <param name="isLoadingAll">If false and debugger attached, excludes working solutions</param>
     /// <param name="skipThese">Solution names to skip (supports wildcards)</param>
     /// <returns>Filtered list of solutions</returns>
-    public List<SolutionFolder> Solutions(RepositoryLocal repository, bool isLoadingAll = true, IList<string> skipThese = null)
+    public List<SolutionFolder> GetSolutions(RepositoryLocal repository, bool isLoadingAll = true, IList<string> skipThese = null)
     {
-        var result = new List<SolutionFolder>(solutions);
+        var result = new List<SolutionFolder>(Solutions);
         if (repository != RepositoryLocal.All)
         {
             result.RemoveAll(solution => solution.repository != repository);
@@ -164,14 +165,14 @@ public partial class FoldersWithSolutions
             var solution = result[i];
             foreach (var wildcardEntry in dict)
             {
-                if (wildcardEntry.Value.IsMatch(solution.nameSolution))
+                if (wildcardEntry.Value.IsMatch(solution.NameSolution))
                 {
                     result.RemoveAt(i);
                     break;
                 }
             }
         }
-        //result.RemoveAll(d => CAG.IsEqualToAnyElement(d.nameSolution, skip));
+        //result.RemoveAll(d => CAG.IsEqualToAnyElement(d.NameSolution, skip));
         ////////DebugLogger.Instance.WriteCount("Solutions in " + documentsFolder, solutions);
         return result;
     }

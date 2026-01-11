@@ -1,12 +1,13 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Helpers;
 
 public class VersionHelper
 {
-    public static string RemovePartsWhichIsZero(Version v)
+    public static string RemovePartsWhichIsZero(Version version)
     {
         const string dotZero = ".0";
 
-        var text = v.ToString();
+        var text = version.ToString();
         while (text.EndsWith(dotZero))
         {
             text = SHTrim.Trim(text, dotZero);

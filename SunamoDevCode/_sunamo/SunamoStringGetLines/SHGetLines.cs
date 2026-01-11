@@ -1,57 +1,82 @@
 namespace SunamoDevCode._sunamo.SunamoStringGetLines;
 
+/// <summary>
+/// Helper class for getting lines from text strings.
+/// Handles various newline formats (Windows CRLF, Unix LF, Mac CR).
+/// </summary>
 internal class SHGetLines
 {
-    internal static List<string> GetLines(string p)
+    /// <summary>
+    /// Splits text into lines by all possible newline combinations.
+    /// Handles: \r\n, \n\r, \r, \n
+    /// </summary>
+    /// <param name="text">The text to split into lines.</param>
+    /// <returns>List of lines.</returns>
+    internal static List<string> GetLines(string text)
     {
-        var parts = p.Split(new string[] { "\r\n", "\n\r" }, StringSplitOptions.None).ToList();
-        SplitByUnixNewline(parts);
-        return parts;
+        var lines = text.Split(new string[] { "\r\n", "\n\r" }, StringSplitOptions.None).ToList();
+        SplitByUnixNewline(lines);
+        return lines;
     }
 
-    private static void SplitByUnixNewline(List<string> d)
+    /// <summary>
+    /// Splits lines by Unix-style newline characters (\r and \n separately).
+    /// </summary>
+    /// <param name="lines">The list of lines to further split.</param>
+    private static void SplitByUnixNewline(List<string> lines)
     {
-        SplitBy(d, "\r");
-        SplitBy(d, "\n");
+        SplitBy(lines, "\r");
+        SplitBy(lines, "\n");
     }
 
-    private static void SplitBy(List<string> d, string v)
+    /// <summary>
+    /// Splits lines by a specific delimiter character.
+    /// </summary>
+    /// <param name="lines">The list of lines to split.</param>
+    /// <param name="delimiter">The delimiter character to split by.</param>
+    private static void SplitBy(List<string> lines, string delimiter)
     {
-        for (int i = d.Count - 1; i >= 0; i--)
+        for (int i = lines.Count - 1; i >= 0; i--)
         {
-            if (v == "\r")
+            if (delimiter == "\r")
             {
-                var rn = d[i].Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                var nr = d[i].Split(new string[] { "\n\r" }, StringSplitOptions.None);
+                var windowsNewlineParts = lines[i].Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                var reverseNewlineParts = lines[i].Split(new string[] { "\n\r" }, StringSplitOptions.None);
 
-                if (rn.Length > 1)
+                if (windowsNewlineParts.Length > 1)
                 {
-                    ThrowEx.Custom("cannot contain any \r\name, pass already split by this pattern");
+                    ThrowEx.Custom("cannot contain any \r\n, pass already split by this pattern");
                 }
-                else if (nr.Length > 1)
+                else if (reverseNewlineParts.Length > 1)
                 {
                     ThrowEx.Custom("cannot contain any \n\r, pass already split by this pattern");
                 }
             }
 
-            var name = d[i].Split(new string[] { v }, StringSplitOptions.None);
+            var splitParts = lines[i].Split(new string[] { delimiter }, StringSplitOptions.None);
 
-            if (name.Length > 1)
+            if (splitParts.Length > 1)
             {
-                InsertOnIndex(d, name.ToList(), i);
+                InsertOnIndex(lines, splitParts.ToList(), i);
             }
         }
     }
 
-    private static void InsertOnIndex(List<string> d, List<string> r, int i)
+    /// <summary>
+    /// Inserts split lines at a specific index in the list, replacing the original line.
+    /// </summary>
+    /// <param name="lines">The list of lines to modify.</param>
+    /// <param name="splitLines">The split lines to insert.</param>
+    /// <param name="index">The index where to insert the split lines.</param>
+    private static void InsertOnIndex(List<string> lines, List<string> splitLines, int index)
     {
-        r.Reverse();
+        splitLines.Reverse();
 
-        d.RemoveAt(i);
+        lines.RemoveAt(index);
 
-        foreach (var item in r)
+        foreach (var item in splitLines)
         {
-            d.Insert(i, item);
+            lines.Insert(index, item);
         }
     }
 }

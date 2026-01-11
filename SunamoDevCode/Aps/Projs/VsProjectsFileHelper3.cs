@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Projs;
 
 public partial class VsProjectsFileHelper

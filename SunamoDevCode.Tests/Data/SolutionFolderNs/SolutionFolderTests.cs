@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+// variables names: ok
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SunamoDevCode.SunamoSolutionsIndexer;
 

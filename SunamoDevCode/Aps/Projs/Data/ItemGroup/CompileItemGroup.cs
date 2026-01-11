@@ -1,28 +1,34 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public class CompileItemGroup : ItemGroupElement
 {
-    public string Link = null;
     /// <summary>
-    /// Use in checking whether exists already, not for simple adding
+    /// Link attribute for the compile item
+    /// </summary>
+    public string Link = null;
+
+    /// <summary>
+    /// Full path to the file - use in checking whether exists already, not for simple adding
     /// </summary>
     public string FullPathFile = null;
+
     /// <summary>
+    /// Initializes a new instance of CompileItemGroup
     /// A1 - To csproj. Must exists. From it and relative structure is filled other properties
     /// </summary>
-    /// <param name="_FullPath"></param>
-    public CompileItemGroup(string _FullPath) : base(_FullPath)
+    /// <param name="fullPath">Full path to the file</param>
+    public CompileItemGroup(string fullPath) : base(fullPath)
     {
     }
-    public override XmlNode ToXml(XmlDocument xd)
+
+    /// <summary>
+    /// Converts the compile item group to XML node
+    /// </summary>
+    /// <param name="xmlDocument">XML document to create the node in</param>
+    /// <returns>XML node representing this compile item</returns>
+    public override XmlNode ToXml(XmlDocument xmlDocument)
     {
         throw new Exception("Make it with ");
-        //XmlGenerator x = new XmlGenerator();
-        //x.WriteTagWithAttrsCheckNull(VsProjectItemTypes.Compile, "Include", Include, "Link", Link);
-        //x.TerminateTag(VsProjectItemTypes.Compile);
-        //XmlNode xn = XH.ReturnXmlNode(x.ToString(), xd);
-        //return xn;
     }
 }

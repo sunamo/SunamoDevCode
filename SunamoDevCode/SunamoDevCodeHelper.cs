@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public class SunamoDevCodeHelper
@@ -38,8 +39,8 @@ public class SunamoDevCodeHelper
         RemoveTemporaryFilesVS(list);
         RemoveGitFiles(list);
 
-        var builder = Path.GetDirectoryName(slnFolder);
-        FS.WithEndSlash(ref builder);
+        var sourceBasePath = Path.GetDirectoryName(slnFolder);
+        FS.WithEndSlash(ref sourceBasePath);
         FS.WithEndSlash(ref folderTo);
 
         var slnFolderTo = Path.Combine(folderTo, Path.GetFileName(slnFolder));
@@ -47,59 +48,59 @@ public class SunamoDevCodeHelper
 
         foreach (var item in list)
         {
-            var np = item.Replace(builder, folderTo);
-            FS.CreateUpfoldersPsysicallyUnlessThere(np);
-            //FS.CopyFile(item, np, FileMoveCollisionOptionDC.DontManipulate);
+            var newPath = item.Replace(sourceBasePath, folderTo);
+            FS.CreateUpfoldersPsysicallyUnlessThere(newPath);
+            //FS.CopyFile(item, newPath, FileMoveCollisionOptionDC.DontManipulate);
         }
 
         archive(slnFolderTo);
         //ThisApp.Info("Archive was created successfully, is important create archive because first open with VS because will create folders package,obj,bin");
     }
 
-    public static void RemoveGitFiles(List<string> files, bool alsoGitFiles = true, bool alsoDownloadedFolders = false,
-        bool alsoFoldersToDelete = false)
+    public static void RemoveGitFiles(List<string> files, bool isIncludingGitFiles = true, bool isIncludingDownloadedFolders = false,
+        bool isIncludingFoldersToDelete = false)
     {
-        string wr = null;
+        string wrapped = null;
 
-        if (!alsoGitFiles)
+        if (!isIncludingGitFiles)
         {
-            wr = SH.WrapWith(VisualStudioTempFse.gitFolderName, "\"");
-            files.RemoveAll(d => d.Contains(wr));
+            wrapped = SH.WrapWith(VisualStudioTempFse.GitFolderName, "\"");
+            files.RemoveAll(d => d.Contains(wrapped));
         }
 
-        if (!alsoDownloadedFolders)
-            foreach (var item in VisualStudioTempFse.foldersInSolutionDownloaded)
+        if (!isIncludingDownloadedFolders)
+            foreach (var item in VisualStudioTempFse.FoldersInSolutionDownloaded)
             {
-                wr = SH.WrapWithBs(item);
-                files.RemoveAll(d => d.Contains(wr));
+                wrapped = SH.WrapWithBs(item);
+                files.RemoveAll(d => d.Contains(wrapped));
             }
 
-        if (!alsoFoldersToDelete)
-            foreach (var item in VisualStudioTempFse.foldersInSolutionToDelete)
+        if (!isIncludingFoldersToDelete)
+            foreach (var item in VisualStudioTempFse.FoldersInSolutionToDelete)
             {
-                wr = SH.WrapWithBs(item);
-                files.RemoveAll(d => d.Contains(wr));
+                wrapped = SH.WrapWithBs(item);
+                files.RemoveAll(d => d.Contains(wrapped));
             }
     }
 
     public static void RemoveTemporaryFilesVS(List<string> files)
     {
-        var list = VisualStudioTempFseWrapped.foldersInSolutionToDelete;
+        var list = VisualStudioTempFseWrapped.FoldersInSolutionToDelete;
 
         // todo list je zde List<string>, chce jen string, později to analyzovat 
 
         //As foldersInProjectToDelete dont have contains WildCard, set false
         CA.RemoveWhichContainsList(files, list, false);
-        list = VisualStudioTempFseWrapped.foldersInProjectToDelete;
+        list = VisualStudioTempFseWrapped.FoldersInProjectToDelete;
         CA.RemoveWhichContainsList(files, list, false);
-        list = VisualStudioTempFseWrapped.foldersAnywhereToDelete;
+        list = VisualStudioTempFseWrapped.FoldersAnywhereToDelete;
         CA.RemoveWhichContainsList(files, list, false);
 
-        list = VisualStudioTempFseWrapped.foldersInSolutionDownloaded;
+        list = VisualStudioTempFseWrapped.FoldersInSolutionDownloaded;
         CA.RemoveWhichContainsList(files, list, false);
-        list = VisualStudioTempFseWrapped.foldersInProjectDownloaded;
+        list = VisualStudioTempFseWrapped.FoldersInProjectDownloaded;
         CA.RemoveWhichContainsList(files, list, false);
-        list = VisualStudioTempFseWrapped.foldersAnywhereDownloaded;
+        list = VisualStudioTempFseWrapped.FoldersAnywhereDownloaded;
         CA.RemoveWhichContainsList(files, list, false);
     }
 

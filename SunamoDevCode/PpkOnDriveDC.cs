@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 /// <summary>
@@ -6,18 +7,18 @@ namespace SunamoDevCode;
 public class PpkOnDriveDC : PpkOnDriveDevCodeBase<string>
 {
     private static PpkOnDriveDC wroteOnDrive = null;
-    public bool removeDuplicates = false;
+    public bool RemoveDuplicates { get; set; } = false;
 
-    public PpkOnDriveDC(PpkOnDriveDevCodeArgs a) : base(a)
+    public PpkOnDriveDC(PpkOnDriveDevCodeArgs args) : base(args)
     {
     }
 
-    public PpkOnDriveDC(string file2, bool load = true) : base(new PpkOnDriveDevCodeArgs { file = file2, load = load })
+    public PpkOnDriveDC(string filePath, bool isLoading = true) : base(new PpkOnDriveDevCodeArgs { File = filePath, Load = isLoading })
     {
     }
 
-    public PpkOnDriveDC(string file, bool load, bool save) : base(new PpkOnDriveDevCodeArgs
-    { file = file, load = load, save = save })
+    public PpkOnDriveDC(string filePath, bool isLoading, bool isSaving) : base(new PpkOnDriveDevCodeArgs
+    { File = filePath, Load = isLoading, Save = isSaving })
     {
     }
 
@@ -27,14 +28,14 @@ public class PpkOnDriveDC : PpkOnDriveDevCodeBase<string>
     //    {
     //        if (wroteOnDrive == null)
     //        {
-    //            wroteOnDrive = new PpkOnDrive(AppData.ci.GetFile(AppFolders.Logs, "WrittenFiles.txt"));
+    //            wroteOnDrive = new PpkOnDrive(AppData.Instance.GetFile(AppFolders.Logs, "WrittenFiles.txt"));
     //        }
     //        return wroteOnDrive;
     //    }
     //}
-    public async Task Load(string file)
+    public async Task Load(string filePath)
     {
-        a.file = file;
+        args.File = filePath;
         await Load();
     }
 
@@ -46,15 +47,15 @@ void
 #endif
         Load()
     {
-        if (File.Exists(a.file))
+        if (File.Exists(args.File))
         {
             AddRange(SHGetLines.GetLines(
 #if ASYNC
                 await
 #endif
-                    File.ReadAllTextAsync(a.file)));
+                    File.ReadAllTextAsync(args.File)));
             //CA.RemoveStringsEmpty2(this);
-            if (removeDuplicates)
+            if (RemoveDuplicates)
             {
                 //CAG.RemoveDuplicitiesList<string>(this);
                 var data = this.ToList();

@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.Aps.Data;
 
 /// <summary>
@@ -18,15 +19,15 @@ public class SolutionFolderDetailedInfo : SolutionFolder
     /// EN: Initializes a new instance from a SolutionFolder
     /// CZ: Inicializuje novou instanci ze SolutionFolder
     /// </summary>
-    /// <param name="sf">Source solution folder</param>
-    public SolutionFolderDetailedInfo(SolutionFolder sf)
+    /// <param name="solutionFolder">Source solution folder</param>
+    public SolutionFolderDetailedInfo(SolutionFolder solutionFolder)
     {
-        countOfImages = sf.countOfImages;
-        displayedText = sf.displayedText;
-        fullPathFolder = sf.fullPathFolder;
-        nameSolutionWithoutDiacritic = sf.nameSolutionWithoutDiacritic;
+        CountOfImages = solutionFolder.CountOfImages;
+        DisplayedText = solutionFolder.DisplayedText;
+        FullPathFolder = solutionFolder.FullPathFolder;
+        NameSolutionWithoutDiacritic = solutionFolder.NameSolutionWithoutDiacritic;
 
-        displayedText += " (" + OverallFiles.ToString() + ")";
+        DisplayedText += " (" + OverallFiles.ToString() + ")";
     }
 }
 
@@ -40,9 +41,11 @@ internal class SolutionFolderDetailedInfoComparerBySourceFiles : IComparer<Solut
     /// EN: Compares two solution folders by overall file count in descending order
     /// CZ: Porovná dvě solution složky podle celkového počtu souborů sestupně
     /// </summary>
-    public int Compare(SolutionFolderDetailedInfo? x, SolutionFolderDetailedInfo? y)
+    /// <param name="first">First solution folder to compare</param>
+    /// <param name="second">Second solution folder to compare</param>
+    public int Compare(SolutionFolderDetailedInfo? first, SolutionFolderDetailedInfo? second)
     {
-        if (x == null || y == null) return 0;
-        return x.OverallFiles.CompareTo(y.OverallFiles) * -1;
+        if (first == null || second == null) return 0;
+        return first.OverallFiles.CompareTo(second.OverallFiles) * -1;
     }
 }

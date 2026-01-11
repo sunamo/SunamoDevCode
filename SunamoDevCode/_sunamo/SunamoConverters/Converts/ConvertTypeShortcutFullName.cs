@@ -66,7 +66,7 @@ internal static class ConvertTypeShortcutFullName
         }
         if (throwExceptionWhenNotBasicType)
         {
-            throw new Exception("Unsupported type / Nepodporovaný typ");
+            throw new Exception("Unsupported type");
         }
         return fullName;
     }

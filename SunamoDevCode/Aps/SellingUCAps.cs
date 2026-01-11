@@ -1,11 +1,12 @@
+// variables names: ok
 namespace SunamoDevCode.Aps;
 
 public class SellingUCAps
 {
-    internal static CollectionOnDrive? toSelling = null;
+    internal static CollectionOnDrive? ToSelling = null;
     public async Task Init(ILogger logger, GetFileSettings getFileSettings)
     {
-        toSelling = new CollectionOnDrive(logger);
-        await toSelling.Load(getFileSettings("ToSelling.txt"), false);
+        ToSelling = new CollectionOnDrive(logger);
+        await ToSelling.Load(getFileSettings("ToSelling.txt"), false);
     }
 }

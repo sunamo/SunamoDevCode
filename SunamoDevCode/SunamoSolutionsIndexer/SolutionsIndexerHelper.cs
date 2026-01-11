@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 public class SolutionsIndexerHelper
@@ -11,7 +12,7 @@ public class SolutionsIndexerHelper
     {
         IList<SolutionFolder> wpf = null;
 
-        if (FoldersWithSolutions.fwss.Count > 1)
+        if (FoldersWithSolutions.Fwss.Count > 1)
         {
             System.Diagnostics.Debugger.Break();
         }
@@ -25,18 +26,18 @@ public class SolutionsIndexerHelper
             name = "sunamo.cz";
         }
 
-        foreach (var item in FoldersWithSolutions.fwss)
+        foreach (var item in FoldersWithSolutions.Fwss)
         {
-            var slns = item.Solutions(RepositoryLocal.All);
-            //wpf = slns.Where(d => d.nameSolution.StartsWith(name[0].ToString().ToUpper()));
+            var slns = item.GetSolutions(RepositoryLocal.All);
+            //wpf = slns.Where(d => d.NameSolution.StartsWith(name[0].ToString().ToUpper()));
 
             foreach (var sln in slns)
             {
-                if (sln.nameSolution == name)
+                if (sln.NameSolution == name)
                 {
                     if (originName != String.Empty)
                     {
-                        sln.slnNameWoExt = originName;
+                        sln.SlnNameWithoutExtension = originName;
                     }
                     return sln;
                 }
@@ -103,7 +104,7 @@ public class SolutionsIndexerHelper
         while (true)
         {
             item = Path.GetDirectoryName(item);
-            if (CA.ContainsElement<string>(FoldersWithSolutions.onlyRealLoadedSolutionsFolders, item))
+            if (CA.ContainsElement<string>(FoldersWithSolutions.OnlyRealLoadedSolutionsFolders, item))
             {
                 break;
             }

@@ -94,32 +94,32 @@ internal partial class FS
     /// </summary>
     /// <param name = "v"></param>
     /// <returns></returns>
-    internal static string WithEndSlash(ref string v)
+    internal static string WithEndSlash(ref string path)
     {
-        if (v != string.Empty)
+        if (path != string.Empty)
         {
-            v = v.TrimEnd('\\') + '\\';
+            path = path.TrimEnd('\\') + '\\';
         }
 
-        SH.FirstCharUpper(ref v);
-        return v;
+        SH.FirstCharUpper(ref path);
+        return path;
     }
 
-    internal static string InsertBetweenFileNameAndExtension(string orig, string whatInsert)
+    internal static string InsertBetweenFileNameAndExtension(string originalPath, string textToInsert)
     {
-        //return InsertBetweenFileNameAndExtension<string, string>(orig, whatInsert, null);
+        //return InsertBetweenFileNameAndExtension<string, string>(originalPath, textToInsert, null);
         // Cesta by se zde hodila kvůli FS.CiStorageFile
         // nicméně StorageFolder nevím zda se používá, takže to bude umět i bez toho
-        var origS = orig.ToString();
-        string fn = Path.GetFileNameWithoutExtension(origS);
-        string e = Path.GetExtension(origS);
-        if (origS.Contains('/') || origS.Contains('\\'))
+        var originalPathString = originalPath.ToString();
+        string fileName = Path.GetFileNameWithoutExtension(originalPathString);
+        string extension = Path.GetExtension(originalPathString);
+        if (originalPathString.Contains('/') || originalPathString.Contains('\\'))
         {
-            string parameter = Path.GetDirectoryName(origS);
-            return Path.Combine(parameter, fn + whatInsert + e);
+            string directory = Path.GetDirectoryName(originalPathString);
+            return Path.Combine(directory, fileName + textToInsert + extension);
         }
 
-        return fn + whatInsert + e;
+        return fileName + textToInsert + extension;
     }
 
     /// <summary>
@@ -127,10 +127,10 @@ internal partial class FS
     /// </summary>
     /// <param name = "files2"></param>
     /// <returns></returns>
-    internal static List<string> OnlyNamesNoDirectEdit(String[] files2)
+    internal static List<string> OnlyNamesNoDirectEdit(String[] filePaths)
     {
-        var tl = files2.ToList();
-        return OnlyNamesNoDirectEdit(tl);
+        var list = filePaths.ToList();
+        return OnlyNamesNoDirectEdit(list);
     }
 
     /// <summary>
@@ -138,27 +138,27 @@ internal partial class FS
     /// Returns with extension
     /// POZOR: Na rozdíl od stejné metody v sunamo tato metoda vrací úplně nové pole a nemodifikuje A1
     /// </summary>
-    /// <param name = "files"></param>
-    internal static List<string> OnlyNamesNoDirectEdit(List<string> files2)
+    /// <param name = "filePaths">List of file paths.</param>
+    internal static List<string> OnlyNamesNoDirectEdit(List<string> filePaths)
     {
-        List<string> files = new List<string>(files2.Count);
-        for (int i = 0; i < files2.Count; i++)
+        List<string> fileNames = new List<string>(filePaths.Count);
+        for (int i = 0; i < filePaths.Count; i++)
         {
-            files.Add(Path.GetFileName(files2[i]));
+            fileNames.Add(Path.GetFileName(filePaths[i]));
         }
 
-        return files;
+        return fileNames;
     }
 
-    internal static List<string> GetFiles(string projectFolder, string v, SearchOption topDirectoryOnly /*, GetFilesArgsDC getFilesArgs = null*/)
+    internal static List<string> GetFiles(string folder, string mask, SearchOption searchOption /*, GetFilesArgsDC getFilesArgs = null*/)
     {
         //ThrowEx.NotImplementedMethod();
-        return Directory.GetFiles(projectFolder, v, topDirectoryOnly).ToList();
+        return Directory.GetFiles(folder, mask, searchOption).ToList();
     }
 
-    internal static string GetDirectoryName(string csp)
+    internal static string GetDirectoryName(string filePath)
     {
-        var data = Path.GetDirectoryName(csp);
+        var data = Path.GetDirectoryName(filePath);
         return FS.WithEndSlash(data);
     }
 
@@ -167,13 +167,13 @@ internal partial class FS
         return FS.GetFileName(fullPathFolder);
     }
 
-    internal static bool ExistsFile(string r)
+    internal static bool ExistsFile(string filePath)
     {
-        return File.Exists(r);
+        return File.Exists(filePath);
     }
 
-    internal static bool ExistsDirectory(string parameter)
+    internal static bool ExistsDirectory(string directoryPath)
     {
-        return Directory.Exists(parameter);
+        return Directory.Exists(directoryPath);
     }
 }

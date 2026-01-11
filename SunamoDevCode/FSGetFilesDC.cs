@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode;
 
 public class FSGetFilesDC
@@ -8,7 +9,7 @@ public class FSGetFilesDC
         var projectDirectories = Directory.GetDirectories(slnFolder);
         foreach (var projectDirectory in projectDirectories)
         {
-            if (arguments.OnlyIn_Sunamo)
+            if (arguments.OnlyInSunamo)
             {
                 var sunamoFolder = Path.Combine(projectDirectory, "_sunamo");
                 if (Directory.Exists(sunamoFolder))

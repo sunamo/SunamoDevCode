@@ -1,72 +1,115 @@
+// variables names: ok
 namespace SunamoDevCode._sunamo.SunamoBts;
 
+/// <summary>
+/// Basic Type System helper methods
+/// </summary>
 internal class BTS
 {
-    internal static string Replace(ref string id, bool replaceCommaForDot)
+    /// <summary>
+    /// Replaces comma with dot in a string if specified
+    /// </summary>
+    /// <param name="text">Text to process</param>
+    /// <param name="isReplacingCommaForDot">Whether to replace comma with dot</param>
+    /// <returns>Processed text</returns>
+    internal static string Replace(ref string text, bool isReplacingCommaForDot)
     {
-        if (replaceCommaForDot) id = id.Replace(",", ".");
+        if (isReplacingCommaForDot) text = text.Replace(",", ".");
 
-        return id;
-    }
-    internal static int lastInt = -1;
-    internal static long lastLong = -1;
-    internal static float lastFloat = -1;
-    internal static double lastDouble = -1;
-    internal static bool IsFloat(string id, bool replace = false)
-    {
-        if (id == null) return false;
-
-        Replace(ref id, replace);
-        return float.TryParse(id.Replace(",", "."), out lastFloat);
+        return text;
     }
 
-    internal static bool IsInt(string id, bool excIfIsFloat = false, bool replaceCommaForDot = false)
+    internal static int LastInt = -1;
+    internal static long LastLong = -1;
+    internal static float LastFloat = -1;
+    internal static double LastDouble = -1;
+
+    /// <summary>
+    /// Checks if string can be parsed as float
+    /// </summary>
+    /// <param name="text">Text to check</param>
+    /// <param name="isReplacing">Whether to replace comma with dot</param>
+    /// <returns>True if text is a valid float</returns>
+    internal static bool IsFloat(string text, bool isReplacing = false)
     {
-        if (id == null) return false;
+        if (text == null) return false;
 
-        id = id.Replace(" ", "");
-        Replace(ref id, replaceCommaForDot);
-
-
-        var vr = int.TryParse(id, out lastInt);
-        if (!vr)
-            if (IsFloat(id))
-                if (excIfIsFloat)
-                    throw new Exception(id + " is float but is calling IsInt");
-
-        return vr;
+        Replace(ref text, isReplacing);
+        return float.TryParse(text.Replace(",", "."), out LastFloat);
     }
-    internal static bool Is(bool binFp, bool n)
+
+    /// <summary>
+    /// Checks if string can be parsed as integer
+    /// </summary>
+    /// <param name="text">Text to check</param>
+    /// <param name="isThrowingExceptionIfIsFloat">Whether to throw exception if value is float</param>
+    /// <param name="isReplacingCommaForDot">Whether to replace comma with dot</param>
+    /// <returns>True if text is a valid integer</returns>
+    internal static bool IsInt(string text, bool isThrowingExceptionIfIsFloat = false, bool isReplacingCommaForDot = false)
     {
-        if (n)
+        if (text == null) return false;
+
+        text = text.Replace(" ", "");
+        Replace(ref text, isReplacingCommaForDot);
+
+
+        var result = int.TryParse(text, out LastInt);
+        if (!result)
+            if (IsFloat(text))
+                if (isThrowingExceptionIfIsFloat)
+                    throw new Exception(text + " is float but is calling IsInt");
+
+        return result;
+    }
+
+    /// <summary>
+    /// Logical XOR operation
+    /// </summary>
+    /// <param name="first">First boolean value</param>
+    /// <param name="isNegated">Whether to negate the result</param>
+    /// <returns>XOR result</returns>
+    internal static bool Is(bool first, bool isNegated)
+    {
+        if (isNegated)
         {
-            return !binFp;
+            return !first;
         }
-        return binFp;
+        return first;
     }
 
     private const string Yes = "Yes";
     private const string No = "No";
 
-    internal static string BoolToString(bool p, bool lower = false)
+    /// <summary>
+    /// Converts boolean to string representation
+    /// </summary>
+    /// <param name="value">Boolean value to convert</param>
+    /// <param name="isLowerCase">Whether to return lowercase result</param>
+    /// <returns>String representation of boolean</returns>
+    internal static string BoolToString(bool value, bool isLowerCase = false)
     {
-        string vr = null;
-        if (p)
-            vr = Yes;
+        string result = null;
+        if (value)
+            result = Yes;
         else
         {
-            vr = No;
+            result = No;
         }
 
-        if (lower)
+        if (isLowerCase)
         {
-            return vr.ToLower();
+            return result.ToLower();
         }
-        return vr;
+        return result;
     }
 
-    internal static bool GetValueOfNullable(bool? b)
+    /// <summary>
+    /// Gets value from nullable boolean
+    /// </summary>
+    /// <param name="value">Nullable boolean</param>
+    /// <returns>Value or default</returns>
+    internal static bool GetValueOfNullable(bool? value)
     {
-        return b.GetValueOrDefault();
+        return value.GetValueOrDefault();
     }
 }
