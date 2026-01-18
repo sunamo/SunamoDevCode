@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.Aps.Projs;
 
 // EN: Variable names have been checked and replaced with self-descriptive names

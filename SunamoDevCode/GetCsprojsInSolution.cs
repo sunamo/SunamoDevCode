@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode;
 
 partial class GetCsprojs

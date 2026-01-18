@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.Aps.Projs;
 
 /// <summary>
@@ -17,7 +16,7 @@ public class VsProjectFile
     {
         get
         {
-            return holder.nsmgr;
+            return holder.NamespaceManager;
         }
     }
     public string Name
@@ -79,7 +78,7 @@ public class VsProjectFile
         //holder = new XmlNamespacesHolder();
         //holder.ParseAndRemoveNamespacesXmlDocument(content);
         //xDocument = XmlHelper.CreateXmlDocument(content);
-        //XmlHelper.AddXmlNamespaces(holder.nsmgr);
+        //XmlHelper.AddXmlNamespaces(holder.NamespaceManager);
     }
     public bool IsValidXml
     {

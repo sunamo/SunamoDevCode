@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
 
 public class CompileItemGroup : ItemGroupElement

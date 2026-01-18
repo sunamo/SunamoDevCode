@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.FileFormats;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -65,7 +64,7 @@ Into A1 insert:
             tb.Paragraph(item.Value, item.Key);
         }
 
-        return new OutRefDC<string, List<string>>(tb.stringBuilder.ToString(), idsEndingOn);
+        return new OutRefDC<string, List<string>>(tb.StringBuilder.ToString(), idsEndingOn);
     }
 
     /// <summary>

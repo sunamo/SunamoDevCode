@@ -1,62 +1,185 @@
 namespace SunamoDevCode._sunamo.SunamoCSharpKeywords;
 
 /// <summary>
-/// C# keywords categorized by type
+/// Lists of C# keywords categorized by type.
 /// </summary>
-internal static class CsKeywordsList
+internal class CsKeywordsList
 {
-    internal static readonly HashSet<string> Modifier = new HashSet<string>
-    {
-        "abstract", "async", "const", "event", "extern", "new", "override", "partial", "readonly", "sealed", "static", "unsafe", "virtual", "volatile"
-    };
+    /// <summary>
+    /// Gets or sets modifier keywords (abstract, async, const, etc.).
+    /// </summary>
+    internal static List<string> Modifier { get; set; } = null;
 
-    internal static readonly HashSet<string> AccessModifier = new HashSet<string>
-    {
-        "public", "private", "protected", "internal", "protected internal", "private protected"
-    };
+    /// <summary>
+    /// Gets or sets access modifier keywords (public, private, internal, protected).
+    /// </summary>
+    internal static List<string> AccessModifier { get; set; } = null;
 
-    internal static readonly HashSet<string> Statement = new HashSet<string>
-    {
-        "if", "else", "switch", "case", "default", "do", "for", "foreach", "in", "while", "break", "continue", "goto", "return", "throw", "try", "catch", "finally", "checked", "unchecked", "fixed", "lock"
-    };
+    /// <summary>
+    /// Gets or sets statement keywords (if, else, switch, for, etc.).
+    /// </summary>
+    internal static List<string> Statement { get; set; } = null;
 
-    internal static readonly HashSet<string> MethodParameter = new HashSet<string>
-    {
-        "params", "ref", "out", "in"
-    };
+    /// <summary>
+    /// Gets or sets method parameter keywords (params, ref, out).
+    /// </summary>
+    internal static List<string> MethodParameter { get; set; } = null;
 
-    internal static readonly HashSet<string> NamespaceKeywords = new HashSet<string>
-    {
-        "namespace", "using"
-    };
+    /// <summary>
+    /// Gets or sets namespace keywords (using, extern alias).
+    /// </summary>
+    internal static List<string> Namespace { get; set; } = null;
 
-    internal static readonly HashSet<string> OperatorKeywords = new HashSet<string>
-    {
-        "operator", "explicit", "implicit"
-    };
+    /// <summary>
+    /// Gets or sets operator keywords (as, await, is, new, sizeof, typeof, etc.).
+    /// </summary>
+    internal static List<string> Operator { get; set; } = null;
 
-    internal static readonly HashSet<string> Access = new HashSet<string>
-    {
-        "base", "this"
-    };
+    /// <summary>
+    /// Gets or sets access keywords (base, this).
+    /// </summary>
+    internal static List<string> Access { get; set; } = null;
 
-    internal static readonly HashSet<string> Literal = new HashSet<string>
-    {
-        "null", "true", "false"
-    };
+    /// <summary>
+    /// Gets or sets literal keywords (null, false, true, value, void).
+    /// </summary>
+    internal static List<string> Literal { get; set; } = null;
 
-    internal static readonly HashSet<string> TypeKeywords = new HashSet<string>
-    {
-        "bool", "byte", "char", "class", "decimal", "double", "enum", "float", "int", "interface", "long", "object", "sbyte", "short", "string", "struct", "uint", "ulong", "ushort", "void", "record"
-    };
+    /// <summary>
+    /// Gets or sets type keywords (bool, byte, char, class, decimal, double, etc.).
+    /// </summary>
+    internal static List<string> Type { get; set; } = null;
 
-    internal static readonly HashSet<string> Contextual = new HashSet<string>
-    {
-        "add", "alias", "ascending", "async", "await", "by", "descending", "dynamic", "equals", "file", "from", "get", "global", "group", "init", "into", "join", "let", "managed", "nameof", "not", "notnull", "on", "orderby", "partial", "record", "remove", "required", "select", "set", "unmanaged", "value", "var", "when", "where", "with", "yield"
-    };
+    /// <summary>
+    /// Gets or sets contextual keywords (add, var, dynamic, global, set, value).
+    /// </summary>
+    internal static List<string> Contextual { get; set; } = null;
 
-    internal static readonly HashSet<string> Query = new HashSet<string>
+    /// <summary>
+    /// Gets or sets query keywords (from, where, select, group, etc.).
+    /// </summary>
+    internal static List<string> Query { get; set; } = null;
+
+    private static bool initialized = false;
+
+    /// <summary>
+    /// Initializes all keyword lists.
+    /// </summary>
+    internal static void Init()
     {
-        "from", "where", "select", "group", "into", "orderby", "join", "let", "in", "on", "equals", "by", "ascending", "descending"
-    };
+        if (!initialized)
+        {
+            Modifier = SHGetLines.GetLines(@"abstract
+async
+const
+event
+extern
+new
+override
+partial
+readonly
+sealed
+static
+unsafe
+virtual
+volatile");
+
+            AccessModifier = SHGetLines.GetLines(@"public
+private
+internal
+protected");
+
+            Statement = SHGetLines.GetLines(@"if
+else
+switch
+case
+do
+for
+foreach
+in
+while
+break
+continue
+default
+goto
+return
+yield
+throw
+try
+catch
+finally
+checked
+unchecked
+fixed
+lock");
+
+            MethodParameter = SHGetLines.GetLines(@"params
+ref
+out");
+
+            Namespace = SHGetLines.GetLines(@"using
+extern alias");
+
+            Operator = SHGetLines.GetLines(@"as
+await
+is
+new
+sizeof
+typeof
+stackalloc
+checked
+unchecked");
+
+            Access = SHGetLines.GetLines(@"base
+this");
+
+            Literal = SHGetLines.GetLines(@"null
+false
+true
+value
+void");
+
+            Type = SHGetLines.GetLines(@"bool
+byte
+char
+class
+decimal
+double
+enum
+float
+int
+long
+sbyte
+short
+string
+struct
+uint
+ulong
+ushort");
+
+            Contextual = SHGetLines.GetLines(@"add
+var
+dynamic
+global
+set
+value");
+
+            Query = SHGetLines.GetLines(@"from
+where
+select
+group
+into
+orderby
+join
+let
+in
+on
+equals
+by
+ascending
+descending");
+
+            initialized = true;
+        }
+    }
 }

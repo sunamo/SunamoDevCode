@@ -61,7 +61,7 @@ SunamoXlf
 TranslateEngine");
         foreach (var item in slns)
         {
-            __xlfSolutions.Add(BasePathsHelper.vs + item);
+            __xlfSolutions.Add(BasePathsHelper.Vs + item);
         }
     }
 

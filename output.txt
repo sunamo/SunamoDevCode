@@ -1,0 +1,22 @@
+At E:\vs\Projects\PlatformIndependentNuGetPackages\.scripts\fix-non-private-fields-casing.ps1:181 char:95
++ ...  and run build to ensure everything compiles." -ForegroundColor Green
++                                                  ~~~~~~~~~~~~~~~~~~~~~~~~
+The string is missing the terminator: ".
+At E:\vs\Projects\PlatformIndependentNuGetPackages\.scripts\fix-non-private-fields-casing.ps1:149 char:38
++         if ($fileReplacements -gt 0) {
++                                      ~
+Missing closing '}' in statement block or type definition.
+At E:\vs\Projects\PlatformIndependentNuGetPackages\.scripts\fix-non-private-fields-casing.ps1:124 char:9
++     try {
++         ~
+Missing closing '}' in statement block or type definition.
+At E:\vs\Projects\PlatformIndependentNuGetPackages\.scripts\fix-non-private-fields-casing.ps1:183 char:1
++ 
+The Try statement is missing its Catch or Finally block.
+At E:\vs\Projects\PlatformIndependentNuGetPackages\.scripts\fix-non-private-fields-casing.ps1:119 char:32
++ foreach ($file in $allCsFiles) {
++                                ~
+Missing closing '}' in statement block or type definition.
+    + CategoryInfo          : ParserError: (:) [], ParseException
+    + FullyQualifiedErrorId : TerminatorExpectedAtEndOfString
+ 

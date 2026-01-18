@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.Aps;
 
 internal static partial class AllProjectsSearchSettings

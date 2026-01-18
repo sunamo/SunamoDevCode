@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode;
 
 public abstract class PpkOnDriveDevCodeBase<T> : List<T>

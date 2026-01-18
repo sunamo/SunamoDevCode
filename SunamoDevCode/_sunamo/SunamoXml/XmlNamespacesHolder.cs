@@ -3,7 +3,7 @@ namespace SunamoDevCode._sunamo.SunamoXml;
 internal class XmlNamespacesHolder
 {
     //internal NameTable nt = new NameTable();
-    internal XmlNamespaceManager nsmgr = null;
+    internal XmlNamespaceManager NamespaceManager = null;
 
     /// <summary>
     /// Return XmlDocument but dont use return value
@@ -37,7 +37,7 @@ internal class XmlNamespacesHolder
         xmlns=http://www.w3.org/2000/xmlns/
         xml=http://www.w3.org/XML/1998/namespace
         */
-        nsmgr = new XmlNamespaceManager(nt);
+        NamespaceManager = new XmlNamespaceManager(nt);
 
         xd.LoadXml(content);
 
@@ -60,7 +60,7 @@ internal class XmlNamespacesHolder
                         key = att.Name.Substring(6);
                     }
 
-                    nsmgr.AddNamespace(key, att.Value);
+                    NamespaceManager.AddNamespace(key, att.Value);
                     // TODO: Delete wrong attribute but in outerXml is still figuring
                     root.Attributes.RemoveAt(i);
                 }

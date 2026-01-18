@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.SunamoCSharp.Args;
 
 /// <summary>

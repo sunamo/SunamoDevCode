@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode._public.SunamoGitBashBuilder;
 
 // EN: Variable names have been checked and replaced with self-descriptive names

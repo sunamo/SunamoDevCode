@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.SunamoCSharp;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -194,7 +193,7 @@ public static partial class CSharpHelper
         }
 
         CreateConsts(csg, dict);
-        csg.List(2, "string", "All", all, new CSharpGeneratorArgs { addHyphens = false });
+        csg.List(2, "string", "All", all, new CSharpGeneratorArgs { AddHyphens = false });
         return csg.ToString();
     }
 
@@ -226,7 +225,7 @@ public static partial class CSharpHelper
     }
 
     /// <summary>
-    /// addingValue = 0
+    /// AddingValue = 0
     /// </summary>
     /// <typeparam name = "Key"></typeparam>
     /// <typeparam name = "Value"></typeparam>
@@ -238,7 +237,7 @@ public static partial class CSharpHelper
     {
         if (argument == null)
         {
-            argument = new CSharpGeneratorArgs { addingValue = false };
+            argument = new CSharpGeneratorArgs { AddingValue = false };
         }
 
         CSharpGenerator genCS = new CSharpGenerator();

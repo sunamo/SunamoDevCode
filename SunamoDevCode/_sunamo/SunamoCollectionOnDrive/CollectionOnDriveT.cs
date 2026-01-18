@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive;
 
 internal sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBase<T>(logger) where T : IParserDC

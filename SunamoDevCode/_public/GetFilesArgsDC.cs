@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode._public;
 
 // TODO: Should this inherit from GetFoldersEveryFolderArgs? In vs2 it does

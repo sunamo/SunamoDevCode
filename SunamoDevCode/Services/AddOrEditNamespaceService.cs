@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.Services;
 
 public class AddOrEditNamespaceService

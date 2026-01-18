@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode;
 
 public class XmlLocalisationInterchangeFileFormatSunamo
@@ -17,7 +16,7 @@ public class XmlLocalisationInterchangeFileFormatSunamo
     public const string XlfKeysDot = SunamoNotTranslateAble.XlfKeysDot;
     public const string SessI18nShort = SunamoNotTranslateAble.SessI18nShort;
 
-    public static string PathXlfKeys = BasePathsHelper.vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
+    public static string PathXlfKeys = BasePathsHelper.Vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
     private static Type type = typeof(XmlLocalisationInterchangeFileFormatSunamo);
     public static string SunamoStringsDot = "SunamoStrings.";
 

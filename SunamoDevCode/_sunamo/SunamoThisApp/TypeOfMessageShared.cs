@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode._sunamo.SunamoThisApp;
 
 internal enum TypeOfMessageShared

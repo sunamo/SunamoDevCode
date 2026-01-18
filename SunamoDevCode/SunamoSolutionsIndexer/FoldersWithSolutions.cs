@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -41,8 +40,8 @@ public partial class FoldersWithSolutions
     }
 
     /// <summary>
-    /// EN: Folder where to search for Projects folder and Visual Studio folders. Added here when calling FoldersWithSolutions ctor. If no sln, call new FoldersWithSolutions(BasePathsHelper.vs, null);
-    /// CZ: Složka ve které se má hledat na složku Projects a složky Visual Studia. Přidává se mi zde když volám ctor FoldersWithSolutions. Pokud nemám sln, zavolat new FoldersWithSolutions(BasePathsHelper.vs, null);
+    /// EN: Folder where to search for Projects folder and Visual Studio folders. Added here when calling FoldersWithSolutions ctor. If no sln, call new FoldersWithSolutions(BasePathsHelper.Vs, null);
+    /// CZ: Složka ve které se má hledat na složku Projects a složky Visual Studia. Přidává se mi zde když volám ctor FoldersWithSolutions. Pokud nemám sln, zavolat new FoldersWithSolutions(BasePathsHelper.Vs, null);
     /// </summary>
     public static FoldersWithSolutionsList Fwss { get; set; } = new FoldersWithSolutionsList();
     public static void InsertIntoFwss(ILogger logger, string documentsFolder, PpkOnDriveDC toSelling, bool addAlsoSolutions = true)
@@ -204,7 +203,7 @@ public partial class FoldersWithSolutions
                 foreach (var sln in item.GetSolutions(UsedRepository))
                 {
                     SolutionFolder.GetCsprojs(logger, sln);
-                    foreach (var item2 in sln.projectsGetCsprojs)
+                    foreach (var item2 in sln.ProjectsGetCsprojs)
                     {
                         ResultWithExceptionDC<XmlDocument> xml = null;
                         xml = 

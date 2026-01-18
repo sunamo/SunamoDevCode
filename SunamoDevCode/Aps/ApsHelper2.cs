@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.Aps;
 
 public partial class ApsHelper : ApsPluginStatic

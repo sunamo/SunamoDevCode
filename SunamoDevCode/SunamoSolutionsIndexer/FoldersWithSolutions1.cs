@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -47,7 +46,7 @@ public partial class FoldersWithSolutions
             solutionFolderInstance = new SolutionFolder();
         }
 
-        solutionFolderInstance.repository = RepositoryFromFullPath(solutionFolder);
+        solutionFolderInstance.Repository = RepositoryFromFullPath(solutionFolder);
         IdentifyProjectType(documentsFolder, solutionFolder, solutionFolderInstance);
         solutionFolderInstance.DisplayedText = GetDisplayedName(solutionFolder);
         solutionFolderInstance.FullPathFolder = solutionFolder;
@@ -55,7 +54,7 @@ public partial class FoldersWithSolutions
         //solutionFolderInstance.projects = new DebugCollection<string>( SolutionsIndexerHelper.ProjectsInSolution(true, solutionFolderInstance.FullPathFolder));
         //solutionFolderInstance.SourceOfProjects = SourceOfProjects.ProjectsInSolution;
         solutionFolderInstance.UpdateModules(logger, toSelling);
-        solutionFolderInstance.nameSolutionWithoutDiacritic = SH.TextWithoutDiacritic(projName);
+        solutionFolderInstance.NameSolutionWithoutDiacritic = SH.TextWithoutDiacritic(projName);
         return solutionFolderInstance;
     }
 
@@ -69,11 +68,11 @@ public partial class FoldersWithSolutions
         {
             return RepositoryLocal.BitBucket;
         }
-        else if (fullPathFolder.Contains(BasePathsHelper.cRepos))
+        else if (fullPathFolder.Contains(BasePathsHelper.CRepos))
         {
             return RepositoryLocal.Vs17;
         }
-        else if (fullPathFolder.Contains(BasePathsHelper.bpVps))
+        else if (fullPathFolder.Contains(BasePathsHelper.BpVps))
         {
             return RepositoryLocal.Vs17;
         }
@@ -93,7 +92,7 @@ public partial class FoldersWithSolutions
 
     public List<SolutionFolder> SolutionsUap(IList<string> skipThese = null)
     {
-        var slns = Solutions(RepositoryLocal.Vs17, false, skipThese);
+        var slns = GetSolutions(RepositoryLocal.Vs17, false, skipThese);
         var uap = slns.Where(d => d.FullPathFolder.Contains(@"\_Uap\")).ToList();
         return uap;
     }
@@ -106,7 +105,7 @@ public partial class FoldersWithSolutions
     /// <returns>List of matching solutions</returns>
     public IList<SolutionFolder> SolutionsWildcard(RepositoryLocal repository, string wildcardPattern)
     {
-        var result = Solutions(repository);
+        var result = GetSolutions(repository);
         for (int i = result.Count - 1; i >= 0; i--)
         {
             var solutionName = result[i].NameSolution;
@@ -133,7 +132,7 @@ public partial class FoldersWithSolutions
         var result = new List<SolutionFolder>(Solutions);
         if (repository != RepositoryLocal.All)
         {
-            result.RemoveAll(solution => solution.repository != repository);
+            result.RemoveAll(solution => solution.Repository != repository);
         }
 
         List<string> skip = null;
@@ -185,10 +184,10 @@ public partial class FoldersWithSolutions
     private List<string> ReturnAllProjectFolders(params string[] additionalFolders)
     {
         List<string> projects = new List<string>();
-        var basePath = BasePathsHelper.bpMb;
+        var basePath = BasePathsHelper.BpMb;
         //if (Directory.Exists(basePath))
         //{
-        //if (BasePathsHelper.bpVps == basePath)
+        //if (BasePathsHelper.BpVps == basePath)
         //{
         //    AddProjectsFolder(projects, basePath);
         //}
@@ -218,7 +217,7 @@ public partial class FoldersWithSolutions
             {
 #region New
                 string folderName = Path.GetFileName(languageFolder);
-                if (SolutionsIndexerHelper.IsTheSolutionsFolder(folderName))
+                if (SolutionsIndexerHelper.IsTheSolutionsFolder(folderName) || folderName.StartsWith("_"))
                 {
                     AddProjectsFolder(projects, languageFolder);
                 }

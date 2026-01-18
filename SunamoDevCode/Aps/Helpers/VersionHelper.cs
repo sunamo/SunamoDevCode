@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.Aps.Helpers;
 
 public class VersionHelper

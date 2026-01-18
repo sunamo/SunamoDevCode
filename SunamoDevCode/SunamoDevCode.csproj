@@ -2,10 +2,10 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>26.1.1.131</Version>
+    <Version>26.1.18.1</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with
       SunamoCode and SunamoCSharp.</Description>
-    <PackageReleaseNotes>feat: Dynamic .NET version detection - finds highest available version from net15.0 down to net5.0</PackageReleaseNotes>
+    <PackageReleaseNotes>feat: Parsing repos from subfolders starting with _</PackageReleaseNotes>
     <Authors>www.sunamo.cz</Authors>
     <Copyright>www.sunamo.cz</Copyright>
     <PackageProjectUrl>https://sunamo.cz/</PackageProjectUrl>
@@ -15,6 +15,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Aps\Projs\Values\**" />

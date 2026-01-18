@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode._public.SunamoTextOutputGenerator;
 
 public class InstantSB

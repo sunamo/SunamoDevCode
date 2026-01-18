@@ -142,7 +142,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
             await
 #endif
         XHelper.CreateXDocument(fn);
-        XHelper.AddXmlNamespaces(h.nsmgr);
+        XHelper.AddXmlNamespaces(h.NamespaceManager);
         XElement xliff = XHelper.GetElementOfName(data.XmlDocument, "xliff");
         var allElements = XHelper.GetElementsOfNameWithAttrContains(xliff, "file", "target-language", toL.ToString());
         var resources = allElements.Where(d2 => XHelper.Attr(d2, "original").Contains("/" + "RESOURCES" + "/"));

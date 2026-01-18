@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.SunamoSolutionsIndexer.Args;
 
 /// <summary>

@@ -7,10 +7,10 @@ internal class TextOutputGenerator
 {
     private readonly static string HeaderCharacter = "*";
 
-    // EN: During NuGet conversion, I changed this to TextBuilderDC stringBuilder = TextBuilder.Create();
+    // EN: During NuGet conversion, I changed this to TextBuilderDC StringBuilder = TextBuilder.Create();
     // but that was probably a mistake, now in _sunamo I have Create() which returns null instead of using ctor
     // so I'm reverting it back.
-    internal StringBuilder stringBuilder = new StringBuilder();
+    internal StringBuilder StringBuilder = new StringBuilder();
 
     #region Static texts
     #endregion
@@ -23,7 +23,7 @@ internal class TextOutputGenerator
     /// <param name="text">The text builder content to append.</param>
     internal void AppendLine(StringBuilder text)
     {
-        stringBuilder.AppendLine(text.ToString());
+        StringBuilder.AppendLine(text.ToString());
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ internal class TextOutputGenerator
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void Append(string text)
     {
-        stringBuilder.Append(text);
+        StringBuilder.Append(text);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ internal class TextOutputGenerator
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void AppendLine(string text)
     {
-        stringBuilder.AppendLine(text);
+        StringBuilder.AppendLine(text);
     }
     #endregion
     #region Other adding methods
@@ -53,9 +53,9 @@ internal class TextOutputGenerator
     /// <param name="headerText">The header text.</param>
     internal void Header(string headerText)
     {
-        stringBuilder.AppendLine();
+        StringBuilder.AppendLine();
         AppendLine(headerText);
-        stringBuilder.AppendLine();
+        StringBuilder.AppendLine();
     }
     #endregion
     /// <summary>
@@ -64,7 +64,7 @@ internal class TextOutputGenerator
     /// <returns>The complete generated text.</returns>
     public override string ToString()
     {
-        var result = stringBuilder.ToString();
+        var result = StringBuilder.ToString();
         return result;
     }
     #region List
@@ -90,7 +90,7 @@ internal class TextOutputGenerator
     {
         if (items.Count == 0)
         {
-            stringBuilder.AppendLine(whenNoEntries);
+            StringBuilder.AppendLine(whenNoEntries);
         }
         else
         {
@@ -108,7 +108,7 @@ internal class TextOutputGenerator
     /// <param name="header">The header text.</param>
     internal void List(IList<string> items, string header)
     {
-        List<string, string>(items, header, new TextOutputGeneratorArgs { headerWrappedEmptyLines = true, insertCount = false });
+        List<string, string>(items, header, new TextOutputGeneratorArgs { HeaderWrappedEmptyLines = true, InsertCount = false });
     }
 
     /// <summary>
@@ -122,16 +122,16 @@ internal class TextOutputGenerator
     /// <param name="args">Arguments for formatting the output.</param>
     internal void List<Header, Value>(IList<Value> items, Header header, TextOutputGeneratorArgs args) where Header : IEnumerable<char>
     {
-        if (args.headerWrappedEmptyLines)
+        if (args.HeaderWrappedEmptyLines)
         {
-            stringBuilder.AppendLine();
+            StringBuilder.AppendLine();
         }
-        stringBuilder.AppendLine(header + ":");
-        if (args.headerWrappedEmptyLines)
+        StringBuilder.AppendLine(header + ":");
+        if (args.HeaderWrappedEmptyLines)
         {
-            stringBuilder.AppendLine();
+            StringBuilder.AppendLine();
         }
-        List(items, args.delimiter, args.whenNoEntries);
+        List(items, args.Delimiter, args.WhenNoEntries);
     }
     #endregion
     #region Paragraph
@@ -156,9 +156,9 @@ internal class TextOutputGenerator
     {
         if (text != string.Empty)
         {
-            stringBuilder.AppendLine(header + ":");
-            stringBuilder.AppendLine(text);
-            stringBuilder.AppendLine();
+            StringBuilder.AppendLine(header + ":");
+            StringBuilder.AppendLine(text);
+            StringBuilder.AppendLine();
         }
     }
     #endregion
