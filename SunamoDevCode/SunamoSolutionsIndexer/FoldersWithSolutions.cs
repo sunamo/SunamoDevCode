@@ -103,9 +103,11 @@ public partial class FoldersWithSolutions
         PairProjectFolderWithEnum(logger, documentsFolder);
         // Get all projects in A1(Visual Studio Projects *) and GitHub folder
         List<string> solutionFolders = ReturnAllProjectFolders(documentsFolder /*, Path.Combine(documentsFolder, SolutionsIndexerStrings.GitHubMy)*/);
+        // EN: Remove trailing backslashes before extracting names
+        // CZ: Odstraň trailing backslashe před extrakcí názvů
+        var solutionFoldersWithoutTrailingSlash = solutionFolders.Select(f => f.TrimEnd('\\')).ToArray();
         List<string> projOnlyNames = new List<string>(solutionFolders.Count);
-        var ta = solutionFolders.ToArray();
-        var on = FS.OnlyNamesNoDirectEdit(ta);
+        var on = FS.OnlyNamesNoDirectEdit(solutionFoldersWithoutTrailingSlash);
         projOnlyNames.AddRange(on);
         // Initialize global variable solutions
         Solutions = new List<SolutionFolder>(solutionFolders.Count);

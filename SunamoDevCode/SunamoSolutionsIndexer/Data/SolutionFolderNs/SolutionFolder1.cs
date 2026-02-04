@@ -92,12 +92,10 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
 
             if (Directory.Exists(netFolder))
             {
-                Console.WriteLine($"Found .NET folder: {netFolder}");
                 return netFolder;
             }
         }
 
-        Console.WriteLine($"No .NET folder found in: {baseReleaseFolder} (isWindows: {isWindows})");
         return null;
     }
 
