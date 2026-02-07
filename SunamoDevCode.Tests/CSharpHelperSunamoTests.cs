@@ -1,4 +1,5 @@
-// variables names: ok
+namespace SunamoDevCode.Tests;
+
 using SunamoStringGetLines;
 using SunamoString;
 

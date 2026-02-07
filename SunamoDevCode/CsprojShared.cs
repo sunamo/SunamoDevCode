@@ -81,9 +81,20 @@ public class CsprojShared
 
     public static string GetSlnForFolder(ILogger logger, string path, bool isThrowingExceptionOrReturningNull)
     {
-        var result = GetExtForFolder(logger, path, isThrowingExceptionOrReturningNull, "sln");
+        string result = null;
+        foreach (var ext in new[] { "sln", "slnx", "slnj" })
+        {
+            result = GetExtForFolder(logger, path, false, ext);
+            if (result != null) break;
+        }
+
+        if (result == null && isThrowingExceptionOrReturningNull)
+        {
+            throw new Exception("No sln/slnx/slnj");
+        }
+
         // VS sometimes generate sln in folder of project
-        if (result != null && result.EndsWith(".generated.sln"))
+        if (result != null && Path.GetFileName(result).Contains(".generated."))
         {
             try
             {
@@ -135,9 +146,13 @@ public class CsprojShared
         var projectFolder = Path.GetDirectoryName(csprojPath);
         slnFolder = Path.GetDirectoryName(projectFolder);
 
-        var slnFiles = FSGetFiles.GetFilesEveryFolder(logger, slnFolder, "*.sln", SearchOption.AllDirectories);
+        var slnFiles = new List<string>();
+        foreach (var ext in new[] { "*.sln", "*.slnx", "*.slnj" })
+        {
+            slnFiles.AddRange(FSGetFiles.GetFilesEveryFolder(logger, slnFolder, ext, SearchOption.AllDirectories));
+        }
 
-        return slnFiles.Count() > 0;
+        return slnFiles.Count > 0;
     }
 
     //public static List<string> GetCsprojs(bool onlyInSwld)

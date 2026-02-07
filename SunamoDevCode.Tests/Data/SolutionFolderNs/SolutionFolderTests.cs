@@ -1,9 +1,8 @@
-// variables names: ok
+namespace SunamoDevCode.Tests.Data.SolutionFolderNs;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SunamoDevCode.SunamoSolutionsIndexer;
-
-namespace SunamoDevCode.Tests.SunamoSolutionsIndexer.Data.SolutionFolderNs;
 
 public class SolutionFolderTests //: TestsBase
 {

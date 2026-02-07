@@ -125,45 +125,44 @@ public partial class ApsHelper : ApsPluginStatic
 
     public string MainSln2(string fullPathFolder)
     {
-        string slnPath = null;
-        slnPath = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder) + AllExtensions.SlnExtension);
-        if (FS.ExistsFile(slnPath))
+        var baseName = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder));
+        foreach (var ext in AllExtensions.AllSlnExtensions)
         {
-            return slnPath;
+            var slnPath = baseName + ext;
+            if (FS.ExistsFile(slnPath))
+            {
+                return slnPath;
+            }
         }
-        else
-        {
-            //slnPath = ApsHelper.Instance.GetSlns(fullPathFolder).FirstOrDefault();
-            return null;
-        }
+        return null;
     }
 
     public string MainSln(SolutionFolder sln)
     {
         string fullPathFolder = sln.FullPathFolder;
-        string slnPath = null;
+        string baseName;
         if (sln.SlnNameWithoutExtension == null)
         {
-            slnPath = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder) + AllExtensions.SlnExtension);
+            baseName = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder));
         }
         else
         {
-            slnPath = Path.Combine(fullPathFolder, sln.SlnNameWithoutExtension + AllExtensions.SlnExtension);
+            baseName = Path.Combine(fullPathFolder, sln.SlnNameWithoutExtension);
         }
 
-        if (slnPath.Contains("apps.sunamo.cz"))
+        if (baseName.Contains("apps.sunamo.cz"))
         {
         }
 
-        if (FS.ExistsFile(slnPath))
+        foreach (var ext in AllExtensions.AllSlnExtensions)
         {
-            return slnPath;
+            var slnPath = baseName + ext;
+            if (FS.ExistsFile(slnPath))
+            {
+                return slnPath;
+            }
         }
-        else
-        {
-            //slnPath = ApsHelper.Instance.GetSlns(fullPathFolder).FirstOrDefault();
-            return null;
-        }
+        return null;
     }
 
     public string AbsolutePathOfProject(string project, string slnName, string eVsProjects)
@@ -175,6 +174,11 @@ public partial class ApsHelper : ApsPluginStatic
     public string SlnFilePathFromFolder(string fullPathFolder)
     {
         var folderName = FS.GetFileName(fullPathFolder);
+        foreach (var ext in AllExtensions.AllSlnExtensions)
+        {
+            var path = Path.Combine(fullPathFolder, folderName + ext);
+            if (FS.ExistsFile(path)) return path;
+        }
         return Path.Combine(fullPathFolder, folderName + AllExtensions.SlnExtension);
     }
 
@@ -253,7 +257,11 @@ public partial class ApsHelper : ApsPluginStatic
             getFilesArgs = new GetFilesArgsDC();
         }
 
-        var slns = FSGetFiles.GetFiles(logger, path, "*.sln", SearchOption.TopDirectoryOnly, getFilesArgs);
+        var slns = new List<string>();
+        foreach (var ext in new[] { "*.sln", "*.slnx", "*.slnj" })
+        {
+            slns.AddRange(FSGetFiles.GetFiles(logger, path, ext, SearchOption.TopDirectoryOnly, getFilesArgs));
+        }
         return slns;
     }
 

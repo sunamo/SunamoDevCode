@@ -19,7 +19,11 @@ public class CSharpHelperSunamo
     public static string IsAllCsprojAndSlnRightInHiearchy(string path, TextOutputGeneratorDC textOutputGenerator)
     {
         var csprojFiles = Directory.GetFiles(path, "*.csproj", SearchOption.AllDirectories).ToList();
-        var slnFiles = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories).ToList();
+        var slnFiles = new List<string>();
+        foreach (var ext in new[] { "*.sln", "*.slnx", "*.slnj" })
+        {
+            slnFiles.AddRange(Directory.GetFiles(path, ext, SearchOption.AllDirectories));
+        }
 
         List<string> incorrectSlnFolders = new List<string>();
 

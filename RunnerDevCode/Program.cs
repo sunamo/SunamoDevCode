@@ -1,7 +1,6 @@
-// variables names: ok
-using SunamoDevCode.Tests.SunamoSolutionsIndexer;
-
 namespace RunnerDevCode;
+
+using SunamoDevCode.Tests.SunamoSolutionsIndexer;
 
 internal class Program
 {
