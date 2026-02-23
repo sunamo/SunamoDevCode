@@ -8,6 +8,10 @@ public static class UniqueCsprojs
 {
     private static TwoWayDictionary<string, string> dictionary = new TwoWayDictionary<string, string>();
 
+    /// <summary>
+    /// Populates the dictionary with csproj names and paths from the given solution if not already populated.
+    /// </summary>
+    /// <param name="csprojsInSolution">Solution containing csproj paths to add.</param>
     public static void AddFromSlnFolder(CsprojsInSolution csprojsInSolution)
     {
         if (dictionary.FirstToSecond.Any())
@@ -21,6 +25,11 @@ public static class UniqueCsprojs
         }
     }
 
+    /// <summary>
+    /// Converts a csproj file path to its project name (file name without extension).
+    /// </summary>
+    /// <param name="csprojPath">Full path to the csproj file.</param>
+    /// <returns>Project name extracted from the path.</returns>
     public static string ToName(string csprojPath)
     {
 #if DEBUG

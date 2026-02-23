@@ -21,7 +21,7 @@ public class NoneItemGroup : ItemGroupElement
     {
         XmlGenerator generator = new XmlGenerator();
         generator.WriteNonPairTagWithAttr(VsProjectItemTypes.None, "Include", Include);
-        XmlNode node = XH.ReturnXmlNode(generator.ToString());
+        XmlNode node = XH.ReturnXmlNode(generator.ToString()!)!;
         return node;
     }
 }

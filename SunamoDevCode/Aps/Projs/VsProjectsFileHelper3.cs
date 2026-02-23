@@ -17,16 +17,17 @@ public partial class VsProjectsFileHelper
         XmlClassLibraryFromTemplate(string safeProjectName)
     {
         var parameter = @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\ProjectTemplates\CSharp\Windows\1033\ClassLibrary\classlibrary.csproj";
-        var count =
+        var readResult =
 #if ASYNC
             await
 #endif
             TF.ReadAllText(parameter);
+        string count = readResult!;
         ReplaceProjectTemplateParameter(ref count, VsProjectTemplateParameters.guid1, Guid.NewGuid());
         ReplaceProjectTemplateParameter(ref count, VsProjectTemplateParameters.safeprojectname, safeProjectName);
         ReplaceProjectTemplateParameter(ref count, VsProjectTemplateParameters.targetframeworkversion, "4.7.2");
         var list = SHGetLines.GetLines(count);
-        string trimmedLine = null;
+        string? trimmedLine = null;
         for (int i = list.Count - 1; i >= 0; i--)
         {
             trimmedLine = list[i].Trim();

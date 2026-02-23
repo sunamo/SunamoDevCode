@@ -38,7 +38,7 @@ public class CSharpHelperSunamo
 
         for (int i = 0; i < slnFiles.Count; i++)
         {
-            slnFiles[i] = Path.GetDirectoryName(slnFiles[i]);
+            slnFiles[i] = Path.GetDirectoryName(slnFiles[i])!;
         }
 
         for (int i = csprojFiles.Count - 1; i >= 0; i--)
@@ -46,7 +46,7 @@ public class CSharpHelperSunamo
             var csprojFolder = Path.GetDirectoryName(csprojFiles[i]);
             var slnFolder = Path.GetDirectoryName(csprojFolder);
 
-            if (slnFiles.Contains(slnFolder))
+            if (slnFiles.Contains(slnFolder!))
             {
                 csprojFiles.RemoveAt(i);
             }
@@ -55,7 +55,7 @@ public class CSharpHelperSunamo
         textOutputGenerator.List(incorrectSlnFolders, "Sln in wrong folder:");
         textOutputGenerator.List(csprojFiles, "Csproj in wrong folder:");
 
-        return textOutputGenerator.ToString();
+        return textOutputGenerator.ToString()!;
     }
 
     /// <summary>
@@ -65,13 +65,13 @@ public class CSharpHelperSunamo
     /// <returns>True if file is in valid folder structure</returns>
     private static bool IsOnlyInSpecialOrProjectFolders(string filePath)
     {
-        filePath = Path.GetDirectoryName(filePath);
+        filePath = Path.GetDirectoryName(filePath)!;
 
         while (true)
         {
-            filePath = Path.GetDirectoryName(filePath);
+            filePath = Path.GetDirectoryName(filePath)!;
 
-            if (filePath.Length < 4)
+            if (filePath!.Length < 4)
             {
                 return false;
             }
@@ -97,7 +97,7 @@ public class CSharpHelperSunamo
     /// <returns>List of from-to ranges for string literals</returns>
     public static FromToList DetectFromToString(string text)
     {
-        List<int> quoteIndices = null;// SH.ReturnOccurencesOfString(text, "\"");
+        List<int> quoteIndices = null!;// SH.ReturnOccurencesOfString(text, "\"");
         for (int i = quoteIndices.Count - 1; i >= 0; i--)
         {
             if (text[quoteIndices[i] - 1] == '\\')
@@ -123,7 +123,7 @@ public class CSharpHelperSunamo
     public static void IndentAsPreviousLine(List<string> lines)
     {
         string previousIndent = string.Empty;
-        string line = null;
+        string? line = null;
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < lines.Count; i++)
         {
@@ -209,8 +209,8 @@ public class CSharpHelperSunamo
     /// <returns>Default value for the type</returns>
     public static object DefaultValueForTypeT<T>(T value, Func<string, string> convertTypeShortcutFullNameToShortcut)
     {
-        var typeName = value.GetType().FullName;
-        if (typeName.Contains("."))
+        var typeName = value!.GetType().FullName;
+        if (typeName!.Contains("."))
         {
             typeName = convertTypeShortcutFullNameToShortcut(typeName);
         }
@@ -236,7 +236,7 @@ public class CSharpHelperSunamo
             case "DateTime":
                 return "new(1900, 1, 1)";
             case "byte[]":
-                return null;
+                return null!;
             case "Guid":
                 return Guid.Empty;
             case "char":

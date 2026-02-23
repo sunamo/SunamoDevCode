@@ -1,3 +1,4 @@
+// variables names: ok
 
 //global using SunamoEnums.Enums;
 //global using System.Collections.Generic;

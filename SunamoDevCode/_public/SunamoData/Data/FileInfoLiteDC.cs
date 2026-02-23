@@ -10,13 +10,13 @@ public class FileInfoLiteDC
     /// Full path to the file
     /// CZ: Plná cesta k souboru
     /// </summary>
-    public string Path { get; set; } = null;
+    public string? Path { get; set; } = null;
 
     /// <summary>
     /// Name of the file with extension
     /// CZ: Název souboru s příponou
     /// </summary>
-    public string Name { get; set; } = null;
+    public string? Name { get; set; } = null;
 
     /// <summary>
     /// Gets the file name (alias for Name)
@@ -26,7 +26,7 @@ public class FileInfoLiteDC
     {
         get
         {
-            return Name;
+            return Name!;
         }
     }
 
@@ -52,7 +52,7 @@ public class FileInfoLiteDC
     /// Directory containing the file
     /// CZ: Adresář obsahující soubor
     /// </summary>
-    public string Directory { get; set; } = null;
+    public string? Directory { get; set; } = null;
 
     /// <summary>
     /// Initializes a new instance of FileInfoLiteDC
@@ -87,7 +87,7 @@ public class FileInfoLiteDC
         FileInfoLiteDC fileInfoLite = new FileInfoLiteDC();
         fileInfoLite.Name = fileInfo.Name;
         fileInfoLite.Path = fileInfo.FullName;
-        fileInfoLite.Directory = fileInfo.DirectoryName;
+        fileInfoLite.Directory = fileInfo.DirectoryName!;
         fileInfoLite.Size = fileInfo.Length;
         return fileInfoLite;
     }

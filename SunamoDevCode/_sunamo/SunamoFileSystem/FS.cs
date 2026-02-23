@@ -23,7 +23,7 @@ internal partial class FS
 
     internal static bool IsAbsolutePath(string path)
     {
-        return !String.IsNullOrWhiteSpace(path) && path.IndexOfAny(System.IO.Path.GetInvalidPathChars()) == -1 && Path.IsPathRooted(path) && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal);
+        return !String.IsNullOrWhiteSpace(path) && path.IndexOfAny(System.IO.Path.GetInvalidPathChars()) == -1 && Path.IsPathRooted(path) && !Path.GetPathRoot(path)!.Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal);
     }
 
     internal static string GetAbsolutePath2(string relativePath, string baseDirectory)
@@ -101,7 +101,7 @@ internal partial class FS
             return text[0].ToString().ToUpper() + substring;
         }
 
-        return null;
+        return null!;
     }
 
     internal static string GetFullPath(string path)

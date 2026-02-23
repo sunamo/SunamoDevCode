@@ -16,9 +16,9 @@ public class GetFilesArgsDC : GetFilesBaseArgsDC
     /// EN: Method to exclude files, e.g. SunamoDevCodeHelper.RemoveTemporaryFilesVS
     /// CZ: Metoda pro vyloučení souborů, např. SunamoDevCodeHelper.RemoveTemporaryFilesVS
     /// </summary>
-    internal Action<List<string>> ExcludeWithMethod { get; set; } = null;
+    internal Action<List<string>>? ExcludeWithMethod { get; set; } = null;
     internal bool ByDateOfLastModifiedAsc { get; set; } = false;
-    internal Func<string, DateTime?> LastModifiedFromFunc { get; set; }
+    internal Func<string, DateTime?>? LastModifiedFromFunc { get; set; }
     /// <summary>
     /// EN: Changed to false on 1-7-2020, still forgot to mention and method is problematic
     /// CZ: Změněno na false dne 1-7-2020, stále zapomenuto zmínit a metoda je problematická

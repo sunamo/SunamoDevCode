@@ -5,8 +5,11 @@ namespace SunamoDevCode;
 /// </summary>
 public class ReplacerXlf
 {
-    private static ReplacerXlf instance;
+    private static ReplacerXlf? instance;
     private readonly List<string> values;
+    /// <summary>
+    /// Dictionary mapping original XLF keys to their versions with underscores removed.
+    /// </summary>
     public Dictionary<string, string> WithWithoutUnderscore { get; set; } = new();
 
     private ReplacerXlf()
@@ -19,6 +22,9 @@ public class ReplacerXlf
         CA.Prepend("_", values);
     }
 
+    /// <summary>
+    /// Gets the singleton instance of ReplacerXlf, creating it if necessary.
+    /// </summary>
     public static ReplacerXlf Instance
     {
         get
@@ -29,6 +35,11 @@ public class ReplacerXlf
         }
     }
 
+    /// <summary>
+    /// Removes HTML entity underscore suffixes from the given text.
+    /// </summary>
+    /// <param name="text">Text to clean up.</param>
+    /// <returns>Text with underscore-prefixed HTML entity names removed.</returns>
     public string WithoutUnderscore(string text)
     {
         foreach (var item in values) text = text.Replace(item, string.Empty);

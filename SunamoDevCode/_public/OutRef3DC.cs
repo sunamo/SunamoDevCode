@@ -9,9 +9,18 @@ namespace SunamoDevCode._public;
 /// <typeparam name="V">Type of third value</typeparam>
 public class OutRef3DC<T, U, V> : OutRefDC<T, U>
 {
+    /// <summary>
+    /// Initializes a new instance with three values.
+    /// </summary>
+    /// <param name="firstValue">First value.</param>
+    /// <param name="secondValue">Second value.</param>
+    /// <param name="thirdValue">Third value.</param>
     public OutRef3DC(T firstValue, U secondValue, V thirdValue) : base(firstValue, secondValue)
     {
         Item3 = thirdValue;
     }
+    /// <summary>
+    /// Gets or sets the third value.
+    /// </summary>
     public V Item3 { get; set; }
 }

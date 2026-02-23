@@ -8,7 +8,7 @@ public class PackageReferenceItemGroup : ItemGroupElement
     /// <summary>
     /// Gets or sets the version of the package reference.
     /// </summary>
-    public string Version { get; set; } = null;
+    public string? Version { get; set; } = null;
 
     /// <summary>
     /// Type information for runtime type checking.
@@ -32,11 +32,11 @@ public class PackageReferenceItemGroup : ItemGroupElement
     public PackageReferenceItemGroup(string fullCsprojPath, XmlNode xmlElement) : base(fullCsprojPath)
     {
         const string VersionAttributeName = "Version";
-        Include = XmlHelper.Attr(xmlElement, "Include");
+        Include = XmlHelper.Attr(xmlElement, "Include")!;
         Version = XmlHelper.InnerTextOfNode(xmlElement);
         if (Version == string.Empty)
         {
-            Version = XmlHelper.Attr(xmlElement, VersionAttributeName);
+            Version = XmlHelper.Attr(xmlElement, VersionAttributeName)!;
         }
     }
 
@@ -47,6 +47,6 @@ public class PackageReferenceItemGroup : ItemGroupElement
     /// <returns>The XML node representing the package reference item group, or null if not implemented.</returns>
     public override XmlNode ToXml(XmlDocument xmlDocument)
     {
-        return null;
+        return null!;
     }
 }

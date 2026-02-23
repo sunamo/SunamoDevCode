@@ -10,7 +10,7 @@ public static class SystemWindowsControls
     private static readonly Dictionary<string, List<string>> s_controls = new();
     private static EmbeddedResourcesH? s_embeddedResourcesH;
 
-    private static Dictionary<string, string> controlsShortLong;
+    private static Dictionary<string, string>? controlsShortLong;
 
     /// <summary>
     /// Initializes the controls short to long mapping dictionary

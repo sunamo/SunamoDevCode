@@ -12,10 +12,9 @@ internal class XH
     /// <returns>First child node of the loaded XML document</returns>
     internal static XmlNode ReturnXmlNode(string xml)
     {
-        XmlDocument xmlDocument = null;
-        if (xmlDocument == null) xmlDocument = new XmlDocument();
+        XmlDocument xmlDocument = new XmlDocument();
         xmlDocument.PreserveWhitespace = true;
         xmlDocument.LoadXml(xml);
-        return (XmlNode)xmlDocument.FirstChild;
+        return xmlDocument.FirstChild!;
     }
 }

@@ -13,7 +13,7 @@ internal class SHJoin
     /// <returns>String with items joined by newlines</returns>
     internal static string JoinNL<T>(List<T> list)
     {
-        var strings = list.ConvertAll(item => item.ToString());
+        var strings = list.ConvertAll(item => item!.ToString());
         return string.Join("\n", strings);
     }
 

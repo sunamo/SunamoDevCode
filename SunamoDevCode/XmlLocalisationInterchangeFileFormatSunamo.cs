@@ -1,7 +1,13 @@
 namespace SunamoDevCode;
 
+/// <summary>
+/// Provides utilities for working with XLIFF (XML Localisation Interchange File Format) files in the Sunamo ecosystem.
+/// </summary>
 public class XmlLocalisationInterchangeFileFormatSunamo
 {
+    /// <summary>
+    /// C# const string declaration prefix.
+    /// </summary>
     public const string Cs = "const string ";
     private const string eqBs = " = \"";
 
@@ -10,16 +16,41 @@ public class XmlLocalisationInterchangeFileFormatSunamo
     /// </summary>
     public const string RLDataEn = SunamoNotTranslateAble.RLDataEn;
 
+    /// <summary>
+    /// Resource lookup data key for Czech language.
+    /// </summary>
     public const string RLDataCs = SunamoNotTranslateAble.RLDataCs;
+    /// <summary>
+    /// Alternative resource lookup data key for English language.
+    /// </summary>
     public const string RLDataEn2 = SunamoNotTranslateAble.RLDataEn2;
+    /// <summary>
+    /// Session i18n lookup prefix string.
+    /// </summary>
     public const string SessI18n = SunamoNotTranslateAble.SessI18n;
+    /// <summary>
+    /// XlfKeys class name with dot separator for key lookup.
+    /// </summary>
     public const string XlfKeysDot = SunamoNotTranslateAble.XlfKeysDot;
+    /// <summary>
+    /// Short form of session i18n lookup prefix.
+    /// </summary>
     public const string SessI18nShort = SunamoNotTranslateAble.SessI18nShort;
 
+    /// <summary>
+    /// Path to the XlfKeys.cs constants file.
+    /// </summary>
     public static string PathXlfKeys = BasePathsHelper.Vs + @"sunamo\sunamo\Constants\XlfKeys.cs";
     private static Type type = typeof(XmlLocalisationInterchangeFileFormatSunamo);
+    /// <summary>
+    /// Prefix for SunamoStrings class member access.
+    /// </summary>
     public static string SunamoStringsDot = "SunamoStrings.";
 
+    /// <summary>
+    /// Removes all HTML entity references from the content of the specified XLIFF file.
+    /// </summary>
+    /// <param name="xlfPath">Path to the XLIFF file to process.</param>
     public static
 #if ASYNC
         async Task
@@ -56,6 +87,10 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         #endregion
     }
 
+    /// <summary>
+    /// Replaces manually entered key pairs in the XLIFF file by prepending XlfKeys prefix.
+    /// </summary>
+    /// <param name="xlfPath">Path to the XLIFF file to process.</param>
     public static
 #if ASYNC
         async Task
@@ -68,11 +103,11 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 
         #region MyRegion
 
-        string replacePairs = null;
+        string? replacePairs = null;
 
         #endregion
 
-        var splitResult = SHSplit.SplitFromReplaceManyFormatList(replacePairs);
+        var splitResult = SHSplit.SplitFromReplaceManyFormatList(replacePairs!);
         var to = splitResult.Item1;
         var from = splitResult.Item2;
 
@@ -103,6 +138,10 @@ public class XmlLocalisationInterchangeFileFormatSunamo
             File.WriteAllTextAsync(xlfPath, content);
     }
 
+    /// <summary>
+    /// Parses constant definitions from multiline text input.
+    /// </summary>
+    /// <param name="input">Multiline text containing constant definitions.</param>
     public static void ConstsFromClipboard(string input)
     {
         var lines = input.Split(new[] { input.Contains("\r\n") ? "\r\n" : "\n" }, StringSplitOptions.RemoveEmptyEntries)
@@ -181,6 +220,9 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         await File.WriteAllLinesAsync(PathXlfKeys, lines);
     }
 
+    /// <summary>
+    /// Removes duplicated XLF key constants from the XlfKeys source file, keeping only unique entries.
+    /// </summary>
     public static
 #if ASYNC
         async Task
@@ -218,6 +260,11 @@ public class XmlLocalisationInterchangeFileFormatSunamo
         await File.WriteAllLinesAsync(path, sourceList);
     }
 
+    /// <summary>
+    /// Extracts the constant name from a C# const declaration line.
+    /// </summary>
+    /// <param name="line">Line of C# code containing a const declaration.</param>
+    /// <returns>The constant name extracted from the line.</returns>
     public static string GetConstsFromLine(string line)
     {
         return SH.GetTextBetweenSimple(line, Cs, eqBs, false);
@@ -233,10 +280,12 @@ public class XmlLocalisationInterchangeFileFormatSunamo
 
 
     /// <summary>
-    ///     return code for getting from RLData.en
+    /// Returns the code snippet for getting a localized value from RLData based on the file extension.
     /// </summary>
-    /// <param name="key2"></param>
-    public static string TextFromRLData(string pathOrExt, string key2)
+    /// <param name="pathOrExt">File path or extension to determine the output format.</param>
+    /// <param name="key2">Localization key to use in the generated code.</param>
+    /// <returns>Generated code snippet for the appropriate language, or null if not implemented.</returns>
+    public static string? TextFromRLData(string pathOrExt, string key2)
     {
         var ext = Path.GetExtension(pathOrExt);
         // Inlined from SH.PrefixIfNotStartedWith - přidává prefix pokud řetězec nezačíná daným prefixem

@@ -77,7 +77,7 @@ internal partial class FS
         return true;
     }
 
-    internal static Action<string> DeleteFileMaybeLocked;
+    internal static Action<string>? DeleteFileMaybeLocked = null;
     internal static void MoveFile(string item, string fileTo, FileMoveCollisionOptionDC co)
     {
         if (CopyMoveFilePrepare(ref item, ref fileTo, co))
@@ -89,13 +89,13 @@ internal partial class FS
                     return;
                 File.Move(item, fileTo);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             //ThisApp.Error(item + " : " + ex.Message);
             }
     }
 
-    internal static Func<string, bool, List<Process>> fileUtilWhoIsLocking = null;
+    internal static Func<string, bool, List<Process>>? fileUtilWhoIsLocking = null;
     internal static void CopyFile(string sourceFile, string destinationFile, bool isTerminatingProcessIfInUse = false)
     {
         try
@@ -171,7 +171,7 @@ internal partial class FS
 
     internal static void MoveAllRecursivelyAndThenDirectory(ILogger logger, string sourceDirectory, string destinationDirectory, FileMoveCollisionOptionDC collisionOption)
     {
-        CopyMoveAllFilesRecursively(logger, sourceDirectory, destinationDirectory, collisionOption, true, null, SearchOption.TopDirectoryOnly);
+        CopyMoveAllFilesRecursively(logger, sourceDirectory, destinationDirectory, collisionOption, true, null!, SearchOption.TopDirectoryOnly);
         var directories = Directory.GetDirectories(sourceDirectory, "*", SearchOption.AllDirectories);
         for (var i = directories.Length - 1; i >= 0; i--)
             TryDeleteDirectory(directories[i]);
@@ -231,7 +231,7 @@ internal partial class FS
 
     internal static void CreateUpfoldersPsysicallyUnlessThere(string path)
     {
-        CreateFoldersPsysicallyUnlessThere(Path.GetDirectoryName(path));
+        CreateFoldersPsysicallyUnlessThere(Path.GetDirectoryName(path)!);
     }
 
     internal static void CreateFoldersPsysicallyUnlessThere(string path)
@@ -249,7 +249,7 @@ internal partial class FS
         };
         while (true)
         {
-            path = Path.GetDirectoryName(path);
+            path = Path.GetDirectoryName(path)!;
             if (Directory.Exists(path))
             {
                 break;

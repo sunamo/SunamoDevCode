@@ -8,7 +8,7 @@ public class DotnetBuildOutputLine
     /// <summary>
     /// Gets or sets the file path where the error/warning occurred.
     /// </summary>
-    public string Path { get; set; }
+    public string Path { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the line number where the error/warning occurred.
@@ -23,17 +23,17 @@ public class DotnetBuildOutputLine
     /// <summary>
     /// Gets or sets the type of message (error, warning, etc.).
     /// </summary>
-    public string Type { get; set; }
+    public string Type { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the error code (e.g., CS0103, CS0246).
     /// </summary>
-    public string ErrorCode { get; set; }
+    public string ErrorCode { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the error/warning message text.
     /// </summary>
-    public string Message { get; set; }
+    public string Message { get; set; } = null!;
 
     /// <summary>
     /// Deconstructs the build output line into individual components.

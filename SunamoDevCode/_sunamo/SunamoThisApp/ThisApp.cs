@@ -8,12 +8,12 @@ internal class ThisApp
     /// <summary>
     /// Name of the event log for this application.
     /// </summary>
-    internal static string EventLogName;
+    internal static string EventLogName = null!;
 
     /// <summary>
     /// Name of the application.
     /// </summary>
-    internal static string Name;
+    internal static string Name = null!;
 
     /// <summary>
     /// Check flag for application state.
@@ -85,5 +85,5 @@ internal class ThisApp
     /// <summary>
     /// Event fired when a status message is set.
     /// </summary>
-    internal static event Action<TypeOfMessageShared, string> StatusSetted;
+    internal static event Action<TypeOfMessageShared, string>? StatusSetted;
 }

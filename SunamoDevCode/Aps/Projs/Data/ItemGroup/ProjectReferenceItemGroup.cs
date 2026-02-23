@@ -13,12 +13,12 @@ public class ProjectReferenceItemGroup : ItemGroupElement
     /// <summary>
     /// Gets or sets the project GUID.
     /// </summary>
-    public string Project { get; set; } = null;
+    public string? Project { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the project name.
     /// </summary>
-    public string Name { get; set; } = null;
+    public string? Name { get; set; } = null;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProjectReferenceItemGroup"/> class.

@@ -4,6 +4,11 @@ namespace SunamoDevCode.SunamoCSharp;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public static partial class CSharpHelper
 {
+    /// <summary>
+    /// Returns the default value for a C# type as an object.
+    /// </summary>
+    /// <param name="type">C# type name or full name to get the default for.</param>
+    /// <returns>Default value for the given type.</returns>
     public static object DefaultValueForTypeObject(string type)
     {
         if (type.Contains("."))
@@ -35,16 +40,20 @@ public static partial class CSharpHelper
                 return "new(1900, 1, 1)";
             case "char":
                 throw new Exception(type);
-                return 0;
             case "byte" + "[]":
                 // Podporovaný typ pouze value desktopových aplikacích, kde není lsožka sbf
-                return null;
+                return null!;
         }
 
         throw new Exception("Nepodporovaný typ");
-        return null;
     }
 
+    /// <summary>
+    /// Wraps the given text in a C# region directive.
+    /// </summary>
+    /// <param name="text">Text content to wrap.</param>
+    /// <param name="regionName">Name for the region.</param>
+    /// <returns>Text wrapped in region and endregion directives.</returns>
     public static string WrapWithRegion(string text, string regionName)
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -56,10 +65,10 @@ public static partial class CSharpHelper
     }
 
     /// <summary>
-    /// call CsKeywords.Init before use
+    /// Determines whether the given string is a C# keyword. Call CsKeywords.Init before use.
     /// </summary>
-    /// <param name = "con"></param>
-    /// <returns></returns>
+    /// <param name="con">String to check against keyword lists.</param>
+    /// <returns>True if the string is a C# keyword.</returns>
     public static bool IsKeyword(string con)
     {
         //CsKeywords.Init();
@@ -121,12 +130,18 @@ public static partial class CSharpHelper
         return false;
     }
 
+    /// <summary>
+    /// Wraps each item in the list with appropriate quotes based on the value type and joins them with commas.
+    /// </summary>
+    /// <param name="tValue">Type of values to determine quoting style.</param>
+    /// <param name="valueS">List of values to wrap and join.</param>
+    /// <returns>Comma-separated string of quoted values.</returns>
     public static string WrapWithQuoteList(Type tValue, IList valueS)
     {
         StringBuilder stringBuilder = new StringBuilder();
         foreach (var item in valueS)
         {
-            var value = item.ToString();
+            string value = item!.ToString()!;
             WrapWithQuote(tValue, ref value);
             stringBuilder.Append(value + ",");
         }
@@ -134,6 +149,11 @@ public static partial class CSharpHelper
         return stringBuilder.ToString().TrimEnd(',');
     }
 
+    /// <summary>
+    /// Wraps the string value with quotes appropriate for the given type (double quotes for string, single for char).
+    /// </summary>
+    /// <param name="tKey">Type to determine the quote character.</param>
+    /// <param name="keyS">String value to wrap with quotes, modified in place.</param>
     public static void WrapWithQuote(Type tKey, ref string keyS)
     {
         if (tKey == Types.StringType)

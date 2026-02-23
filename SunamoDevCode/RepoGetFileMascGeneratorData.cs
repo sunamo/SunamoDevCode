@@ -6,14 +6,40 @@ namespace SunamoDevCode;
 /// </summary>
 public class RepoGetFileMascGeneratorData
 {
+    /// <summary>
+    /// Whether to include C# (.cs) files.
+    /// </summary>
     public bool Cs { get; set; }
+    /// <summary>
+    /// Whether to include CSS (.css) files.
+    /// </summary>
     public bool Css { get; set; }
+    /// <summary>
+    /// Whether to include JavaScript (.js, .jsx) files.
+    /// </summary>
     public bool JsJsx { get; set; }
+    /// <summary>
+    /// Whether to include JSON (.json) files.
+    /// </summary>
     public bool Json { get; set; }
+    /// <summary>
+    /// Whether to include SCSS (.scss) files.
+    /// </summary>
     public bool Scss { get; set; }
+    /// <summary>
+    /// Whether to include TypeScript (.ts, .tsx) files.
+    /// </summary>
     public bool TsTsx { get; set; }
+    /// <summary>
+    /// Whether to include YAML (.yaml) files.
+    /// </summary>
     public bool Yaml { get; set; }
 
+    /// <summary>
+    /// Counts how many file type flags match the specified value.
+    /// </summary>
+    /// <param name="value">Value to compare each flag against.</param>
+    /// <returns>Number of flags matching the value.</returns>
     public int NumbersOf(bool value)
     {
         var count = 0;
@@ -27,6 +53,10 @@ public class RepoGetFileMascGeneratorData
         return count;
     }
 
+    /// <summary>
+    /// Creates a new instance with all source code file types enabled.
+    /// </summary>
+    /// <returns>A new instance with all flags set to true.</returns>
     public static RepoGetFileMascGeneratorData AllSourceCodes()
     {
         var argument = new RepoGetFileMascGeneratorData();
@@ -34,6 +64,10 @@ public class RepoGetFileMascGeneratorData
         return argument;
     }
 
+    /// <summary>
+    /// Sets all file type flags to the specified value.
+    /// </summary>
+    /// <param name="value">Value to set all flags to.</param>
     public void AllTo(bool value)
     {
         // do it with reflection
@@ -46,6 +80,10 @@ public class RepoGetFileMascGeneratorData
         Cs = value;
     }
 
+    /// <summary>
+    /// Generates a semicolon-separated file mask string based on enabled file types.
+    /// </summary>
+    /// <returns>File mask string (e.g., "*.ts;*.tsx;*.cs;").</returns>
     public string Generate()
     {
         var stringBuilder = new StringBuilder();

@@ -8,57 +8,57 @@ internal class CsKeywordsList
     /// <summary>
     /// Gets or sets modifier keywords (abstract, async, const, etc.).
     /// </summary>
-    internal static List<string> Modifier { get; set; } = null;
+    internal static List<string> Modifier { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets access modifier keywords (public, private, internal, protected).
     /// </summary>
-    internal static List<string> AccessModifier { get; set; } = null;
+    internal static List<string> AccessModifier { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets statement keywords (if, else, switch, for, etc.).
     /// </summary>
-    internal static List<string> Statement { get; set; } = null;
+    internal static List<string> Statement { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets method parameter keywords (params, ref, out).
     /// </summary>
-    internal static List<string> MethodParameter { get; set; } = null;
+    internal static List<string> MethodParameter { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets namespace keywords (using, extern alias).
     /// </summary>
-    internal static List<string> Namespace { get; set; } = null;
+    internal static List<string> Namespace { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets operator keywords (as, await, is, new, sizeof, typeof, etc.).
     /// </summary>
-    internal static List<string> Operator { get; set; } = null;
+    internal static List<string> Operator { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets access keywords (base, this).
     /// </summary>
-    internal static List<string> Access { get; set; } = null;
+    internal static List<string> Access { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets literal keywords (null, false, true, value, void).
     /// </summary>
-    internal static List<string> Literal { get; set; } = null;
+    internal static List<string> Literal { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets type keywords (bool, byte, char, class, decimal, double, etc.).
     /// </summary>
-    internal static List<string> Type { get; set; } = null;
+    internal static List<string> Type { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets contextual keywords (add, var, dynamic, global, set, value).
     /// </summary>
-    internal static List<string> Contextual { get; set; } = null;
+    internal static List<string> Contextual { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets query keywords (from, where, select, group, etc.).
     /// </summary>
-    internal static List<string> Query { get; set; } = null;
+    internal static List<string> Query { get; set; } = null!;
 
     private static bool initialized = false;
 

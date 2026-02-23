@@ -34,7 +34,7 @@ internal partial class XHelper
 #endif
             File.WriteAllTextAsync(pathOrContent, formatted);
             //ThisApp.Success(Translate.FromKey(XlfKeys.ChangesSavedToFile));
-            return null;
+            return null!;
         }
         else
         {

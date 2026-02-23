@@ -14,9 +14,9 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     /// <param name="addProtectedWhenSelling">Whether to add protected when selling.</param>
     /// <param name="publish">Whether to use publish folder.</param>
     /// <returns>Path to the executable or null if not found.</returns>
-    public string ExeToRelease(SolutionFolder solution, string projectDistinction, bool standaloneSlnForProject, bool addProtectedWhenSelling = false, bool publish = false)
+    public string? ExeToRelease(SolutionFolder solution, string projectDistinction, bool standaloneSlnForProject, bool addProtectedWhenSelling = false, bool publish = false)
     {
-        string existingExeReleaseFolder = null;
+        string? existingExeReleaseFolder = null;
         var solutionFolder = solution.FullPathFolder.TrimEnd('\\');
         var exeName = solution.NameSolution;
         string exeNameWithExt = exeName + AllExtensions.ExeExtension;
@@ -39,31 +39,31 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
 
         var isNet7Exists = net7Path != null && Directory.Exists(net7Path);
         var isNet7WindowsExists = net7WindowsPath != null && Directory.Exists(net7WindowsPath);
-        string exePath = null;
+        string? exePath = null;
 
         if (isNet7Exists)
         {
-            exePath = Path.Combine(net7Path, exeName + ".exe");
+            exePath = Path.Combine(net7Path!, exeName + ".exe");
             if (File.Exists(exePath))
             {
                 existingExeReleaseFolder = net7Path;
             }
             else
             {
-                existingExeReleaseFolder = FindExistingFolderWithRightArchitecture(net7Path, exeNameWithExt);
+                existingExeReleaseFolder = FindExistingFolderWithRightArchitecture(net7Path!, exeNameWithExt);
             }
         }
 
         if (isNet7WindowsExists && existingExeReleaseFolder == null)
         {
-            exePath = Path.Combine(net7WindowsPath, exeName + ".exe");
+            exePath = Path.Combine(net7WindowsPath!, exeName + ".exe");
             if (File.Exists(exePath))
             {
                 existingExeReleaseFolder = net7WindowsPath;
             }
             else
             {
-                existingExeReleaseFolder = FindExistingFolderWithRightArchitecture(net7WindowsPath, exeNameWithExt);
+                existingExeReleaseFolder = FindExistingFolderWithRightArchitecture(net7WindowsPath!, exeNameWithExt);
             }
         }
 
@@ -82,7 +82,7 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     /// <param name="baseReleaseFolder">Base release folder path.</param>
     /// <param name="isWindows">True for net*-windows, false for net*.</param>
     /// <returns>Full path to the found folder or null if none exists.</returns>
-    private string FindHighestAvailableNetVersion(string baseReleaseFolder, bool isWindows)
+    private string? FindHighestAvailableNetVersion(string baseReleaseFolder, bool isWindows)
     {
         for (int version = 15; version >= 5; version--)
         {
@@ -105,7 +105,7 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     /// <param name="basePath">Base path to search in.</param>
     /// <param name="exeNameWithExt">Executable name with extension.</param>
     /// <returns>Directory path if found, otherwise null.</returns>
-    private string FindExistingFolderWithRightArchitecture(string basePath, string exeNameWithExt)
+    private string? FindExistingFolderWithRightArchitecture(string basePath, string exeNameWithExt)
     {
         // https://learn.microsoft.com/en-us/dotnet/core/rid-catalog
         var maybe = Path.Combine(basePath, "win-x64", exeNameWithExt);

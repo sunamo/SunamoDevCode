@@ -6,7 +6,7 @@ internal partial class FS
 {
     internal static string Slash(string path, bool slash)
     {
-        string result = null;
+        string? result = null;
         if (slash)
         {
             result = path.Replace("\"", "/"); //SHReplace.ReplaceAll2(path, "/", "\"");
@@ -60,7 +60,7 @@ internal partial class FS
             Directory.Delete(directoryPath, true);
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         // EN: It's try so don't know what this is doing here
         // CZ: Je to try takže nevím co tu dělá tohle
@@ -77,7 +77,7 @@ internal partial class FS
             Directory.Delete(directoryPath, true);
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 
@@ -92,8 +92,8 @@ internal partial class FS
     /// <summary>
     ///     Usage: Exceptions.FileWasntFoundInDirectory
     /// </summary>
-    /// <param name = "v"></param>
-    /// <returns></returns>
+    /// <param name="path">Path to ensure ends with a backslash.</param>
+    /// <returns>Path with trailing backslash.</returns>
     internal static string WithEndSlash(ref string path)
     {
         if (path != string.Empty)
@@ -115,7 +115,7 @@ internal partial class FS
         string extension = Path.GetExtension(originalPathString);
         if (originalPathString.Contains('/') || originalPathString.Contains('\\'))
         {
-            string directory = Path.GetDirectoryName(originalPathString);
+            string directory = Path.GetDirectoryName(originalPathString)!;
             return Path.Combine(directory, fileName + textToInsert + extension);
         }
 
@@ -125,8 +125,8 @@ internal partial class FS
     /// <summary>
     /// No direct edit
     /// </summary>
-    /// <param name = "files2"></param>
-    /// <returns></returns>
+    /// <param name="filePaths">Array of file paths.</param>
+    /// <returns>List containing only file names.</returns>
     internal static List<string> OnlyNamesNoDirectEdit(String[] filePaths)
     {
         var list = filePaths.ToList();
@@ -158,7 +158,7 @@ internal partial class FS
 
     internal static string GetDirectoryName(string filePath)
     {
-        var data = Path.GetDirectoryName(filePath);
+        var data = Path.GetDirectoryName(filePath)!;
         return FS.WithEndSlash(data);
     }
 

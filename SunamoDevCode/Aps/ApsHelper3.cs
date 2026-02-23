@@ -31,7 +31,7 @@ public partial class ApsHelper : ApsPluginStatic
         foreach (var item in slnNames)
         {
             var sln = SolutionsIndexerHelper.SolutionWithName(item.Value);
-            result.Add(sln.FullPathFolder);
+            result.Add(sln!.FullPathFolder);
         }
 
         return result;

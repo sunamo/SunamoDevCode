@@ -3,12 +3,17 @@ namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive;
 /// <summary>
 ///     
 /// </summary>
-internal sealed class CollectionOnDrive(ILogger logger) : CollectionOnDriveBase<string>(logger)
+internal sealed class CollectionOnDrive : CollectionOnDriveBase<string>
 {
+    private readonly ILogger _logger;
+    internal CollectionOnDrive(ILogger logger) : base(logger)
+    {
+        _logger = logger;
+    }
     internal static CollectionOnDrive Dummy = new CollectionOnDrive(NullLogger.Instance);
     internal async Task Load(string path, bool removeDuplicates)
     {
-        if (logger == NullLogger.Instance)
+        if (_logger == NullLogger.Instance)
         {
             ThrowEx.UseNonDummyCollection();
         }

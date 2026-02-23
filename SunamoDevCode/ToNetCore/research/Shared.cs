@@ -13,7 +13,7 @@ public class Shared
     /// <summary>
     /// Action to extract archives during migration.
     /// </summary>
-    public static Action<string, bool> ExtractArchive;
+    public static Action<string, bool> ExtractArchive = null!;
 
     static
 #if ASYNC
@@ -23,9 +23,9 @@ public class Shared
 #endif
  ReplaceTargetPlatform(string replacementValue, string propertyGroupTag, string startTag, string endTag, List<string> csprojFiles, bool isThrowException = false)
     {
-        StringBuilder onlyStartTagFiles = null;
-        StringBuilder onlyEndTagFiles = null;
-        StringBuilder missingPropertyGroupFiles = null;
+        StringBuilder? onlyStartTagFiles = null;
+        StringBuilder? onlyEndTagFiles = null;
+        StringBuilder? missingPropertyGroupFiles = null;
 
         if (!isThrowException)
         {
@@ -41,8 +41,8 @@ public class Shared
     await
 #endif
  TF.ReadAllText(csprojPath);
-            var hasStartTag = fileContent.Contains(startTag);
-            var hasEndTag = fileContent.Contains(endTag);
+            var hasStartTag = fileContent!.Contains(startTag);
+            var hasEndTag = fileContent!.Contains(endTag);
 
             if (hasStartTag && hasEndTag)
             {
@@ -62,7 +62,7 @@ public class Shared
                 }
                 else
                 {
-                    onlyStartTagFiles.AppendLine(csprojPath);
+                    onlyStartTagFiles!.AppendLine(csprojPath);
                 }
             }
             else if (hasEndTag && !hasStartTag)
@@ -73,7 +73,7 @@ public class Shared
                 }
                 else
                 {
-                    onlyEndTagFiles.AppendLine(csprojPath);
+                    onlyEndTagFiles!.AppendLine(csprojPath);
                 }
             }
             else
@@ -87,7 +87,7 @@ public class Shared
                     }
                     else
                     {
-                        missingPropertyGroupFiles.AppendLine(csprojPath);
+                        missingPropertyGroupFiles!.AppendLine(csprojPath);
                     }
                 }
                 else
@@ -101,21 +101,29 @@ public class Shared
         if (!isThrowException)
         {
             TextOutputGenerator outputGenerator = new TextOutputGenerator();
-            outputGenerator.ListSB(onlyStartTagFiles, "onlyStart");
-            outputGenerator.ListSB(onlyEndTagFiles, "onlyEnd");
-            outputGenerator.ListSB(missingPropertyGroupFiles, "dontHavePropertyGroup");
+            outputGenerator.ListSB(onlyStartTagFiles!, "onlyStart");
+            outputGenerator.ListSB(onlyEndTagFiles!, "onlyEnd");
+            outputGenerator.ListSB(missingPropertyGroupFiles!, "dontHavePropertyGroup");
 
             return outputGenerator.ToString();
         }
-        return null;
+        return null!;
 
     }
 
+    /// <summary>
+    /// Changes the PlatformTarget in all csproj files within the given folder.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="replaceFor">Target platform value to set.</param>
+    /// <param name="folderNonRec">Folder to search for csproj files (non-recursive).</param>
+    /// <param name="throwEx">Whether to throw exceptions on errors.</param>
+    /// <returns>Report of files that had issues, or null.</returns>
     public static
 #if ASYNC
-    async Task<string>
+    async Task<string?>
 #else
-    string
+    string?
 #endif
  PlaformTargetTo(ILogger logger, string replaceFor, string folderNonRec, bool throwEx = false)
     {
@@ -137,10 +145,10 @@ public class Shared
     /// Vyu��v� se v ChangeConvertNonWebPlatformTargetTo(), PlatformTargetTo a PlatformTargetToWeb()
     ///
     /// </summary>
-    /// <param name="replaceFor"></param>
-    /// <param name="tt"></param>
-    /// <param name="throwEx"></param>
-    /// <returns></returns>
+    /// <param name="replaceFor">Target platform value to set (prefix with ! to remove).</param>
+    /// <param name="tt">List of csproj file paths to process.</param>
+    /// <param name="throwEx">Whether to throw exceptions on errors.</param>
+    /// <returns>Report of files that had issues, or null.</returns>
     public static
 #if ASYNC
     async Task<string>
@@ -167,7 +175,7 @@ public class Shared
 #endif
  TF.ReadAllText(item);
                 f2.Clear();
-                f2.Append(f.Replace(start, string.Empty));
+                f2.Append(f!.Replace(start, string.Empty));
                 var f2s = f2.ToString();
                 if (f != f2s)
                 {
@@ -184,6 +192,6 @@ public class Shared
  Shared.ReplaceTargetPlatform(replaceFor, PropertyGroup, start, end, tt, throwEx);
         }
 
-        return null;
+        return null!;
     }
 }

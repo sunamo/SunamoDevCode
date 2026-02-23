@@ -1,20 +1,18 @@
 namespace SunamoDevCode.Aps.Projs;
 
+/// <summary>
+/// Provides helper methods for analyzing and manipulating .csproj files.
+/// </summary>
 public partial class SunamoCsprojHelper
 {
     /// <summary>
-    /// public should be only DetectNetVersion
+    /// Determines whether the csproj content is an SDK-style .NET Core project.
+    /// Must have postfix 2 because IsProjectCsprojSdkStyleIsCore has also a same-argument method.
     /// </summary>
-    /// <param name = "fileOrContent"></param>
-    /// <param name = "netstandard"></param>
-    /// <returns></returns>
-    /// <summary>
-    /// public should be only DetectNetVersion
-    /// mmust have postfix 2 because IsProjectCsprojSdkStyleIsCore have also same arg method
-    /// </summary>
-    /// <param name = "fileOrContent"></param>
-    /// <returns></returns>
-    private static 
+    /// <param name="fileOrContent">File path or content string of the csproj.</param>
+    /// <param name="onlyContentIsPassed">Whether the string is pure content rather than a file path.</param>
+    /// <returns>True if the project is SDK-style .NET Core.</returns>
+    private static
 #if ASYNC
     async Task<bool>
 #else
@@ -26,23 +24,29 @@ public partial class SunamoCsprojHelper
         {
             if (!fileOrContent.StartsWith("<") && FS.ExistsFile(fileOrContent))
             {
-                fileOrContent = 
+                var readContent =
 #if ASYNC
     await
 #endif
                 TF.ReadAllText(fileOrContent);
+                fileOrContent = readContent!;
             }
         }
 
         // bez ukončení závorkama protože může být i <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop"> atd.
-        return fileOrContent.Contains("Sdk=\"Microsoft.NET.Sdk");
+        return fileOrContent!.Contains("Sdk=\"Microsoft.NET.Sdk");
     }
 
-    public static 
+    /// <summary>
+    /// Checks whether a csproj is SDK-style and also determines if it targets netstandard.
+    /// </summary>
+    /// <param name="fileOrContent">File path or content string of the csproj.</param>
+    /// <returns>Result containing the content, SDK-style status, and netstandard status, or null for invalid XML.</returns>
+    public static
 #if ASYNC
-    async Task<IsProjectCsprojSdkStyleResult>
+    async Task<IsProjectCsprojSdkStyleResult?>
 #else
-    IsProjectCsprojSdkStyleResult 
+    IsProjectCsprojSdkStyleResult?
 #endif
     IsProjectCsprojSdkStyleIsCore(string fileOrContent)
     {
@@ -87,9 +91,8 @@ public partial class SunamoCsprojHelper
     /// <summary>
     /// Whether is old .net fw, version
     /// </summary>
-    /// <param name = "csprojContent"></param>
-    /// <param name = "path"></param>
-    /// <returns></returns>
+    /// <param name="path">Path to the csproj file.</param>
+    /// <returns>Tuple of (isNewSdkStyle, versionString), or null if XML is invalid.</returns>
     public static 
 #if ASYNC
     async Task<Tuple<bool, string>>
@@ -105,12 +108,12 @@ public partial class SunamoCsprojHelper
         XmlDocumentsCache.Get(path);
         if (MayExcHelper.MayExc(xml.Exc))
         {
-            return null;
+            return null!;
         }
 
         if (xml.Data == null)
         {
-            return null;
+            return null!;
         }
 
         var csprojContent = xml.Data.OuterXml;
@@ -134,18 +137,23 @@ public partial class SunamoCsprojHelper
             var list = SHGetLines.GetLines(csprojContent);
             // žádný https://www.nuget.org/packages?q=Sunamo+Metaproject není, proto není ani TargetFramework a ctor text 2Mi args
             var csp = CsprojFileParser.ParseCsproj( /*list,*/path);
-            return new Tuple<bool, string>(isNew, /*csp.TargetFramework*/ null);
+            return new Tuple<bool, string>(isNew, /*csp.TargetFramework*/ null!);
         }
 
         var value = FrameworkNameDetector.Detect(path);
         return new Tuple<bool, string>(isNew, VersionHelper.RemovePartsWhichIsZero(value.Version));
     }
 
-    public static 
+    /// <summary>
+    /// Detects the .NET framework version and returns it as a SupportedNetFw enum value.
+    /// </summary>
+    /// <param name="path">Path to the csproj file.</param>
+    /// <returns>The detected .NET framework enum value.</returns>
+    public static
 #if ASYNC
     async Task<SupportedNetFw>
 #else
-    SupportedNetFw 
+    SupportedNetFw
 #endif
     DetectNetVersion2(string path)
     {
@@ -247,7 +255,7 @@ public partial class SunamoCsprojHelper
 #if ASYNC
             await
 #endif
-        VsProjectsFileHelper.GetProjectReferences(csprojPath, dictToAvoidCollectionWasChanged);
+        VsProjectsFileHelper.GetProjectReferences(csprojPath, dictToAvoidCollectionWasChanged!);
         if (result.Projects == null)
         {
             // debug step by step now
@@ -255,14 +263,14 @@ public partial class SunamoCsprojHelper
 #if ASYNC
                 await
 #endif
-            VsProjectsFileHelper.GetProjectReferences(csprojPath, null);
+            VsProjectsFileHelper.GetProjectReferences(csprojPath, null!);
             if (result.Projects == null)
             {
                 result =
 #if ASYNC
                     await
 #endif
-                VsProjectsFileHelper.GetProjectReferences(csprojPath, dictToAvoidCollectionWasChanged);
+                VsProjectsFileHelper.GetProjectReferences(csprojPath, dictToAvoidCollectionWasChanged!);
                 System.Diagnostics.Debugger.Break();
             }
             else

@@ -66,12 +66,12 @@ internal class SH
     {
         int foundIndex = int.MinValue;
         var result = GetTextBetween(text, afterDelimiter, beforeDelimiter, out foundIndex, 0, isThrowExceptionIfNotContains);
-        return result;
+        return result!;
     }
 
-    internal static string GetTextBetween(string text, string afterDelimiter, string beforeDelimiter, out int foundIndex, int startSearchingAt, bool isThrowExceptionIfNotContains = true)
+    internal static string? GetTextBetween(string text, string afterDelimiter, string beforeDelimiter, out int foundIndex, int startSearchingAt, bool isThrowExceptionIfNotContains = true)
     {
-        string result = null;
+        string? result = null;
         foundIndex = text.IndexOf(afterDelimiter, startSearchingAt);
         int beforeIndex = text.IndexOf(beforeDelimiter, foundIndex + afterDelimiter.Length);
         bool isAfterFound = foundIndex != -1;

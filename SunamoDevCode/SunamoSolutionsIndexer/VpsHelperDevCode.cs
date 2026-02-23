@@ -10,12 +10,12 @@ public class VpsHelperDevCode
     /// <summary>
     /// Gets the list of VPS new solutions.
     /// </summary>
-    public static PpkOnDriveDC ListVpsNew { get; } = new PpkOnDriveDC(SolutionsIndexerPaths.listVpsNew);
+    public static PpkOnDriveDC ListVpsNew { get; } = new PpkOnDriveDC(SolutionsIndexerPaths.listVpsNew!);
 
     /// <summary>
     /// Gets the list of SCZ Admin64 solutions.
     /// </summary>
-    public static PpkOnDriveDC ListSczAdmin64 { get; } = new PpkOnDriveDC(SolutionsIndexerPaths.listSczAdmin64);
+    public static PpkOnDriveDC ListSczAdmin64 { get; } = new PpkOnDriveDC(SolutionsIndexerPaths.listSczAdmin64!);
 
     /// <summary>
     /// Pushes all solutions to VPS.
@@ -43,7 +43,7 @@ public class VpsHelperDevCode
         foreach (var item in ListVpsNew)
         {
             var solution = SolutionsIndexerHelper.SolutionWithName(item);
-            var solutionPath = solution.FullPathFolder;
+            var solutionPath = solution!.FullPathFolder;
             await GitHelper.PushSolution(release, gitBashBuilder, pushArgs, commitMessage, solutionPath, pushSolutionsData, gitStatus, psInvoke);
         }
 
@@ -53,7 +53,7 @@ public class VpsHelperDevCode
     /// <summary>
     /// Gets or sets the result of pull all operation.
     /// </summary>
-    public static string PullAllResult { get; set; } = null;
+    public static string? PullAllResult { get; set; } = null;
 
     /// <summary>
     /// Pulls all solutions from VPS.

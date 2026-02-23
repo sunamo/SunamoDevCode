@@ -1,6 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoInterfaces.Interfaces;
 
-
 internal interface ITextOutputGenerator
 {
     void PairBullet(string key, string value);
@@ -16,8 +15,8 @@ internal interface ITextOutputGenerator
     void Dictionary(Dictionary<string, List<string>> dictionary);
     void Dictionary(Dictionary<string, string> dictionary);
     void Dictionary<Header, Value>(Dictionary<Header, List<Value>> dictionary, bool isOnlyCountInValue = false) where Header : IEnumerable<char>;
-    void Dictionary<T1, T2>(Dictionary<T1, T2> dictionary, string delimiter = "|");
-    string DictionaryBothToStringToSingleLine<Key, Value>(Dictionary<Key, Value> sortedDictionary, bool isPuttingValueAsFirst, string delimiter = " ");
+    void Dictionary<T1, T2>(Dictionary<T1, T2> dictionary, string delimiter = "|") where T1 : notnull;
+    string DictionaryBothToStringToSingleLine<Key, Value>(Dictionary<Key, Value> sortedDictionary, bool isPuttingValueAsFirst, string delimiter = " ") where Key : notnull;
     void DictionaryKeyValuePair<T1, T2>(string header, IOrderedEnumerable<KeyValuePair<T1, T2>> orderedPairs);
     void EndRunTime();
     void Header(string headerText);

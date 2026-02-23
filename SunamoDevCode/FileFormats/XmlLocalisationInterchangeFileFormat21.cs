@@ -7,10 +7,9 @@ public static partial class XmlLocalisationInterchangeFileFormat
     /// <summary>
     ///
     /// </summary>
-    /// <param name = "fn"></param>
-    /// <param name = "list"></param>
-    /// <param name = "idsEndingOn"></param>
-    /// <returns></returns>
+    /// <param name="fn">Path to the XLF file to process.</param>
+    /// <param name="list">List of last-letter patterns to match.</param>
+    /// <returns>Tuple of report text and list of matching trans-unit IDs.</returns>
     public static 
 #if ASYNC
         async Task<OutRefDC<string, List<string>>>
@@ -34,7 +33,7 @@ Into A1 insert:
 ' - alwyas code
 / - always path
          */
-        list = CAChangeContent.ChangeContent0(null, list, temp => SHParts.RemoveAfterFirst(temp, ' '));
+        list = CAChangeContent.ChangeContent0(null!, list, temp => SHParts.RemoveAfterFirst(temp, ' '));
         var idsEndingOn = new List<string>();
         Dictionary<string, StringBuilder> result = new Dictionary<string, StringBuilder>();
         TextOutputGenerator tb = new TextOutputGenerator();
@@ -50,12 +49,12 @@ Into A1 insert:
 
         foreach (var item in data.TransUnits)
         {
-            string id = null;
+            string? id = null;
             var lastLetter = GetLastLetter(item, out id).ToString();
             if (list.Any(letter => letter == lastLetter))
             {
-                result[lastLetter].AppendLine(GetTarget(item).Value);
-                idsEndingOn.Add(id);
+                result[lastLetter!].AppendLine(GetTarget(item).Value);
+                idsEndingOn.Add(id!);
             }
         }
 
@@ -70,8 +69,9 @@ Into A1 insert:
     /// <summary>
     /// Before mu
     /// </summary>
-    /// <param name = "path"></param>
-    public static 
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="folder">Folder path to search for CS files.</param>
+    public static
 #if ASYNC
         async Task
 #else
@@ -85,7 +85,7 @@ Into A1 insert:
         await
 #endif
         ReplaceStringKeysWithXlfKeys(files);
-        string key = null;
+        string key = null!;
         foreach (var item in files)
         {
             withWithoutUnderscore.Clear();
@@ -112,16 +112,23 @@ Into A1 insert:
         }
     }
 
-    public static List<string> GetFilesCs(ILogger logger, string path = null)
+    /// <summary>
+    /// Gets all .cs files from the given path recursively.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="path">Path to search (optional).</param>
+    /// <returns>List of .cs file paths.</returns>
+    public static List<string> GetFilesCs(ILogger logger, string? path = null)
     {
-        return FSGetFiles.GetFiles(logger, path, "*.cs", System.IO.SearchOption.AllDirectories, new GetFilesArgsDC() { /*excludeWithMethod = SunamoDevCodeHelper.RemoveTemporaryFilesVS*/ });
+        return FSGetFiles.GetFiles(logger, path!, "*.cs", System.IO.SearchOption.AllDirectories, new GetFilesArgsDC() { /*excludeWithMethod = SunamoDevCodeHelper.RemoveTemporaryFilesVS*/ });
     }
 
     /// <summary>
     /// Is calling in XlfManager.WhichStartEndWithNonDigitNumber
     /// </summary>
-    /// <param name = "pairsReplace"></param>
-    public static 
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="pairsReplace">Replacement pairs in ReplaceMany format.</param>
+    public static
 #if ASYNC
         async Task
 #else
@@ -179,9 +186,9 @@ Into A1 insert:
     /// Is used nowhere
     /// Was in MainWindow but probably was replaced with GetAllLastLetterFromEnd
     /// </summary>
-    /// <param name = "fn"></param>
-    /// <param name = "saveAllLastLetterToClipboard"></param>
-    /// <returns></returns>
+    /// <param name="fn">Path to the XLF file.</param>
+    /// <param name="saveAllLastLetterToClipboard">Whether to save distinct last letters to clipboard.</param>
+    /// <returns>List of trans-unit IDs.</returns>
     public static 
 #if ASYNC
         async Task<List<string>>
@@ -199,14 +206,14 @@ Into A1 insert:
         GetTransUnits(fn);
         foreach (XElement item in data.TransUnits)
         {
-            string id;
+            string? id = null;
             var ch = GetLastLetter(item, out id);
             if (ch.HasValue)
             {
                 allLastLetters.Add(ch.Value);
             }
 
-            ids.Add(id);
+            ids.Add(id!);
         }
 
         allLastLetters = allLastLetters.Distinct().ToList();

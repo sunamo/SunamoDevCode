@@ -4,6 +4,12 @@ namespace SunamoDevCode.SunamoCSharp;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public static partial class CSharpHelper
 {
+    /// <summary>
+    /// Generates constructor body assignments in the form "this.field = field;" for each value.
+    /// </summary>
+    /// <param name="tabCount">Number of tabs for indentation.</param>
+    /// <param name="values">List of field names to assign.</param>
+    /// <returns>Formatted constructor inner body string.</returns>
     public static string GetCtorInner(int tabCount, IList values)
     {
         const string assignVariable = "this.{0} = {0};";
@@ -28,6 +34,12 @@ public static partial class CSharpHelper
         return generator.ToString();
     }
 
+    /// <summary>
+    /// Generates a C# list declaration with the given name and values.
+    /// </summary>
+    /// <param name="input">List of string values to include.</param>
+    /// <param name="listName">Variable name for the generated list.</param>
+    /// <returns>Generated C# list declaration code.</returns>
     public static string GetList(List<string> input, string listName)
     {
         CSharpGenerator generator = new CSharpGenerator();
@@ -35,6 +47,11 @@ public static partial class CSharpHelper
         return generator.ToString();
     }
 
+    /// <summary>
+    /// Removes all #region and #endregion directives from the lines.
+    /// </summary>
+    /// <param name="lines">Source code lines to process.</param>
+    /// <returns>Lines with region directives removed.</returns>
     public static List<string> RemoveRegions(List<string> lines)
     {
         for (int i = lines.Count - 1; i >= 0; i--)
@@ -49,11 +66,15 @@ public static partial class CSharpHelper
         return lines;
     }
 
-    public static 
+    /// <summary>
+    /// Replaces static readonly field declarations with const declarations in the given file.
+    /// </summary>
+    /// <param name="pathXlfKeys">Path to the file to process.</param>
+    public static
 #if ASYNC
         async Task
 #else
-    void 
+    void
 #endif
     ReplaceForConsts(string pathXlfKeys)
     {
@@ -79,11 +100,24 @@ public static partial class CSharpHelper
         await File.WriteAllLinesAsync(pathXlfKeys, count);
     }
 
+    /// <summary>
+    /// Generates static readonly string constants from the list with optional camel case convention.
+    /// </summary>
+    /// <param name="list">List of values to generate constants from.</param>
+    /// <param name="toCamelConvention">Whether to apply camel case convention.</param>
+    /// <returns>Generated constant declarations.</returns>
     public static string GetConsts(List<string> list, bool? toCamelConvention)
     {
-        return GetConsts(null, list, toCamelConvention);
+        return GetConsts(null!, list, toCamelConvention);
     }
 
+    /// <summary>
+    /// Generates C# static readonly string constant declarations from the given names and values.
+    /// </summary>
+    /// <param name="names">Optional list of custom constant names (can be null to use values as names).</param>
+    /// <param name="list">List of values for the constants.</param>
+    /// <param name="toCamelConventionFirstCharLower">Whether to apply camelCase convention to constant names (null = no conversion).</param>
+    /// <returns>Generated C# code with constant declarations.</returns>
     public static string GetConsts(List<string> names, List<string> list, bool? toCamelConventionFirstCharLower)
     {
         return GetConsts(names, list, toCamelConventionFirstCharLower, Types.StringType);
@@ -97,9 +131,11 @@ public static partial class CSharpHelper
     /// GenerateConstants - const without value
     /// GetConsts - static readonly with value
     /// </summary>
-    /// <param name = "list"></param>
-    /// <param name = "toCamelConventionFirstCharLower"></param>
-    /// <returns></returns>
+    /// <param name="names">Optional list of custom constant names (can be null to use values as names).</param>
+    /// <param name="list">List of values for the constants.</param>
+    /// <param name="toCamelConventionFirstCharLower">Whether to apply camel case convention (null to skip).</param>
+    /// <param name="type">Type of the constants (e.g. string, int).</param>
+    /// <returns>Generated constant declarations.</returns>
     public static string GetConsts(List<string> names, List<string> list, bool? toCamelConventionFirstCharLower, Type type)
     {
         bool addHyphensToValue = true;
@@ -135,7 +171,7 @@ public static partial class CSharpHelper
                 }
             }
 
-            csg.Field(0, AccessModifiers.Public, true, VariableModifiers.ReadOnly, ConvertTypeShortcutFullName.ToShortcut(type.FullName, false), name, addHyphensToValue, item);
+            csg.Field(0, AccessModifiers.Public, true, VariableModifiers.ReadOnly, ConvertTypeShortcutFullName.ToShortcut(type.FullName!, false), name, addHyphensToValue, item);
         }
 
         var result = csg.ToString();
@@ -167,6 +203,12 @@ public static partial class CSharpHelper
         return csg.ToString();
     }
 
+    /// <summary>
+    /// Trims specified characters from the end of each string in the list.
+    /// </summary>
+    /// <param name="sf">List of strings to trim.</param>
+    /// <param name="toTrim">Characters to trim from the end.</param>
+    /// <returns>The modified list with trimmed strings.</returns>
     public static List<string> TrimEnd(List<string> sf, params char[] toTrim)
     {
         for (int i = 0; i < sf.Count; i++)
@@ -181,12 +223,12 @@ public static partial class CSharpHelper
     /// value - data type
     /// key - name
     /// </summary>
-    /// <param name = "l"></param>
-    /// <returns></returns>
+    /// <param name="lines">Lines containing field declarations to parse.</param>
+    /// <returns>Dictionary mapping field names (camelCase) to their data types.</returns>
     public static Dictionary<string, string> ParseFields(List<string> lines)
     {
         CA.RemoveStringsEmpty2(lines);
-        CAChangeContent.ChangeContent0(null, lines, e => SHParts.RemoveAfterFirst(e, '='));
+        CAChangeContent.ChangeContent0(null!, lines, e => SHParts.RemoveAfterFirst(e, '='));
         CA.TrimEnd(lines, ';');
         Dictionary<string, string> result = new Dictionary<string, string>();
         foreach (var item in lines)
@@ -210,10 +252,15 @@ public static partial class CSharpHelper
     const string tProperty = @"{0} {2} = {1};
     public {0} {3} { get { return {2}; } set { {2} = value; OnPropertyChanged(" + "\"{3}\"); } }" + @"
 ";
+    /// <summary>
+    /// Generates C# property declarations with backing fields from the given arguments.
+    /// </summary>
+    /// <param name="argument">Arguments specifying input lines and generation options.</param>
+    /// <returns>Generated property code.</returns>
     public static string GenerateProperties(GeneratePropertiesArgs argument)
     {
         var lines = argument.Input;
-        Dictionary<string, string> data = null;
+        Dictionary<string, string>? data = null;
         if (argument.AllStrings)
         {
             data = new Dictionary<string, string>(lines.Count);
@@ -243,7 +290,13 @@ public static partial class CSharpHelper
         return stringBuilder.ToString();
     }
 
-    public static string LineWithClass(List<string> lines, bool mustDerive)
+    /// <summary>
+    /// Finds the line containing a class declaration. If mustDerive is true, only returns classes that inherit from another.
+    /// </summary>
+    /// <param name="lines">Source code lines to search.</param>
+    /// <param name="mustDerive">Whether the class must derive from another class.</param>
+    /// <returns>The line containing the class declaration, or null if not found.</returns>
+    public static string? LineWithClass(List<string> lines, bool mustDerive)
     {
         foreach (var item in lines)
         {

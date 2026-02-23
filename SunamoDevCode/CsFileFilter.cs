@@ -2,7 +2,7 @@ namespace SunamoDevCode;
 
 /// <summary>
 /// EN: Filter for C# files with configurable filtering rules
-/// CZ: Filtr pro C# soubory s konfigurovatelými pravidly filtrování
+/// CZ: Filtr pro C# soubory s konfigurovatelными pravidly filtrování
 /// </summary>
 /// <remarks>
 /// Cannot be derived from FiltersNotTranslateAble to make finding instances of CsFileFilter easier
@@ -11,8 +11,8 @@ public partial class CsFileFilter : ICsFileFilter
 {
     private static readonly FiltersNotTranslateAble filtersNotTranslateable = FiltersNotTranslateAble.Instance;
     private static bool? _returnValue;
-    private ContainsArgs containsArgs;
-    private EndArgs endArgs;
+    private ContainsArgs? containsArgs;
+    private EndArgs? endArgs;
     /// <summary>
     ///     In default is everything in false
     ///     Call some Set* method
@@ -36,7 +36,7 @@ public partial class CsFileFilter : ICsFileFilter
     }
 
     /// <summary>
-    /// Gets filtered list of C# files based on configured filtering rules
+    /// Gets filtered list of C# files based on configured filtering rules.
     /// </summary>
     /// <param name="path">Directory path to search</param>
     /// <param name="searchPattern">File search pattern (e.g., "*.cs")</param>
@@ -50,6 +50,13 @@ public partial class CsFileFilter : ICsFileFilter
         return files;
     }
 
+    /// <summary>
+    /// Checks if a file path is allowed based on end and contains filtering rules.
+    /// </summary>
+    /// <param name="filePath">File path to check</param>
+    /// <param name="end">End arguments for filtering</param>
+    /// <param name="containsArgs">Contains arguments for filtering</param>
+    /// <returns>True if the file is allowed, false if it should be filtered out</returns>
     public static bool AllowOnly(string filePath, EndArgs end, ContainsArgs containsArgs)
     {
         var hasEndMatch = false;
@@ -60,11 +67,12 @@ public partial class CsFileFilter : ICsFileFilter
     ///     A2 is also for master.designer.cs and aspx.designer.cs
     ///     A2,3 can be null
     /// </summary>
-    /// <param name = "filePath">File path to check</param>
-    /// <param name = "end">End arguments for filtering</param>
-    /// <param name = "containsArgs">Contains arguments for filtering</param>
-    /// <param name = "hasEndMatch">Output parameter indicating if end pattern matched</param>
-    /// <param name = "isAlsoCheckingEnds">Whether to also check end patterns</param>
+    /// <param name="filePath">File path to check</param>
+    /// <param name="end">End arguments for filtering</param>
+    /// <param name="containsArgs">Contains arguments for filtering</param>
+    /// <param name="hasEndMatch">Output parameter indicating if end pattern matched</param>
+    /// <param name="isAlsoCheckingEnds">Whether to also check end patterns</param>
+    /// <returns>True if the file is allowed, false if it should be filtered out</returns>
     public static bool AllowOnly(string filePath, EndArgs end, ContainsArgs containsArgs, ref bool hasEndMatch, bool isAlsoCheckingEnds)
     {
         returnValue = null;
@@ -113,12 +121,20 @@ public partial class CsFileFilter : ICsFileFilter
         return true;
     }
 
+    /// <summary>
+    /// Sets the end and contains arguments for filtering.
+    /// </summary>
+    /// <param name="endArguments">End arguments for filtering</param>
+    /// <param name="containsArguments">Contains arguments for filtering</param>
     public void Set(EndArgs endArguments, ContainsArgs containsArguments)
     {
         endArgs = endArguments;
         this.containsArgs = containsArguments;
     }
 
+    /// <summary>
+    /// Sets the default filtering configuration with standard exclusion patterns.
+    /// </summary>
     public void SetDefault()
     {
         //false which not to index, true which to index
@@ -129,12 +145,12 @@ public partial class CsFileFilter : ICsFileFilter
     /// <summary>
     ///     Gets list of "contains" patterns based on flags
     /// </summary>
-    /// <param name = "negate">Whether to negate the flag values</param>
+    /// <param name="negate">Whether to negate the flag values</param>
     /// <returns>List of contains patterns</returns>
     public List<string> GetContainsByFlags(bool negate)
     {
         var containsList = new List<string>();
-        if (BTS.Is(containsArgs.binFp, negate))
+        if (BTS.Is(containsArgs!.binFp, negate))
             containsList.Add(Contains.binFp);
         if (BTS.Is(containsArgs.objFp, negate))
             containsList.Add(Contains.objFp);
@@ -143,10 +159,15 @@ public partial class CsFileFilter : ICsFileFilter
         return containsList;
     }
 
+    /// <summary>
+    /// Gets list of file ending patterns based on configured flags.
+    /// </summary>
+    /// <param name="negate">Whether to negate the flag values</param>
+    /// <returns>List of file ending patterns</returns>
     public List<string> GetEndingByFlags(bool negate)
     {
         var endingsList = new List<string>();
-        if (Is(endArgs.designerCs, negate))
+        if (Is(endArgs!.designerCs, negate))
             endingsList.Add(End.designerCsPp);
         if (Is(endArgs.xamlCs, negate))
             endingsList.Add(End.xamlCsPp);
@@ -176,6 +197,12 @@ public partial class CsFileFilter : ICsFileFilter
         return BTS.Is(flagValue, negate);
     }
 
+    /// <summary>
+    /// Checks if a file path is allowed based on contains filtering rules only.
+    /// </summary>
+    /// <param name="itemPath">File path to check</param>
+    /// <param name="containsArgs">Contains arguments for filtering</param>
+    /// <returns>True if the file is allowed, false if it should be filtered out</returns>
     public static bool AllowOnlyContains(string itemPath, ContainsArgs containsArgs)
     {
         if (!containsArgs.objFp && itemPath.Contains(@"\obj\"))
@@ -187,17 +214,32 @@ public partial class CsFileFilter : ICsFileFilter
         return true;
     }
 
+    /// <summary>
+    /// Constants and helper methods for path-contains based filtering patterns.
+    /// </summary>
     public class Contains
     {
+        /// <summary>
+        /// Pattern for files containing "NotTranslateAble" in the path.
+        /// </summary>
         public const string notTranslateAbleFp = "NotTranslateAble";
+        /// <summary>
+        /// Pattern for files in the obj directory.
+        /// </summary>
         public static string objFp = @"\obj\";
+        /// <summary>
+        /// Pattern for files in the bin directory.
+        /// </summary>
         public static string binFp = @"\bin\";
+        /// <summary>
+        /// Pattern for files with tilda RF marker.
+        /// </summary>
         public static string tildaRFFp = "~RF";
-        private static List<string> unindexablePaths;
+        private static List<string> unindexablePaths = null!;
         /// <summary>
         ///     Into A1 is inserting copy to leave only unindexed
         /// </summary>
-        /// <param name = "unindexablePathEnds">List of unindexable path endings</param>
+        /// <param name="unindexablePathEnds">List of unindexable path endings</param>
         /// <returns>Configured ContainsArgs instance</returns>
         public static ContainsArgs FillEndFromFileList(List<string> unindexablePathEnds)
         {
@@ -212,18 +254,29 @@ public partial class CsFileFilter : ICsFileFilter
         }
     }
 
+    /// <summary>
+    /// Arguments controlling which path-contains patterns to include or exclude during filtering.
+    /// </summary>
     public class ContainsArgs
     {
+        /// <summary>
+        /// Whether to include files from bin directories.
+        /// </summary>
         public bool binFp;
+        /// <summary>
+        /// Whether to include files from obj directories.
+        /// </summary>
         public bool objFp;
+        /// <summary>
+        /// Whether to include files with tilda RF marker.
+        /// </summary>
         public bool tildaRF;
         /// <summary>
         ///     false which not to index, true which to index
         /// </summary>
-        /// <param name = "objFp"></param>
-        /// <param name = "binFp"></param>
-        /// <param name = "tildaRF"></param>
-        /// <param name = "notTranslateAble"></param>
+        /// <param name="objFp">Whether to include obj directory files</param>
+        /// <param name="binFp">Whether to include bin directory files</param>
+        /// <param name="tildaRF">Whether to include tilda RF files</param>
         public ContainsArgs(bool objFp, bool binFp, bool tildaRF)
         {
             this.objFp = objFp;
@@ -232,23 +285,56 @@ public partial class CsFileFilter : ICsFileFilter
         }
     }
 
+    /// <summary>
+    /// Constants and helper methods for file-ending based filtering patterns.
+    /// </summary>
     public class End
     {
+        /// <summary>
+        /// Pattern for NotTranslateAble files.
+        /// </summary>
         public const string NotTranslateAblePp = "NotTranslateAble";
+        /// <summary>
+        /// Pattern for .designer.cs files (lowercase).
+        /// </summary>
         public const string designerCsPp = ".designer.cs";
+        /// <summary>
+        /// Pattern for .Designer.cs files (PascalCase).
+        /// </summary>
         public const string DesignerCsPp = ".Designer.cs";
+        /// <summary>
+        /// Pattern for .xaml.cs code-behind files.
+        /// </summary>
         public const string xamlCsPp = ".xaml.cs";
+        /// <summary>
+        /// Pattern for Shared.cs files.
+        /// </summary>
         public const string sharedCsPp = "Shared.cs";
+        /// <summary>
+        /// Pattern for .i.cs intermediate files.
+        /// </summary>
         public const string iCsPp = ".i.cs";
+        /// <summary>
+        /// Pattern for .g.i.cs generated intermediate files.
+        /// </summary>
         public const string gICsPp = ".g.i.cs";
+        /// <summary>
+        /// Pattern for .g.cs generated files.
+        /// </summary>
         public const string gCsPp = ".g.cs";
+        /// <summary>
+        /// Pattern for .tmp temporary files (lowercase).
+        /// </summary>
         public const string tmpPp = ".tmp";
+        /// <summary>
+        /// Pattern for .TMP temporary files (uppercase).
+        /// </summary>
         public const string TMPPp = ".TMP";
-        private static List<string> unindexablePaths;
+        private static List<string> unindexablePaths = null!;
         /// <summary>
         ///     Into A1 is inserting copy to leave only unindexed
         /// </summary>
-        /// <param name = "unindexablePathEnds">List of unindexable path endings</param>
+        /// <param name="unindexablePathEnds">List of unindexable path endings</param>
         /// <returns>Configured EndArgs instance</returns>
         public static EndArgs FillEndFromFileList(List<string> unindexablePathEnds)
         {

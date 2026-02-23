@@ -47,7 +47,7 @@ public class SolutionFolderSerialize : IListBoxHelperItem, ISolutionFolderSerial
     /// Is filled up in SolutionsIndexerHelper.GetProjectFolderAndSlnPath.
     /// Scripts_Projects and so.
     /// </summary>
-    public string projectFolder { get; set; }
+    public string projectFolder { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the solution full path.
@@ -55,7 +55,7 @@ public class SolutionFolderSerialize : IListBoxHelperItem, ISolutionFolderSerial
     /// Is filled up in AllProjectsSearchHelper.GetProjectFolderAndSlnPath.
     /// _Uap/apps - relative path to solution folder from Project folder.
     /// </summary>
-    public string slnFullPath { get; set; }
+    public string slnFullPath { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the full path to folder (e.g., C:\Documents\vs\sunamo\).

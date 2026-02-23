@@ -8,29 +8,29 @@ public class SolutionFolderWithFiles : SolutionFolder
     /// <summary>
     /// Gets or sets the list of all files in the solution.
     /// </summary>
-    public List<string> Files { get; set; } = null;
+    public List<string> Files { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the dictionary of files grouped by extension (without dot).
     /// </summary>
-    public Dictionary<string, List<string>> FilesOfExtension { get; set; } = null;
+    public Dictionary<string, List<string>> FilesOfExtension { get; set; } = null!;
 
     #region Filled in CheckSize()
 
     /// <summary>
     /// Gets or sets the dictionary mapping file index to file size.
     /// </summary>
-    public Dictionary<int, long> FilesAndSizes { get; set; } = null;
+    public Dictionary<int, long> FilesAndSizes { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the dictionary of total size by extension type.
     /// </summary>
-    public Dictionary<TypeOfExtensionDC, long> SizeOfExtensionTypes { get; set; } = null;
+    public Dictionary<TypeOfExtensionDC, long> SizeOfExtensionTypes { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the dictionary of total size by extension (all extensions are lowercase and without dot).
     /// </summary>
-    public Dictionary<string, long> SizeOfExtension { get; set; } = null;
+    public Dictionary<string, long> SizeOfExtension { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the overall size of all files.
@@ -43,7 +43,7 @@ public class SolutionFolderWithFiles : SolutionFolder
     /// Gets or sets the dictionary of FileInfoLite objects grouped by extension.
     /// Is filled in method CreateFileInfoLiteObjects.
     /// </summary>
-    public Dictionary<string, List<FileInfoLiteDC>> FileInfoLiteOfExtension { get; set; } = null;
+    public Dictionary<string, List<FileInfoLiteDC>> FileInfoLiteOfExtension { get; set; } = null!;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SolutionFolderWithFiles"/> class.

@@ -2,6 +2,9 @@ namespace SunamoDevCode;
 
 using Microsoft.Extensions.Logging;
 
+/// <summary>
+/// Provides methods for finding and enumerating csproj files across solutions and project folders.
+/// </summary>
 public partial class GetCsprojs
 {
 
@@ -40,6 +43,12 @@ public partial class GetCsprojs
         return result;
     }
 
+    /// <summary>
+    /// Gets folders that contain exactly one csproj file within the given solution folder.
+    /// </summary>
+    /// <param name="logger">Logger instance for logging operations.</param>
+    /// <param name="slnFolder">Solution folder to search.</param>
+    /// <returns>List of folder paths containing exactly one csproj.</returns>
     public static List<string> GetFoldersWithAtLeastOneCsprojInSolution(ILogger logger, string slnFolder)
     {
         var folders = FSGetFolders.GetFoldersEveryFolderWhichContainsFiles(logger, slnFolder, "*.csproj", SearchOption.TopDirectoryOnly);
@@ -69,6 +78,11 @@ public partial class GetCsprojs
         throw new Exception(errorMessage);
     }
 
+    /// <summary>
+    /// Gets csproj files from the PlatformIndependentNuGetPackages solution folder.
+    /// </summary>
+    /// <param name="logger">Logger instance for logging operations.</param>
+    /// <returns>Collection of csprojs found in the solution.</returns>
     public static CsprojsInSolution GetCsprojInSwdNotmineAndSunamo(ILogger logger)
     {
         var PlatformIndependentNuGetPackages = GetCsprojInSolutionClass(logger, @"E:\vs\Projects\PlatformIndependentNuGetPackages\");
@@ -80,6 +94,11 @@ public partial class GetCsprojs
         //return PlatformIndependentNuGetPackages.Intersect(sunamoNotmine);
     }
 
+    /// <summary>
+    /// Gets all csproj files as a dictionary mapping file names to full paths, excluding Runner.csproj.
+    /// </summary>
+    /// <param name="logger">Logger instance for logging operations.</param>
+    /// <returns>Dictionary of csproj file names to their full paths.</returns>
     public static Dictionary<string, string> GetCsprojsAllDict(ILogger logger)
     {
         Dictionary<string, string> d = [];

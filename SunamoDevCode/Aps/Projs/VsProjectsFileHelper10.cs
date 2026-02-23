@@ -5,6 +5,11 @@ namespace SunamoDevCode.Aps.Projs;
 /// </summary>
 public partial class VsProjectsFileHelper
 {
+    /// <summary>
+    /// Splits a relative path into tokens using detected delimiter (backslash, forward slash, or quotes).
+    /// </summary>
+    /// <param name="relativePath">Relative path to tokenize.</param>
+    /// <returns>List of path tokens.</returns>
     public static List<string> GetTokens(string relativePath)
     {
         var deli = "";
@@ -18,16 +23,18 @@ public partial class VsProjectsFileHelper
         return SHSplit.Split(relativePath, deli);
     }
     #region Use cacheProjectReferences
+    /// <summary>
+    /// Cache of project references indexed by csproj path.
+    /// </summary>
     public static Dictionary<string, ProjectReferences> cacheProjectReferences = new Dictionary<string, ProjectReferences>();
     /// <summary>
-    /// Is working for .net core &amp; fw
-    /// To call, must be installed Microsoft.Build
-    ///
-    /// Get full path in one csproj
-    /// TO full tree use BuildProjectsDependencyTree
+    /// Gets project references from a csproj file. Works for .NET Core and Framework.
+    /// Requires Microsoft.Build. For full dependency tree, use BuildProjectsDependencyTree.
     /// </summary>
-    /// <param name="csprojPath"></param>
-    /// <returns></returns>
+    /// <param name="csprojPath">Path to the csproj file.</param>
+    /// <param name="dictToAvoidCollectionWasChanged">Dictionary cache for XML documents to avoid collection-changed exceptions.</param>
+    /// <param name="uriKind">Whether to return absolute or relative paths.</param>
+    /// <returns>Project references found in the csproj.</returns>
     //public async static Task<ProjectReferences> GetProjectReferencesAsync(string csprojPath, UriKind uri = UriKind.Absolute)
     public static
 #if ASYNC
@@ -59,7 +66,7 @@ FS.ExistsFile(csprojPath))
             return new ProjectReferences();
         }
         var nodes = vs.ReturnAllItemGroup(ItemGroups.ProjectReference);
-        var projectReferences = nodes.Select(d => XmlHelper.Attr(d, "Include")).ToList();
+        var projectReferences = nodes.Select(d => XmlHelper.Attr(d, "Include")!).ToList();
         var dr = FS.GetDirectoryName(csprojPath);
         if (uriKind == UriKind.Absolute)
         {
@@ -67,7 +74,7 @@ FS.ExistsFile(csprojPath))
         }
         else if (uriKind == UriKind.Relative)
         {
-            CAChangeContent.ChangeContent(new ChangeContentArgsDC { SwitchFirstAndSecondArg = true }, projectReferences, null, dr, Path.GetRelativePath);
+            CAChangeContent.ChangeContent(new ChangeContentArgsDC { SwitchFirstAndSecondArg = true }, projectReferences, null!, dr, Path.GetRelativePath);
         }
         var pr = new ProjectReferences { Projects = projectReferences, Nodes = nodes };
         if (!cacheProjectReferences.ContainsKey(csprojPath))
@@ -77,6 +84,12 @@ FS.ExistsFile(csprojPath))
         return pr;
     }
     #endregion
+    /// <summary>
+    /// Adds missing files to a csproj as Compile items by comparing with already included files.
+    /// </summary>
+    /// <param name="sln">Solution folder containing the project.</param>
+    /// <param name="csprojpath">Path to the csproj file.</param>
+    /// <param name="files">List of absolute file paths to add.</param>
     public static async Task AddFilesToCsproj(SolutionFolder sln, string csprojpath, List<string> files)
     {
         List<string> containedFiles = new List<string>();
@@ -86,10 +99,10 @@ FS.ExistsFile(csprojPath))
         {
             return;
         }
-        var compile = vs.ReturnAllItemGroup(ItemGroups.Compile).Select(d => XmlHelper.Attr(d, "Include"));
+        var compile = vs.ReturnAllItemGroup(ItemGroups.Compile).Select(d => XmlHelper.Attr(d, "Include")!);
         foreach (var item in compile)
         {
-            containedFiles.Add(FS.GetAbsolutePath(dir, item));
+            containedFiles.Add(FS.GetAbsolutePath(dir, item!));
         }
         foreach (var item in files)
         {

@@ -38,7 +38,7 @@ public partial class MoveToNet5
 #else
     void
 #endif
-    ReplaceOrRemoveFile(Func<string, string> additionalReplacements, string xmlElementName, List<string> referencesToModify, string csprojFilePath, string replacementReference = null)
+    ReplaceOrRemoveFile(Func<string, string>? additionalReplacements, string xmlElementName, List<string> referencesToModify, string csprojFilePath, string? replacementReference = null)
     {
         bool isReplacing = replacementReference != null;
         referenceClosingTag = "</" + xmlElementName + ">";
@@ -99,7 +99,7 @@ public partial class MoveToNet5
             {
                 if (isReplacing)
                 {
-                    var shortestReferenceTag = GetReferenceShortest(xmlElementName, replacementReference);
+                    var shortestReferenceTag = GetReferenceShortest(xmlElementName, replacementReference!);
                     modifiedXmlContent = modifiedXmlContent.Insert(firstReplacementIndex, shortestReferenceTag);
                 }
             }
@@ -123,7 +123,7 @@ public partial class MoveToNet5
 #if ASYNC
             await
 #endif
-            TF.WriteAllLines(backupFilePath, originalFileLines);
+            TF.WriteAllLines(backupFilePath, originalFileLines!);
 #endif
             await XmlDocumentsCache.Set(csprojFilePath, modifiedXmlContent);
 #if ASYNC
@@ -170,10 +170,10 @@ public partial class MoveToNet5
     await
 #endif
                 TF.ReadAllLines(assemblyInfoFile);
-                if (!fileLines.All(line => line.StartsWith(lineCommentPrefix)))
+                if (!fileLines!.All(line => line.StartsWith(lineCommentPrefix)))
                 {
-                    CA.StartingWith(lineCommentPrefix, fileLines);
-                    await TF.WriteAllLines(assemblyInfoFile, fileLines);
+                    CA.StartingWith(lineCommentPrefix, fileLines!);
+                    await TF.WriteAllLines(assemblyInfoFile, fileLines!);
                 }
             }
         }

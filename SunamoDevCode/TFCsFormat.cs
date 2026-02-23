@@ -2,6 +2,9 @@ namespace SunamoDevCode;
 
 using FileMs = File;
 
+/// <summary>
+/// Writes C# files with proper formatting: file-scoped namespace, sorted usings, and trimmed whitespace.
+/// </summary>
 public class TFCsFormat
 {
     private static readonly List<string> classCodeElements = new()
@@ -33,16 +36,31 @@ public class TFCsFormat
         return toFirstCodeElement;
     }
 
+    /// <summary>
+    /// Synchronously writes text to a C# file with proper formatting.
+    /// </summary>
+    /// <param name="filePath">Path to the file.</param>
+    /// <param name="content">Text content to write.</param>
     public static void WriteAllTextSync(string filePath, string content)
     {
         WriteAllText(filePath, content).GetAwaiter().GetResult();
     }
 
+    /// <summary>
+    /// Synchronously writes lines to a C# file with proper formatting.
+    /// </summary>
+    /// <param name="filePath">Path to the file.</param>
+    /// <param name="lines">Lines to write.</param>
     public static void WriteAllLinesSync(string filePath, IEnumerable<string> lines)
     {
         WriteAllLines(filePath, lines).GetAwaiter().GetResult();
     }
 
+    /// <summary>
+    /// Asynchronously writes text to a C# file with proper formatting (file-scoped namespace, sorted usings).
+    /// </summary>
+    /// <param name="filePath">Path to the file.</param>
+    /// <param name="content">Text content to write.</param>
     public static async Task WriteAllText(string filePath, string content)
     {
         if (!filePath.EndsWith(".cs") || filePath.EndsWith("GlobalUsings.cs"))
@@ -55,6 +73,11 @@ public class TFCsFormat
         await WriteAllLines(filePath, lines);
     }
 
+    /// <summary>
+    /// Asynchronously writes lines to a C# file with proper formatting (file-scoped namespace, sorted usings).
+    /// </summary>
+    /// <param name="filePath">Path to the file.</param>
+    /// <param name="lines">Lines to write.</param>
     public static async Task WriteAllLines(string filePath, IEnumerable<string> lines)
     {
         if (!filePath.EndsWith(".cs") || filePath.EndsWith("GlobalUsings.cs"))
@@ -114,6 +137,10 @@ public class TFCsFormat
         await FileMs.WriteAllTextAsync(filePath, SHJoin.JoinNL(usings));
     }
 
+    /// <summary>
+    /// Removes trailing whitespace-only lines from the end of the list.
+    /// </summary>
+    /// <param name="lines">List of lines to trim.</param>
     public static void TrimWhiteSpaceRowFromEnd(List<string> lines)
     {
         for (int i = lines.Count - 1; i >= 0; i--)

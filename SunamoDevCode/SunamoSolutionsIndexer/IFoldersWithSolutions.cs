@@ -13,5 +13,5 @@ public interface IFoldersWithSolutions
     /// <param name="skipThese">Solution names to skip (supports wildcards)</param>
     /// <param name="prioritize">Project type to prioritize in results</param>
     /// <returns>Collection of solution folders</returns>
-    SolutionFolders Solutions(RepositoryLocal repository, bool isLoadingAll = true, IList<string> skipThese = null, ProjectsTypes prioritize = ProjectsTypes.None);
+    SolutionFolders Solutions(RepositoryLocal repository, bool isLoadingAll = true, IList<string>? skipThese = null, ProjectsTypes prioritize = ProjectsTypes.None);
 }

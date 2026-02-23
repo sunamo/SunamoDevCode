@@ -2,10 +2,10 @@ namespace SunamoDevCode.Aps;
 
 internal static partial class AllProjectsSearchSettings
 {
-    static string fileNotTranslate = null;
+    static string? fileNotTranslate = null;
     //
     //static List<string> dontReplaceReferencesIn = null;
-    internal static List<string> DontReplaceReferencesIn { get; set; } = null;
+    internal static List<string>? DontReplaceReferencesIn { get; set; } = null;
     internal static
 #if ASYNC
     async Task<List<string>>
@@ -23,12 +23,12 @@ internal static partial class AllProjectsSearchSettings
 #endif
  TF.ReadAllLines(fn);
             // Inlined from SF.RemoveComments - odstraňuje prázdné řádky a řádky začínající '#'
-            DontReplaceReferencesIn = DontReplaceReferencesIn.Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#")).ToList();
+            DontReplaceReferencesIn = DontReplaceReferencesIn!.Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#")).ToList();
         }
         return DontReplaceReferencesIn;
     }
     internal static string fileFoldersVsTemplate = "";
-    internal static CollectionOnDrive _foldersVsTemplate = null;
+    internal static CollectionOnDrive? _foldersVsTemplate = null;
     internal static async Task<CollectionOnDrive> GetFoldersVsTemplate(ILogger logger, GetFileSettings getFileSettings)
     {
         if (_foldersVsTemplate == null)
@@ -39,7 +39,7 @@ internal static partial class AllProjectsSearchSettings
         }
         return _foldersVsTemplate;
     }
-    internal static CollectionOnDrive _filesNotToTranslate = null;
+    internal static CollectionOnDrive? _filesNotToTranslate = null;
     internal static async Task<CollectionOnDrive> GetFilesNotToTranslate(ILogger logger, GetFileSettings getFileSettings)
     {
         if (_filesNotToTranslate == null)
@@ -52,7 +52,7 @@ internal static partial class AllProjectsSearchSettings
     }
     #region webProjects
     internal static string fileWebProjects = "";
-    internal static CollectionOnDrive _webProjects = null;
+    internal static CollectionOnDrive? _webProjects = null;
     internal static async Task<CollectionOnDrive> GetWebProjects(ILogger logger, GetFileSettings getFileSettings)
     {
         if (_webProjects == null)
@@ -66,7 +66,7 @@ internal static partial class AllProjectsSearchSettings
     #endregion
     #region webProjects
     internal static string fileAddWpfProjectsToSln = "";
-    internal static CollectionOnDrive _addWpfProjectsToSln = null;
+    internal static CollectionOnDrive? _addWpfProjectsToSln = null;
     internal static async Task<CollectionOnDrive> GetAddWpfProjectsToSln(ILogger logger, GetFileSettings getFileSettings)
     {
         if (_addWpfProjectsToSln == null)
@@ -78,7 +78,7 @@ internal static partial class AllProjectsSearchSettings
         return _addWpfProjectsToSln;
     }
     #endregion
-    static Dictionary<string, Regex> _webProjectsWildCard = null;
+    static Dictionary<string, Regex>? _webProjectsWildCard = null;
     internal static async Task<Dictionary<string, Regex>> GetWebProjectsWildCard(ILogger logger, GetFileSettings getFileSettings)
     {
         if (_webProjectsWildCard == null)

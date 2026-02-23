@@ -8,6 +8,11 @@ namespace SunamoDevCode.Helpers;
 /// </summary>
 public class RemoveCommentsHelper
 {
+    /// <summary>
+    /// Removes PowerShell comment lines (starting with #) from the given text.
+    /// </summary>
+    /// <param name="text">PowerShell script content to process.</param>
+    /// <returns>Text with comment lines removed.</returns>
     public static string Powershell(string text)
     {
         var list = SHGetLines.GetLines(text);

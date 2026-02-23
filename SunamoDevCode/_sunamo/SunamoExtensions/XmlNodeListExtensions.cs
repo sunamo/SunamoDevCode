@@ -14,7 +14,7 @@ internal static class XmlNodeListExtensions
         foreach (XmlNode item in nodeList)
             if (item.Name == nodeName)
                 return item;
-        return null;
+        return null!;
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ internal class CAChangeContent
         {
             if (args.RemoveNull)
             {
-                list.Remove(null);
+                list.Remove(null!);
             }
             if (args.RemoveEmpty)
             {
@@ -92,7 +92,7 @@ internal class CAChangeContent
     /// <param name="argument">Argument to pass to function</param>
     /// <param name="funcSwitch12">Function with switched argument order (optional)</param>
     /// <returns>Modified list</returns>
-    internal static List<string> ChangeContent<Arg1>(ChangeContentArgsDC args, List<string> list, Func<string, Arg1, string> func, Arg1 argument, Func<Arg1, string, string> funcSwitch12 = null)
+    internal static List<string> ChangeContent<Arg1>(ChangeContentArgsDC args, List<string> list, Func<string, Arg1, string> func, Arg1 argument, Func<Arg1, string, string>? funcSwitch12 = null)
     {
         if (args == null)
         {
@@ -100,7 +100,7 @@ internal class CAChangeContent
         }
         if (args.SwitchFirstAndSecondArg)
         {
-            list = ChangeContentSwitch12<Arg1>(list, funcSwitch12, argument);
+            list = ChangeContentSwitch12<Arg1>(list, funcSwitch12!, argument);
         }
         else
         {

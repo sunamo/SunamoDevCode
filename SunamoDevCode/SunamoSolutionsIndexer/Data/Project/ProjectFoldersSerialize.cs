@@ -23,13 +23,13 @@ public class ProjectFoldersSerialize
 
         foreach (var item in projectNamesToFind)
         {
-            ProjectFolderSerialize projectFolder = Projects.Find(project => project.NameProject == item);
+            ProjectFolderSerialize? projectFolder = Projects.Find(project => project.NameProject == item);
 
             if (projectFolder == null)
             {
                 if (!isAllowingMissing)
                 {
-                    result.Exc = Exceptions.ElementCantBeFound("", "projectNamesToFind", item);
+                    result.Exc = Exceptions.ElementCantBeFound("", "projectNamesToFind", item)!;
                 }
             }
             else

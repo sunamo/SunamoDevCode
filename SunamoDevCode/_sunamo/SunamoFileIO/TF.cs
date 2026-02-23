@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoDevCode._sunamo.SunamoFileIO;
 
 // EN: This file is intentionally empty - all code was commented out

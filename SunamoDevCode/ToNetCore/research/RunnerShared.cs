@@ -2,7 +2,10 @@ namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5
 {
-    public static List<string> linesFromDontReplaceReferencesIn = null;
+    /// <summary>
+    /// Cached lines from the "don't replace references in" configuration file.
+    /// </summary>
+    public static List<string>? linesFromDontReplaceReferencesIn = null;
 
     /// <summary>
     /// Dont use XmlDocumentsCache 
@@ -13,6 +16,10 @@ public partial class MoveToNet5
         return ApsHelper.WebAndNonWebProjects(logger, withCsprojs);
     }
 
+    /// <summary>
+    /// Gets web and non-web solution paths separated into two lists.
+    /// </summary>
+    /// <returns>Tuple where Item1 is web solution paths and Item2 is non-web solution paths.</returns>
     public Tuple<List<string>, List<string>> WebAndNonWebSlns()
     {
         List<string> webProjects = new List<string>();

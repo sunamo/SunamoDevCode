@@ -19,7 +19,7 @@ public class ReferenceItemGroup : ItemGroupElement
     /// Relative path from project folder to DLL used as HintPath.
     /// Used later in AddItemGroup2 as HintPath.
     /// </summary>
-    private string relativePathDllToProjectFolderHintPath = null;
+    private string? relativePathDllToProjectFolderHintPath = null;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ReferenceItemGroup"/> class.
@@ -40,8 +40,8 @@ public class ReferenceItemGroup : ItemGroupElement
     /// <param name="xmlElement">XML element containing the reference data.</param>
     public ReferenceItemGroup(string fullPathCsproj, XmlNode xmlElement) : base(fullPathCsproj)
     {
-        Include = XmlHelper.Attr(xmlElement, "Include");
-        if (Include.Contains(","))
+        Include = XmlHelper.Attr(xmlElement, "Include")!;
+        if (Include!.Contains(","))
         {
             var includeParts = SHSplit.Split(Include, ",");
             CA.Trim(includeParts);
@@ -88,7 +88,7 @@ public class ReferenceItemGroup : ItemGroupElement
         XmlGenerator generator = new XmlGenerator();
         generator.WriteTagWithAttrsCheckNull(VsProjectItemTypes.Reference, "Include", Include);
         generator.TerminateTag(VsProjectItemTypes.Reference);
-        XmlNode node = XH.ReturnXmlNode(generator.ToString());
+        XmlNode node = XH.ReturnXmlNode(generator.ToString()!);
         return node;
     }
 }

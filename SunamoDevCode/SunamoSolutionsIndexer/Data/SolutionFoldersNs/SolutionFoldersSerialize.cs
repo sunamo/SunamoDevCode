@@ -5,6 +5,9 @@ namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFoldersNs;
 /// </summary>
 public class SolutionFoldersSerialize
 {
+    /// <summary>
+    /// List of serializable solution folders.
+    /// </summary>
     public List<SolutionFolderSerialize> SolutionFolders = new List<SolutionFolderSerialize>();
 
     /// <summary>
@@ -38,7 +41,10 @@ public class SolutionFoldersSerialize
         Update();
     }
 
-    public event Action<List<SolutionFolderSerialize>> Updated;
+    /// <summary>
+    /// Event raised when the solution folders collection is updated.
+    /// </summary>
+    public event Action<List<SolutionFolderSerialize>>? Updated;
 
     /// <summary>
     /// Removes all solution folders with specified displayed text
@@ -49,9 +55,12 @@ public class SolutionFoldersSerialize
         SolutionFolders.RemoveAll(folder => folder.DisplayedText == displayedText);
     }
 
+    /// <summary>
+    /// Raises the Updated event with the current solution folders.
+    /// </summary>
     public void Update()
     {
-        Updated(SolutionFolders);
+        Updated?.Invoke(SolutionFolders);
     }
 
     /// <summary>
@@ -69,7 +78,7 @@ public class SolutionFoldersSerialize
 
         foreach (var solutionName in solutionNamesToFind)
         {
-            SolutionFolderSerialize solutionFolder = SolutionFolders.Find(folder =>
+            SolutionFolderSerialize? solutionFolder = SolutionFolders.Find(folder =>
             {
                 if (folder.NameSolution == solutionName)
                 {
@@ -82,7 +91,7 @@ public class SolutionFoldersSerialize
             {
                 if (!isMissingAllowed)
                 {
-                    result.Exc = Exceptions.ElementCantBeFound("", "solutionNamesToFind", solutionName);
+                    result.Exc = Exceptions.ElementCantBeFound("", "solutionNamesToFind", solutionName)!;
                 }
             }
             else

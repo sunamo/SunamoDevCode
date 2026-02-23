@@ -1,16 +1,17 @@
 namespace SunamoDevCode.SunamoSolutionsIndexer;
 
+/// <summary>
+/// Helper methods for solution indexing, finding, and managing projects within solutions.
+/// </summary>
 public class SolutionsIndexerHelper
 {
     /// <summary>
-    /// Can enter also name of web (apps.sunamo.cz etc.)
+    /// Finds a solution folder by name. Can also accept web names like apps.sunamo.cz.
     /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
-    public static SolutionFolder SolutionWithName(string name)
+    /// <param name="name">Solution name or web address to find.</param>
+    /// <returns>Matching solution folder or null if not found.</returns>
+    public static SolutionFolder? SolutionWithName(string name)
     {
-        IList<SolutionFolder> wpf = null;
-
         if (FoldersWithSolutions.Fwss.Count > 1)
         {
             System.Diagnostics.Debugger.Break();
@@ -96,14 +97,19 @@ public class SolutionsIndexerHelper
         }
     }
 
+    /// <summary>
+    /// Builds a display-friendly solution name by combining parent folder names up to the solutions root.
+    /// </summary>
+    /// <param name="item">Full path to the solution folder.</param>
+    /// <returns>Slash-separated display name for the solution.</returns>
     public static string GetDisplayedSolutionName(string item)
     {
         List<string> tokens = new List<string>();
         tokens.Add(Path.GetFileName(item.TrimEnd('\\')));
         while (true)
         {
-            item = Path.GetDirectoryName(item);
-            if (CA.ContainsElement<string>(FoldersWithSolutions.OnlyRealLoadedSolutionsFolders, item))
+            item = Path.GetDirectoryName(item)!;
+            if (CA.ContainsElement<string>(FoldersWithSolutions.OnlyRealLoadedSolutionsFolders, item!))
             {
                 break;
             }

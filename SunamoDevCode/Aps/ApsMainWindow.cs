@@ -11,13 +11,13 @@ public class ApsMainWindow : IMainWindowCsFileFilter, IAbstractCatalog<string, s
     /// EN: Abstract catalog instance
     /// CZ: Instance abstraktního katalogu
     /// </summary>
-    internal static AbstractCatalog<string, string> AbstractCatalogInstance = null;
+    internal static AbstractCatalog<string, string>? AbstractCatalogInstance = null;
 
     /// <summary>
     /// EN: Gets the abstract catalog
     /// CZ: Získá abstraktní katalog
     /// </summary>
-    internal AbstractCatalog<string, string> ac => AbstractCatalogInstance;
+    internal AbstractCatalog<string, string>? ac => AbstractCatalogInstance;
     #endregion
 
     #region IFoldersWithSolutions
@@ -25,7 +25,7 @@ public class ApsMainWindow : IMainWindowCsFileFilter, IAbstractCatalog<string, s
     /// EN: Folders with solutions instance
     /// CZ: Instance složek se solutions
     /// </summary>
-    public static IFoldersWithSolutions FoldersWithSolutionsInstance = null;
+    public static IFoldersWithSolutions? FoldersWithSolutionsInstance = null;
 
     /// <summary>
     /// EN: Gets folders with solutions list
@@ -52,7 +52,7 @@ public class ApsMainWindow : IMainWindowCsFileFilter, IAbstractCatalog<string, s
     /// EN: Main window APS interface
     /// CZ: Rozhraní hlavního okna APS
     /// </summary>
-    public static IMainWindowAps MainWindowAps = null;
+    public static IMainWindowAps? MainWindowAps = null;
 
     /// <summary>
     /// EN: Gets or sets whether running in command line mode
@@ -65,12 +65,12 @@ public class ApsMainWindow : IMainWindowCsFileFilter, IAbstractCatalog<string, s
     /// EN: C# file filter instance
     /// CZ: Instance filtru C# souborů
     /// </summary>
-    public static CsFileFilter CsFileFilterInstance = null;
+    public static CsFileFilter? CsFileFilterInstance = null;
 
     /// <summary>
     /// EN: Gets or sets the C# file filter
     /// CZ: Získá nebo nastaví filtr C# souborů
     /// </summary>
-    public CsFileFilter CsFileFilter { get => CsFileFilterInstance; set => CsFileFilterInstance = value; }
+    public CsFileFilter CsFileFilter { get => CsFileFilterInstance!; set => CsFileFilterInstance = value; }
     #endregion
 }

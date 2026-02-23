@@ -5,8 +5,6 @@ namespace SunamoDevCode._sunamo.SunamoTextOutputGenerator;
 /// </summary>
 internal class TextOutputGenerator
 {
-    private readonly static string HeaderCharacter = "*";
-
     // EN: During NuGet conversion, I changed this to TextBuilderDC StringBuilder = TextBuilder.Create();
     // but that was probably a mistake, now in _sunamo I have Create() which returns null instead of using ctor
     // so I'm reverting it back.
@@ -96,7 +94,7 @@ internal class TextOutputGenerator
         {
             foreach (var item in items)
             {
-                Append(item.ToString() + delimiter);
+                Append(item!.ToString() + delimiter);
             }
         }
     }

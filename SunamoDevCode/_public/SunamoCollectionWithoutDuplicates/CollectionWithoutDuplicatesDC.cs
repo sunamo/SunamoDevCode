@@ -66,7 +66,7 @@ public class CollectionWithoutDuplicatesDC<T> : CollectionWithoutDuplicatesBaseD
     {
         if (IsComparingByString())
         {
-            ItemString = value.ToString();
+            ItemString = value!.ToString()!;
             return StringRepresentations.Contains(ItemString);
         }
         else
@@ -92,7 +92,7 @@ public class CollectionWithoutDuplicatesDC<T> : CollectionWithoutDuplicatesBaseD
     {
         if (IsComparingByString())
         {
-            return StringRepresentations.IndexOf(value.ToString());
+            return StringRepresentations.IndexOf(value!.ToString()!);
         }
         int index = Collection.IndexOf(value);
         if (index == -1)

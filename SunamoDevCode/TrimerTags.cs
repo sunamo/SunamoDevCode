@@ -1,11 +1,20 @@
 namespace SunamoDevCode;
 
+/// <summary>
+/// Utility for trimming wrapping HTML tags (b, i, u) from text content.
+/// </summary>
 public static class TrimerTags
 {
-    private static List<string> tagsWrapping;
-    private static List<string> tagsWrappingUpper;
+    private static List<string> tagsWrapping = null!;
+    private static List<string> tagsWrappingUpper = null!;
 
-
+    /// <summary>
+    /// Trims the outermost wrapping HTML tag from the given HTML string, recording removed tags.
+    /// </summary>
+    /// <param name="html">HTML text to trim.</param>
+    /// <param name="fromStart">StringBuilder to record the opening tag removed from the start.</param>
+    /// <param name="fromEnd">StringBuilder to record the closing tag removed from the end.</param>
+    /// <returns>HTML with the outermost wrapping tag removed.</returns>
     public static string TrimWrappingTag(string html, StringBuilder fromStart, StringBuilder fromEnd)
     {
         fromStart.Clear();
@@ -25,7 +34,7 @@ public static class TrimerTags
     private static string TrimmingWrappingTags(string html, List<string> tagsWrapping, StringBuilder fromStart,
         StringBuilder fromEnd, ref bool changed)
     {
-        string endingTag = null;
+        string? endingTag = null;
 
         for (var i = 0; i < tagsWrapping.Count; i++)
         {
@@ -50,6 +59,9 @@ public static class TrimerTags
         return html;
     }
 
+    /// <summary>
+    /// Initializes the wrapping tag lists with common formatting tags (i, b, u) in both cases.
+    /// </summary>
     public static void InitTagsWrapping()
     {
         tagsWrapping = new List<string>(["i", "b", "u"]);

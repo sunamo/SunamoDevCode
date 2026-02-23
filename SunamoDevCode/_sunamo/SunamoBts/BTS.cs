@@ -87,7 +87,7 @@ internal class BTS
     /// <returns>String representation of boolean</returns>
     internal static string BoolToString(bool value, bool isLowerCase = false)
     {
-        string result = null;
+        string result = null!;
         if (value)
             result = Yes;
         else

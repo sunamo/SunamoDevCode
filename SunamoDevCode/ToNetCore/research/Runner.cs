@@ -2,6 +2,9 @@ namespace SunamoDevCode.ToNetCore.research;
 
 public partial class MoveToNet5 //: ProgramShared
 {
+    /// <summary>
+    /// Gets the list of all FoldersWithSolutions instances from the static collection.
+    /// </summary>
     public List<FoldersWithSolutions> Fwss => FoldersWithSolutions.Fwss;
 
     #region Helper methods

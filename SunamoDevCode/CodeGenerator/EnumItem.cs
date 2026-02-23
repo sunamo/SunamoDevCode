@@ -13,7 +13,7 @@ public class EnumItem
     /// <summary>
     /// Gets or sets the attributes dictionary for the enum item.
     /// </summary>
-    public Dictionary<string, string> Attributes { get; set; } = null;
+    public Dictionary<string, string>? Attributes { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the name of the enum item.

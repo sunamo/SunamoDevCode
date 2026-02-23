@@ -47,7 +47,7 @@ public class ApsProjsHelper
     {
         if (csprojPath == null)
         {
-            return null;
+            return null!;
         }
         var xmlDocumentResult =
 #if ASYNC
@@ -56,13 +56,13 @@ public class ApsProjsHelper
         XmlDocumentsCache.Get(csprojPath);
         if (MayExcHelper.MayExc(xmlDocumentResult.Exc))
         {
-            return null;
+            return null!;
         }
         var projectReferences =
 #if ASYNC
             await
 #endif
-        VsProjectsFileHelper.GetProjectReferences(csprojPath, null, UriKind.RelativeOrAbsolute);
+        VsProjectsFileHelper.GetProjectReferences(csprojPath, null!, UriKind.RelativeOrAbsolute);
         // When file contains e.g. git characters, GetProjectReferencesAsync
         if (projectReferences.Projects != null)
         {
@@ -84,7 +84,7 @@ public class ApsProjsHelper
                     var node = projectReferences.Nodes[i];
                     XmlNode clonedNode = node.Clone();
                     XmlHelper.SetAttribute(clonedNode, "Include", relativePath);
-                    node.ParentNode.ReplaceChild(clonedNode, node);
+                    node.ParentNode!.ReplaceChild(clonedNode, node);
                 }
             }
             await XmlDocumentsCache.Set(csprojPath, xmlDocumentResult.Data);
@@ -124,11 +124,12 @@ public class ApsProjsHelper
 #endif
  SaveEmptyFullNetProject(string csprojPath, string projectName, string projectsBasePath)
     {
-        string content = SHFormat.Format4(
+        var templateContent =
 #if ASYNC
     await
 #endif
- TF.ReadAllText(Path.Combine(projectsBasePath, @"SunamoDevCode\Templates\FullNet.xml")), projectName);
+ TF.ReadAllText(Path.Combine(projectsBasePath, @"SunamoDevCode\Templates\FullNet.xml"));
+        string content = SHFormat.Format4(templateContent!, projectName);
 #if ASYNC
         await
 #endif

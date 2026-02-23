@@ -5,7 +5,7 @@ namespace SunamoDevCode.SunamoSolutionsIndexer.Data.SolutionFoldersNs;
 /// </summary>
 public class SolutionFolders : List<SolutionFolder>
 {
-    private Dictionary<string, SolutionFolder> index = null;
+    private Dictionary<string, SolutionFolder>? index = null;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SolutionFolders"/> class.
@@ -22,7 +22,7 @@ public class SolutionFolders : List<SolutionFolder>
     /// <returns>Solution folder with the specified name.</returns>
     public SolutionFolder this[string solutionName]
     {
-        get => index[solutionName];
+        get => index![solutionName];
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class SolutionFolders : List<SolutionFolder>
     /// Checks if all solution names are unique and throws exception if duplicates are found.
     /// </summary>
     /// <param name="names">Optional list of names to check. If null, uses solution names from this collection.</param>
-    public void IsAllNamesUnique(IList<string> names = null)
+    public void IsAllNamesUnique(IList<string>? names = null)
     {
         if (names == null)
         {

@@ -8,7 +8,7 @@ public class TransUnit
     /// <summary>
     /// Gets or sets the unique identifier for this translation unit.
     /// </summary>
-    public string Id { get; set; }
+    public string Id { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets a value indicating whether this unit should be translated.
@@ -18,9 +18,9 @@ public class TransUnit
     /// <summary>
     /// Gets or sets the xml:space attribute value (typically "preserve").
     /// </summary>
-    public string XmlSpace { get; set; }
+    public string XmlSpace { get; set; } = null!;
 
-    private string _source;
+    private string _source = null!;
 
     /// <summary>
     /// Gets or sets the source text (original language).
@@ -40,11 +40,11 @@ public class TransUnit
                 value = HtmlAssistant.TrimInnerHtml(value);
                 value = HtmlDocument.HtmlEncode(value);
             }
-            _source = value;
+            _source = value!;
         }
     }
 
-    private string _target;
+    private string _target = null!;
 
     /// <summary>
     /// Gets or sets the target text (translated language).

@@ -10,7 +10,7 @@ public class AsyncLoadingBaseDC<T, ProgressBar>
     /// <summary>
     /// Gets or sets the progress bar instance for displaying load progress.
     /// </summary>
-    public ProgressBar ProgressBarInstance { get; set; }
+    public ProgressBar ProgressBarInstance { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the count of processed items.
@@ -20,5 +20,5 @@ public class AsyncLoadingBaseDC<T, ProgressBar>
     /// <summary>
     /// Gets or sets the action to execute after load operation completes.
     /// </summary>
-    public Action<T> StatusAfterLoad { get; set; }
+    public Action<T> StatusAfterLoad { get; set; } = null!;
 }

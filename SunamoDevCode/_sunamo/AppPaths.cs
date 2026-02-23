@@ -11,7 +11,7 @@ internal class AppPaths
     /// <returns>Directory path where the application started</returns>
     internal static string GetStartupPath()
     {
-        return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+        return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule!.FileName)!;
     }
 
     /// <summary>

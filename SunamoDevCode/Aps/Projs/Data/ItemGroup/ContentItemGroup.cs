@@ -21,6 +21,6 @@ public class ContentItemGroup : ItemGroupElement
     /// <returns>The XML node representing the content item group, or null if not implemented.</returns>
     public override XmlNode ToXml(XmlDocument xmlDocument)
     {
-        return null;
+        return null!;
     }
 }

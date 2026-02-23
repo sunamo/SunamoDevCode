@@ -8,12 +8,12 @@ public abstract class CollectionWithoutDuplicatesBaseDC<T>
     /// <summary>
     /// Gets or sets the internal collection
     /// </summary>
-    public List<T> Collection { get; set; } = null;
+    public List<T> Collection { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the string representations for comparison
     /// </summary>
-    public List<string> StringRepresentations { get; set; } = null;
+    public List<string> StringRepresentations { get; set; } = null!;
 
     private bool? _allowNull = false;
 
@@ -115,7 +115,7 @@ public abstract class CollectionWithoutDuplicatesBaseDC<T>
     /// <summary>
     /// Gets or sets the string representation of the current item
     /// </summary>
-    protected string ItemString { get; set; } = null;
+    protected string ItemString { get; set; } = null!;
 
     /// <summary>
     /// Checks if the collection contains the specified value

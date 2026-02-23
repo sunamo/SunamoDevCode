@@ -2,10 +2,19 @@ namespace SunamoDevCode.Data;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+/// <summary>
+/// Represents the collection of csproj files and their folder paths within a solution.
+/// </summary>
 public class CsprojsInSolution
 {
-    public List<string> CsprojFolderPaths { get; set; }
-    public List<string> CsprojPaths { get; set; }
+    /// <summary>
+    /// List of folder paths containing csproj files.
+    /// </summary>
+    public List<string> CsprojFolderPaths { get; set; } = null!;
+    /// <summary>
+    /// List of full csproj file paths.
+    /// </summary>
+    public List<string> CsprojPaths { get; set; } = null!;
 
     /// <summary>
     /// Converts the csproj folder paths and csproj paths to a dictionary.

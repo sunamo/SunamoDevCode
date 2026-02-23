@@ -10,7 +10,7 @@ internal partial class AllLists
         {
             InitHtmlEntitiesDict();
             htmlEntitiesFullNames = /*htmlEntitiesFullNames2;*/ new Dictionary<string, string>();
-            foreach (var item in htmlEntitiesDict)
+            foreach (var item in htmlEntitiesDict!)
             {
                 if (!htmlEntitiesFullNames.ContainsKey(item.Value))
                 {
@@ -26,7 +26,7 @@ internal partial class AllLists
     internal static List<string> rightBracketsS = CAGConsts.ToList(")", "}", "]");
     internal static List<string> featUpper = new List<string>(["Feat.", "Featuring", "Ft."]);
     internal static List<string> featLower = new List<string>(["feat.", "featuring", "ft."]);
-    internal static List<string> OstravaCityParts = null;
+    internal static List<string>? OstravaCityParts = null;
     internal static List<string> HtmlNonPairTags = new List<string>(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]);
     internal static List<string> PairingTagsDontWrapToParagraph = new List<string>(["h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li"]);
     /// <summary>
@@ -40,7 +40,7 @@ internal partial class AllLists
     /// <summary>
     /// parsed with WikipediaHelper.HtmlEntitiesList
     /// </summary>
-    internal static List<string> htmlEntities = null;
+    internal static List<string>? htmlEntities = null;
     internal static readonly List<string> BasicImageExtensions = new List<string>([".png", ".bmp", ".jpg", ".jpeg" /*AllExtensions.png,
     AllExtensions.bmp,
     AllExtensions.jpg,

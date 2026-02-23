@@ -15,13 +15,13 @@ internal class FSGetFiles
         }
     }
 
-    internal static List<string> GetFiles(ILogger logger, string folder, string mask, bool isRecursive, GetFilesArgsDC getFilesArgs = null)
+    internal static List<string> GetFiles(ILogger logger, string folder, string mask, bool isRecursive, GetFilesArgsDC? getFilesArgs = null)
     {
         return GetFiles(logger, folder, mask, isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly, getFilesArgs);
     }
 
 #pragma warning disable
-    internal static List<string> GetFiles(ILogger logger, string folder, string mask, SearchOption searchOption, GetFilesArgsDC getFilesArgs = null)
+    internal static List<string> GetFiles(ILogger logger, string folder, string mask, SearchOption searchOption, GetFilesArgsDC? getFilesArgs = null)
 #pragma warning restore
     {
         if (getFilesArgs != null)

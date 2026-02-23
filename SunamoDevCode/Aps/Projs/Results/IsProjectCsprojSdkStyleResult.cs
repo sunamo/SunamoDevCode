@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.Aps.Projs.Results;
 
 /// <summary>
@@ -14,7 +13,7 @@ public class IsProjectCsprojSdkStyleResult
     /// <summary>
     /// Gets or sets the content of the csproj file.
     /// </summary>
-    public string Content { get; set; }
+    public string Content { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets a value indicating whether the project targets .NET Standard.

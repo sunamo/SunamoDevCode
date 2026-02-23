@@ -1,5 +1,8 @@
 namespace SunamoDevCode;
 
+/// <summary>
+/// Abstract base class for code generators providing common indentation, braces, and string building functionality.
+/// </summary>
 public abstract class GeneratorCodeAbstract
 {
     /// <summary>
@@ -7,14 +10,28 @@ public abstract class GeneratorCodeAbstract
     /// </summary>
     protected string Final = "";
 
+    /// <summary>
+    /// String builder used for assembling the generated code output.
+    /// </summary>
     protected InstantSB sb = new(" ");
+    /// <summary>
+    /// XML documentation helper for generating doc comments in code output.
+    /// </summary>
     public XmlDoc xmlDoc;
 
+    /// <summary>
+    /// Initializes the code generator with a space-delimited InstantSB and XmlDoc helper.
+    /// </summary>
     public GeneratorCodeAbstract()
     {
         xmlDoc = new XmlDoc(sb);
     }
 
+    /// <summary>
+    /// Adds indented text as an item to the string builder.
+    /// </summary>
+    /// <param name="tabCount">Number of tabs for indentation.</param>
+    /// <param name="text">Text to add.</param>
     public void AddTab2(int tabCount, string text)
     {
         sb.AddItem(AddTab(tabCount, text));
@@ -47,16 +64,25 @@ public abstract class GeneratorCodeAbstract
         //sb.AppendLine();
     }
 
+    /// <summary>
+    /// Appends an opening parenthesis to the output.
+    /// </summary>
     public void StartParenthesis()
     {
         sb.AddItem("(");
     }
 
+    /// <summary>
+    /// Appends a closing parenthesis to the output.
+    /// </summary>
     public void EndParenthesis()
     {
         sb.AddItem(")");
     }
 
+    /// <summary>
+    /// Appends an empty line to the output.
+    /// </summary>
     public void AppendLine()
     {
         sb.AppendLine();
@@ -104,11 +130,11 @@ public abstract class GeneratorCodeAbstract
     /// <param name="addToHyphens">Whether to add quotes</param>
     public void AssignValue(int tabCount, string objectName, string variableName, object value, bool addToHyphens)
     {
-        string valueString = null;
+        string? valueString = null;
         if (value.GetType() == typeof(bool))
-            valueString = value.ToString().ToLower();
+            valueString = value.ToString()!.ToLower();
         else
-            valueString = value.ToString();
+            valueString = value.ToString()!;
         AssignValue(tabCount, objectName, variableName, valueString, addToHyphens);
     }
 
@@ -124,6 +150,10 @@ public abstract class GeneratorCodeAbstract
         return result;
     }
 
+    /// <summary>
+    /// Appends the specified number of tab characters to the output.
+    /// </summary>
+    /// <param name="tabCount">Number of tabs to add.</param>
     public void AddTab(int tabCount)
     {
         //tabCount += 1;

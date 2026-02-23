@@ -1,5 +1,8 @@
 namespace SunamoDevCode.Services;
 
+/// <summary>
+/// Service for adding or editing file-scoped namespace declarations in C# source files.
+/// </summary>
 public class AddOrEditNamespaceService
 {
     /// <summary>
@@ -18,7 +21,7 @@ public class AddOrEditNamespaceService
         {
             linesFile = (await File.ReadAllLinesAsync(csPath)).ToList();
         }
-        if (CSharpHelper.IsEmptyCommentedOrOnlyWithNamespace(Path.GetFileNameWithoutExtension(csPath), linesFile, null, [null]))
+        if (CSharpHelper.IsEmptyCommentedOrOnlyWithNamespace(Path.GetFileNameWithoutExtension(csPath), linesFile, null!, [null!]))
         {
             return null;
         }
@@ -81,9 +84,9 @@ public class AddOrEditNamespaceService
     /// Pracovní metoda která se už volá na konkrétní soubor
     /// Volána z AddNamespaceByInputFolderName
     /// </summary>
-    /// <param name="item"></param>
-    /// <param name="newNs"></param>
-    /// <returns></returns>
+    /// <param name="lines">File content as list of lines.</param>
+    /// <param name="newNs">Namespace to add if missing.</param>
+    /// <returns>Modified file content with namespace added.</returns>
     private List<string> AddNamespaceIfIsMissingInCs(List<string> lines, string newNs)
     {
         // Tohle jsem tu dal, když jsem byl dement a pracoval jsem v konzoli na neex cestě. Divil jsem se jaktože to v programu jde. Nebylo to tedy debug vs release jak jsem si původně myslel! Opět jsem hledal problém jinde než byl!
@@ -192,12 +195,15 @@ public class AddOrEditNamespaceService
         //await TFCsFormat.WriteAllLines(item, lines);
         return lines;
     }
+    /// <summary>
+    /// Keywords that indicate the start of a type declaration in C# source code.
+    /// </summary>
     public readonly List<string> classCodeElements = new List<string>() { "class ", "interface ", "delegate", "enum ", "struct " };
     /// <summary>
     /// FUnguje to OK, prošel jsem si všechny soubory před commitem
     /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
+    /// <param name="list">File content as list of lines.</param>
+    /// <returns>Modified file content with file-scoped namespace removed when inside #if directive.</returns>
     private async Task<List<string>> RemoveFileScopedNamespaceWhenIsInSharpIf(List<string> list)
     {
         //var list = (await TF.ReadAllLines(item)).ToList();

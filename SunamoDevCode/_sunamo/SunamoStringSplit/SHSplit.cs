@@ -26,7 +26,7 @@ internal class SHSplit
     /// <param name="parts">Required number of parts.</param>
     /// <param name="delimiter">Delimiter to split by.</param>
     /// <returns>List with exact number of parts, or null if insufficient parts.</returns>
-    internal static List<string> SplitToParts(string what, int parts, string delimiter)
+    internal static List<string>? SplitToParts(string what, int parts, string delimiter)
     {
         var text = Split(what.RemoveInvisibleChars(), delimiter);
         if (text.Count < parts)

@@ -5,12 +5,13 @@ namespace SunamoDevCode.FileFormats;
 public static partial class XmlLocalisationInterchangeFileFormat
 {
     /// <summary>
-    /// AndXlfKeys
+    /// Gets trans-unit IDs or targets from XLF file that contain diacritics.
     /// </summary>
-    /// <param name = "fn"></param>
-    /// <param name = "p"></param>
-    /// <param name = "saveToClipboard"></param>
-    public static 
+    /// <param name="fn">Path to the XLF file.</param>
+    /// <param name="p">Which part of the trans-unit to check (Id or Target).</param>
+    /// <param name="saveToClipboard">Reserved for clipboard functionality.</param>
+    /// <returns>List of trans-unit IDs that contain diacritics.</returns>
+    public static
 #if ASYNC
         async Task<List<string>>
 #else
@@ -29,11 +30,11 @@ public static partial class XmlLocalisationInterchangeFileFormat
         {
             foreach (var item in data.TransUnits)
             {
-                string idTransUnit = null;
+                string? idTransUnit = null;
                 GetLastLetter(item, out idTransUnit);
-                if (SH.ContainsDiacritic(idTransUnit))
+                if (SH.ContainsDiacritic(idTransUnit!))
                 {
-                    r.Add(idTransUnit);
+                    r.Add(idTransUnit!);
                 // dont remove, just save ID, coz many strings have diac and is not czech hats tuồng (hats bôi)
                 //item.Remove();
                 //; break;
@@ -45,11 +46,11 @@ public static partial class XmlLocalisationInterchangeFileFormat
             foreach (var item in data.TransUnits)
             {
                 var target = GetTarget(item).Value;
-                string idTransUnit = null;
+                string? idTransUnit = null;
                 GetLastLetter(item, out idTransUnit);
                 if (SH.ContainsDiacritic(target))
                 {
-                    r.Add(idTransUnit);
+                    r.Add(idTransUnit!);
                 // dont remove, just save ID, coz many strings have diac and is not czech hats tuồng (hats bôi)
                 //item.Remove();
                 }
@@ -63,11 +64,17 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return r;
     }
 
-    public static 
+    /// <summary>
+    /// Removes specified trans-units from the XLF file and corresponding constants from XlfKeys.
+    /// </summary>
+    /// <param name="fn">Path to the XLF file.</param>
+    /// <param name="idsEndingEnd">List of IDs or target values to remove.</param>
+    /// <param name="p">Which part to match against (Id or Target).</param>
+    public static
 #if ASYNC
         async Task
 #else
-    void 
+    void
 #endif
     RemoveFromXlfAndXlfKeys(string fn, List<string> idsEndingEnd, XlfParts p)
     {
@@ -83,7 +90,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
             {
                 foreach (var item in data.TransUnits)
                 {
-                    string idTransUnit = null;
+                    string? idTransUnit = null;
                     GetLastLetter(item, out idTransUnit);
                     var id = idsEndingEnd[i];
                     if (id == idTransUnit)
@@ -133,11 +140,15 @@ public static partial class XmlLocalisationInterchangeFileFormat
         data.XmlDocument.Save(fn);
     }
 
-    public static 
+    /// <summary>
+    /// Removes duplicate trans-units from an XLF file, keeping only the first occurrence of each ID.
+    /// </summary>
+    /// <param name="xlfPath">Path to the XLF file to deduplicate.</param>
+    public static
 #if ASYNC
         async Task
 #else
-    void 
+    void
 #endif
     RemoveDuplicatesInXlfFile(string xlfPath)
     {
@@ -194,12 +205,11 @@ public static partial class XmlLocalisationInterchangeFileFormat
     }
 
     /// <summary>
-    /// Into A1 pass XlfResourcesH.PathToXlfSunamo
+    /// Gets all trans-unit IDs from an XLF file along with the parsed XLF data.
     /// </summary>
-    /// <param name = "xlfPath"></param>
-    /// <param name = "d"></param>
-    /// <returns></returns>
-    public static 
+    /// <param name="xlfPath">Path to the XLF file.</param>
+    /// <returns>OutRef containing list of IDs and the parsed XlfData.</returns>
+    public static
 #if ASYNC
         async Task<OutRefDC<List<string>, XlfData>>
 #else
@@ -216,11 +226,15 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return new OutRefDC<List<string>, XlfData>(xlfData.AllIds, xlfData);
     }
 
-    public static 
+    /// <summary>
+    /// Replaces string keys with XLF keys in all C# files under the given path.
+    /// </summary>
+    /// <param name="path">Root directory to scan for C# files.</param>
+    public static
 #if ASYNC
         async Task
 #else
-    void 
+    void
 #endif
     ReplaceStringKeysWithXlfKeys(string path)
     {

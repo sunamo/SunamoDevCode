@@ -1,5 +1,8 @@
 namespace SunamoDevCode;
 
+/// <summary>
+/// Generates C# source code including classes, fields, constructors, regions, and attributes.
+/// </summary>
 public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
 {
     /// <summary>

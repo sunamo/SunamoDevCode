@@ -10,17 +10,17 @@ internal class BasePathsHelper
     /// <summary>
     /// Path to the Visual Studio projects directory.
     /// </summary>
-    internal static string VsProjects = null;
+    internal static string? VsProjects = null;
 
     /// <summary>
     /// Path for the actual platform being used.
     /// </summary>
-    internal static string ActualPlatform;
+    internal static string ActualPlatform = null!;
 
     /// <summary>
     /// Path to the Visual Studio directory.
     /// </summary>
-    internal static string Vs;
+    internal static string Vs = null!;
 
     /// <summary>
     /// Constant path for C:\repos directory.

@@ -1,7 +1,13 @@
 namespace SunamoDevCode.ToNetCore.research;
 
+/// <summary>
+/// Provides methods for migrating .NET Framework projects to .NET 5+ including reference replacement, platform target changes, and cleanup operations.
+/// </summary>
 public partial class MoveToNet5
 {
+    /// <summary>
+    /// Singleton instance of MoveToNet5.
+    /// </summary>
     public static MoveToNet5 Instance { get; } = new MoveToNet5();
     private MoveToNet5()
     {
@@ -33,10 +39,15 @@ public partial class MoveToNet5
         Shared.PlatformTargetTo(replacementPlatformTarget, nonWebProjects);
     }
 
+    /// <summary>
+    /// Type information for the MoveToNet5 class.
+    /// </summary>
     public static Type TypeInfo { get; } = typeof(MoveToNet5);
     /// <summary>
     /// Vyčistí od dočasných souborů z NonWeb
     /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="folderWithTemporaryMovedContentWithoutBackslash">Folder path for temporary content (without trailing backslash).</param>
     public void ClearUnnecessaryFromNonWeb(ILogger logger, string folderWithTemporaryMovedContentWithoutBackslash)
     {
         Console.WriteLine("ClearUnnecessaryFromNonWeb");
@@ -87,20 +98,20 @@ public partial class MoveToNet5
     await
 #endif
                 TF.ReadAllText(csFilePath);
-                string modifiedFileContent = originalFileContent;
+                string modifiedFileContent = originalFileContent!;
                 for (int i = 0; i < linesToComment.Count; i++)
                 {
-                    modifiedFileContent = modifiedFileContent.Replace(linesToComment[i], singleCommentedLines[i]);
+                    modifiedFileContent = modifiedFileContent!.Replace(linesToComment[i], singleCommentedLines[i]);
                 }
 
                 for (int i = 0; i < linesToComment.Count; i++)
                 {
-                    modifiedFileContent = modifiedFileContent.Replace(doubleCommentedLines[i], singleCommentedLines[i]);
+                    modifiedFileContent = modifiedFileContent!.Replace(doubleCommentedLines[i], singleCommentedLines[i]);
                 }
 
                 if (modifiedFileContent != originalFileContent)
                 {
-                    await TF.WriteAllText(csFilePath, modifiedFileContent);
+                    await TF.WriteAllText(csFilePath, modifiedFileContent!);
                 }
             }
         }
@@ -131,20 +142,10 @@ public partial class MoveToNet5
     // System.Device";
     const string refToRemove = @"sunamoPortable
 swf";
-    string nugetPackagesCantRemove = @"System.Net.Http.Extensions
-Microsoft.Threading.Tasks
-Microsoft.Threading.Tasks.Extensions
-Microsoft.Threading.Tasks.Extensions.Desktop
-System.Globalization.Extensions
-System.IO.FileSystem.Primitives
-System.IO.FileSystem
-System.Management.Automation
-System.Net.Http.Primitives
-";
     /// <summary>
     /// odstraní reference z c# které
     /// </summary>
-    /// <param name = "csprojPath"></param>
+    /// <param name="csprojPath">Path to the csproj file to process.</param>
     public async Task ReplaceUnneedReferencesInCsprojs(string csprojPath)
     {
         var referencesToRemove = SHGetLines.GetLines(refToRemove);
@@ -165,7 +166,7 @@ System.Net.Http.Primitives
 #if ASYNC
     await
 #endif
-        TF.ReadAllLines(dontReplaceReferencesInPath)).ToList();
+        TF.ReadAllLines(dontReplaceReferencesInPath))!.ToList();
         foreach (var csprojFilePath in csprojFiles)
         {
             if (!CA.ContainsAnyFromElementBool(csprojFilePath, dontReplaceReferencesIn))

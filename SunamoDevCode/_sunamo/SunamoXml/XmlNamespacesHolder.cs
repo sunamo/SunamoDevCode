@@ -3,7 +3,7 @@ namespace SunamoDevCode._sunamo.SunamoXml;
 internal class XmlNamespacesHolder
 {
     //internal NameTable nt = new NameTable();
-    internal XmlNamespaceManager NamespaceManager = null;
+    internal XmlNamespaceManager NamespaceManager = null!;
 
     /// <summary>
     /// Return XmlDocument but dont use return value
@@ -48,7 +48,7 @@ internal class XmlNamespacesHolder
                 continue;
             }
             var root = item;
-            for (int i = root.Attributes.Count - 1; i >= 0; i--)
+            for (int i = root.Attributes!.Count - 1; i >= 0; i--)
             {
                 var att = root.Attributes[i];
                 //

@@ -18,8 +18,8 @@ public partial class VsProjectsFileHelper
         xmlDocument.LoadXml(content);
         namespaceManager = new XmlNamespaceManager(xmlDocument.NameTable);
         string wanted = itemGroups.ToString();
-        itemGroup = xmlDocument.SelectSingleNode("//Project/ItemGroup", namespaceManager);
-        parent = null;
-        project = xmlDocument.SelectSingleNode("//Project", namespaceManager);
+        itemGroup = xmlDocument.SelectSingleNode("//Project/ItemGroup", namespaceManager)!;
+        parent = null!;
+        project = xmlDocument.SelectSingleNode("//Project", namespaceManager)!;
     }
 }

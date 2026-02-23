@@ -2,10 +2,10 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>26.2.7.4</Version>
+    <Version>26.2.23.5</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with
       SunamoCode and SunamoCSharp.</Description>
-    <PackageReleaseNotes>feat: add slnx and slnj solution format support</PackageReleaseNotes>
+    <PackageReleaseNotes>feat: fixing variables names</PackageReleaseNotes>
     <Authors>www.sunamo.cz</Authors>
     <Copyright>www.sunamo.cz</Copyright>
     <PackageProjectUrl>https://sunamo.cz/</PackageProjectUrl>
@@ -23,7 +23,7 @@
     <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup>
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>

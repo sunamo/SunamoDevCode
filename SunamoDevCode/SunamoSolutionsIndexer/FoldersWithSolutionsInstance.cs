@@ -1,3 +1,4 @@
+// variables names: ok
 //namespace SunamoDevCode.SunamoSolutionsIndexer;
 //using Microsoft.Extensions.Logging;
 

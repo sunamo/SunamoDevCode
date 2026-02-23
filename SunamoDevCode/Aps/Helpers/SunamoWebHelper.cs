@@ -1,7 +1,16 @@
 namespace SunamoDevCode.Aps.Helpers;
 
+/// <summary>
+/// Provides helper methods for working with Sunamo web projects.
+/// </summary>
 public class SunamoWebHelper
 {
+    /// <summary>
+    /// Gets a list of all Sunamo web project csproj paths from the solution folders.
+    /// </summary>
+    /// <param name="logger">Logger instance for logging operations.</param>
+    /// <param name="getFileSettings">Settings for file retrieval.</param>
+    /// <returns>List of csproj file paths that are web projects.</returns>
     public static async Task<List<string>> ListOfSunamoWebProjects(ILogger logger, GetFileSettings getFileSettings)
     {
         List<string> csprojs = new List<string>();

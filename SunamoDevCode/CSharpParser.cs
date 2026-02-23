@@ -31,7 +31,7 @@ public class CSharpParser
 #endif
         RemoveConsts(string file, List<string> remove)
     {
-        remove.Insert(0, null);
+        remove.Insert(0, null!);
 
         // EN: Inlined from CAIndexesWithNull.IndexesWithNull - gets indexes of null values in collection
         // CZ: Inlined from CAIndexesWithNull.IndexesWithNull - získává indexy null hodnot v kolekci

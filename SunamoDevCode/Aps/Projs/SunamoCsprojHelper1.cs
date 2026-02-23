@@ -4,6 +4,9 @@ namespace SunamoDevCode.Aps.Projs;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public partial class SunamoCsprojHelper
 {
+    /// <summary>
+    /// Type information for the SunamoCsprojHelper class.
+    /// </summary>
     public static Type type = typeof(SunamoCsprojHelper);
     /// <summary>
     /// Must be async

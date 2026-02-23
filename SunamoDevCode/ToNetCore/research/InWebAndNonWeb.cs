@@ -3,10 +3,11 @@ namespace SunamoDevCode.ToNetCore.research;
 public partial class MoveToNet5
 {
     /// <summary>
-    /// Nesmírně užitečné, zjistí mi projekty které užívám jak ve web tak non web
-    /// Čili když něco bude i ve web musím mu nechat netstandard
+    /// Compares web and non-web projects to find which ones exist in both categories.
+    /// Projects used in both need to stay on netstandard.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="logger">Logger instance.</param>
+    /// <returns>Always returns false (incomplete implementation).</returns>
     public bool TableWebAndNonWeb(ILogger logger)
     {
         var value = WebAndNonWebProjects(logger);
@@ -41,11 +42,15 @@ public partial class MoveToNet5
         return false;
     }
 
+    /// <summary>
+    /// Restores files from their .old backup copies.
+    /// </summary>
+    /// <param name="filePaths">List of file paths to restore from backup.</param>
     public
 #if ASYNC
     async Task
 #else
-    void  
+    void
 #endif
  RestoreFromBackup(List<string> filePaths)
     {
@@ -63,6 +68,11 @@ public partial class MoveToNet5
         }
     }
 
+    /// <summary>
+    /// Gets a formatted list of all web and non-web projects.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <returns>Text output with web and non-web project lists.</returns>
     public string ListOfAllWebAndNonWeb(ILogger logger)
     {
         var projectsData = WebAndNonWebProjects(logger, false);
@@ -73,11 +83,17 @@ public partial class MoveToNet5
         return tog.ToString();
     }
 
+    /// <summary>
+    /// Replaces unnecessary references in csproj files that are not SDK style and generates try-convert commands.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="isWeb">If true, processes web projects; otherwise non-web projects.</param>
+    /// <returns>Generated try-convert commands for each processed project.</returns>
     public
 #if ASYNC
     async Task<string>
 #else
-    void  
+    void
 #endif
  ReplaceUnneedReferencesInCsprojsNotSdKStyle(ILogger logger, bool isWeb = true)
     {
@@ -100,17 +116,27 @@ public partial class MoveToNet5
         return result;
     }
 
+    /// <summary>
+    /// Generates a try-convert CLI command for converting a csproj to .NET 5.
+    /// </summary>
+    /// <param name="csprojPath">Path to the csproj file to convert.</param>
+    /// <returns>try-convert command string.</returns>
     public string GenerateTryConvert(string csprojPath)
     {
         // poslední verze try-convert je 0.9.232202 a ta funguje na .NET 5. Proto musím přidávat ty 2 parametry
         return @"try-convert  --target-framework net5.0 -m 'C:\Program Files\dotnet\sdk\5.0.100\' -w '" + csprojPath + "'";
     }
 
+    /// <summary>
+    /// Gets all unique TargetFramework values across non-web projects and lists projects with multiple TargetFramework elements.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <returns>Text output with target frameworks grouped by value and list of multi-framework projects.</returns>
     public
 #if ASYNC
     async Task<string>
 #else
-    void  
+    void
 #endif
  GetAllTargetFrameworks(ILogger logger)
     {
@@ -128,14 +154,14 @@ public partial class MoveToNet5
 #endif
  TF.ReadAllText(item);
 
-            var text = SH.GetTextBetweenSimple(count, ChangeProjects.start, ChangeProjects.end, false);
+            var text = SH.GetTextBetweenSimple(count!, ChangeProjects.start, ChangeProjects.end, false);
 
             if (text != null)
             {
                 DictionaryHelper.AddOrCreate(ls, text, item);
             }
 
-            if (SH.OccurencesOfStringIn(count, ChangeProjects.start) > 1)
+            if (SH.OccurencesOfStringIn(count!, ChangeProjects.start) > 1)
             {
                 hasMoreTargetFrameworkElements.Add(item);
             }

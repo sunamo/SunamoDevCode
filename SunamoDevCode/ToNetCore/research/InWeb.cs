@@ -13,11 +13,16 @@ public partial class MoveToNet5
     ///
     /// A1 can be x86,x64.AnyCPU
     /// </summary>
-    public 
+    /// <summary>
+    /// Changes the PlatformTarget for all web projects.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="replaceFor">Target platform value to set (x86, x64, AnyCPU).</param>
+    public
 #if ASYNC
     async Task
 #else
-    void 
+    void
 #endif
     PlatformTargetToWeb(ILogger logger, string replaceFor)
     {
@@ -35,11 +40,15 @@ public partial class MoveToNet5
     // System.Web.Services
     // System.Data";
     const string neededWebReferences = "";
-    public 
+    /// <summary>
+    /// Adds essential web references (System.Web, etc.) to all web projects that are missing them.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    public
 #if ASYNC
     async Task
 #else
-    void 
+    void
 #endif
     AddEssentialWebReferencesToAllWebProjects(ILogger logger)
     {
@@ -65,7 +74,7 @@ public partial class MoveToNet5
         {
             foreach (var item2 in l2)
             {
-                var rig = new ReferenceItemGroup(item2, item, null);
+                var rig = new ReferenceItemGroup(item2, item, null!);
                 // Toto tu muselo být zřejmě kvůli užívání AddItemGroupNoSdkStyle. Teď mi to dělá problémy protože .dll tam nepatří
                 await VsProjectsFileHelper.AddItemGroupSdkStyle(item, ItemGroups.Reference, rig, true);
             }
@@ -83,17 +92,21 @@ public partial class MoveToNet5
                 {
                 }
 #endif
-                var rig = new ReferenceItemGroup(item2, item, null);
+                var rig = new ReferenceItemGroup(item2, item, null!);
                 await VsProjectsFileHelper.AddItemGroupSdkStyle(item, ItemGroups.Reference, rig, true);
             }
         }
     }
 
-    public 
+    /// <summary>
+    /// Changes all SDK-style web projects to target netstandard2.0.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    public
 #if ASYNC
     async Task
 #else
-    void 
+    void
 #endif
     ChangeProjectsToNetStandard(ILogger logger)
     {
@@ -105,11 +118,16 @@ public partial class MoveToNet5
         await ChangeProjects.ChangeProjectsTo(ChangeProjects.netstandard20, list.CsprojSdkStyleList);
     }
 
-    public 
+    /// <summary>
+    /// Finds backup files for web projects that are not SDK-style and categorizes them.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <returns>Report of backup status for each project.</returns>
+    public
 #if ASYNC
     async Task<string>
 #else
-    void 
+    void
 #endif
     WebProjectsWhichIsNotSdkStyleFindTheirBackup(ILogger logger)
     {
@@ -149,11 +167,16 @@ public partial class MoveToNet5
         return tog.ToString();
     }
 
-    public 
+    /// <summary>
+    /// Detects the .NET framework version for all web projects and groups them by version.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <returns>Report grouped by framework version.</returns>
+    public
 #if ASYNC
     async Task<string>
 #else
-    void 
+    void
 #endif
     DetectFrameworkForWebProjectsOnlySupported(ILogger logger)
     {
@@ -190,6 +213,10 @@ public partial class MoveToNet5
         return tog.ToString();
     }
 
+    /// <summary>
+    /// Converts all web projects targeting netstandard2.0 to target net4.8.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
     public async Task ConvertAlLWebNetStandardProjectsToNet48(ILogger logger)
     {
         var temp = WebAndNonWebProjects(logger);
@@ -199,6 +226,11 @@ public partial class MoveToNet5
         }
     }
 
+    /// <summary>
+    /// Lists web projects whose csproj files do not end with .web.csproj.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <returns>List of non-standard web project paths.</returns>
     public string WebProjectsWhichNotEndWithDotEnd(ILogger logger)
     {
         var temp = WebAndNonWebProjects(logger, true);
@@ -219,8 +251,9 @@ public partial class MoveToNet5
     /// 1 = sdk style, not netstandard2.0
     /// 2 = sdk style, netstandard2.0
     /// </summary>
-    /// <param name = "appendHeader"></param>
-    /// <returns></returns>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="appendHeader">Whether to append a header line to the output.</param>
+    /// <returns>Tuple of (SDK-style web projects, netstandard web projects) with version info.</returns>
     public 
 #if ASYNC
     async Task<Tuple<List<TWithStringDC<string>>, List<TWithStringDC<string>>>>
@@ -238,7 +271,7 @@ public partial class MoveToNet5
 
         bool netstandard = false;
         var temp = WebAndNonWebProjects(logger);
-        Tuple<bool, string> t3 = null;
+        Tuple<bool, string>? t3 = null;
         foreach (var item2 in temp.Item1)
         {
             t3 = 
@@ -265,11 +298,18 @@ public partial class MoveToNet5
         return new Tuple<List<TWithStringDC<string>>, List<TWithStringDC<string>>>(list, l2);
     }
 
-    public 
+    /// <summary>
+    /// Finds all SDK-style projects and returns a formatted list report.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="appendHeaderForWeb">Whether to append a header for web projects.</param>
+    /// <param name="web">Whether to include web projects.</param>
+    /// <returns>Formatted text report of SDK-style projects.</returns>
+    public
 #if ASYNC
     async Task<string>
 #else
-    void 
+    void
 #endif
     FindProjectsWhichIsSdkStyleList(ILogger logger, bool appendHeaderForWeb, bool web = true)
     {

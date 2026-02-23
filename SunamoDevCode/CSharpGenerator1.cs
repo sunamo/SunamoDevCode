@@ -81,7 +81,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         {
             if (shortGet)
                 throw new Exception("Can't be set shortGet and getImplementation in one time");
-            var getterCode = getImplementation.ToString();
+            var getterCode = getImplementation!.ToString();
             AddTab(tabCount + 1);
             sb.AddItem("get");
             StartBrace(tabCount + 1);
@@ -89,7 +89,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
             if (getterCode == true.ToString())
                 sb.AddItem("return " + field + ";");
             else
-                sb.AddItem(getterCode);
+                sb.AddItem(getterCode!);
             sb.AppendLine();
             EndBrace(tabCount + 1);
         }
@@ -103,11 +103,11 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
             sb.AddItem("set");
             StartBrace(tabCount + 1);
             AddTab(tabCount + 2);
-            var setterCode = setImplementation.ToString();
+            var setterCode = setImplementation!.ToString();
             if (setterCode == true.ToString())
                 sb.AddItem(field + " = value;");
             else
-                sb.AddItem(setterCode);
+                sb.AddItem(setterCode!);
             sb.AppendLine();
             EndBrace(tabCount + 1);
         }

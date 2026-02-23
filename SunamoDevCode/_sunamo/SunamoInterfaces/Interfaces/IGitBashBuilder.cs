@@ -1,6 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoInterfaces.Interfaces;
 
-
 internal interface IGitBashBuilder
 {
     List<string> Commands { get; }

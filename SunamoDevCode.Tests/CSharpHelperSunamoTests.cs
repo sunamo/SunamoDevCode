@@ -1,10 +1,17 @@
+// variables names: ok
 namespace SunamoDevCode.Tests;
 
 using SunamoStringGetLines;
 using SunamoString;
 
+/// <summary>
+/// Tests for CSharpHelper Sunamo string indentation functionality.
+/// </summary>
 public class CSharpHelperSunamoTests
 {
+    /// <summary>
+    /// Tests that IndentAsPreviousLine correctly aligns code lines to match the indentation of the previous line.
+    /// </summary>
     [Fact]
     public void IndentAsPreviousLineTest()
     {

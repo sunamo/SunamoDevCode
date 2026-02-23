@@ -10,7 +10,7 @@ internal class EmbeddedResourcesH
     /// <summary>
     /// Singleton instance for entry assembly
     /// </summary>
-    internal static EmbeddedResourcesH Instance = null;
+    internal static EmbeddedResourcesH? Instance = null;
 
     /// <summary>
     /// Protected constructor for inheritance
@@ -32,8 +32,8 @@ internal class EmbeddedResourcesH
         _defaultNamespace = defaultNamespace;
     }
 
-    protected Assembly _entryAssembly = null;
-    protected string _defaultNamespace;
+    protected Assembly? _entryAssembly = null;
+    protected string _defaultNamespace = null!;
 
     /// <summary>
     /// Gets the entry assembly
@@ -44,7 +44,7 @@ internal class EmbeddedResourcesH
         {
             if (_entryAssembly == null)
             {
-                _entryAssembly = Assembly.GetEntryAssembly();
+                _entryAssembly = Assembly.GetEntryAssembly()!;
             }
             return _entryAssembly;
         }

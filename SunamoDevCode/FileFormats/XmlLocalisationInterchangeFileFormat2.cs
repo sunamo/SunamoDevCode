@@ -2,13 +2,16 @@ namespace SunamoDevCode.FileFormats;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+/// <summary>
+/// Provides methods for working with XLIFF (XML Localisation Interchange File Format) files used in Sunamo projects.
+/// </summary>
 public static partial class XmlLocalisationInterchangeFileFormat
 {
     private static List<string> __xlfSolutions = new List<string>();
     private static Dictionary<string, string> __unallowedEnds = new Dictionary<string, string>();
 
     /// <summary>
-    /// Copies keys that end with underscore, replacing HTML entities.
+    /// Copies XLF keys that are trailed with underscore, cleaning up HTML entity suffixes.
     /// </summary>
     public static void CopyKeysTrailedWith_()
     {
@@ -91,7 +94,7 @@ TranslateEngine");
     /// <returns>Last character or null if target is empty.</returns>
     public static char? GetLastLetter(XElement item)
     {
-        string id = null;
+        string? id = null;
         return GetLastLetter(item, out id);
     }
 
@@ -108,7 +111,7 @@ TranslateEngine");
     /// <param name="item">Trans-unit XML element.</param>
     /// <param name="id">Output parameter for the trans-unit ID.</param>
     /// <returns>Last character or null if target is empty.</returns>
-    public static char? GetLastLetter(XElement item, out string id)
+    public static char? GetLastLetter(XElement item, out string? id)
     {
         var transUnit = GetTransUnit(item);
         id = transUnit.Item1;
@@ -127,20 +130,19 @@ TranslateEngine");
     /// <returns>Target XML element.</returns>
     public static XElement GetTarget(XElement item)
     {
-        return XHelper.GetElementOfName(item, "target");
+        return XHelper.GetElementOfName(item, "target")!;
     }
 
     /// <summary>
-    /// 0 - Source
-    /// 1 - Target
+    /// Gets the source and target XML elements from a trans-unit. Item1 is source, Item2 is target.
     /// </summary>
-    /// <param name = "item"></param>
-    /// <returns></returns>
+    /// <param name="item">Trans-unit XML element.</param>
+    /// <returns>Tuple of source (Item1) and target (Item2) elements.</returns>
     static Tuple<XElement, XElement> SourceTarget(XElement item)
     {
-        XElement source = XHelper.GetElementOfName(item, "source");
-        XElement target = XHelper.GetElementOfName(item, "target");
-        return new Tuple<XElement, XElement>(source, target);
+        XElement source = XHelper.GetElementOfName(item, "source")!;
+        XElement target = XHelper.GetElementOfName(item, "target")!;
+        return new Tuple<XElement, XElement>(source!, target!);
     }
 
     /// <summary>
@@ -191,14 +193,6 @@ TranslateEngine");
         return foundKeys.Distinct().ToList();
     }
 
-    /// <summary>
-    /// To be able to found with this method must be wrapped with XlfKeys and Translate.FromKey or RLData.en
-    ///
-    /// A3 is here only due to breakpoint for certain files
-    /// </summary>
-    /// <param name = "key"></param>
-    /// <param name = "content"></param>
-    /// <returns></returns>
     /// <summary>
     /// Gets XLF keys from C# code with RLData.en prefix.
     /// To be able to be found with this method, keys must be wrapped with XlfKeys and Translate.FromKey or RLData.en.

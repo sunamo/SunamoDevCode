@@ -3,13 +3,13 @@ namespace SunamoDevCode.ToNetCore.research;
 public partial class MoveToNet5
 {
     /// <summary>
-    /// 1 = sdk style, not netstandard2.0
-    /// 2 = sdk style, netstandard2.0
-    /// 3 = non sdk style
+    /// Categorizes projects into SDK style, netstandard, and non-SDK style groups.
     /// </summary>
-    /// <param name = "appendHeaderForWeb"></param>
-    /// <returns></returns>
-    public 
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="appendHeaderForWeb">If true, adds a header label for web SDK style projects.</param>
+    /// <param name="isWeb">If true, processes web projects; otherwise processes non-web projects.</param>
+    /// <returns>Result containing three categorized lists of project paths.</returns>
+    public
 #if ASYNC
     async Task<FindProjectsWhichIsSdkStyleResult>
 #else
@@ -26,7 +26,7 @@ public partial class MoveToNet5
         }
 
         var projectsData = WebAndNonWebProjects(logger);
-        List<string> projectPaths = null;
+        List<string>? projectPaths = null;
         if (isWeb)
         {
             projectPaths = projectsData.Item1;
@@ -48,7 +48,7 @@ public partial class MoveToNet5
     await
 #endif
             SunamoCsprojHelper.IsProjectCsprojSdkStyleIsCore( /*ref*/projectPath);
-            if (projectStyleResult.IsProjectCsprojSdkStyleIsCore)
+            if (projectStyleResult!.IsProjectCsprojSdkStyleIsCore)
             {
                 if (projectStyleResult.IsNetstandard)
                 {
@@ -73,11 +73,16 @@ public partial class MoveToNet5
         };
     }
 
-    public 
+    /// <summary>
+    /// Gets a newline-separated list of web projects that are not SDK style.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <returns>Newline-separated list of non-SDK style web project paths.</returns>
+    public
 #if ASYNC
     async Task<string>
 #else
-    void 
+    void
 #endif
     WebProjectsWhichIsNotSdkStyle(ILogger logger)
     {
@@ -89,7 +94,13 @@ public partial class MoveToNet5
         return SHJoin.JoinNL(sdkStyleResult.NonCsprojSdkStyleList);
     }
 
-    string nameProject = null;
+    string? nameProject = null;
+    /// <summary>
+    /// Replaces project references in web projects to point to the web-specific version.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="projectName">Name of the project to replace references for.</param>
+    /// <param name="projectNamespace">Namespace of the project.</param>
     public async void ReplaceProjectReferenceForWeb(ILogger logger, string projectName, string projectNamespace)
     {
         Console.WriteLine("Solution old & new must be in same root folder");

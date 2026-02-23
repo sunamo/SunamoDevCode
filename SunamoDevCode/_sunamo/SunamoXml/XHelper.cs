@@ -17,7 +17,7 @@ internal partial class XHelper
         foreach (XElement item in e)
         {
             var attrValue = XHelper.Attr(item, attr);
-            if (attrValue.Contains(value) /*SH.ContainsBoolBool(attrValue, value, enoughIsContainsAttribute, caseSensitive)*/)
+            if (attrValue!.Contains(value) /*SH.ContainsBoolBool(attrValue, value, enoughIsContainsAttribute, caseSensitive)*/)
             {
                 vr.Add(item);
             }
@@ -63,12 +63,12 @@ internal partial class XHelper
             var value = nsmgr.LookupNamespace(item);
             if (!ns.ContainsKey(item))
             {
-                ns.Add(item, value);
+                ns.Add(item, value!);
             }
         }
     }
 
-    internal static XElement GetElementOfNameWithAttr(XElement node, string nazev, string attr, string value)
+    internal static XElement? GetElementOfNameWithAttr(XElement node, string nazev, string attr, string value)
     {
         if (nazev.Contains(":"))
         {
@@ -102,9 +102,9 @@ internal partial class XHelper
         return null;
     }
 
-    internal static string Attr(XElement item, string attr)
+    internal static string? Attr(XElement item, string attr)
     {
-        XAttribute xa = item.Attribute(XName.Get(attr));
+        XAttribute? xa = item.Attribute(XName.Get(attr));
         if (xa != null)
         {
             return xa.Value;
@@ -193,7 +193,7 @@ internal partial class XHelper
         return false;
     }
 
-    internal static XElement GetElementOfName(XContainer node, string nazev)
+    internal static XElement? GetElementOfName(XContainer node, string nazev)
     {
         if (nazev.Contains(":"))
         {
@@ -243,7 +243,7 @@ internal partial class XHelper
         }
 
         var enB = Encoding.UTF8.GetBytes(contentOrFn).ToList();
-        XDocument xd = null;
+        XDocument? xd = null;
         using (MemoryStream oStream = new MemoryStream(enB.ToArray()))
         using (XmlReader oReader = XmlReader.Create(oStream))
         {

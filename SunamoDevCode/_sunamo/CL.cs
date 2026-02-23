@@ -44,7 +44,7 @@ internal class CL
     /// <returns>All entered lines combined and trimmed</returns>
     internal static string UserMustTypeMultiLine(string prompt, params string[] anotherPossibleAftermOne)
     {
-        string line = null;
+        string? line = null;
         Information(AskForEnter(prompt, true, ""));
         StringBuilder stringBuilder = new();
         while ((line = Console.ReadLine()) != null)

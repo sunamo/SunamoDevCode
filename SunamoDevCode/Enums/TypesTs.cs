@@ -5,6 +5,12 @@ namespace SunamoDevCode.Enums;
 /// </summary>
 public enum TypesTs
 {
+    /// <summary>
+    /// TypeScript number type.
+    /// </summary>
     number,
+    /// <summary>
+    /// TypeScript string type (prefixed with underscore to avoid C# keyword conflict).
+    /// </summary>
     _string
 }

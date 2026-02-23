@@ -10,7 +10,7 @@ public class AsyncPushSolutions : AsyncLoadingBaseDC<AsyncPushSolutions, IProgre
     /// EN: List of solution folders to push
     /// CZ: Seznam solution složek k pushnutí
     /// </summary>
-    public List<SolutionFolder> FoldersWithSolutions { get; set; } = null;
+    public List<SolutionFolder> FoldersWithSolutions { get; set; } = null!;
 
     /// <summary>
     /// EN: Whether this is a release build
@@ -22,29 +22,29 @@ public class AsyncPushSolutions : AsyncLoadingBaseDC<AsyncPushSolutions, IProgre
     /// EN: Git bash builder for git commands
     /// CZ: Git bash builder pro git příkazy
     /// </summary>
-    public GitBashBuilder GitBashBuilder { get; set; }
+    public GitBashBuilder GitBashBuilder { get; set; } = null!;
 
     /// <summary>
     /// EN: Arguments for git push command
     /// CZ: Argumenty pro git push příkaz
     /// </summary>
-    public string PushArgs { get; set; }
+    public string PushArgs { get; set; } = null!;
 
     /// <summary>
     /// EN: Commit message
     /// CZ: Commit zpráva
     /// </summary>
-    public string CommitMessage { get; set; }
+    public string? CommitMessage { get; set; }
 
     /// <summary>
     /// EN: Push solutions data
     /// CZ: Data pro push solutions
     /// </summary>
-    public PushSolutionsData PushSolutionsData { get; set; }
+    public PushSolutionsData PushSolutionsData { get; set; } = null!;
 
     /// <summary>
     /// EN: Git status builder
     /// CZ: Builder pro git status
     /// </summary>
-    public GitBashBuilder GitStatus { get; set; }
+    public GitBashBuilder GitStatus { get; set; } = null!;
 }

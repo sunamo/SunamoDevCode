@@ -23,12 +23,13 @@ partial class GetCsprojs
 
     /// <summary>
     /// Rozdíl oproti GetCsprojInSolution je že vrací v objektu co je z GetCsprojInSolution v Tuple
-    /// 
+    ///
     /// 1 - csprojFolderPaths
     /// 2 - csprojPaths
     /// </summary>
-    /// <param name="slnFolder"></param>
-    /// <returns></returns>
+    /// <param name="logger">Logger instance for logging operations.</param>
+    /// <param name="slnFolder">Solution folder to search for csproj files.</param>
+    /// <returns>Tuple of (csprojFolderPaths, csprojPaths).</returns>
     public static (List<string>, List<string>) GetCsprojInSolution(ILogger logger, string slnFolder)
     {
         List<string> csprojPaths = [];
@@ -69,6 +70,12 @@ partial class GetCsprojs
         return (csprojFolderPaths, csprojPaths);
     }
 
+    /// <summary>
+    /// Gets all csproj file paths within the specified solution folder. Deprecated in favor of GetCsprojInSolution.
+    /// </summary>
+    /// <param name="logger">Logger instance for logging operations.</param>
+    /// <param name="slnFolder">Solution folder to search for csproj files.</param>
+    /// <returns>List of csproj file paths.</returns>
     [Obsolete("Tato metoda se zdá být zbytečná. Její práci dělá jiná v tomto souboru.")]
     public static List<string> GetCsprojsInSolution(ILogger logger, string slnFolder)
     {

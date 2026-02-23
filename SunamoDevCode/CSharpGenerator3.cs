@@ -16,9 +16,9 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     {
         if (args == null)
             args = new CSharpGeneratorArgs();
-        string valueType = null;
+        string? valueType = null;
         if (dictionary.Count > 0)
-            valueType = ConvertTypeShortcutFullName.ToShortcut(DictionaryHelper.GetFirstItemValue(dictionary).GetType().FullName);
+            valueType = ConvertTypeShortcutFullName.ToShortcut(DictionaryHelper.GetFirstItemValue(dictionary)!.GetType().FullName!);
         var className = "Dictionary<string, " + valueType + ">"; //
         args.CreateInstance = false;
         NewVariable(tabCount, AccessModifiers.Private, className, dictionaryName, args);
@@ -40,9 +40,9 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name="args">Generator arguments</param>
     public void DictionaryFromDictionaryInnerList<Key, Value>(int tabCount, string dictionaryName, Dictionary<Key, Value> dictionary, CSharpGeneratorArgs args) where Key : notnull
     {
-        string valueType = null;
+        string? valueType = null;
         if (dictionary.Count > 0)
-            valueType = ConvertTypeShortcutFullName.ToShortcut(DictionaryHelper.GetFirstItemValue(dictionary).GetType().FullName);
+            valueType = ConvertTypeShortcutFullName.ToShortcut(DictionaryHelper.GetFirstItemValue(dictionary)!.GetType().FullName!);
         var className = "Dictionary<string, List<" + valueType + ">>"; //
         NewVariable(tabCount, AccessModifiers.Private, className, dictionaryName, args);
         AppendLine();
@@ -83,7 +83,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     public void GetDictionaryValuesFromTwoList<Key, Value>(int tabCount, string dictionaryName, List<Key> keys, List<Value> values, CSharpGeneratorArgs args) where Key : notnull
     {
         var shouldSplitKeys = false;
-        string delimiter = null;
+        string? delimiter = null;
         if (args.SplitKeyWith != null)
         {
             if (typeof(Key) == Types.StringType)
@@ -102,7 +102,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         for (var i = 0; i < keys.Count; i++)
             if (shouldSplitKeys)
             {
-                var splitKeys = keys[i].ToString().Split(new[] { delimiter }, StringSplitOptions.RemoveEmptyEntries); //SHSplit.Split(, delimiter);
+                var splitKeys = keys[i]!.ToString()!.Split(new[] { delimiter! }, StringSplitOptions.RemoveEmptyEntries); //SHSplit.Split(, delimiter);
                 foreach (var item in splitKeys)
                     dictionary.Add((Key)(dynamic)item, values[i]);
             }
@@ -130,14 +130,14 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         Key firstKey;
         GetTKeyAndTValue(dictionary, out keyType, out valueType, out firstKey);
         IList valueList;
-        string keyText = null;
-        keyText = firstKey.ToString();
+        string keyText = null!;
+        keyText = firstKey!.ToString()!;
         if (args.AlsoField)
             Field(tabCount, AccessModifiers.Public, true, VariableModifiers.None, string.Format("Dictionary<{0}, List<{1}>>", keyType.Name, valueType.Name), dictionaryName, true);
-        string valuesCSharp = null;
+        string? valuesCSharp = null;
         foreach (var item in dictionary)
         {
-            keyText = item.Key.ToString();
+            keyText = item.Key!.ToString()!;
             valueList = item.Value;
             CSharpHelper.WrapWithQuote(keyType, ref keyText);
             var formattedValues = CSharpHelper.WrapWithQuoteList(valueType, valueList);
@@ -161,17 +161,17 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name="firstKey">Output: first key from dictionary</param>
     public static void GetTKeyAndTValue<Key, Value>(Dictionary<Key, List<Value>> dictionary, out Type keyType, out Type valueType, out Key firstKey) where Key : notnull
     {
-        firstKey = default;
+        firstKey = default!;
         var firstValue = default(Value);
         foreach (var item in dictionary)
         {
             firstKey = item.Key;
-            firstValue = (Value)item.Value.FirstOrDefault();
+            firstValue = (Value)(object)item.Value.FirstOrDefault()!;
             break;
         }
 
-        keyType = firstKey.GetType();
-        valueType = firstValue.GetType();
+        keyType = firstKey!.GetType();
+        valueType = firstValue!.GetType();
     }
 
     /// <summary>
@@ -194,15 +194,15 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
             break;
         }
 
-        var keyType = firstKey.GetType();
-        var valueType = firstValue.GetType();
-        string valueText, keyText = null;
-        valueText = firstValue.ToString();
-        keyText = firstKey.ToString();
+        var keyType = firstKey!.GetType();
+        var valueType = firstValue!.GetType();
+        string valueText, keyText = null!;
+        valueText = firstValue!.ToString()!;
+        keyText = firstKey!.ToString()!;
         foreach (var item in dictionary)
         {
-            keyText = item.Key.ToString();
-            valueText = item.Value.ToString();
+            keyText = item.Key!.ToString()!;
+            valueText = item.Value!.ToString()!;
             CSharpHelper.WrapWithQuote(keyType, ref keyText);
             CSharpHelper.WrapWithQuote(valueType, ref valueText);
             AppendLine(tabCount, dictionaryName + ".Add(" + keyText + ", " + valueText + ");");

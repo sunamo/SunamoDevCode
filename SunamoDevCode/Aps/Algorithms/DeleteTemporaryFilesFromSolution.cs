@@ -237,7 +237,7 @@ public class DeleteTemporaryFilesFromSolution
                     // CZ: Když delete je false, odebrání souborů ze seznamu. Když delete je true, přidání souborů do seznamu historie.
                     foreach (var filePath in filesFound)
                     {
-                        foundFiles.Remove(filePath);
+                        foundFiles!.Remove(filePath);
                     }
                 }
                 if (delete)

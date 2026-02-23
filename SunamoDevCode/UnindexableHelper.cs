@@ -8,7 +8,7 @@ public class UnindexableHelper
     /// <summary>
     /// Gets or sets the Unindexable configuration.
     /// </summary>
-    public static Unindexable Unindexable;
+    public static Unindexable Unindexable = null!;
 
     /// <summary>
     /// Gets the Unindexable path parts configuration.

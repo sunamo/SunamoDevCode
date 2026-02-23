@@ -33,7 +33,7 @@ public class CSharpGeneratorArgs
     /// <summary>
     /// Delimiter to split keys with (must be char or string)
     /// </summary>
-    public string SplitKeyWith { get; set; } = null;
+    public string? SplitKeyWith { get; set; } = null;
 
     /// <summary>
     /// Whether to check for null before operations

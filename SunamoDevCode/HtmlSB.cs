@@ -10,6 +10,9 @@ namespace SunamoDevCode;
 /// </summary>
 public class HtmlSB : InstantSB
 {
+    /// <summary>
+    /// Initializes a new instance of HtmlSB using HTML break tag as delimiter.
+    /// </summary>
     public HtmlSB() : base("<br /")
     {
     }

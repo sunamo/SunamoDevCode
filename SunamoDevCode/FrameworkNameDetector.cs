@@ -1,8 +1,17 @@
 namespace SunamoDevCode;
 
+/// <summary>
+/// Detects the .NET framework name and version from a project file.
+/// </summary>
 public class FrameworkNameDetector
 {
+    /// <summary>
+    /// Default .NET framework identifier used when none is specified in the project.
+    /// </summary>
     public const string DefaultIdentifier = ".NETFramework";
+    /// <summary>
+    /// Default .NET framework version used when none is specified in the project.
+    /// </summary>
     public const string DefaultFrameworkVersion = "v4.0";
     /// <summary>
     ///     Working only for .net fw, for sdk style return .net 4.0
@@ -44,6 +53,5 @@ This just means it was garbage and nobody used it, since it wasn't used anywhere
         //    return new FrameworkName(identifier, version, profile);
         //}
         //return null; // DetectNetSdkVersion();
-        return null;
     }
 }

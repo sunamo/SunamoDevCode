@@ -4,6 +4,11 @@ namespace SunamoDevCode.SunamoCSharp;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public static partial class CSharpHelper
 {
+    /// <summary>
+    /// Extracts the inner content of a class code element by removing the outer braces.
+    /// </summary>
+    /// <param name="lines">Lines of source code containing the class definition.</param>
+    /// <returns>The inner content between the first opening and last closing brace, or empty string if the code is empty or commented.</returns>
     public static string GetInnerContentOfCodeElementClass(List<string> lines)
     {
         if (IsEmptyOrCommented(lines))
@@ -22,11 +27,11 @@ public static partial class CSharpHelper
     /// <summary>
     /// Vrátí true i když obsahuje kód bez středníku (např. prázdnou třídu)
     /// </summary>
-    /// <param name = "fnwoe"></param>
-    /// <param name = "linesOriginal"></param>
-    /// <param name = "RemoveBetweenIfAndEndif">Can be null</param>
-    /// <param name = "csWithSharpIf">Can't be null</param>
-    /// <returns></returns>
+    /// <param name="fnwoe">File name without extension to check against csWithSharpIf list.</param>
+    /// <param name="linesOriginal">Original source code lines to analyze.</param>
+    /// <param name="RemoveBetweenIfAndEndif">Optional action to remove preprocessor directive blocks. Can be null.</param>
+    /// <param name="csWithSharpIf">List of filenames that contain #if directives and should not be considered empty.</param>
+    /// <returns>True if the file contains only namespace declarations, usings, comments, or is empty.</returns>
     public static bool IsEmptyCommentedOrOnlyWithNamespace(string fnwoe, List<string> linesOriginal, Action<List<string>> RemoveBetweenIfAndEndif, List<string> csWithSharpIf)
     {
         var lines = linesOriginal.ToList();
@@ -57,6 +62,11 @@ public static partial class CSharpHelper
         return false;
     }
 
+    /// <summary>
+    /// Determines whether all lines are either empty or commented out.
+    /// </summary>
+    /// <param name="lines">Lines of source code to check.</param>
+    /// <returns>True if all non-empty lines start with a comment marker.</returns>
     public static bool IsEmptyOrCommented(List<string> lines)
     {
         foreach (var item in lines)
@@ -72,11 +82,10 @@ public static partial class CSharpHelper
     }
 
     /// <summary>
-    /// Direct edit
+    /// Removes import/using statements and leading empty lines from the source code lines. Edits the list directly.
     /// </summary>
-    /// <param name = "l2"></param>
-    /// <param name = "v"></param>
-    /// <exception cref = "NotImplementedException"></exception>
+    /// <param name="l2">Lines of source code to process.</param>
+    /// <param name="imports">If true, removes import statements; otherwise removes using statements.</param>
     public static void RemoveImportsUsings(List<string> l2, bool imports)
     {
         string k = Using;
@@ -101,22 +110,49 @@ public static partial class CSharpHelper
         CA.RemoveEmptyLinesToFirstNonEmpty(l2);
     }
 
+    /// <summary>
+    /// Extracts all using statements from source code lines, optionally removing them.
+    /// </summary>
+    /// <param name="lines">Lines of source code.</param>
+    /// <param name="remove">If true, removes the using lines from the source.</param>
+    /// <returns>Collection of unique using statements found.</returns>
     public static CollectionWithoutDuplicatesDC<string> Usings(List<string> lines, bool remove = false)
     {
         return Usings(lines, Using, remove);
     }
 
+    /// <summary>
+    /// Extracts all import statements from source code lines, optionally removing them.
+    /// </summary>
+    /// <param name="lines">Lines of source code.</param>
+    /// <param name="remove">If true, removes the import lines from the source.</param>
+    /// <returns>Collection of unique import statements found.</returns>
     public static CollectionWithoutDuplicatesDC<string> Imports(List<string> lines, bool remove = false)
     {
         return Usings(lines, Import, remove);
     }
 
+    /// <summary>
+    /// Extracts all statements matching the given keyword from source code lines, optionally removing them.
+    /// </summary>
+    /// <param name="lines">Lines of source code.</param>
+    /// <param name="keyword">Keyword to match (e.g., "using" or "import").</param>
+    /// <param name="remove">If true, removes matching lines from the source.</param>
+    /// <returns>Collection of unique statements found.</returns>
     public static CollectionWithoutDuplicatesDC<string> Usings(List<string> lines, string keyword, bool remove = false)
     {
-        List<int> removeLines = null;
+        List<int> removeLines = null!;
         return Usings(lines, keyword, out removeLines, remove);
     }
 
+    /// <summary>
+    /// Extracts all statements matching the given keyword, outputting line indices and optionally removing them.
+    /// </summary>
+    /// <param name="lines">Lines of source code.</param>
+    /// <param name="keyword">Keyword to match (e.g., "using" or "import").</param>
+    /// <param name="removeLines">Output list of line indices where matching statements were found.</param>
+    /// <param name="remove">If true, removes matching lines from the source.</param>
+    /// <returns>Collection of unique statements found.</returns>
     public static CollectionWithoutDuplicatesDC<string> Usings(List<string> lines, string keyword, out List<int> removeLines, bool remove = false)
     {
         CollectionWithoutDuplicatesDC<string> usings = new CollectionWithoutDuplicatesDC<string>();
@@ -148,16 +184,32 @@ public static partial class CSharpHelper
         return usings;
     }
 
+    /// <summary>
+    /// Generates C# dictionary initialization code from two parallel lists of names and values.
+    /// </summary>
+    /// <param name="names">List of dictionary key names.</param>
+    /// <param name="chars">List of dictionary values corresponding to each key.</param>
+    /// <returns>Generated C# code string for dictionary initialization.</returns>
     public static string GetDictionaryValuesFromTwoList(List<string> names, List<string> chars)
     {
         return CSharpHelper.GetDictionaryValuesFromTwoList<string, string>(2, "a", names, chars, new CSharpGeneratorArgs { SplitKeyWith = "," });
     }
 
+    /// <summary>
+    /// Generates C# dictionary initialization code from a string-to-string dictionary.
+    /// </summary>
+    /// <param name="data">Source dictionary to generate code from.</param>
+    /// <returns>Generated C# code string for dictionary initialization.</returns>
     public static string GetDictionaryValuesFromDictionary(Dictionary<string, string> data)
     {
         return CSharpHelper.GetDictionaryValuesFromDictionary<string, string>(0, "name", data);
     }
 
+    /// <summary>
+    /// Extracts the summary section from XML documentation comments in C# source code lines.
+    /// </summary>
+    /// <param name="cs">Lines of source code containing XML documentation comments.</param>
+    /// <returns>The extracted summary text.</returns>
     public static string GetSummaryXmlDocumentation(List<string> cs)
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -178,6 +230,11 @@ public static partial class CSharpHelper
         return stringBuilder.ToString();
     }
 
+    /// <summary>
+    /// Generates C# const field declarations and a list for a collection of search URIs.
+    /// </summary>
+    /// <param name="uris">List of URI strings to generate constants from.</param>
+    /// <returns>Generated C# code with const declarations and an aggregated list.</returns>
     public static string CreateConstsForSearchUris(List<string> uris)
     {
         CSharpGenerator csg = new CSharpGenerator();
@@ -197,6 +254,11 @@ public static partial class CSharpHelper
         return csg.ToString();
     }
 
+    /// <summary>
+    /// Generates C# const field declarations from a dictionary of name-value pairs.
+    /// </summary>
+    /// <param name="dict">Dictionary where keys are constant names and values are constant values.</param>
+    /// <returns>Generated C# code with const declarations.</returns>
     public static string CreateConsts(Dictionary<string, string> dict)
     {
         CSharpGenerator csg = new CSharpGenerator();
@@ -213,7 +275,18 @@ public static partial class CSharpHelper
         return csg.ToString();
     }
 
-    public static string DictionaryWithClass<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, Func<Value> randomValue, CSharpGeneratorArgs? argument = null)
+    /// <summary>
+    /// Generates a C# class containing a dictionary initialized with random values for each key.
+    /// </summary>
+    /// <typeparam name="Key">Type of dictionary keys.</typeparam>
+    /// <typeparam name="Value">Type of dictionary values.</typeparam>
+    /// <param name="tabCount">Number of tabs for indentation.</param>
+    /// <param name="nameDictionary">Name for the generated class and dictionary.</param>
+    /// <param name="keys">List of keys for the dictionary.</param>
+    /// <param name="randomValue">Function that generates a random value for each entry.</param>
+    /// <param name="argument">Optional code generation arguments.</param>
+    /// <returns>Generated C# code for the class with dictionary initialization.</returns>
+    public static string DictionaryWithClass<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, Func<Value> randomValue, CSharpGeneratorArgs? argument = null) where Key : notnull
     {
         CSharpGenerator genCS = new CSharpGenerator();
         genCS.StartClass(0, AccessModifiers.Private, false, nameDictionary);
@@ -225,15 +298,16 @@ public static partial class CSharpHelper
     }
 
     /// <summary>
-    /// AddingValue = 0
+    /// Generates a C# class containing a dictionary initialized from an existing dictionary. AddingValue defaults to false.
     /// </summary>
-    /// <typeparam name = "Key"></typeparam>
-    /// <typeparam name = "Value"></typeparam>
-    /// <param name = "tabCount"></param>
-    /// <param name = "nameDictionary"></param>
-    /// <param name = "d"></param>
-    /// <returns></returns>
-    public static string DictionaryWithClass<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> data, CSharpGeneratorArgs? argument = null)
+    /// <typeparam name="Key">Type of dictionary keys.</typeparam>
+    /// <typeparam name="Value">Type of dictionary values.</typeparam>
+    /// <param name="tabCount">Number of tabs for indentation.</param>
+    /// <param name="nameDictionary">Name for the generated class and dictionary.</param>
+    /// <param name="data">Source dictionary to generate code from.</param>
+    /// <param name="argument">Optional code generation arguments.</param>
+    /// <returns>Generated C# code for the class with dictionary initialization.</returns>
+    public static string DictionaryWithClass<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> data, CSharpGeneratorArgs? argument = null) where Key : notnull
     {
         if (argument == null)
         {
@@ -249,7 +323,16 @@ public static partial class CSharpHelper
         return genCS.ToString();
     }
 
-    public static string GetDictionaryValuesFromDictionary<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> dict)
+    /// <summary>
+    /// Generates C# code for dictionary value assignments from a source dictionary.
+    /// </summary>
+    /// <typeparam name="Key">Type of dictionary keys.</typeparam>
+    /// <typeparam name="Value">Type of dictionary values.</typeparam>
+    /// <param name="tabCount">Number of tabs for indentation.</param>
+    /// <param name="nameDictionary">Name of the dictionary variable in the generated code.</param>
+    /// <param name="dict">Source dictionary to generate assignment code from.</param>
+    /// <returns>Generated C# code for dictionary value assignments.</returns>
+    public static string GetDictionaryValuesFromDictionary<Key, Value>(int tabCount, string nameDictionary, Dictionary<Key, Value> dict) where Key : notnull
     {
         CSharpGenerator csg = new CSharpGenerator();
         csg.GetDictionaryValuesFromDictionary<Key, Value>(tabCount, nameDictionary, dict);

@@ -8,17 +8,17 @@ public class MoveToShared : IMoveToShared
     /// <summary>
     /// Base folder path
     /// </summary>
-    public string Folder { get; set; } = null;
+    public string Folder { get; set; } = null!;
 
     /// <summary>
     /// Sunamo folder path
     /// </summary>
-    public string FolderSunamo { get; set; } = null;
+    public string FolderSunamo { get; set; } = null!;
 
     /// <summary>
     /// Sunamo web folder path
     /// </summary>
-    public string FolderSunamoWeb { get; set; } = null;
+    public string FolderSunamoWeb { get; set; } = null!;
 
     /// <summary>
     /// Postfix for folder name (e.g., web, task)

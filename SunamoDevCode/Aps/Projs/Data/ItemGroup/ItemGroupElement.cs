@@ -23,7 +23,7 @@ public abstract class ItemGroupElement
     /// <summary>
     /// Gets or sets the Include attribute value.
     /// </summary>
-    public string Include { get; set; }
+    public string Include { get; set; } = null!;
 
     /// <summary>
     /// Converts the item group element to an XML node.

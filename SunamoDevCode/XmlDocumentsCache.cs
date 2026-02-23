@@ -7,7 +7,13 @@ public class XmlDocumentsCache
 {
     private const string Nullable = "<Nullable>enable</Nullable>";
     private const string DebugTypeNone = "<DebugType>none</DebugType>";
+    /// <summary>
+    /// Type reference for this class.
+    /// </summary>
     public static Type Type = typeof(XmlDocumentsCache);
+    /// <summary>
+    /// Dictionary caching parsed XmlDocuments keyed by file path.
+    /// </summary>
     public static Dictionary<string, XmlDocument> Cache = new();
 
     /// <summary>
@@ -16,17 +22,29 @@ public class XmlDocumentsCache
     /// </summary>
     public static Dictionary<string, List<string>> ProjectDeps = new();
 
-    public static Func<string, Dictionary<string, XmlDocument>,
+    /// <summary>
+    /// Delegate for building the project dependency tree from a csproj path and cache.
+    /// </summary>
+    public static Func<string, Dictionary<string, XmlDocument>?,
 #if ASYNC
             Task<List<string>>
 #else
 List<string>
 #endif
         >
-        BuildProjectsDependencyTreeList;
+        BuildProjectsDependencyTreeList = null!;
 
+    /// <summary>
+    /// Count of csproj files that were null (ignored or failed to load).
+    /// </summary>
     public static int Nulled;
-    public static IProgressBarDC Clpb = null;
+    /// <summary>
+    /// Optional progress bar for displaying cache loading progress.
+    /// </summary>
+    public static IProgressBarDC? Clpb = null;
+    /// <summary>
+    /// List of paths that cannot be loaded with a dictionary to avoid collection-was-changed exceptions.
+    /// </summary>
     public static List<string> CantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull = new();
 
     /// <summary>
@@ -35,8 +53,8 @@ List<string>
     ///     Can return null during many situations
     ///     For example when ignored => must always checking for null
     /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
+    /// <param name="path">Path to the csproj file to load or retrieve from cache.</param>
+    /// <returns>Result containing the parsed XmlDocument or an exception message.</returns>
 
     public static
 #if ASYNC
@@ -56,7 +74,7 @@ ResultWithException<XmlDocument>
         if (Cache.ContainsKey(path)) return new ResultWithExceptionDC<XmlDocument>(Cache[path]);
         if (Ignored.IsIgnored(path))
         {
-            Cache.Add(path, null);
+            Cache.Add(path, null!);
             Nulled++;
             return new ResultWithExceptionDC<XmlDocument> { Exc = "csproj is ignored: " + path };
         }
@@ -70,7 +88,7 @@ ResultWithException<XmlDocument>
         //{
         //    return cache[path];
         //}
-        string xml = null;
+        string? xml = null;
         //if (ThisApp.async_)
         //{
         xml =
@@ -87,7 +105,7 @@ ResultWithException<XmlDocument>
         //}
         if (xml.Contains(GitConsts.startingHead))
         {
-            Cache.Add(path, null);
+            Cache.Add(path, null!);
             Nulled++;
             return new ResultWithExceptionDC<XmlDocument>();
         }
@@ -123,7 +141,7 @@ ResultWithException<XmlDocument>
         catch
         {
             var index = Cache.Keys.ToList().IndexOf(path);
-            Cache.Add(path, null);
+            Cache.Add(path, null!);
             Nulled++;
             //ThrowEx.NotValidXml(path, ex);
             return new ResultWithExceptionDC<XmlDocument>();
@@ -160,6 +178,10 @@ ResultWithException<XmlDocument>
         }
     }
 
+    /// <summary>
+    /// Builds a filtered dictionary containing only successfully loaded XML documents from the cache.
+    /// </summary>
+    /// <returns>Dictionary of valid XML documents keyed by csproj path.</returns>
     public static Dictionary<string, XmlDocument> BuildProjectDeps()
     {
         var xd = new Dictionary<string, XmlDocument>();
@@ -184,6 +206,12 @@ ResultWithException<XmlDocument>
         return badXmlPaths;
     }
 
+    /// <summary>
+    /// Sets or updates a cached XML document from raw XML content, optionally saving to disk.
+    /// </summary>
+    /// <param name="path">Path to the csproj file.</param>
+    /// <param name="xmlContent">Raw XML content to parse.</param>
+    /// <param name="saveToFile">Whether to also write the document to disk.</param>
     public static
 #if ASYNC
         async Task
@@ -201,6 +229,12 @@ void
             Set(path, xd, saveToFile);
     }
 
+    /// <summary>
+    /// Sets or updates a cached XML document, optionally saving to disk.
+    /// </summary>
+    /// <param name="path">Path to the csproj file.</param>
+    /// <param name="document">XmlDocument to cache.</param>
+    /// <param name="saveToFile">Whether to also write the document to disk.</param>
     public static
 #if ASYNC
         async Task

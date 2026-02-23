@@ -27,9 +27,9 @@ public partial class FoldersWithSolutions
     /// <param name="usedRepository">Repository to get folders from</param>
     /// <param name="returnOnlyThese">Optional filter for specific solution names</param>
     /// <returns>List of full path folders</returns>
-    public static List<string> FullPathFolders(RepositoryLocal usedRepository, List<string> returnOnlyThese = null)
+    public static List<string> FullPathFolders(RepositoryLocal usedRepository, List<string>? returnOnlyThese = null)
     {
-        Dictionary<string, SolutionFolder> solutionFoldersMap = null;
+        Dictionary<string, SolutionFolder>? solutionFoldersMap = null;
         return FullPathFolders(usedRepository, solutionFoldersMap, returnOnlyThese);
     }
 
@@ -40,7 +40,7 @@ public partial class FoldersWithSolutions
     /// <param name="solutionFoldersMap">Optional dictionary to populate with solution folder mappings</param>
     /// <param name="returnOnlyThese">Optional filter for specific solution names</param>
     /// <returns>List of full path folders</returns>
-    public static List<string> FullPathFolders(RepositoryLocal usedRepository, Dictionary<string, SolutionFolder> solutionFoldersMap, List<string> returnOnlyThese = null)
+    public static List<string> FullPathFolders(RepositoryLocal usedRepository, Dictionary<string, SolutionFolder>? solutionFoldersMap, List<string>? returnOnlyThese = null)
     {
         List<string> lines = new List<string>();
         foreach (var item in Fwss)

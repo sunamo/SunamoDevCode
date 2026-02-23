@@ -2,6 +2,13 @@ namespace SunamoDevCode.Aps;
 
 public partial class ApsHelper : ApsPluginStatic
 {
+    /// <summary>
+    /// Processes git output messages and prepares the result for clipboard, adjusting paths for VPS if needed.
+    /// </summary>
+    /// <param name="shouldProcessMessages">Whether to process messages from git output.</param>
+    /// <param name="stringBuilder">Git bash builder containing the generated commands.</param>
+    /// <param name="eVs">Base path for Visual Studio projects.</param>
+    /// <param name="pathGetMessagesFromGitOutput">Path to the file with git output messages.</param>
     public
 #if ASYNC
     async Task
@@ -50,7 +57,7 @@ public partial class ApsHelper : ApsPluginStatic
                     var pathParts = SHSplit.SplitChar(parts[1], '\\');
                     var slnName = pathParts[0].TrimEnd('"');
                     var sfo = SolutionsIndexerHelper.SolutionWithName(slnName);
-                    var dn = FS.GetDirectoryName(sfo.FullPathFolder);
+                    var dn = FS.GetDirectoryName(sfo!.FullPathFolder);
                     list[i] = list[i].Replace(vpsPath, dn);
                 }
             }
@@ -73,7 +80,7 @@ public partial class ApsHelper : ApsPluginStatic
         }
 
         // In next pushSolutionsData.onlyThese dont use so set it null to not forget to it
-        pushSolutionsData.onlyThese = null;
+        pushSolutionsData.onlyThese = null!;
     }
 
     static void MoveToApsWpf()
@@ -81,6 +88,10 @@ public partial class ApsHelper : ApsPluginStatic
         ThrowEx.Custom("Move to Aps.wpf");
     }
 
+    /// <summary>
+    /// Returns a list of repository names to skip during git operations.
+    /// </summary>
+    /// <returns>List of repository names to exclude.</returns>
     public List<string> SkipTheseGit()
     {
         var skipThese = CA.ToListString("mono-server-setup");
@@ -88,6 +99,11 @@ public partial class ApsHelper : ApsPluginStatic
         return skipThese;
     }
 
+    /// <summary>
+    /// Retrieves all solution folders across all registered FoldersWithSolutions instances for the specified repository.
+    /// </summary>
+    /// <param name="vs17">Repository type to filter solutions by.</param>
+    /// <returns>List of all solution folders found.</returns>
     public List<SolutionFolder> AllSolutions(RepositoryLocal vs17)
     {
         var data = new List<SolutionFolder>();
@@ -100,10 +116,17 @@ public partial class ApsHelper : ApsPluginStatic
         return data;
     }
 
+    /// <summary>
+    /// Repository type currently used by this ApsHelper instance.
+    /// </summary>
     public RepositoryLocal repositoryUsedInApsH = RepositoryLocal.Vs17;
     /// <summary>
-    ///
+    /// Determines whether the given solution is a web project by matching against web project wildcards.
     /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="sln">Solution folder to check.</param>
+    /// <param name="getFileSettings">Settings provider for configuration files.</param>
+    /// <returns>True if the solution matches a web project wildcard pattern.</returns>
     public async Task<bool> IsWebProject(ILogger logger, SolutionFolder sln, GetFileSettings getFileSettings)
     {
         var webProjectsWildcard = await AllProjectsSearchSettings.GetWebProjectsWildCard(logger, getFileSettings);
@@ -123,7 +146,12 @@ public partial class ApsHelper : ApsPluginStatic
         return false;
     }
 
-    public string MainSln2(string fullPathFolder)
+    /// <summary>
+    /// Finds the main solution file in the specified folder by checking all known solution extensions.
+    /// </summary>
+    /// <param name="fullPathFolder">Full path to the folder to search in.</param>
+    /// <returns>Path to the solution file, or null if not found.</returns>
+    public string? MainSln2(string fullPathFolder)
     {
         var baseName = Path.Combine(fullPathFolder, FS.GetFileName(fullPathFolder));
         foreach (var ext in AllExtensions.AllSlnExtensions)
@@ -137,7 +165,12 @@ public partial class ApsHelper : ApsPluginStatic
         return null;
     }
 
-    public string MainSln(SolutionFolder sln)
+    /// <summary>
+    /// Finds the main solution file for the given SolutionFolder by checking all known solution extensions.
+    /// </summary>
+    /// <param name="sln">Solution folder to find the solution file for.</param>
+    /// <returns>Path to the solution file, or null if not found.</returns>
+    public string? MainSln(SolutionFolder sln)
     {
         string fullPathFolder = sln.FullPathFolder;
         string baseName;
@@ -165,12 +198,24 @@ public partial class ApsHelper : ApsPluginStatic
         return null;
     }
 
+    /// <summary>
+    /// Constructs the absolute path to a .csproj file within the VS projects structure.
+    /// </summary>
+    /// <param name="project">Project name.</param>
+    /// <param name="slnName">Solution folder name.</param>
+    /// <param name="eVsProjects">Base path to VS projects directory.</param>
+    /// <returns>Full path to the .csproj file.</returns>
     public string AbsolutePathOfProject(string project, string slnName, string eVsProjects)
     {
         var path = Path.Combine(eVsProjects, slnName, project, project + ".csproj");
         return path;
     }
 
+    /// <summary>
+    /// Returns the path to the solution file within the given folder, trying all known extensions before falling back to .sln.
+    /// </summary>
+    /// <param name="fullPathFolder">Full path to the solution folder.</param>
+    /// <returns>Path to an existing solution file, or a default .sln path if none found.</returns>
     public string SlnFilePathFromFolder(string fullPathFolder)
     {
         var folderName = FS.GetFileName(fullPathFolder);
@@ -195,11 +240,11 @@ public partial class ApsHelper : ApsPluginStatic
             documentsFolder = Instance.DetectDocumentsFolder(sln);
         }
 
-        string relativeFromProjectFolder = sln.FullPathFolder.Substring(documentsFolder.Length);
+        string relativeFromProjectFolder = sln.FullPathFolder.Substring(documentsFolder!.Length);
         var arr = SHSplit.SplitToParts(relativeFromProjectFolder, 3, "\\");
         // 0 - VS folder
-        sln.projectFolder = arr[1];
-        sln.slnFullPath = arr[2];
+        sln.projectFolder = arr![1];
+        sln.slnFullPath = arr![2];
     }
 
     /// <summary>
@@ -238,6 +283,12 @@ public partial class ApsHelper : ApsPluginStatic
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Gets all .csproj files in the top level of the specified project directory.
+    /// </summary>
+    /// <param name="logger">Logger instance for diagnostics.</param>
+    /// <param name="projectPath">Path to the project directory.</param>
+    /// <returns>List of .csproj file paths found.</returns>
     public List<string> GetCsprojsOnlyTopDirectory(ILogger logger, string projectPath)
     {
         var data = FSGetFiles.GetFiles(logger, projectPath, "*.csproj", SearchOption.TopDirectoryOnly);
@@ -245,11 +296,12 @@ public partial class ApsHelper : ApsPluginStatic
     }
 
     /// <summary>
-    /// Always is SearchOption.TopDirectoryOnly
+    /// Gets all solution files (.sln, .slnx, .slnj) in the specified directory. Always uses SearchOption.TopDirectoryOnly.
     /// </summary>
-    /// <param name = "up"></param>
-    /// <param name = "getFilesArgs"></param>
-    /// <returns></returns>
+    /// <param name="logger">Logger instance for diagnostics.</param>
+    /// <param name="path">Path to the directory to search in.</param>
+    /// <param name="getFilesArgs">Optional file retrieval arguments.</param>
+    /// <returns>List of solution file paths found.</returns>
     public List<string> GetSlns(ILogger logger, string path, GetFilesArgsDC? getFilesArgs = null)
     {
         if (getFilesArgs == null)
@@ -265,7 +317,12 @@ public partial class ApsHelper : ApsPluginStatic
         return slns;
     }
 
-    public string DetectDocumentsFolder(SolutionFolder sln)
+    /// <summary>
+    /// Detects the documents folder that contains the given solution folder by searching all registered FoldersWithSolutions instances.
+    /// </summary>
+    /// <param name="sln">Solution folder to find the containing documents folder for.</param>
+    /// <returns>Path to the documents folder, or null if not found.</returns>
+    public string? DetectDocumentsFolder(SolutionFolder sln)
     {
         foreach (var item in ApsMainWindow.Instance.Fwss)
         {
@@ -279,15 +336,12 @@ public partial class ApsHelper : ApsPluginStatic
     }
 
     /// <summary>
-    /// A1 - file in sunamo solution structure
-    /// A2 - sln folder which will obtaine new file - can be dummy. Dont pass file, will be add one more ../
-    ///
-    /// A1 = sunamo\dll\HtmlAgilityPack.dll
-    /// A2 = sunamo\research
-    /// result = ..\..\..\sunamo\dll\HtmlAgilityPack.dll - right 1. project 2. solution 3. project folder
+    /// Computes a relative path from a solution structure file to a project, prepending appropriate parent directory references.
     /// </summary>
-    /// <param name = "file"></param>
-    /// <param name = "item"></param>
+    /// <param name="file">File path within the sunamo solution structure.</param>
+    /// <param name="slnFullPath">Solution folder path used to calculate depth for relative navigation.</param>
+    /// <param name="delimiter">Path separator character to use.</param>
+    /// <returns>Relative path with parent directory prefixes navigating to the project.</returns>
     public string GetRelativePathToProject(string file, string slnFullPath, char delimiter)
     {
         int separatorCount = SH.OccurencesOfStringIn(slnFullPath, "/");

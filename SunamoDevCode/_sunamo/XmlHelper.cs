@@ -55,10 +55,10 @@ internal class XmlHelper
         var attributeValueExisting = Attr(node, attributeName);
         if (attributeValueExisting == null)
         {
-            var newAttribute = node.OwnerDocument.CreateAttribute(attributeName);
-            node.Attributes.Append(newAttribute);
+            var newAttribute = node.OwnerDocument!.CreateAttribute(attributeName);
+            node.Attributes!.Append(newAttribute);
         }
-        node.Attributes[attributeName].Value = attributeValue;
+        node.Attributes![attributeName]!.Value = attributeValue;
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ internal class XmlHelper
     /// <param name="node">Node to get attribute from</param>
     /// <param name="attributeName">Name of the attribute</param>
     /// <returns>Attribute value or null if not found</returns>
-    internal static string Attr(XmlNode node, string attributeName)
+    internal static string? Attr(XmlNode node, string attributeName)
     {
         var argument = GetAttributeWithName(node, attributeName);
         if (argument != null)
@@ -77,7 +77,10 @@ internal class XmlHelper
         return null;
     }
 
-    internal static XmlAttribute FoundedNode = null;
+    /// <summary>
+    /// Stores the last found XML attribute from GetAttributeWithName.
+    /// </summary>
+    internal static XmlAttribute? FoundedNode = null;
 
     /// <summary>
     /// Gets an attribute with the specified name
@@ -85,9 +88,9 @@ internal class XmlHelper
     /// <param name="node">Node to search in</param>
     /// <param name="attributeName">Name of the attribute to find</param>
     /// <returns>Matching attribute or null if not found</returns>
-    internal static XmlNode GetAttributeWithName(XmlNode node, string attributeName)
+    internal static XmlNode? GetAttributeWithName(XmlNode node, string attributeName)
     {
-        foreach (XmlAttribute attribute in node.Attributes)
+        foreach (XmlAttribute attribute in node.Attributes!)
         {
             if (attribute.Name == attributeName)
             {

@@ -1,7 +1,16 @@
 namespace SunamoDevCode;
 
+/// <summary>
+/// Helper methods for common SunamoDevCode operations like file cleanup and solution copying.
+/// </summary>
 public class SunamoDevCodeHelper
 {
+    /// <summary>
+    /// Attempts to delete a directory. If the first attempt fails, normalizes file attributes and retries.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="directoryPath">Path to the directory to delete.</param>
+    /// <returns>True if the directory was successfully deleted or does not exist.</returns>
     public static bool TryDeleteDirectory(ILogger logger, string directoryPath)
     {
         if (!Directory.Exists(directoryPath)) return true;
@@ -11,7 +20,7 @@ public class SunamoDevCodeHelper
             Directory.Delete(directoryPath, true);
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // EN: It's try so don't know what this is doing here
             // CZ: Je to try takže nevím co tu dělá tohle
@@ -25,20 +34,26 @@ public class SunamoDevCodeHelper
             Directory.Delete(directoryPath, true);
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 
         return false;
     }
 
+    /// <summary>
+    /// Copies a solution folder to a destination, excluding temporary VS files and git files, then creates an archive.
+    /// </summary>
+    /// <param name="slnFolder">Source solution folder path.</param>
+    /// <param name="folderTo">Destination folder path.</param>
+    /// <param name="archive">Action to create an archive from the copied folder.</param>
     public static void CopySolution(string slnFolder, string folderTo, Action<string> archive)
     {
         var list = Directory.GetFiles(slnFolder, "*", SearchOption.AllDirectories).ToList();
         RemoveTemporaryFilesVS(list);
         RemoveGitFiles(list);
 
-        var sourceBasePath = Path.GetDirectoryName(slnFolder);
+        var sourceBasePath = Path.GetDirectoryName(slnFolder)!;
         FS.WithEndSlash(ref sourceBasePath);
         FS.WithEndSlash(ref folderTo);
 
@@ -56,10 +71,17 @@ public class SunamoDevCodeHelper
         //ThisApp.Info("Archive was created successfully, is important create archive because first open with VS because will create folders package,obj,bin");
     }
 
+    /// <summary>
+    /// Removes git-related files and downloaded/temporary folder entries from the file list.
+    /// </summary>
+    /// <param name="files">List of file paths to filter in-place.</param>
+    /// <param name="isIncludingGitFiles">Whether to keep git files (true) or remove them (false).</param>
+    /// <param name="isIncludingDownloadedFolders">Whether to keep downloaded folders (true) or remove them (false).</param>
+    /// <param name="isIncludingFoldersToDelete">Whether to keep folders marked for deletion (true) or remove them (false).</param>
     public static void RemoveGitFiles(List<string> files, bool isIncludingGitFiles = true, bool isIncludingDownloadedFolders = false,
         bool isIncludingFoldersToDelete = false)
     {
-        string wrapped = null;
+        string? wrapped = null;
 
         if (!isIncludingGitFiles)
         {
@@ -82,6 +104,10 @@ public class SunamoDevCodeHelper
             }
     }
 
+    /// <summary>
+    /// Removes Visual Studio temporary files (bin, obj, packages, etc.) from the file list.
+    /// </summary>
+    /// <param name="files">List of file paths to filter in-place.</param>
     public static void RemoveTemporaryFilesVS(List<string> files)
     {
         var list = VisualStudioTempFseWrapped.FoldersInSolutionToDelete;
@@ -110,13 +136,19 @@ public class SunamoDevCodeHelper
 
     private static bool IsNameOfHtmlAttr(string between)
     {
-        return AllHtmlAttrs.list.Contains(between.Trim());
+        return AllHtmlAttrs.list!.Contains(between.Trim());
     }
 
+    /// <summary>
+    /// Determines whether the given text is a known HTML tag name, optionally with a numeric suffix.
+    /// </summary>
+    /// <param name="between">Text to check against known HTML tags.</param>
+    /// <param name="add">Initial value indicating whether to add (overwritten internally).</param>
+    /// <returns>True if the text matches an HTML tag name.</returns>
     public static bool IsNameOfHtmlTag(string between, bool add)
     {
-        string element = null;
-        var startWithTag = CA.StartWith(AllHtmlTags.list, between, out element);
+        string? element = null;
+        var startWithTag = CA.StartWith(AllHtmlTags.list!, between, out element);
         startWithTag = element;
         if (startWithTag != null)
         {

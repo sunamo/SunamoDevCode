@@ -1,16 +1,19 @@
 namespace SunamoDevCode.Aps.Projs.Data.ItemGroup;
 
+/// <summary>
+/// Represents a Compile item group element in a Visual Studio project file.
+/// </summary>
 public class CompileItemGroup : ItemGroupElement
 {
     /// <summary>
     /// Link attribute for the compile item
     /// </summary>
-    public string Link = null;
+    public string? Link = null;
 
     /// <summary>
     /// Full path to the file - use in checking whether exists already, not for simple adding
     /// </summary>
-    public string FullPathFile = null;
+    public string? FullPathFile = null;
 
     /// <summary>
     /// Initializes a new instance of CompileItemGroup

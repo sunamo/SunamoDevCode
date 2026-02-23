@@ -5,12 +5,12 @@ namespace SunamoDevCode.FileFormats;
 public static partial class XmlLocalisationInterchangeFileFormat
 {
     /// <summary>
-    /// Was earlier in sunamo, now in SunamoDevCode
+    /// Removes SessI18n calls from lines that contain any of the specified substrings.
     /// </summary>
-    /// <param name = "c"></param>
-    /// <param name = "lineCont"></param>
-    /// <returns></returns>
-    public static string RemoveSessI18nIfLineContains(string count, IList<string> lineCont = null)
+    /// <param name="count">Source text content to process.</param>
+    /// <param name="lineCont">Substrings to match against lines; defaults to internal list if null.</param>
+    /// <returns>Processed text with SessI18n removed from matching lines.</returns>
+    public static string RemoveSessI18nIfLineContains(string count, IList<string>? lineCont = null)
     {
         if (lineCont == null || lineCont.Count == 0)
         {
@@ -43,10 +43,10 @@ public static partial class XmlLocalisationInterchangeFileFormat
     }
 
     /// <summary>
-    /// Before is possible use ReplaceRlDataToSessionI18n
+    /// Removes all SessI18n wrapper calls from the given text content.
     /// </summary>
-    /// <param name = "c"></param>
-    /// <returns></returns>
+    /// <param name="count">Text content to strip SessI18n calls from.</param>
+    /// <returns>Text with all SessI18n calls removed.</returns>
     public static string RemoveAllSessI18n(string count)
     {
         var stringBuilder = new StringBuilder(count);
@@ -69,12 +69,27 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return result;
     }
 
+    /// <summary>
+    /// Cached type reference for XmlLocalisationInterchangeFileFormat.
+    /// </summary>
     public static Type type = typeof(XmlLocalisationInterchangeFileFormat);
+    /// <summary>
+    /// Replaces RLData resource calls with SessionI18n calls using default parameters.
+    /// </summary>
+    /// <param name="text">Source text to transform.</param>
+    /// <returns>Text with RLData replaced by SessionI18n.</returns>
     public static string ReplaceRlDataToSessionI18n(string text)
     {
         return ReplaceRlDataToSessionI18n(text, SunamoNotTranslateAble.RLDataEn, SunamoNotTranslateAble.SessI18nShort);
     }
 
+    /// <summary>
+    /// Replaces resource data calls with session i18n calls in the content, converting bracket styles.
+    /// </summary>
+    /// <param name="content">Source content to transform.</param>
+    /// <param name="from">Original resource accessor prefix to replace.</param>
+    /// <param name="to">New session i18n prefix to use.</param>
+    /// <returns>Content with resource calls replaced.</returns>
     public static string ReplaceRlDataToSessionI18n(string content, string from, string to)
     {
         var RLDataEn = SunamoNotTranslateAble.RLDataEn;
@@ -140,8 +155,13 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return count;
     }
 
+    /// <summary>
+    /// Gets the id attribute value from an XElement.
+    /// </summary>
+    /// <param name="element">XML element to read the id from.</param>
+    /// <returns>Value of the id attribute.</returns>
     public static string Id(XElement element)
     {
-        return XHelper.Attr(element, "id");
+        return XHelper.Attr(element, "id")!;
     }
 }

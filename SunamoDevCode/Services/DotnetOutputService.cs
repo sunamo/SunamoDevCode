@@ -21,9 +21,9 @@ public class DotnetOutputService
         {
             return null;
         }
-        var parts = SHSplit.SplitToParts(line, 4, ":");
-        var locationPart = parts[1].Trim();
-        string path = null;
+        var parts = SHSplit.SplitToParts(line, 4, ":")!;
+        var locationPart = parts![1].Trim();
+        string? path = null;
         int lineNumber = -1;
         int columnNumber = -1;
         if (locationPart.Contains("("))
@@ -41,8 +41,8 @@ public class DotnetOutputService
             path = parts[0] + ":" + locationPart;
         }
         var typeParts = SHSplit.Split(parts[2].Trim(), " ");
-        string type = null;
-        string errorCode = null;
+        string? type = null;
+        string? errorCode = null;
         if (typeParts.Count > 1)
         {
             type = typeParts[0];

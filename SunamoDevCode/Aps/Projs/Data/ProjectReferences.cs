@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoDevCode.Aps.Projs.Data;
 
 /// <summary>
@@ -9,10 +8,10 @@ public class ProjectReferences
     /// <summary>
     /// List of project names or paths
     /// </summary>
-    public List<string> Projects { get; set; }
+    public List<string> Projects { get; set; } = null!;
 
     /// <summary>
     /// XML nodes representing the project references
     /// </summary>
-    public List<XmlNode> Nodes { get; set; }
+    public List<XmlNode> Nodes { get; set; } = null!;
 }

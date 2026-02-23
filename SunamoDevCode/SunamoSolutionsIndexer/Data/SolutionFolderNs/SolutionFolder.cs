@@ -17,7 +17,7 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     /// <param name="logger">Logger instance.</param>
     /// <param name="solutionFolder">Solution folder to process.</param>
     /// <param name="args">Arguments for getting csproj files.</param>
-    public static void GetCsprojs(ILogger logger, SolutionFolder solutionFolder, GetCsprojsArgs args = null)
+    public static void GetCsprojs(ILogger logger, SolutionFolder solutionFolder, GetCsprojsArgs? args = null)
     {
         if (args == null)
         {
@@ -109,14 +109,14 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     /// </summary>
     public List<string> ProjectsInSolution { get => _projects; set => _projects = value; }
 
-    private List<string> _projectsGetCsprojs = null;
+    private List<string>? _projectsGetCsprojs = null;
 
     /// <summary>
     /// Gets or sets projects from SolutionFolder.GetCsprojs method.
     /// </summary>
     public List<string> ProjectsGetCsprojs
     {
-        get => _projectsGetCsprojs;
+        get => _projectsGetCsprojs!;
         set => _projectsGetCsprojs = value;
     }
 
@@ -153,7 +153,7 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
     /// <summary>
     /// Gets or sets the solution name without extension.
     /// </summary>
-    public string SlnNameWithoutExtension { get; set; } = null;
+    public string? SlnNameWithoutExtension { get; set; } = null;
     /// <summary>
     /// Returns the string representation of the solution folder.
     /// </summary>

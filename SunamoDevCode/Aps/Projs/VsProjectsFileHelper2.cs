@@ -19,12 +19,12 @@ public partial class VsProjectsFileHelper
 #endif
                 AddItemGroupSdkStyle(string csprojPath, ItemGroups itemGroups, ItemGroupElement itemGroupElement, bool isWritingToStorage)
     {
-        ResultWithException<XmlDocument> xmlDocumentResult = null;
+        ResultWithException<XmlDocument> xmlDocumentResult = null!;
 #if ASYNC
         await
 #endif
 XmlDocumentsCache.Get(csprojPath);
-        if (MayExcHelper.MayExc(xmlDocumentResult.Exc))
+        if (MayExcHelper.MayExc(xmlDocumentResult.Exc!))
         {
             return;
         }
@@ -34,7 +34,6 @@ XmlDocumentsCache.Get(csprojPath);
         }
         XmlDocument xmlDocument = new XmlDocument();
         string content = xmlDocumentResult.Data.OuterXml;
-        string uri = "https://schemas.microsoft.com/developer/msbuild/2003";
         string from = "xmlns=\"";
         string to = "xmlns2=\"";
         content = content.Replace(from, to);
@@ -44,7 +43,7 @@ XmlDocumentsCache.Get(csprojPath);
         if (itemGroup == null)
         {
             #region No ItemGroup, add new
-            itemGroup = AddNewItemGroup(csprojPath, xmlDocument, namespaceManager, itemGroup, project);
+            itemGroup = AddNewItemGroup(csprojPath, xmlDocument, namespaceManager, itemGroup!, project);
             #endregion
         }
         else
@@ -56,7 +55,7 @@ XmlDocumentsCache.Get(csprojPath);
                 // Already Exists
                 return;
             }
-            parent = xmlDocument.SelectSingleNode(@"//Project/ItemGroup/" + itemGroupsString, namespaceManager);
+            parent = xmlDocument.SelectSingleNode(@"//Project/ItemGroup/" + itemGroupsString, namespaceManager)!;
             if (parent == null)
             {
                 if (itemGroups == ItemGroups.Compile)
@@ -67,11 +66,11 @@ XmlDocumentsCache.Get(csprojPath);
             }
             if (parent != null)
             {
-                itemGroup = parent.ParentNode;
+                itemGroup = parent.ParentNode!;
             }
             else
             {
-                itemGroup = AddNewItemGroup(csprojPath, xmlDocument, namespaceManager, itemGroup, project);
+                itemGroup = AddNewItemGroup(csprojPath, xmlDocument, namespaceManager, itemGroup!, project);
             }
             #endregion
         }
@@ -82,7 +81,7 @@ XmlDocumentsCache.Get(csprojPath);
             CompileItemGroup compileItem = (CompileItemGroup)itemGroupElement;
             var xmlNode = compileItem.ToXml(xmlDocument);
             xmlNode = xmlDocument.ImportNode(xmlNode, true);
-            itemGroup.PrependChild(xmlNode);
+            itemGroup!.PrependChild(xmlNode);
             #endregion
         }
         else if (itemGroupElementType == ProjectReferenceItemGroup.Type)
@@ -90,14 +89,14 @@ XmlDocumentsCache.Get(csprojPath);
             ProjectReferenceItemGroup projectReferenceItem = (ProjectReferenceItemGroup)itemGroupElement;
             var xmlNode = projectReferenceItem.ToXml(xmlDocument);
             xmlNode = xmlDocument.ImportNode(xmlNode, true);
-            itemGroup.PrependChild(xmlNode);
+            itemGroup!.PrependChild(xmlNode);
         }
         else if (itemGroupElementType == ReferenceItemGroup.Type)
         {
             ReferenceItemGroup referenceItem = (ReferenceItemGroup)itemGroupElement;
             var xmlNode = referenceItem.ToXml(xmlDocument);
             xmlNode = xmlDocument.ImportNode(xmlNode, true);
-            itemGroup.PrependChild(xmlNode);
+            itemGroup!.PrependChild(xmlNode);
         }
         else
         {

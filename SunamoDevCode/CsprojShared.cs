@@ -11,12 +11,12 @@ using Microsoft.Extensions.Logging;
 public class CsprojShared
 {
     /// <summary>
-    /// True for sln
-    /// False for csproj
-    /// Null if neither or there is both sln/csproj
+    /// Detects whether the folder contains a solution or csproj file. Returns true for sln, false for csproj, null for neither or both.
     /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="path">Folder path to check.</param>
+    /// <param name="whatIsExcepted">Preference when both sln and csproj exist.</param>
+    /// <returns>True for sln, false for csproj, null if neither or ambiguous.</returns>
     public static bool? DetectIsSlnOrCsprojFolder(ILogger logger, string path, WhatIsExcepted whatIsExcepted)
     {
         if (path == null) return null;
@@ -35,7 +35,7 @@ public class CsprojShared
             {
                 try
                 {
-                    File.Delete(slnPath);
+                    File.Delete(slnPath!);
                     // is csproj
                     return false;
                 }
@@ -48,7 +48,7 @@ public class CsprojShared
             {
                 try
                 {
-                    File.Delete(csprojPath);
+                    File.Delete(csprojPath!);
                     // is sln
                     return true;
                 }
@@ -74,14 +74,28 @@ public class CsprojShared
         return null;
     }
 
-    public static string GetCsprojForFolder(ILogger logger, string path, bool isThrowingExceptionOrReturningNull)
+    /// <summary>
+    /// Gets the single .csproj file in the given folder.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="path">Folder path to search.</param>
+    /// <param name="isThrowingExceptionOrReturningNull">If true, throws on not found or multiple; if false, returns null.</param>
+    /// <returns>Path to the csproj file, or null if not found.</returns>
+    public static string? GetCsprojForFolder(ILogger logger, string path, bool isThrowingExceptionOrReturningNull)
     {
         return GetExtForFolder(logger, path, isThrowingExceptionOrReturningNull, "csproj");
     }
 
-    public static string GetSlnForFolder(ILogger logger, string path, bool isThrowingExceptionOrReturningNull)
+    /// <summary>
+    /// Gets the single solution file (.sln, .slnx, .slnj) in the given folder.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="path">Folder path to search.</param>
+    /// <param name="isThrowingExceptionOrReturningNull">If true, throws on not found; if false, returns null.</param>
+    /// <returns>Path to the solution file, or null if not found.</returns>
+    public static string? GetSlnForFolder(ILogger logger, string path, bool isThrowingExceptionOrReturningNull)
     {
-        string result = null;
+        string? result = null;
         foreach (var ext in new[] { "sln", "slnx", "slnj" })
         {
             result = GetExtForFolder(logger, path, false, ext);
@@ -108,7 +122,15 @@ public class CsprojShared
         return result;
     }
 
-    public static string GetExtForFolder(ILogger logger, string path, bool isThrowingExceptionOrReturningNull, string ext)
+    /// <summary>
+    /// Gets the single file matching the extension in the given folder.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="path">Folder path to search.</param>
+    /// <param name="isThrowingExceptionOrReturningNull">If true, throws on not found or multiple; if false, returns null.</param>
+    /// <param name="ext">File extension to search for (with or without leading dot).</param>
+    /// <returns>Path to the matching file, or null if not found.</returns>
+    public static string? GetExtForFolder(ILogger logger, string path, bool isThrowingExceptionOrReturningNull, string ext)
     {
         ext = ext.TrimStart('.');
 
@@ -141,15 +163,22 @@ public class CsprojShared
     }
 
 
+    /// <summary>
+    /// Checks whether a solution file exists in the parent folder of the given csproj path.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="csprojPath">Path to the csproj file.</param>
+    /// <param name="slnFolder">Output: the parent folder path where solution files were searched.</param>
+    /// <returns>True if at least one solution file exists in the parent folder.</returns>
     public static bool HasSlnFileInUpFolder(ILogger logger, string csprojPath, out string slnFolder)
     {
         var projectFolder = Path.GetDirectoryName(csprojPath);
-        slnFolder = Path.GetDirectoryName(projectFolder);
+        slnFolder = Path.GetDirectoryName(projectFolder)!;
 
         var slnFiles = new List<string>();
         foreach (var ext in new[] { "*.sln", "*.slnx", "*.slnj" })
         {
-            slnFiles.AddRange(FSGetFiles.GetFilesEveryFolder(logger, slnFolder, ext, SearchOption.AllDirectories));
+            slnFiles.AddRange(FSGetFiles.GetFilesEveryFolder(logger, slnFolder!, ext, SearchOption.AllDirectories));
         }
 
         return slnFiles.Count > 0;

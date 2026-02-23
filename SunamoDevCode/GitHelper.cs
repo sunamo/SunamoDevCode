@@ -52,6 +52,11 @@ public class GitHelper
     /// </summary>
     private const string BaseUrlBitbucket = @"https://bitbucket.org/sunamo/";
 
+    /// <summary>
+    /// Generates a PowerShell/Git bash script to pull updates from all specified folders.
+    /// </summary>
+    /// <param name="folders">List of repository folder paths to pull from.</param>
+    /// <returns>Generated bash script content for pulling all repositories.</returns>
     public static string PowershellForPull(List<string> folders)
     {
         var gitBashBuilder = new GitBashBuilder(new TextBuilderDC());
@@ -65,6 +70,18 @@ public class GitHelper
         return pullAllResult;
     }
 
+    /// <summary>
+    /// Pushes changes for a solution to the remote repository, including status check and commit.
+    /// </summary>
+    /// <param name="release">Whether this is a release build push.</param>
+    /// <param name="gitBashBuilder">Git bash builder for generating git commands.</param>
+    /// <param name="pushArgs">Additional arguments for the push command.</param>
+    /// <param name="commitMessage">Commit message to use.</param>
+    /// <param name="fullPathFolder">Full path to the solution folder.</param>
+    /// <param name="pushSolutionsData">Data about the push operation status.</param>
+    /// <param name="gitStatus">Git bash builder for status commands.</param>
+    /// <param name="psInvoke">Function to invoke PowerShell commands and return their output.</param>
+    /// <returns>True if the push was successful.</returns>
     public static
 #if ASYNC
         async Task<bool>

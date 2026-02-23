@@ -7,13 +7,15 @@ public partial class FoldersWithSolutions
     /// <summary>
     /// toSelling can be null
     /// </summary>
-    /// <param name = "solutionFolder"></param>
-    /// <param name = "toSelling"></param>
-    /// <param name = "projName"></param>
-    /// <returns></returns>
-    public static SolutionFolder CreateSolutionFolder(ILogger logger, string documentsFolder, string solutionFolder, PpkOnDriveDC toSelling, string projName = null)
+    /// <param name="logger">Logger instance.</param>
+    /// <param name="documentsFolder">Documents folder path.</param>
+    /// <param name="solutionFolder">Solution folder path.</param>
+    /// <param name="toSelling">Selling configuration (can be null).</param>
+    /// <param name="projName">Project name (optional).</param>
+    /// <returns>Created SolutionFolder.</returns>
+    public static SolutionFolder CreateSolutionFolder(ILogger logger, string documentsFolder, string solutionFolder, PpkOnDriveDC toSelling, string? projName = null)
     {
-        return CreateSolutionFolder(logger, documentsFolder, null, solutionFolder, toSelling, projName);
+        return CreateSolutionFolder(logger, documentsFolder, null!, solutionFolder, toSelling, projName);
     }
 
     /// <summary>
@@ -29,14 +31,14 @@ public partial class FoldersWithSolutions
     /// <param name="toSelling">Selling configuration (can be null)</param>
     /// <param name="projName">Project name (optional)</param>
     /// <returns>Created SolutionFolder</returns>
-    public static SolutionFolder CreateSolutionFolder(ILogger logger, string documentsFolder, SolutionFolderSerialize solutionFolderData, string solutionFolder, PpkOnDriveDC toSelling, string projName = null)
+    public static SolutionFolder CreateSolutionFolder(ILogger logger, string documentsFolder, SolutionFolderSerialize solutionFolderData, string solutionFolder, PpkOnDriveDC toSelling, string? projName = null)
     {
         if (projName == null)
         {
             projName = Path.GetFileName(solutionFolder);
         }
 
-        SolutionFolder solutionFolderInstance = null;
+        SolutionFolder? solutionFolderInstance = null;
         if (solutionFolderData != null)
         {
             solutionFolderInstance = new SolutionFolder(solutionFolderData);
@@ -90,7 +92,12 @@ public partial class FoldersWithSolutions
         return SolutionsIndexerHelper.GetDisplayedSolutionName(item);
     }
 
-    public List<SolutionFolder> SolutionsUap(IList<string> skipThese = null)
+    /// <summary>
+    /// Returns UAP (Universal App Platform) solutions from the VS17 repository.
+    /// </summary>
+    /// <param name="skipThese">Solution names to skip (optional).</param>
+    /// <returns>List of UAP solution folders.</returns>
+    public List<SolutionFolder> SolutionsUap(IList<string>? skipThese = null)
     {
         var slns = GetSolutions(RepositoryLocal.Vs17, false, skipThese);
         var uap = slns.Where(d => d.FullPathFolder.Contains(@"\_Uap\")).ToList();
@@ -127,7 +134,7 @@ public partial class FoldersWithSolutions
     /// <param name="isLoadingAll">If false and debugger attached, excludes working solutions</param>
     /// <param name="skipThese">Solution names to skip (supports wildcards)</param>
     /// <returns>Filtered list of solutions</returns>
-    public List<SolutionFolder> GetSolutions(RepositoryLocal repository, bool isLoadingAll = true, IList<string> skipThese = null)
+    public List<SolutionFolder> GetSolutions(RepositoryLocal repository, bool isLoadingAll = true, IList<string>? skipThese = null)
     {
         var result = new List<SolutionFolder>(Solutions);
         if (repository != RepositoryLocal.All)
@@ -135,7 +142,7 @@ public partial class FoldersWithSolutions
             result.RemoveAll(solution => solution.Repository != repository);
         }
 
-        List<string> skip = null;
+        List<string>? skip = null;
         if (skipThese != null)
         {
             skip = skipThese.ToList();
@@ -201,13 +208,13 @@ public partial class FoldersWithSolutions
 
         foreach (var vsFolder in visualStudioFolders)
         {
-            List<string> languageFolders = null;
+            List<string>? languageFolders = null;
             List<string> languageFoldersOutsideVs17 = new List<string>();
             try
             {
                 languageFolders = Directory.GetDirectories(vsFolder).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 continue;
             }
@@ -246,7 +253,7 @@ public partial class FoldersWithSolutions
         //{
         //    throw new Exception(folderWithVisualStudioFolders + " not exists, therefore will be return none slsn");
         //}
-        CAChangeContent.ChangeContent0(null, projects, SH.FirstCharUpper);
+        CAChangeContent.ChangeContent0(null!, projects, SH.FirstCharUpper);
         return projects;
     }
 
@@ -257,8 +264,8 @@ public partial class FoldersWithSolutions
     /// <returns>Tuple of (normal folders, special folders)</returns>
     public static Tuple<List<string>, List<string>> ReturnNormalAndSpecialFolders(string folder)
     {
-        List<string> specialFolders = null;
-        List<string> normalFolders = null;
+        List<string>? specialFolders = null;
+        List<string>? normalFolders = null;
         ReturnNormalAndSpecialFolders(folder, out specialFolders, out normalFolders);
         return new Tuple<List<string>, List<string>>(normalFolders, specialFolders);
     }
@@ -289,7 +296,7 @@ public partial class FoldersWithSolutions
                 }
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
     }

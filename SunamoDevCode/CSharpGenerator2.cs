@@ -185,7 +185,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name="args">Generator arguments (AddHyphens, etc.)</param>
     public void AddValuesViaAddRange(int tabCount, string objectName, string collectionName, Type type, List<string> values, CSharpGeneratorArgs args)
     {
-        AddValuesViaAddRange(tabCount, objectName, collectionName, type.FullName, values, args);
+        AddValuesViaAddRange(tabCount, objectName, collectionName, type.FullName!, values, args);
         sb.AppendLine();
     }
 
@@ -233,7 +233,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         NewVariable(tabCount, AccessModifiers.Private, className, dictionaryName, args);
         foreach (var item in dictionary)
         {
-            var list = CAChangeContent.ChangeContent0(null, item.Value, SH.WrapWithQm);
+            var list = CAChangeContent.ChangeContent0(null!, item.Value, SH.WrapWithQm);
             AppendLine(tabCount, dictionaryName + ".Add(\"" + item.Key + "\", new List<string>(" + string.Join(",", list) + "));");
         }
     }
@@ -249,7 +249,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name="keys">List of keys</param>
     /// <param name="randomValueGenerator">Function to generate random values</param>
     /// <param name="args">Generator arguments (AddingValue = true as default)</param>
-    public void DictionaryFromRandomValue<Key, Value>(int tabCount, string dictionaryName, List<Key> keys, Func<Value> randomValueGenerator, CSharpGeneratorArgs? args = null)
+    public void DictionaryFromRandomValue<Key, Value>(int tabCount, string dictionaryName, List<Key> keys, Func<Value> randomValueGenerator, CSharpGeneratorArgs? args = null) where Key : notnull
     {
         if (args == null)
         {
@@ -274,7 +274,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
     /// <param name="keys">List of keys</param>
     /// <param name="values">List of values</param>
     /// <param name="args">Generator arguments</param>
-    public void DictionaryFromTwoList<Key, Value>(int tabCount, string dictionaryName, List<Key> keys, List<Value> values, CSharpGeneratorArgs? args = null)
+    public void DictionaryFromTwoList<Key, Value>(int tabCount, string dictionaryName, List<Key> keys, List<Value> values, CSharpGeneratorArgs? args = null) where Key : notnull
     {
         ThrowEx.DifferentCountInListsTU("keys", keys, "values", values);
         if (args == null)

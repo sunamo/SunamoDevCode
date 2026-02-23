@@ -9,8 +9,8 @@ internal class AllHtmlTags
     /// <summary>
     /// Sorted from longest to shortest due to comparing and finding right string
     /// </summary>
-    internal static List<string> list = null;
-    static List<string> withLeftArrow;
+    internal static List<string>? list = null;
+    static List<string>? withLeftArrow;
     internal static List<string> WithLeftArrow
     {
         get
@@ -18,10 +18,10 @@ internal class AllHtmlTags
             if (withLeftArrow == null)
             {
                 Initialize();
-                withLeftArrow = new List<string>(list.Count);
-                for (int i = 0; i < list.Count; i++)
+                withLeftArrow = new List<string>(list!.Count);
+                for (int i = 0; i < list!.Count; i++)
                 {
-                    withLeftArrow.Add("<" + list[i] + " ");
+                    withLeftArrow.Add("<" + list![i] + " ");
                 }
             }
             return withLeftArrow;
