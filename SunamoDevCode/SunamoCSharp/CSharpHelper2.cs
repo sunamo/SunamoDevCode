@@ -4,17 +4,6 @@ namespace SunamoDevCode.SunamoCSharp;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public static partial class CSharpHelper
 {
-    /// <summary>
-    /// Generates C# code for populating a dictionary from two parallel lists of keys and values.
-    /// </summary>
-    /// <typeparam name = "Key">Type of dictionary keys.</typeparam>
-    /// <typeparam name = "Value">Type of dictionary values.</typeparam>
-    /// <param name = "tabCount">Number of tabs for indentation.</param>
-    /// <param name = "nameDictionary">Name of the dictionary variable.</param>
-    /// <param name = "keys">List of keys.</param>
-    /// <param name = "values">List of values.</param>
-    /// <param name = "argument">Arguments controlling code generation behavior (e.g., splitKeyWith).</param>
-    /// <returns>Generated C# code string.</returns>
     public static string GetDictionaryValuesFromTwoList<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, List<Value> values, CSharpGeneratorArgs argument) where Key : notnull
     {
         CSharpGenerator csg = new CSharpGenerator();
@@ -22,16 +11,6 @@ public static partial class CSharpHelper
         return csg.ToString();
     }
 
-    /// <summary>
-    /// Generates C# code for dictionary value assignments using random values from a factory function.
-    /// </summary>
-    /// <typeparam name="Key">Type of dictionary keys.</typeparam>
-    /// <typeparam name="Value">Type of dictionary values.</typeparam>
-    /// <param name="tabCount">Number of tabs for indentation.</param>
-    /// <param name="nameDictionary">Variable name of the dictionary.</param>
-    /// <param name="keys">List of dictionary keys.</param>
-    /// <param name="randomValue">Factory function that produces random values.</param>
-    /// <returns>Generated C# code string.</returns>
     public static string GetDictionaryValuesFromRandomValue<Key, Value>(int tabCount, string nameDictionary, List<Key> keys, Func<Value> randomValue) where Key : notnull
     {
         CSharpGenerator csg = new CSharpGenerator();
@@ -42,12 +21,6 @@ public static partial class CSharpHelper
     //public static string GetDictionary(string nameDictionary)
     //{
     //}
-    /// <summary>
-    /// Removes empty XML doc comment tags (like empty returns) except summary blocks.
-    /// </summary>
-    /// <param name="list">Source code lines to process.</param>
-    /// <param name="removedAnything">Output flag indicating whether anything was removed.</param>
-    /// <returns>Joined string of the modified lines.</returns>
     public static string RemoveXmlDocCommentsExceptSummary(List<string> list, ref bool removedAnything)
     {
         removedAnything = false;
@@ -64,11 +37,6 @@ public static partial class CSharpHelper
         return string.Join(Environment.NewLine, list); //string.Join(Environment.NewLine, list);
     }
 
-    /// <summary>
-    /// Removes all XML documentation comments from the source code lines.
-    /// </summary>
-    /// <param name="list">Source code lines to process.</param>
-    /// <returns>Cleaned source code with comments removed.</returns>
     public static string RemoveXmlDocComments(List<string> list)
     {
         ThrowEx.NotImplementedMethod();
@@ -83,14 +51,6 @@ public static partial class CSharpHelper
         return text;
     }
 
-    /// <summary>
-    /// Removes line and/or block comments from source code text.
-    /// </summary>
-    /// <param name="listOrString">Source code text to process.</param>
-    /// <param name="line">Whether to remove single-line comments.</param>
-    /// <param name="block">Whether to remove block comments.</param>
-    /// <param name="keepLinesNumbers">Whether to preserve line numbers by keeping newlines.</param>
-    /// <returns>Source code with comments removed.</returns>
     public static string RemoveComments(string listOrString, bool line = true, bool block = true, bool keepLinesNumbers = false)
     {
         if (keepLinesNumbers)
@@ -156,14 +116,6 @@ public static partial class CSharpHelper
         return output;
     }
 
-    /// <summary>
-    /// Removes C# line comments and/or block comments from the given source code lines.
-    /// </summary>
-    /// <param name = "listOrString">Source code lines to process.</param>
-    /// <param name = "line">Whether to remove single-line comments.</param>
-    /// <param name = "block">Whether to remove block comments.</param>
-    /// <param name = "keepLinesNumbers">Whether to keep original line numbers (replace comments with empty lines instead of removing).</param>
-    /// <returns>Processed source code lines with comments removed.</returns>
     public static List<string> RemoveComments(List<string> listOrString, bool line = true, bool block = true, bool keepLinesNumbers = false)
     {
         if (keepLinesNumbers)
@@ -187,11 +139,6 @@ public static partial class CSharpHelper
         return listOrString;
     }
 
-    /// <summary>
-    /// Direct edit
-    /// </summary>
-    /// <param name = "list"></param>
-    /// <returns></returns>
     public static List<string> RemoveLineComments(List<string> list)
     {
         //List<string> list = CastHelper.ToListString(listOrString);
@@ -208,11 +155,6 @@ public static partial class CSharpHelper
     const string lineComments = @"//(.*?)\r?\n";
     const string strings = @"""((\\[^\n]|[^""\n])*)""";
     const string verbatimStrings = @"@(""[^""]*"")+";
-    /// <summary>
-    /// Removes block comments (/* ... */) and line comments (//) from source code using regex.
-    /// </summary>
-    /// <param name="str">Source code text to process.</param>
-    /// <returns>Text with block and line comments removed.</returns>
     public static string RemoveBlockComments(string str)
     {
         //var str = CastHelper.ToString(listOrString);
@@ -231,16 +173,6 @@ public static partial class CSharpHelper
         return str;
     }
 
-    /// <summary>
-    /// Generates C# code for creating and populating a Dictionary with string keys and typed values.
-    /// </summary>
-    /// <typeparam name="Value">Type of dictionary values.</typeparam>
-    /// <param name="tabCount">Number of tabs for indentation.</param>
-    /// <param name="keys">List of string keys.</param>
-    /// <param name="values">List of values.</param>
-    /// <param name="nameDictionary">Variable name for the dictionary.</param>
-    /// <param name="argument">Code generation arguments.</param>
-    /// <returns>Generated C# code string.</returns>
     public static string GetDictionaryStringObject<Value>(int tabCount, List<string> keys, List<Value> values, string nameDictionary, CSharpGeneratorArgs argument)
     {
         int pocetTabu = 0;
@@ -261,11 +193,6 @@ public static partial class CSharpHelper
         return result;
     }
 
-    /// <summary>
-    /// Returns the default value string for a SQLite data type.
-    /// </summary>
-    /// <param name="type">SQLite type name (TEXT, INTEGER, REAL, DATETIME, BLOB).</param>
-    /// <returns>Default value string for the given type.</returns>
     public static string DefaultValueForTypeSqLite(string type)
     {
         if (type.Contains("."))

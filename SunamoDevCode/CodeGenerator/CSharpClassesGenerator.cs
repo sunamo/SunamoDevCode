@@ -1,22 +1,9 @@
 namespace SunamoDevCode.CodeGenerator;
 
-/// <summary>
-/// Generator for C# classes. Generation of single element is in CSharpHelper.
-/// </summary>
 public class CSharpClassesGenerator
 {
-    /// <summary>
-    /// Type information for runtime type checking.
-    /// </summary>
     public static Type Type = typeof(CSharpClassesGenerator);
 
-    /// <summary>
-    /// Generates a dictionary class with random values.
-    /// </summary>
-    /// <param name="className">Name of the class to generate.</param>
-    /// <param name="keys">List of dictionary keys.</param>
-    /// <param name="randomValue">Function that generates random values.</param>
-    /// <returns>Generated C# code as string.</returns>
     public static string Dictionary(string className, List<string> keys, Func<string> randomValue)
     {
         List<string> values = new List<string>();
@@ -28,13 +15,6 @@ public class CSharpClassesGenerator
         return Dictionary(className, keys, values);
     }
 
-    /// <summary>
-    /// Generates a dictionary class with specified keys and values.
-    /// </summary>
-    /// <param name="className">Name of the class to generate.</param>
-    /// <param name="keys">List of dictionary keys.</param>
-    /// <param name="values">List of dictionary values.</param>
-    /// <returns>Generated C# code as string.</returns>
     public static string Dictionary(string className, List<string> keys, List<string> values)
     {
 
@@ -54,13 +34,6 @@ public class CSharpClassesGenerator
         return generator.ToString();
     }
 
-    /// <summary>
-    /// Generates a dictionary class with Pascal convention conversion.
-    /// </summary>
-    /// <param name="className">Name of the class to generate.</param>
-    /// <param name="list">List of items to convert and use as keys or values.</param>
-    /// <param name="switchKeysAndValues">If true, switches keys and values in the dictionary.</param>
-    /// <returns>Generated C# code as string.</returns>
     public static string DictionaryPascalConvention(string className, List<string> list, bool switchKeysAndValues)
     {
         List<string> values = new List<string>();

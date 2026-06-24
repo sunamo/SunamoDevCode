@@ -2,13 +2,7 @@ namespace SunamoDevCode;
 
 partial class GetCsprojs
 {
-    /// <summary>
-    /// Rozdíl oproti GetCsprojInSolution je že vrací v objektu co je z GetCsprojInSolution v Tuple
-    /// </summary>
-    /// <param name="logger"></param>
-    /// <param name="slnFolder"></param>
-    /// <param name="automaticallyAddToUniqueCsprojs"></param>
-    /// <returns></returns>
+    // Rozdíl oproti GetCsprojInSolution je že vrací v objektu co je z GetCsprojInSolution v Tuple
     public static CsprojsInSolution GetCsprojInSolutionClass(ILogger logger, string slnFolder, bool automaticallyAddToUniqueCsprojs = true)
     {
         var (csprojNames, csprojPaths) = GetCsprojInSolution(logger, slnFolder);
@@ -21,15 +15,10 @@ partial class GetCsprojs
         return result;
     }
 
-    /// <summary>
-    /// Rozdíl oproti GetCsprojInSolution je že vrací v objektu co je z GetCsprojInSolution v Tuple
-    ///
-    /// 1 - csprojFolderPaths
-    /// 2 - csprojPaths
-    /// </summary>
-    /// <param name="logger">Logger instance for logging operations.</param>
-    /// <param name="slnFolder">Solution folder to search for csproj files.</param>
-    /// <returns>Tuple of (csprojFolderPaths, csprojPaths).</returns>
+    // Rozdíl oproti GetCsprojInSolution je že vrací v objektu co je z GetCsprojInSolution v Tuple
+    //
+    // 1 - csprojFolderPaths
+    // 2 - csprojPaths
     public static (List<string>, List<string>) GetCsprojInSolution(ILogger logger, string slnFolder)
     {
         List<string> csprojPaths = [];
@@ -70,17 +59,11 @@ partial class GetCsprojs
         return (csprojFolderPaths, csprojPaths);
     }
 
-    /// <summary>
-    /// Gets all csproj file paths within the specified solution folder. Deprecated in favor of GetCsprojInSolution.
-    /// </summary>
-    /// <param name="logger">Logger instance for logging operations.</param>
-    /// <param name="slnFolder">Solution folder to search for csproj files.</param>
-    /// <returns>List of csproj file paths.</returns>
-    [Obsolete("Tato metoda se zdá být zbytečná. Její práci dělá jiná v tomto souboru.")]
+    [Obsolete("Tato metoda se zdá být zbytecná. Její práci dělá jiná v tomto souboru.")]
     public static List<string> GetCsprojsInSolution(ILogger logger, string slnFolder)
     {
         var f = GetFoldersWithAtLeastOneCsprojInSolution(logger, slnFolder);
-        List<string> result = new List<string>(f.Count);
+        var result = new List<string>(f.Count);
         foreach (var item in f)
         {
             result.Add(FSGetFiles.GetFilesEveryFolder(logger, item, "*.csproj", SearchOption.TopDirectoryOnly)[0]);

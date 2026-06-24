@@ -1,8 +1,5 @@
 namespace SunamoDevCode;
 
-/// <summary>
-/// Helper class for System.Windows controls shortcuts and names
-/// </summary>
 public static class SystemWindowsControls
 {
     private static readonly Type type = typeof(SystemWindowsControls);
@@ -12,9 +9,6 @@ public static class SystemWindowsControls
 
     private static Dictionary<string, string>? controlsShortLong;
 
-    /// <summary>
-    /// Initializes the controls short to long mapping dictionary
-    /// </summary>
     public static void InitControlsShortLong()
     {
         Init();
@@ -29,9 +23,6 @@ public static class SystemWindowsControls
         }
     }
 
-    /// <summary>
-    /// Initializes the embedded resources and controls dictionary
-    /// </summary>
     public static void Init()
     {
         if (!s_initialized)
@@ -42,11 +33,6 @@ public static class SystemWindowsControls
         }
     }
 
-    /// <summary>
-    /// Checks if the given text starts with any control shortcut
-    /// </summary>
-    /// <param name="text">Text to check</param>
-    /// <returns>True if text starts with a control shortcut</returns>
     public static bool StartingWithShortcutOfControl(string text)
     {
         foreach (var item in s_controls)
@@ -58,11 +44,6 @@ public static class SystemWindowsControls
         return false;
     }
 
-    /// <summary>
-    /// Checks if the given text is a control shortcut
-    /// </summary>
-    /// <param name="text">Text to check</param>
-    /// <returns>True if text is a control shortcut</returns>
     public static bool IsShortcutOfControl(string text)
     {
         foreach (var item in s_controls)
@@ -73,13 +54,5 @@ public static class SystemWindowsControls
         return false;
     }
 
-    /// <summary>
-    /// Checks if the given text is a control name
-    /// </summary>
-    /// <param name="text">Text to check</param>
-    /// <returns>True if text is a control name</returns>
-    public static bool IsNameOfControl(string text)
-    {
-        return s_controls.ContainsKey(text);
-    }
+    public static bool IsNameOfControl(string text) => s_controls.ContainsKey(text);
 }

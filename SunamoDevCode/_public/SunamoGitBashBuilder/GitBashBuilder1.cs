@@ -4,15 +4,6 @@ namespace SunamoDevCode._public.SunamoGitBashBuilder;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public partial class GitBashBuilder : IGitBashBuilder
 {
-    /// <summary>
-    /// Prepares a list of files into a simple git-compatible format relative to the repository root.
-    /// </summary>
-    /// <param name="solution">Solution folder name or path.</param>
-    /// <param name="linesFiles">List of file references to prepare.</param>
-    /// <param name="anyError">Output flag indicating if any files could not be found.</param>
-    /// <param name="searchOnlyWithExtension">File extension filter (e.g., ".cs").</param>
-    /// <param name="basePathIfA2SolutionsWontExistsOnFilesystem">Fallback base path when solution directory does not exist on disk.</param>
-    /// <returns>List of prepared file paths, or null if any error occurred.</returns>
     public static List<string>? PrepareFilesToSimpleGitFormat(string solution, List<string> linesFiles, out bool anyError, string searchOnlyWithExtension, string basePathIfA2SolutionsWontExistsOnFilesystem)
     {
         searchOnlyWithExtension = searchOnlyWithExtension.TrimStart('*');
@@ -133,9 +124,6 @@ public partial class GitBashBuilder : IGitBashBuilder
         return filesToCommit;
     }
 
-    /// <summary>
-    /// Gets or sets the message text used when errors occur during file preparation.
-    /// </summary>
     public static string SomeErrorsOccured { get; set; } = "SomeErrorsOccured";
 #pragma warning disable
     public static string CreateGitCommandForFiles(string command, StringBuilder sb, List<string> linesFiles)
@@ -144,53 +132,31 @@ public partial class GitBashBuilder : IGitBashBuilder
     }
 
 #pragma warning restore
-    /// <summary>
-    /// Appends a cd (change directory) command to the script.
-    /// </summary>
-    /// <param name="key">Directory path to change to.</param>
     public void Cd(string key)
     {
         StringBuilder.AppendLine("cd " + SH.WrapWith(key, "\""));
     }
 
-    /// <summary>
-    /// Clears all accumulated commands.
-    /// </summary>
     public void Clear()
     {
         StringBuilder.Clear();
     }
 
-    /// <summary>
-    /// Appends text followed by a space to the command script.
-    /// </summary>
-    /// <param name="text">Text to append.</param>
     public void Append(string text)
     {
         StringBuilder.Append(text + " ");
     }
 
-    /// <summary>
-    /// Appends a line of text to the command script.
-    /// </summary>
-    /// <param name="text">Text to append as a new line.</param>
     public void AppendLine(string text)
     {
         StringBuilder.AppendLine(text);
     }
 
-    /// <summary>
-    /// Appends an empty line to the command script.
-    /// </summary>
     public void AppendLine()
     {
         StringBuilder.AppendLine();
     }
 
-    /// <summary>
-    /// Returns the complete command script as a string.
-    /// </summary>
-    /// <returns>The command script text.</returns>
     public override string ToString()
     {
         return StringBuilder.ToString();

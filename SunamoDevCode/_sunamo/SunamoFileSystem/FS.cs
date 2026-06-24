@@ -23,7 +23,7 @@ internal partial class FS
 
     internal static bool IsAbsolutePath(string path)
     {
-        return !String.IsNullOrWhiteSpace(path) && path.IndexOfAny(System.IO.Path.GetInvalidPathChars()) == -1 && Path.IsPathRooted(path) && !Path.GetPathRoot(path)!.Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal);
+        return !string.IsNullOrWhiteSpace(path) && path.IndexOfAny(System.IO.Path.GetInvalidPathChars()) == -1 && Path.IsPathRooted(path) && !Path.GetPathRoot(path)!.Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal);
     }
 
     internal static string GetAbsolutePath2(string relativePath, string baseDirectory)
@@ -173,11 +173,6 @@ internal partial class FS
         if (!path.StartsWith(@"\\?\"))
         {
         // V ASP.net mi vrátilo u každé directory.exists false. Byl jsem pod ApplicationPoolIdentity v IIS a bylo nastaveno Full Control pro IIS AppPool\DefaultAppPool
-#if !ASPNET
-        //  asp.net / vps nefunguje, ve windows store apps taktéž, NECHAT TO TRVALE ZAKOMENTOVANÉ
-        // v asp.net toto způsobí akorát zacyklení, IIS začne vyhazovat 0xc00000fd, pak už nejde načíst jediná stránka
-        //path = @"\\?\" + path;
-#endif
         }
 
         return path;

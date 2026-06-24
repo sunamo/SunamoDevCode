@@ -4,28 +4,15 @@ namespace SunamoDevCode.FileFormats;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public static partial class XmlLocalisationInterchangeFileFormat
 {
-    /// <summary>
-    /// Gets trans-unit IDs or targets from XLF file that contain diacritics.
-    /// </summary>
-    /// <param name="fn">Path to the XLF file.</param>
-    /// <param name="p">Which part of the trans-unit to check (Id or Target).</param>
-    /// <param name="saveToClipboard">Reserved for clipboard functionality.</param>
-    /// <returns>List of trans-unit IDs that contain diacritics.</returns>
     public static
-#if ASYNC
         async Task<List<string>>
-#else
-    List<string> 
-#endif
     FromXlfWithDiacritic(string fn, XlfParts p, bool saveToClipboard = false)
     {
         // Dont use, its also non czech with diacritic hats tuồng (hats bôi)
-        var data = 
-#if ASYNC
+        var data =
             await
-#endif
         GetTransUnits(fn);
-        List<string> r = new List<string>();
+        List<string> r = new();
         if (p == XlfParts.Id)
         {
             foreach (var item in data.TransUnits)
@@ -64,24 +51,12 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return r;
     }
 
-    /// <summary>
-    /// Removes specified trans-units from the XLF file and corresponding constants from XlfKeys.
-    /// </summary>
-    /// <param name="fn">Path to the XLF file.</param>
-    /// <param name="idsEndingEnd">List of IDs or target values to remove.</param>
-    /// <param name="p">Which part to match against (Id or Target).</param>
     public static
-#if ASYNC
         async Task
-#else
-    void
-#endif
     RemoveFromXlfAndXlfKeys(string fn, List<string> idsEndingEnd, XlfParts p)
     {
-        var data = 
-#if ASYNC
+        var data =
             await
-#endif
         GetTransUnits(fn);
         bool removed = false;
         if (p == XlfParts.Id)
@@ -129,9 +104,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
 
                 if (!removed)
                 {
-#if DEBUG
-                    //DebugLogger.Instance.WriteLine(idsEndingEnd[i]);
-#endif
                 }
             }
         }
@@ -140,16 +112,8 @@ public static partial class XmlLocalisationInterchangeFileFormat
         data.XmlDocument.Save(fn);
     }
 
-    /// <summary>
-    /// Removes duplicate trans-units from an XLF file, keeping only the first occurrence of each ID.
-    /// </summary>
-    /// <param name="xlfPath">Path to the XLF file to deduplicate.</param>
     public static
-#if ASYNC
         async Task
-#else
-    void
-#endif
     RemoveDuplicatesInXlfFile(string xlfPath)
     {
         // There is no way to delete node in xlf file with XlfDocument.
@@ -187,10 +151,8 @@ public static partial class XmlLocalisationInterchangeFileFormat
         //data.XmlDocument.Save(xlfPath);
         }
 
-        var allIds = 
-#if ASYNC
+        var allIds =
             await
-#endif
         GetIds(xlfPath);
         XlfData xlfData = allIds.Item2;
         List<string> duplicated;
@@ -204,38 +166,19 @@ public static partial class XmlLocalisationInterchangeFileFormat
         xlfData.XmlDocument.Save(xlfPath);
     }
 
-    /// <summary>
-    /// Gets all trans-unit IDs from an XLF file along with the parsed XLF data.
-    /// </summary>
-    /// <param name="xlfPath">Path to the XLF file.</param>
-    /// <returns>OutRef containing list of IDs and the parsed XlfData.</returns>
     public static
-#if ASYNC
         async Task<OutRefDC<List<string>, XlfData>>
-#else
-    OutRef<List<string>, XlfData> 
-#endif
     GetIds(string xlfPath)
     {
-        var xlfData = 
-#if ASYNC
+        var xlfData =
             await
-#endif
         XmlLocalisationInterchangeFileFormat.GetTransUnits(xlfPath);
         xlfData.FillIds();
         return new OutRefDC<List<string>, XlfData>(xlfData.AllIds, xlfData);
     }
 
-    /// <summary>
-    /// Replaces string keys with XLF keys in all C# files under the given path.
-    /// </summary>
-    /// <param name="path">Root directory to scan for C# files.</param>
     public static
-#if ASYNC
         async Task
-#else
-    void
-#endif
     ReplaceStringKeysWithXlfKeys(string path)
     {
         List<string> files = Directory.GetFiles(path, "*.cs", SearchOption.AllDirectories).ToList();

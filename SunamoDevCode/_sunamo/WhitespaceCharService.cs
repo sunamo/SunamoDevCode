@@ -1,8 +1,5 @@
 namespace SunamoDevCode._sunamo;
 
-/// <summary>
-/// Service for whitespace character handling
-/// </summary>
 internal class WhitespaceCharService
 {
     internal List<char> WhiteSpaceChars = null!;

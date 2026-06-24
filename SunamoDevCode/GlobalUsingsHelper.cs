@@ -1,25 +1,10 @@
 namespace SunamoDevCode;
 
-/// <summary>
-///     Druhá část je v ToNugets
-///     Vložit sem jak toto šílenství s nugety skončí
-/// </summary>
 public class GlobalUsingsHelper
 {
-    /// <summary>
-    /// Prefix for global using directives in C# source files.
-    /// </summary>
     public const string globalUsing = "global using ";
-    /// <summary>
-    /// Prefix for global directives (used for global symbols with = assignments).
-    /// </summary>
     public const string global = "global ";
 
-    /// <summary>
-    /// Parses a list of lines to extract global using directives and global symbol definitions.
-    /// </summary>
-    /// <param name="list">Lines to parse.</param>
-    /// <returns>Parsed result containing global usings and symbols.</returns>
     public static ParseGlobalUsingsResult Parse(List<string> list)
     {
         var result = new ParseGlobalUsingsResult();

@@ -1,18 +1,9 @@
 namespace SunamoDevCode;
 
-/// <summary>
-/// Contains Visual Studio project type GUIDs for different project types.
-/// </summary>
 public static class ProjectTypeGuid
 {
-    /// <summary>
-    /// Represents an unspecified project type GUID.
-    /// </summary>
     public const string Unspecified = "{00000000-0000-0000-0000-000000000000}";
 
-    /// <summary>
-    /// Dictionary mapping project type GUIDs to their human-readable names.
-    /// </summary>
     public static readonly Dictionary<string, string> WellKnown = new(StringComparer.OrdinalIgnoreCase)
     {
         { "{603C0E0B-DB56-11DC-BE95-000D561079B0}", "ASP.NET MVC" + " " + "" },
@@ -58,7 +49,7 @@ public static class ProjectTypeGuid
         { "{C089C8C0-30E0-4E22-80C0-CE093F111A43}", "Store App WP 8.1 SL (C" + "#" + "" },
         { "{DB03555F-0C8B-43BE-9FF9-57896B3C5E56}", "Store App WP 8.1 SL (VB.NET)" },
         { "{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548}", "WPF" },
-        { "{BC8A1FFA-BEE3-4634-8014-F334798102B3}", "Store\u00A0App Win 8.1" },
+        { "{BC8A1FFA-BEE3-4634-8014-F334798102B3}", "Store App Win 8.1" },
         { "{D954291E-2A0B-460D-934E-DC6B0785DB48}", "Store App Universal" },
         { "{14822709-B5A1-4724-98CA-57A101D1B079}", "Workflow (C" + "#" + "" },
         { "{D59BE175-2ED0-4C54-BE3D-CDAA9F3214C8}", "Workflow (VB.NET)" },

@@ -31,8 +31,7 @@ internal class DictionaryHelper
         }
         else
         {
-            List<Value> newList = new List<Value>();
-            newList.Add(value);
+            var newList = new List<Value> { value };
             dictionary.Add(key, newList);
         }
     }
@@ -50,25 +49,14 @@ internal class DictionaryHelper
     }
 
     #region AddOrCreate když key i value není list
-    /// <summary>
-    ///     A3 is inner type of collection entries
-    ///     dictS => is comparing with string
-    ///     As inner must be List, not IList etc.
-    ///     From outside is not possible as inner use other class based on IList
-    /// </summary>
-    /// <typeparam name="Key">Type of dictionary key</typeparam>
-    /// <typeparam name="Value">Type of dictionary value</typeparam>
-    /// <typeparam name="ColType">Type of collection entries for comparison</typeparam>
-    /// <param name="dict">Dictionary to add or update</param>
-    /// <param name="key">Key to add or update</param>
-    /// <param name="value">Value to add</param>
-    /// <param name="withoutDuplicitiesInValue">Whether to avoid duplicate values</param>
-    /// <param name="dictS">Optional string comparison dictionary</param>
+    // A3 is inner type of collection entries
+    // dictS => is comparing with string
+    // As inner must be List, not IList etc.
+    // From outside is not possible as inner use other class based on IList
     internal static void AddOrCreate<Key, Value, ColType>(IDictionary<Key, List<Value>> dict, Key key, Value value,
     bool withoutDuplicitiesInValue = false, Dictionary<Key, List<string>>? dictS = null) where Key : notnull
     {
-        var compWithString = false;
-        if (dictS != null) compWithString = true;
+        var compWithString = dictS != null;
 
         if (key is IList && typeof(ColType) != typeof(Object))
         {
@@ -96,14 +84,12 @@ internal class DictionaryHelper
             }
             else
             {
-                List<Value> newList = new();
-                newList.Add(value);
+                var newList = new List<Value> { value };
                 dict.Add(key, newList);
 
                 if (compWithString)
                 {
-                    List<string> newStringList = new();
-                    newStringList.Add(value!.ToString()!);
+                    var newStringList = new List<string> { value!.ToString()! };
                     dictS!.Add(key, newStringList);
                 }
             }
@@ -142,8 +128,7 @@ internal class DictionaryHelper
                 {
                     if (!dict.ContainsKey(key))
                     {
-                        List<Value> newList = new();
-                        newList.Add(value);
+                        var newList = new List<Value> { value };
                         dict.Add(key, newList);
                     }
                     else
@@ -155,8 +140,7 @@ internal class DictionaryHelper
                     {
                         if (!dictS!.ContainsKey(key))
                         {
-                            List<string> newStringList = new();
-                            newStringList.Add(value!.ToString()!);
+                            var newStringList = new List<string> { value!.ToString()! };
                             dictS.Add(key, newStringList);
                         }
                         else
@@ -169,17 +153,8 @@ internal class DictionaryHelper
         }
     }
 
-    /// <summary>
-    ///     Pokud A1 bude obsahovat skupinu pod názvem A2, vložím do této skupiny prvek A3
-    ///     Jinak do A1 vytvořím novou skupinu s klíčem A2 s hodnotou A3
-    /// </summary>
-    /// <typeparam name="Key">Type of dictionary key</typeparam>
-    /// <typeparam name="Value">Type of dictionary value</typeparam>
-    /// <param name="dictionary">Dictionary to add or update</param>
-    /// <param name="key">Key to add or update</param>
-    /// <param name="value">Value to add</param>
-    /// <param name="withoutDuplicitiesInValue">Whether to avoid duplicate values</param>
-    /// <param name="dictS">Optional string comparison dictionary</param>
+    // Pokud A1 bude obsahovat skupinu pod názvem A2, vložím do této skupiny prvek A3
+    // Jinak do A1 vytvořím novou skupinu s klíčem A2 s hodnotou A3
     internal static void AddOrCreate<Key, Value>(IDictionary<Key, List<Value>> dictionary, Key key, Value value,
     bool withoutDuplicitiesInValue = false, Dictionary<Key, List<string>>? dictS = null) where Key : notnull
     {
@@ -190,7 +165,7 @@ internal class DictionaryHelper
     internal static Dictionary<Key, Value> GetDictionary<Key, Value>(List<Key> keys, List<Value> values) where Key : notnull
     {
         ThrowEx.DifferentCountInLists("keys", keys.Count, "values", values.Count);
-        Dictionary<Key, Value> result = new Dictionary<Key, Value>();
+        var result = new Dictionary<Key, Value>();
         for (int i = 0; i < keys.Count; i++)
         {
             result.Add(keys[i], values[i]);
@@ -205,6 +180,6 @@ internal class DictionaryHelper
             return item.Value;
         }
 
-        return default(Value);
+        return default;
     }
 }

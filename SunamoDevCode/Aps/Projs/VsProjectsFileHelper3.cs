@@ -3,24 +3,14 @@ namespace SunamoDevCode.Aps.Projs;
 public partial class VsProjectsFileHelper
 {
     const string sdkAttrName = "Sdk";
-    /// <summary>
-    /// Vytvoří mi nový vsproj z templaty VS2019
-    /// </summary>
-    /// <param name="safeProjectName"></param>
-    /// <returns></returns>
+    // Vytvoří mi nový vsproj z templaty VS2019
     public static
-#if ASYNC
         async Task<string>
-#else
-            string
-#endif
         XmlClassLibraryFromTemplate(string safeProjectName)
     {
         var parameter = @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\ProjectTemplates\CSharp\Windows\1033\ClassLibrary\classlibrary.csproj";
         var readResult =
-#if ASYNC
             await
-#endif
             TF.ReadAllText(parameter);
         string count = readResult!;
         ReplaceProjectTemplateParameter(ref count, VsProjectTemplateParameters.guid1, Guid.NewGuid());

@@ -1,15 +1,7 @@
 namespace SunamoDevCode.Services;
 
-/// <summary>
-/// Service for parsing dotnet build output
-/// </summary>
 public class DotnetOutputService
 {
-    /// <summary>
-    /// Parses a single line from dotnet build output into structured format
-    /// </summary>
-    /// <param name="line">Line from dotnet build output</param>
-    /// <returns>Parsed output line or null if line is not parseable</returns>
     public DotnetBuildOutputLine? GetPartsFromDotnetBuildLine(string line)
     {
         if (line.StartsWith("MSBuild version"))

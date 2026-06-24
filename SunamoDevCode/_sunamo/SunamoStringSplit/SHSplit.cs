@@ -1,31 +1,12 @@
 namespace SunamoDevCode._sunamo.SunamoStringSplit;
 
-/// <summary>
-/// String Helper for splitting strings.
-/// </summary>
 internal class SHSplit
 {
-    /// <summary>
-    /// Splits a string by specified delimiters, removing empty entries.
-    /// </summary>
-    /// <param name="text">The text to split.</param>
-    /// <param name="delimiters">Delimiters to split by.</param>
-    /// <returns>List of split parts.</returns>
     internal static List<string> Split(string text, params string[] delimiters)
     {
         return text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
-    /// <summary>
-    /// Splits a string into a specific number of parts.
-    /// Returns null if count of parts is under the required amount.
-    /// Automatically adds empty padding items at end if got lower than required.
-    /// Automatically joins overloaded items to last part.
-    /// </summary>
-    /// <param name="what">The text to split.</param>
-    /// <param name="parts">Required number of parts.</param>
-    /// <param name="delimiter">Delimiter to split by.</param>
-    /// <returns>List with exact number of parts, or null if insufficient parts.</returns>
     internal static List<string>? SplitToParts(string what, int parts, string delimiter)
     {
         var text = Split(what.RemoveInvisibleChars(), delimiter);
@@ -65,24 +46,11 @@ internal class SHSplit
         return result;
     }
 
-    /// <summary>
-    /// Splits a string by a single character delimiter.
-    /// </summary>
-    /// <param name="text">The text to split.</param>
-    /// <param name="delimiter">The character delimiter.</param>
-    /// <returns>List of split parts.</returns>
     internal static List<string> SplitChar(string text, char delimiter)
     {
         return Split(StringSplitOptions.RemoveEmptyEntries, text, (new List<char>([delimiter]).ConvertAll(character => character.ToString()).ToArray()));
     }
 
-    /// <summary>
-    /// Splits a string by specified delimiters with custom split options.
-    /// </summary>
-    /// <param name="stringSplitOptions">Options for splitting behavior.</param>
-    /// <param name="text">The text to split.</param>
-    /// <param name="delimiter">Delimiters to split by.</param>
-    /// <returns>List of trimmed split parts.</returns>
     internal static List<string> Split(StringSplitOptions stringSplitOptions, string text, params string[] delimiter)
     {
         if (delimiter == null || delimiter.Length == 0)
@@ -102,23 +70,12 @@ internal class SHSplit
 
 
 
-    /// <summary>
-    /// Splits a string by all whitespace characters.
-    /// </summary>
-    /// <param name="text">The text to split.</param>
-    /// <returns>List of parts split by whitespace.</returns>
     internal static List<string> SplitByWhiteSpaces(string text)
     {
         WhitespaceCharService whitespaceChar = new();
         return text.Split(whitespaceChar.WhiteSpaceChars.ToArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
-    /// <summary>
-    /// Splits replacement format strings into from and to parts.
-    /// Format: "from->to" on each line.
-    /// </summary>
-    /// <param name="input">Input string in replacement format.</param>
-    /// <returns>Tuple with from and to strings.</returns>
     internal static Tuple<string, string> SplitFromReplaceManyFormat(string input)
     {
         StringBuilder to = new StringBuilder();
@@ -145,11 +102,6 @@ internal class SHSplit
         return new Tuple<string, string>(from.ToString(), to.ToString());
     }
 
-    /// <summary>
-    /// Splits replacement format strings into from and to lists.
-    /// </summary>
-    /// <param name="input">Input string in replacement format.</param>
-    /// <returns>Tuple with from and to lists.</returns>
     internal static Tuple<List<string>, List<string>> SplitFromReplaceManyFormatList(string input)
     {
         var temp = SplitFromReplaceManyFormat(input);

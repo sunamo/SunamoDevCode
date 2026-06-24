@@ -5,20 +5,14 @@ namespace SunamoDevCode._sunamo.SunamoXml;
 internal partial class XHelper
 {
     internal static 
-#if ASYNC
     async Task<string>
-#else
-    string 
-#endif
     FormatXml(string pathOrContent)
     {
         var xmlFormat = pathOrContent;
         if (File.Exists(pathOrContent))
         {
             xmlFormat = 
-#if ASYNC
             await
-#endif
             File.ReadAllTextAsync(pathOrContent);
         }
 
@@ -29,9 +23,7 @@ internal partial class XHelper
         //HReplace.ReplaceAll2(formatted, string.Empty, " xmlns=\"\"");
         if (File.Exists(pathOrContent))
         {
-#if ASYNC
             await
-#endif
             File.WriteAllTextAsync(pathOrContent, formatted);
             //ThisApp.Success(Translate.FromKey(XlfKeys.ChangesSavedToFile));
             return null!;

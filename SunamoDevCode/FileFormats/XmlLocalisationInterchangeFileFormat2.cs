@@ -2,21 +2,15 @@ namespace SunamoDevCode.FileFormats;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-/// <summary>
-/// Provides methods for working with XLIFF (XML Localisation Interchange File Format) files used in Sunamo projects.
-/// </summary>
 public static partial class XmlLocalisationInterchangeFileFormat
 {
-    private static List<string> __xlfSolutions = new List<string>();
-    private static Dictionary<string, string> __unallowedEnds = new Dictionary<string, string>();
+    private static List<string> __xlfSolutions = new();
+    private static Dictionary<string, string> __unallowedEnds = new();
 
-    /// <summary>
-    /// Copies XLF keys that are trailed with underscore, cleaning up HTML entity suffixes.
-    /// </summary>
     public static void CopyKeysTrailedWith_()
     {
 #region copy keys trailed with _
-        List<string> consts = new List<string>();
+        List<string> consts = new();
         AllLists.InitHtmlEntitiesFullNames();
         var values = AllLists.htmlEntitiesFullNames.Values.ToList();
         int i;
@@ -68,13 +62,9 @@ TranslateEngine");
         }
     }
 
-    /// <summary>
-    /// Trims whitespace from the start and end of an XML element's value if present.
-    /// </summary>
-    /// <param name="source">XML element to trim.</param>
     private static void TrimValueIfNot(XElement source)
     {
-        if (source != null)
+        if (source is not null)
         {
             string sourceValue = source.Value;
             if (sourceValue.Length != 0)
@@ -87,11 +77,6 @@ TranslateEngine");
         }
     }
 
-    /// <summary>
-    /// Gets the last character from a trans-unit's target value.
-    /// </summary>
-    /// <param name="item">Trans-unit XML element.</param>
-    /// <returns>Last character or null if target is empty.</returns>
     public static char? GetLastLetter(XElement item)
     {
         string? id = null;
@@ -105,12 +90,6 @@ TranslateEngine");
         return new Tuple<string, string>(id, target.Value);
     }
 
-    /// <summary>
-    /// Gets the last character from a trans-unit's target value and outputs the trans-unit ID.
-    /// </summary>
-    /// <param name="item">Trans-unit XML element.</param>
-    /// <param name="id">Output parameter for the trans-unit ID.</param>
-    /// <returns>Last character or null if target is empty.</returns>
     public static char? GetLastLetter(XElement item, out string? id)
     {
         var transUnit = GetTransUnit(item);
@@ -123,21 +102,8 @@ TranslateEngine");
         return null;
     }
 
-    /// <summary>
-    /// Gets the target XML element from a trans-unit.
-    /// </summary>
-    /// <param name="item">Trans-unit XML element.</param>
-    /// <returns>Target XML element.</returns>
-    public static XElement GetTarget(XElement item)
-    {
-        return XHelper.GetElementOfName(item, "target")!;
-    }
+    public static XElement GetTarget(XElement item) => XHelper.GetElementOfName(item, "target")!;
 
-    /// <summary>
-    /// Gets the source and target XML elements from a trans-unit. Item1 is source, Item2 is target.
-    /// </summary>
-    /// <param name="item">Trans-unit XML element.</param>
-    /// <returns>Tuple of source (Item1) and target (Item2) elements.</returns>
     static Tuple<XElement, XElement> SourceTarget(XElement item)
     {
         XElement source = XHelper.GetElementOfName(item, "source")!;
@@ -145,10 +111,7 @@ TranslateEngine");
         return new Tuple<XElement, XElement>(source!, target!);
     }
 
-    /// <summary>
-    /// Trim whitespaces from start/end
-    /// </summary>
-    /// <param name = "source"></param>
+    // Trim whitespaces from start/end
     private static void TrimUnallowedChars(XElement source)
     {
         string sourceValue = source.Value;
@@ -161,18 +124,12 @@ TranslateEngine");
         }
     }
 
-    /// <summary>
-    /// Gets XLF keys from C# code without RLData.en prefix.
-    /// </summary>
-    /// <param name="key">Reference parameter for the current key being processed.</param>
-    /// <param name="content">C# file content to search.</param>
-    /// <returns>List of unique keys found in the content.</returns>
     public static IList<string> GetKeysInCsWithoutRLDataEn(ref string key, string content)
     {
-        List<string> foundKeys = new List<string>();
+        List<string> foundKeys = new();
         var occurrences = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
         occurrences.Reverse();
-        StringBuilder stringBuilder = new StringBuilder(content);
+        StringBuilder stringBuilder = new(content);
         foreach (var index in occurrences)
         {
             var start = index + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot.Length;
@@ -193,21 +150,12 @@ TranslateEngine");
         return foundKeys.Distinct().ToList();
     }
 
-    /// <summary>
-    /// Gets XLF keys from C# code with RLData.en prefix.
-    /// To be able to be found with this method, keys must be wrapped with XlfKeys and Translate.FromKey or RLData.en.
-    /// The file parameter is here only due to breakpoint for certain files.
-    /// </summary>
-    /// <param name="key">Reference parameter for the current key being processed.</param>
-    /// <param name="content">C# file content to search.</param>
-    /// <param name="file">Optional file path for debugging purposes.</param>
-    /// <returns>List of unique keys found in the content.</returns>
     public static IList<string> GetKeysInCsWithRLDataEn(ref string key, string content, string file = "")
     {
-        List<string> foundKeys = new List<string>();
+        List<string> foundKeys = new();
         var occurrences = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.RLDataEn + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
         occurrences.Reverse();
-        StringBuilder stringBuilder = new StringBuilder(content);
+        StringBuilder stringBuilder = new(content);
         foreach (var index in occurrences)
         {
             var start = index + XmlLocalisationInterchangeFileFormatSunamo.RLDataEn.Length + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot.Length;

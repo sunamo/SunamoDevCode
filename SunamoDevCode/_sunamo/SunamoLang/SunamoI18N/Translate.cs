@@ -12,13 +12,5 @@ namespace SunamoDevCode._sunamo.SunamoLang.SunamoI18N;
 internal class Translate
 {
     private static readonly Type type = typeof(Translate);
-    /// <summary>
-    ///     Usage: Exceptions.IsNotWindowsPathFormat
-    /// </summary>
-    /// <param name="key">Translation key.</param>
-    /// <returns>Translated text.</returns>
-    internal static string FromKey(string key)
-    {
-        return key;
-    }
+    internal static string FromKey(string key) => key;
 }

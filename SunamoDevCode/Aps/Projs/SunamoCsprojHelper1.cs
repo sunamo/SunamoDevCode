@@ -4,22 +4,9 @@ namespace SunamoDevCode.Aps.Projs;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public partial class SunamoCsprojHelper
 {
-    /// <summary>
-    /// Type information for the SunamoCsprojHelper class.
-    /// </summary>
     public static Type type = typeof(SunamoCsprojHelper);
-    /// <summary>
-    /// Must be async
-    /// </summary>
-    /// <param name = "text">Solution path or SolutionFolder object</param>
-    /// <param name = "addAlsoDepedencies">Whether to add also dependencies</param>
-    /// <returns></returns>
     public static
-#if ASYNC
         async Task<object>
-#else
-    object
-#endif
     AddMissingProjectsAlsoString(object text, bool addAlsoDepedencies = false)
     {
         throw new Exception("Používá se tu fubucsproj. přepsat do dotnet cmd");
@@ -52,7 +39,6 @@ public partial class SunamoCsprojHelper
     //            ThrowEx.NotImplementedCase(ts);
     //        }
     //        FubuCsprojFile.Solution solution =
-    //#if ASYNC
     //    await
     //#endif
     // FubuCsprojFile.Solution.LoadFrom(text.ToString());
@@ -72,12 +58,10 @@ public partial class SunamoCsprojHelper
     //                }
     //                if (addAlsoDepencies)
     //                {
-    //#if ASYNC
     //                    await
     //#endif
     //                    SunamoCsprojHelper.BuildProjectsDependencyTree(projectsOnWhichDepend, item2);
     //                }
-    //#if DEBUG
     //                //if (item2.Contains("SunamoCef"))
     //                //{
     //                //}
@@ -86,7 +70,6 @@ public partial class SunamoCsprojHelper
     //            }
     //        }
     //        var allGlobalCsprojs =
-    //#if ASYNC
     //            await
     //#endif
     //            FoldersWithSolutions.AllGlobalCsprojs();

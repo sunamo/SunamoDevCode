@@ -1,39 +1,18 @@
 namespace SunamoDevCode;
 
-/// <summary>
-/// Helper class for managing Unindexable paths and files configuration.
-/// </summary>
 public class UnindexableHelper
 {
-    /// <summary>
-    /// Gets or sets the Unindexable configuration.
-    /// </summary>
     public static Unindexable Unindexable = null!;
 
-    /// <summary>
-    /// Gets the Unindexable path parts configuration.
-    /// </summary>
     public static PpkOnDriveDC UnindexablePathParts => Unindexable.UnindexablePathParts;
 
-    /// <summary>
-    /// Gets the Unindexable file names configuration.
-    /// </summary>
     public static PpkOnDriveDC UnindexableFileNames => Unindexable.UnindexableFileNames;
 
-    /// <summary>
-    /// Gets the Unindexable path ends configuration.
-    /// </summary>
     public static PpkOnDriveDC UnindexablePathEnds => Unindexable.UnindexablePathEnds;
 
-    /// <summary>
-    /// Gets the Unindexable path starts configuration.
-    /// </summary>
     public static PpkOnDriveDC UnindexablePathStarts => Unindexable.UnindexablePathStarts;
 
-    /// <summary>
-    ///     Into A1 insert SearchCodeElementsUC .ufp
-    /// </summary>
-    /// <param name="filePaths">Unindexable file paths configuration</param>
+    //    Into A1 insert SearchCodeElementsUC .ufp
     public static void Load(UnindexableFilesPaths filePaths)
     {
         Unindexable = new Unindexable();
@@ -49,11 +28,6 @@ public class UnindexableHelper
         Unindexable.UnindexablePathStarts = new PpkOnDriveDC(filePaths.FileUnindexablePathStarts);
     }
 
-    /// <summary>
-    /// Determines whether the specified path should be indexed based on folder rules.
-    /// </summary>
-    /// <param name="path">The path to check.</param>
-    /// <returns>True if the folder should be indexed, false otherwise.</returns>
     public static bool IsToIndexedFolder(string path)
     {
         if (UnindexablePathStarts != null && UnindexablePathParts != null)
@@ -70,13 +44,6 @@ public class UnindexableHelper
         return false;
     }
 
-    /// <summary>
-    /// Determines whether the specified file should be indexed based on path and file name rules.
-    /// </summary>
-    /// <param name="path">The file path to check.</param>
-    /// <param name="fileName">The file name to check.</param>
-    /// <param name="sci_IsIndexed">Optional additional indexing check function.</param>
-    /// <returns>True if the file should be indexed, false otherwise.</returns>
     public static bool IsToIndexed(string path, string fileName, Func<string, bool> sci_IsIndexed)
     {
         if (UnindexablePathEnds != null && UnindexableFileNames != null)

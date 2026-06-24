@@ -4,21 +4,8 @@ namespace SunamoDevCode.FileFormats;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public static partial class XmlLocalisationInterchangeFileFormat
 {
-    /// <summary>
-    /// Into A1 insert XlfResourcesH.PathToXlfSunamo
-    /// Completely IUN
-    /// Remove completely whole Trans-unit
-    /// </summary>
-    /// <param name="fn">Path to the XLF file to process.</param>
-    /// <param name="xp">Which XLF part (Source or Target) to check for empty values.</param>
-    /// <param name="a">Options controlling removal behavior (defaults to Default if null).</param>
-    /// <returns>String representation of the modified XML document.</returns>
     public static
-#if ASYNC
         async Task<string>
-#else
-    string
-#endif
     RemoveFromXlfWhichHaveEmptyTargetOrSource(string fn, XlfParts xp, RemoveFromXlfWhichHaveEmptyTargetOrSourceArgs? a = null)
     {
         if (a == null)
@@ -26,12 +13,10 @@ public static partial class XmlLocalisationInterchangeFileFormat
             a = RemoveFromXlfWhichHaveEmptyTargetOrSourceArgs.Default;
         }
 
-        var data = 
-#if ASYNC
+        var data =
             await
-#endif
         GetTransUnits(fn);
-        List<XElement> tus = new List<XElement>();
+        List<XElement> tus = new();
         //string source =
         for (int i = data.TransUnits.Count - 1; i >= 0; i--)
         {
@@ -81,25 +66,16 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return data.XmlDocument.ToString();
     }
 
-    /// <summary>
-    /// Trim whitespaces from start/end on source / target
-    /// A1 is possible to obtain with XmlLocalisationInterchangeFileFormat.GetLangFromFilename
-    /// </summary>
-    /// <param name="fn">Path to the XLF file to trim.</param>
+    // Trim whitespaces from start/end on source / target
+    // A1 is possible to obtain with XmlLocalisationInterchangeFileFormat.GetLangFromFilename
     public static
-#if ASYNC
         async Task
-#else
-    void
-#endif
     TrimStringResources(string fn)
     {
-        var data = 
-#if ASYNC
+        var data =
             await
-#endif
         GetTransUnits(fn);
-        List<XElement> tus = new List<XElement>();
+        List<XElement> tus = new();
         foreach (XElement item in data.TransUnits)
         {
             XElement? source = null;
@@ -115,33 +91,21 @@ public static partial class XmlLocalisationInterchangeFileFormat
         data.XmlDocument.Save(fn);
     }
 
-    /// <summary>
-    /// A1 is possible to obtain with XlfResourcesH.PathToXlfSunamo
-    /// </summary>
-    /// <param name="fn">Path to the XLF file to parse.</param>
-    /// <returns>XlfData containing the parsed trans-units and XML document.</returns>
+    // A1 is possible to obtain with XlfResourcesH.PathToXlfSunamo
     public static
-#if ASYNC
         async Task<XlfData>
-#else
-    XlfData 
-#endif
     GetTransUnits(string fn)
     {
         LangsDC toL = XmlLocalisationInterchangeFileFormatSunamo.GetLangFromFilename(fn);
-        string enS = 
-#if ASYNC
+        string enS =
             await
-#endif
         File.ReadAllTextAsync(fn);
         XlfData data = new XlfData();
         data.Path = fn;
         XmlNamespacesHolder h = new XmlNamespacesHolder();
         h.ParseAndRemoveNamespacesXmlDocument(enS);
-        data.XmlDocument = 
-#if ASYNC
+        data.XmlDocument =
             await
-#endif
         XHelper.CreateXDocument(fn);
         XHelper.AddXmlNamespaces(h.NamespaceManager);
         XElement xliff = XHelper.GetElementOfName(data.XmlDocument, "xliff")!;
@@ -154,25 +118,12 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return data;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="source">Source text for the translation unit.</param>
-    /// <param name="target">Target text for the translation unit.</param>
-    /// <param name="pascal">Pascal case identifier used as the trans-unit ID.</param>
-    /// <param name="fn">Path to the XLF file to append to.</param>
     public static
-#if ASYNC
         async Task
-#else
-    void 
-#endif
     Append(string source, string target, string pascal, string fn)
     {
-        var data = 
-#if ASYNC
+        var data =
             await
-#endif
         GetTransUnits(fn);
         var exists = XHelper.GetElementOfNameWithAttr(data.Group, TransUnit.TransUnitTagName, "id", pascal);
         if (exists != null)
@@ -185,12 +136,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         await XHelper.FormatXml(fn);
     }
 
-    /// <summary>
-    /// Appends a new trans-unit element with the specified target text and ID to the XLF data group.
-    /// </summary>
-    /// <param name="target">Target text for the translation unit.</param>
-    /// <param name="pascal">Pascal case identifier used as the trans-unit ID.</param>
-    /// <param name="data">XLF data containing the group to append to.</param>
+    // Appends a new trans-unit element with the specified target text and ID to the XLF data group.
     public static void Append( /*string source, */string target, string pascal, XlfData data)
     {
         TransUnit tu = new TransUnit();
@@ -234,11 +180,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         data.Group.Add(xe);
     }
 
-    /// <summary>
-    /// Removes trans-units from both XLF file and XLF keys by matching IDs.
-    /// </summary>
-    /// <param name="fn">Path to the XLF file.</param>
-    /// <param name="idsEndingEnd">List of ID endings to match for removal.</param>
+    // Removes trans-units from both XLF file and XLF keys by matching IDs.
     public static async Task RemoveFromXlfAndXlfKeys(string fn, List<string> idsEndingEnd)
     {
         await RemoveFromXlfAndXlfKeys(fn, idsEndingEnd, XlfParts.Id);

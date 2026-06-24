@@ -1,15 +1,7 @@
 namespace SunamoDevCode;
 
-/// <summary>
-/// Provides methods for generating JSON content using snake_case naming convention.
-/// </summary>
 public class GenerateJson
 {
-    /// <summary>
-    /// Creates a dictionary mapping snake_case keys to original values.
-    /// </summary>
-    /// <param name="list">List of values to convert to snake_case keys.</param>
-    /// <returns>Dictionary with snake_case keys and original values.</returns>
     public static Dictionary<string, string> WithSnakeConventionDict(List<string> list)
     {
         var dictionary = new Dictionary<string, string>();
@@ -17,11 +9,6 @@ public class GenerateJson
         return dictionary;
     }
 
-    /// <summary>
-    /// Generates a JSON-formatted string with snake_case keys mapped to original values.
-    /// </summary>
-    /// <param name="list">List of values to include in the JSON output.</param>
-    /// <returns>JSON-formatted string.</returns>
     public static string WithSnakeConvention(List<string> list)
     {
         var dictionary = WithSnakeConventionDict(list);

@@ -2,25 +2,10 @@ namespace SunamoDevCode.SunamoCSharp;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
-/// <summary>
-/// Provides static helper methods for C# code analysis, generation, and manipulation.
-/// </summary>
 public static partial class CSharpHelper
 {
-    /// <summary>
-    /// C# using keyword prefix.
-    /// </summary>
     public const string Using = "using ";
-    /// <summary>
-    /// JavaScript/TypeScript import keyword prefix.
-    /// </summary>
     public const string Import = "import ";
-    /// <summary>
-    /// Removes specified using directives from the source text.
-    /// </summary>
-    /// <param name="text">Source code text to process.</param>
-    /// <param name="removedUsings">Collection of namespace names to remove.</param>
-    /// <returns>Text with the specified using directives removed.</returns>
     public static string RemoveUsing(string text, CollectionWithoutDuplicatesDC<string> removedUsings)
     {
         foreach (var usingNamespace in removedUsings.Collection)
@@ -31,16 +16,8 @@ public static partial class CSharpHelper
         return text;
     }
 
-    /// <summary>
-    /// Adds a static Type field (for ThrowEx) to every C# file that uses ThrowEx but lacks the type definition.
-    /// </summary>
-    /// <param name="BasePathsHelperVs">Base path to the Visual Studio projects folder.</param>
     public static
-#if ASYNC
         async Task
-#else
-    void
-#endif
     AddTypeToEveryFile(string BasePathsHelperVs)
     {
         int i = 0;
@@ -58,9 +35,7 @@ public static partial class CSharpHelper
         foreach (var item in files)
         {
             var fileContent =
-#if ASYNC
                 await
-#endif
             File.ReadAllTextAsync(item);
             if (fileContent.Contains("ThrowEx.") && !fileContent.Contains(mustContains))
             {
@@ -72,14 +47,12 @@ public static partial class CSharpHelper
                 }
 
                 //                if (
-                //#if ASYNC
                 //    await
                 //#endif
                 // .ContainsInShared(item, mustContains, shared1))
                 //                {
                 //                    continue;
                 //                }
-                //#if ASYNC
                 //                await
                 //#endif
                 //             .ContainsInShared(item, mustContains, shared2))
@@ -163,9 +136,6 @@ public static partial class CSharpHelper
         }
     }
 
-    /// <param name="lines">Source code lines to modify in-place.</param>
-    /// <param name="removed">Collection to store removed namespace names (can be null).</param>
-    /// <param name="removeRegions">Whether to also remove region directives.</param>
     public static void RemoveNamespace(List<string> lines, CollectionWithoutDuplicatesDC<string>? removed, bool removeRegions = true)
     {
 #region Remove namespace and #region from original
@@ -208,32 +178,18 @@ public static partial class CSharpHelper
 #endregion
     }
 
-    /// <summary>
-    /// Return written content to drive
-    /// </summary>
-    /// <param name = "item"></param>
-    public static 
-#if ASYNC
+    public static
         async Task<List<string>>
-#else
-    List<string> 
-#endif
     RemoveNamespace(string item)
     {
         var lines = SHGetLines.GetLines(
-#if ASYNC
             await
-#endif
         File.ReadAllTextAsync(item)).ToList();
         RemoveNamespace(lines, null);
         await File.WriteAllLinesAsync(item, lines);
         return lines;
     }
 
-    /// <summary>
-    /// Converts static readonly string fields without values to const fields using their names as values.
-    /// </summary>
-    /// <param name="text">Source code lines to modify in-place.</param>
     public static void SetValuesAsNamesToConsts(List<string> text)
     {
         for (int i = 0; i < text.Count; i++)
@@ -252,11 +208,6 @@ public static partial class CSharpHelper
         }
     }
 
-    /// <summary>
-    /// Determines whether a line contains a string field/variable/const declaration and extracts its name.
-    /// </summary>
-    /// <param name="line">Source code line to analyze.</param>
-    /// <returns>Tuple of (isConstField, fieldName). fieldName is null if not a const field.</returns>
     public static (bool, string?) IsFieldVariableConst(string line)
     {
         CsKeywordsList.Init();

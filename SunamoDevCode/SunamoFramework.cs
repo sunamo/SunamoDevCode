@@ -1,13 +1,7 @@
 namespace SunamoDevCode;
 
-/// <summary>
-/// Provides utility methods for the Sunamo framework including HTML entity processing.
-/// </summary>
 public class SunamoFramework
 {
-    /// <summary>
-    /// Identifies non-digit, non-letter characters in translation data and maps them to their HTML entities.
-    /// </summary>
     public void HtmlEntitiesForNonDigitsOrLetterChars()
     {
         AllLists.InitHtmlEntitiesFullNames();

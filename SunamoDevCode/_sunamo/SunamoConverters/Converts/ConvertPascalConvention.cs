@@ -1,22 +1,15 @@
 namespace SunamoDevCode._sunamo.SunamoConverters.Converts;
 
-/// <summary>
-/// Converter to PascalCase convention
-/// </summary>
 internal class ConvertPascalConvention
 {
-    /// <summary>
-    /// Converts string to PascalCase convention
-    /// Will include numbers
-    /// hello world = HelloWorld
-    /// Hello world = HelloWorld
-    /// helloWorld = HelloWorld
-    /// </summary>
-    /// <param name="input">Input string to convert</param>
-    /// <returns>String in PascalCase convention</returns>
+    // Converts string to PascalCase convention
+    // Will include numbers
+    // hello world = HelloWorld
+    // Hello world = HelloWorld
+    // helloWorld = HelloWorld
     internal static string ToConvention(string input)
     {
-        StringBuilder stringBuilder = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         bool shouldCapitalizeNext = false;
         foreach (char character in input)
         {
@@ -63,7 +56,7 @@ internal class ConvertPascalConvention
             }
         }
         var result = stringBuilder.ToString().Trim();
-        StringBuilder resultBuilder = new StringBuilder(result);
+        var resultBuilder = new StringBuilder(result);
         resultBuilder[0] = char.ToUpper(resultBuilder[0]);
         return result;
     }

@@ -5,11 +5,8 @@ internal class XmlNamespacesHolder
     //internal NameTable nt = new NameTable();
     internal XmlNamespaceManager NamespaceManager = null!;
 
-    /// <summary>
-    /// Return XmlDocument but dont use return value
-    /// Just use XHelper class, because with XmlDocument is still not working
-    /// </summary>
-    /// <param name="content"></param>
+    // Return XmlDocument but dont use return value
+    // Just use XHelper class, because with XmlDocument is still not working
     internal XmlDocument ParseAndRemoveNamespacesXmlDocument(string content)
     {
         XmlDocument xd = new XmlDocument();
@@ -19,14 +16,9 @@ internal class XmlNamespacesHolder
         return xd;
     }
 
-    /// <summary>
-    /// A3 is default prefix because cant be empty anytime (/:Tag or /Tag dont working but /prefix:Tag yes)
-    /// Return XmlDocument but dont use return value
-    /// Just use XHelper class, because with XmlDocument is still not working
-    /// </summary>
-    /// <param name="content"></param>
-    /// <param name="nt"></param>
-    /// <param name="defaultPrefix"></param>
+    // A3 is default prefix because cant be empty anytime (/:Tag or /Tag dont working but /prefix:Tag yes)
+    // Return XmlDocument but dont use return value
+    // Just use XHelper class, because with XmlDocument is still not working
     internal XmlDocument ParseAndRemoveNamespacesXmlDocument(string content, XmlNameTable nt, string defaultPrefix = "x")
     {
         XmlDocument xd = new XmlDocument();
@@ -72,11 +64,8 @@ internal class XmlNamespacesHolder
         return xd;
     }
 
-    /// <summary>
-    /// Return XmlDocument but dont use return value
-    /// Just use XHelper class, because with XmlDocument is still not working
-    /// </summary>
-    /// <param name="content"></param>
+    // Return XmlDocument but dont use return value
+    // Just use XHelper class, because with XmlDocument is still not working
     internal XDocument ParseAndRemoveNamespacesXDocument(string content)
     {
         var xd = ParseAndRemoveNamespacesXmlDocument(content);

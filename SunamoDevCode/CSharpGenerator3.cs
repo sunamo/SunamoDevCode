@@ -2,16 +2,7 @@ namespace SunamoDevCode;
 
 public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
 {
-    /// <summary>
-    /// EN: Generates a Dictionary from another dictionary. Args.AddingValue = true.
-    /// CZ: Generuje Dictionary z jiného dictionary. Args.AddingValue = true.
-    /// </summary>
-    /// <typeparam name="Key">Type of dictionary keys</typeparam>
-    /// <typeparam name="Value">Type of dictionary values</typeparam>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="dictionaryName">Name of the dictionary variable</param>
-    /// <param name="dictionary">Source dictionary</param>
-    /// <param name="args">Generator arguments (AddingValue = true)</param>
+    // Args.AddingValue = true.
     public void DictionaryFromDictionary<Key, Value>(int tabCount, string dictionaryName, Dictionary<Key, Value> dictionary, CSharpGeneratorArgs? args = null) where Key : notnull
     {
         if (args == null)
@@ -28,16 +19,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
             GetDictionaryValuesFromDictionary(tabCount, dictionaryName, dictionary);
     }
 
-    /// <summary>
-    /// EN: Generates a Dictionary with List values from another dictionary. Default: addingValue = true.
-    /// CZ: Generuje Dictionary s hodnotami List z jiného dictionary. Výchozí: addingValue = true.
-    /// </summary>
-    /// <typeparam name="Key">Type of dictionary keys</typeparam>
-    /// <typeparam name="Value">Type of list values</typeparam>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="dictionaryName">Name of the dictionary variable</param>
-    /// <param name="dictionary">Source dictionary</param>
-    /// <param name="args">Generator arguments</param>
+    // Default: addingValue = true.
     public void DictionaryFromDictionaryInnerList<Key, Value>(int tabCount, string dictionaryName, Dictionary<Key, Value> dictionary, CSharpGeneratorArgs args) where Key : notnull
     {
         string? valueType = null;
@@ -51,16 +33,6 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
             GetDictionaryValuesFromDictionary(tabCount, dictionaryName, dictionary);
     }
 
-    /// <summary>
-    /// EN: Generates dictionary value assignments from random values
-    /// CZ: Generuje přiřazení hodnot do dictionary z náhodných hodnot
-    /// </summary>
-    /// <typeparam name="Key">Type of dictionary keys</typeparam>
-    /// <typeparam name="Value">Type of dictionary values</typeparam>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="dictionaryName">Name of the dictionary variable</param>
-    /// <param name="keys">List of keys</param>
-    /// <param name="randomValueGenerator">Function to generate random values</param>
     public void GetDictionaryValuesFromRandomValue<Key, Value>(int tabCount, string dictionaryName, List<Key> keys, Func<Value> randomValueGenerator) where Key : notnull
     {
         var dictionary = new Dictionary<Key, Value>();
@@ -69,17 +41,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         GetDictionaryValuesFromDictionary(tabCount, dictionaryName, dictionary);
     }
 
-    /// <summary>
-    /// EN: Generates dictionary value assignments from two lists. Args.SplitKeyWith allows splitting keys.
-    /// CZ: Generuje přiřazení hodnot do dictionary ze dvou seznamů. Args.SplitKeyWith umožňuje rozdělení klíčů.
-    /// </summary>
-    /// <typeparam name="Key">Type of dictionary keys</typeparam>
-    /// <typeparam name="Value">Type of dictionary values</typeparam>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="dictionaryName">Name of the dictionary variable</param>
-    /// <param name="keys">List of keys</param>
-    /// <param name="values">List of values</param>
-    /// <param name="args">Generator arguments (SplitKeyWith, etc.)</param>
+    // Args.SplitKeyWith allows splitting keys.
     public void GetDictionaryValuesFromTwoList<Key, Value>(int tabCount, string dictionaryName, List<Key> keys, List<Value> values, CSharpGeneratorArgs args) where Key : notnull
     {
         var shouldSplitKeys = false;
@@ -114,16 +76,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         GetDictionaryValuesFromDictionary(tabCount, dictionaryName, dictionary);
     }
 
-    /// <summary>
-    /// EN: Generates dictionary value assignments from a dictionary with List values
-    /// CZ: Generuje přiřazení hodnot do dictionary ze slovníku s hodnotami List
-    /// </summary>
-    /// <typeparam name="Key">Type of dictionary keys</typeparam>
-    /// <typeparam name="Value">Type of list values</typeparam>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="dictionaryName">Name of the dictionary variable</param>
-    /// <param name="dictionary">Source dictionary</param>
-    /// <param name="args">Generator arguments (AlsoField, UseCA, etc.)</param>
+    // Args.AlsoField, UseCA, etc.
     public void GetDictionaryValuesFromDictionaryInnerList<Key, Value>(int tabCount, string dictionaryName, Dictionary<Key, List<Value>> dictionary, CSharpGeneratorArgs args) where Key : notnull
     {
         Type keyType, valueType;
@@ -149,16 +102,6 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         }
     }
 
-    /// <summary>
-    /// EN: Extracts key and value types from a dictionary with list values
-    /// CZ: Získá typy klíče a hodnoty ze slovníku s hodnotami typu list
-    /// </summary>
-    /// <typeparam name="Key">Type of dictionary keys</typeparam>
-    /// <typeparam name="Value">Type of list values</typeparam>
-    /// <param name="dictionary">Source dictionary</param>
-    /// <param name="keyType">Output: key type</param>
-    /// <param name="valueType">Output: value type</param>
-    /// <param name="firstKey">Output: first key from dictionary</param>
     public static void GetTKeyAndTValue<Key, Value>(Dictionary<Key, List<Value>> dictionary, out Type keyType, out Type valueType, out Key firstKey) where Key : notnull
     {
         firstKey = default!;
@@ -174,15 +117,6 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         valueType = firstValue!.GetType();
     }
 
-    /// <summary>
-    /// EN: Generates dictionary value assignments from a dictionary
-    /// CZ: Generuje přiřazení hodnot do dictionary ze slovníku
-    /// </summary>
-    /// <typeparam name="Key">Type of dictionary keys</typeparam>
-    /// <typeparam name="Value">Type of dictionary values</typeparam>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="dictionaryName">Name of the dictionary variable</param>
-    /// <param name="dictionary">Source dictionary</param>
     public void GetDictionaryValuesFromDictionary<Key, Value>(int tabCount, string dictionaryName, Dictionary<Key, Value> dictionary) where Key : notnull
     {
         var firstKey = default(Key);
@@ -209,15 +143,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         }
     }
 
-    /// <summary>
-    /// EN: Generates a Dictionary&lt;string, object&gt; with values. Args.AddingValue = true as default.
-    /// CZ: Generuje Dictionary&lt;string, object&gt; s hodnotami. Args.AddingValue = true jako výchozí.
-    /// </summary>
-    /// <typeparam name="Value">Type of dictionary values</typeparam>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="dictionaryName">Name of the dictionary variable</param>
-    /// <param name="dictionary">Source dictionary</param>
-    /// <param name="args">Generator arguments (AddingValue = true as default)</param>
+    // Args.AddingValue = true as default.
     public void DictionaryStringObject<Value>(int tabCount, string dictionaryName, Dictionary<string, Value> dictionary, CSharpGeneratorArgs args)
     {
         DictionaryFromDictionary(tabCount, dictionaryName, dictionary, args);

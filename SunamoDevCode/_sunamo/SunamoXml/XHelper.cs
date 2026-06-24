@@ -12,9 +12,9 @@ internal partial class XHelper
 
     internal static List<XElement> GetElementsOfNameWithAttrWorker(System.Xml.Linq.XElement xElement, string tag, string attr, string value /*, bool enoughIsContainsAttribute, bool caseSensitive*/)
     {
-        List<XElement> vr = new List<XElement>();
-        List<XElement> e = XHelper.GetElementsOfNameRecursive(xElement, tag);
-        foreach (XElement item in e)
+        var vr = new List<XElement>();
+        var e = XHelper.GetElementsOfNameRecursive(xElement, tag);
+        foreach (var item in e)
         {
             var attrValue = XHelper.Attr(item, attr);
             if (attrValue!.Contains(value) /*SH.ContainsBoolBool(attrValue, value, enoughIsContainsAttribute, caseSensitive)*/)
@@ -28,12 +28,12 @@ internal partial class XHelper
 
     internal static List<XElement> GetElementsOfNameRecursive(XElement node, string nazev)
     {
-        List<XElement> vr = new List<XElement>();
+        var vr = new List<XElement>();
         if (nazev.Contains(":"))
         {
             var(p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
             p = XHelper.ns[p];
-            foreach (XElement item in node.DescendantsAndSelf())
+            foreach (var item in node.DescendantsAndSelf())
             {
                 if (item.Name.LocalName == z && item.Name.NamespaceName == p)
                 {
@@ -43,7 +43,7 @@ internal partial class XHelper
         }
         else
         {
-            foreach (XElement item in node.DescendantsAndSelf())
+            foreach (var item in node.DescendantsAndSelf())
             {
                 if (item.Name.LocalName == nazev)
                 {
@@ -59,7 +59,6 @@ internal partial class XHelper
     {
         foreach (string item in nsmgr)
         {
-            // Jak� je typ item, at nemus�m pou��vat slovn�k
             var value = nsmgr.LookupNamespace(item);
             if (!ns.ContainsKey(item))
             {
@@ -105,18 +104,13 @@ internal partial class XHelper
     internal static string? Attr(XElement item, string attr)
     {
         XAttribute? xa = item.Attribute(XName.Get(attr));
-        if (xa != null)
-        {
-            return xa.Value;
-        }
-
-        return null;
+        return xa?.Value;
     }
 
     internal static XElement MakeAllElementsWithDefaultNs(XElement settings)
     {
         var ns2 = XHelper.ns[string.Empty];
-        List<object> toInsert = new List<object>();
+        var toInsert = new List<object>();
         // shift ALL elements in the settings document into the target namespace
         foreach (XElement e in settings.DescendantsAndSelf())
         {
@@ -134,26 +128,18 @@ internal partial class XHelper
         return vr;
     }
 
-    internal static bool IsRightTag(XElement xName, string nazev)
-    {
-        return IsRightTag(xName.Name, nazev);
-    }
+    internal static bool IsRightTag(XElement xName, string nazev) => IsRightTag(xName.Name, nazev);
 
     internal static bool IsRightTag(XName xName, string nazev)
     {
         var(p, z) = SH.GetPartsByLocationNoOut(nazev, ':');
         p = XHelper.ns[p];
-        if (xName.LocalName == z && xName.NamespaceName == p)
-        {
-            return true;
-        }
-
-        return false;
+        return xName.LocalName == z && xName.NamespaceName == p;
     }
 
     internal static List<XElement> GetElementsOfName(XElement node, string nazev)
     {
-        List<XElement> result = new List<XElement>();
+        var result = new List<XElement>();
         if (nazev.Contains(":"))
         {
             foreach (XElement item in node.Elements())
@@ -178,20 +164,10 @@ internal partial class XHelper
         return result;
     }
 
-    internal static bool IsRightTag(XElement xName, string localName, string namespaceName)
-    {
-        return IsRightTag(xName.Name, localName, namespaceName);
-    }
+    internal static bool IsRightTag(XElement xName, string localName, string namespaceName) => IsRightTag(xName.Name, localName, namespaceName);
 
-    internal static bool IsRightTag(XName xName, string localName, string namespaceName)
-    {
-        if (xName.LocalName == localName && xName.NamespaceName == namespaceName)
-        {
-            return true;
-        }
-
-        return false;
-    }
+    internal static bool IsRightTag(XName xName, string localName, string namespaceName) =>
+        xName.LocalName == localName && xName.NamespaceName == namespaceName;
 
     internal static XElement? GetElementOfName(XContainer node, string nazev)
     {
@@ -226,19 +202,13 @@ internal partial class XHelper
     }
 
     internal static 
-#if ASYNC
     async Task<XDocument>
-#else
-    XDocument 
-#endif
     CreateXDocument(string contentOrFn)
     {
         if (File.Exists(contentOrFn))
         {
             contentOrFn = 
-#if ASYNC
             await
-#endif
             File.ReadAllTextAsync(contentOrFn);
         }
 

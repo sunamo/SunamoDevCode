@@ -1,8 +1,5 @@
 namespace SunamoDevCode._sunamo;
 
-/// <summary>
-/// Type constants for common .NET types
-/// </summary>
 internal class Types
 {
     internal static readonly Type ObjectType = typeof(object);

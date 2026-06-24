@@ -243,7 +243,7 @@ internal partial class FS
             return;
         }
 
-        List<string> foldersToCreate = new List<string>
+        var foldersToCreate = new List<string>
         {
             path
         };
@@ -259,7 +259,7 @@ internal partial class FS
         }
 
         foldersToCreate.Reverse();
-        foreach (string folder in foldersToCreate)
+        foreach (var folder in foldersToCreate)
         {
             if (!Directory.Exists(folder))
             {

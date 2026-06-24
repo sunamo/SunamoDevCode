@@ -1,47 +1,25 @@
 namespace SunamoDevCode;
 
-/// <summary>
-/// Abstract base class for code generators providing common indentation, braces, and string building functionality.
-/// </summary>
 public abstract class GeneratorCodeAbstract
 {
-    /// <summary>
-    ///     Use ToString() instead of public access
-    /// </summary>
+    // Use ToString() instead of public access
     protected string Final = "";
 
-    /// <summary>
-    /// String builder used for assembling the generated code output.
-    /// </summary>
     protected InstantSB sb = new(" ");
-    /// <summary>
-    /// XML documentation helper for generating doc comments in code output.
-    /// </summary>
     public XmlDoc xmlDoc;
 
-    /// <summary>
-    /// Initializes the code generator with a space-delimited InstantSB and XmlDoc helper.
-    /// </summary>
     public GeneratorCodeAbstract()
     {
         xmlDoc = new XmlDoc(sb);
     }
 
-    /// <summary>
-    /// Adds indented text as an item to the string builder.
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation.</param>
-    /// <param name="text">Text to add.</param>
     public void AddTab2(int tabCount, string text)
     {
         sb.AddItem(AddTab(tabCount, text));
     }
 
-    /// <summary>
-    /// EN: Ends a brace and adds a new line. After calling this method for elements like methods, properties, or constructors, it's recommended to also call sb.AppendLine().
-    /// CZ: Ukončí složenou závorku a přidá nový řádek. Za voláním této metody pokud ukončuje nějaký celek jako jsou metody, vlastnosti nebo konstruktor je vhodné volat ještě sb.AppendLine().
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
+    // EN: Ends a brace and adds a new line. After calling this method for elements like methods, properties, or constructors, it's recommended to also call sb.AppendLine().
+    // CZ: Ukoncí složenou závorku a pridá nový rádek. Za voláním této metody pokud ukoncuje nejaký celek jako jsou metody, vlastnosti nebo konstruktor je vhodné volat ješte sb.AppendLine().
     public void EndBrace(int tabCount)
     {
         //sb.AppendLine();
@@ -50,11 +28,8 @@ public abstract class GeneratorCodeAbstract
         sb.AppendLine("}");
     }
 
-    /// <summary>
-    /// EN: Starts a brace. This is the only method here that adds a new line at the beginning.
-    /// CZ: Přidá nový řádek, složenou závorku. Je to jediná zdejší metoda která na začátku přidává nový řádek.
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
+    // EN: Starts a brace. This is the only method here that adds a new line at the beginning.
+    // CZ: Prídá nový rádek, složenou závorku. Je to jediná zdejší metoda která na zacátku pridává nový rádek.
     public void StartBrace(int tabCount)
     {
         // Line always ending previous command
@@ -64,37 +39,23 @@ public abstract class GeneratorCodeAbstract
         //sb.AppendLine();
     }
 
-    /// <summary>
-    /// Appends an opening parenthesis to the output.
-    /// </summary>
     public void StartParenthesis()
     {
         sb.AddItem("(");
     }
 
-    /// <summary>
-    /// Appends a closing parenthesis to the output.
-    /// </summary>
     public void EndParenthesis()
     {
         sb.AddItem(")");
     }
 
-    /// <summary>
-    /// Appends an empty line to the output.
-    /// </summary>
     public void AppendLine()
     {
         sb.AppendLine();
     }
 
-    /// <summary>
-    /// EN: Appends a formatted line with tabs
-    /// CZ: Přidá formátovaný řádek s tabulátory
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="format">Format string or plain text</param>
-    /// <param name="args">Format arguments</param>
+    // EN: Appends a formatted line with tabs
+    // CZ: Pridá formátovaný rádek s tabulátory
     public void AppendLine(int tabCount, string format, params object[] args)
     {
         if (args.Length != 0)
@@ -103,34 +64,22 @@ public abstract class GeneratorCodeAbstract
             sb.AppendLine(AddTab(tabCount, format));
     }
 
-    /// <summary>
-    /// EN: Appends formatted text with tabs (without newline)
-    /// CZ: Přidá formátovaný text s tabulátory (bez nového řádku)
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="format">Format string or plain text</param>
-    /// <param name="args">Format arguments</param>
+    // EN: Appends formatted text with tabs (without newline)
+    // CZ: Pridá formátovaný text s tabulátory (bez nového rádku)
     public void Append(int tabCount, string format, params object[] args)
     {
         if (args.Length != 0)
             sb.AddItem(AddTab(tabCount, string.Format(format, args)));
         else
             sb.AddItem(AddTab(tabCount, format));
-        var stringBuilderContent = sb.ToString();
+        _ = sb.ToString();
     }
 
-    /// <summary>
-    /// EN: Assigns a value to a property/field, converting it to string
-    /// CZ: Přiřadí hodnotu vlastnosti/poli, převádí na string
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="objectName">Name of the object</param>
-    /// <param name="variableName">Name of the variable/property</param>
-    /// <param name="value">Value to assign</param>
-    /// <param name="addToHyphens">Whether to add quotes</param>
+    // EN: Assigns a value to a property/field, converting it to string
+    // CZ: Priradí hodnotu vlastnosti/poli, prevádí na string
     public void AssignValue(int tabCount, string objectName, string variableName, object value, bool addToHyphens)
     {
-        string? valueString = null;
+        string valueString;
         if (value.GetType() == typeof(bool))
             valueString = value.ToString()!.ToLower();
         else
@@ -138,11 +87,8 @@ public abstract class GeneratorCodeAbstract
         AssignValue(tabCount, objectName, variableName, valueString, addToHyphens);
     }
 
-    /// <summary>
-    /// EN: Returns the generated code and resets the string builder
-    /// CZ: Vrátí vygenerovaný kód a resetuje string builder
-    /// </summary>
-    /// <returns>Generated code</returns>
+    // EN: Returns the generated code and resets the string builder
+    // CZ: Vrátí vygenerovaný kód a resetuje string builder
     public override string ToString()
     {
         var result = sb.ToString();
@@ -150,23 +96,14 @@ public abstract class GeneratorCodeAbstract
         return result;
     }
 
-    /// <summary>
-    /// Appends the specified number of tab characters to the output.
-    /// </summary>
-    /// <param name="tabCount">Number of tabs to add.</param>
     public void AddTab(int tabCount)
     {
         //tabCount += 1;
         for (var i = 0; i < tabCount; i++) sb.AddRaw("\t");
     }
 
-    /// <summary>
-    /// EN: Adds tabs to each line of the text
-    /// CZ: Přidá tabulátory na začátek každého řádku textu
-    /// </summary>
-    /// <param name="tabCount">Number of tabs to add</param>
-    /// <param name="text">Text to process</param>
-    /// <returns>Text with tabs added</returns>
+    // EN: Adds tabs to each line of the text
+    // CZ: Pridá tabulátory na zacátek každého rádku textu
     public static string AddTab(int tabCount, string text)
     {
         var lines = SHGetLines.GetLines(text);

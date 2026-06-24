@@ -1,26 +1,11 @@
 namespace SunamoDevCode.Services;
 
-/// <summary>
-/// Service for adding or editing file-scoped namespace declarations in C# source files.
-/// </summary>
 public class AddOrEditNamespaceService
 {
-    /// <summary>
-    /// Adds or edits namespace declaration in a single C# file and saves it
-    /// </summary>
-    /// <param name="pathToCsprojFolder">Path to csproj folder</param>
-    /// <param name="projectName">Project name for namespace</param>
-    /// <param name="csPath">Path to C# file</param>
-    /// <param name="linesFile">Optional pre-loaded file lines</param>
-    /// <param name="pathToSave">Optional alternative save path</param>
-    /// <returns>New namespace or null if file was skipped</returns>
     public async Task<string?> AddOrEditNamespaceForSingleFileAndSave(string pathToCsprojFolder, string projectName
         , string csPath, List<string>? linesFile = null, string? pathToSave = null)
     {
-        if (linesFile == null)
-        {
-            linesFile = (await File.ReadAllLinesAsync(csPath)).ToList();
-        }
+        linesFile ??= (await File.ReadAllLinesAsync(csPath)).ToList();
         if (CSharpHelper.IsEmptyCommentedOrOnlyWithNamespace(Path.GetFileNameWithoutExtension(csPath), linesFile, null!, [null!]))
         {
             return null;
@@ -29,9 +14,8 @@ public class AddOrEditNamespaceService
         var filenameWithoutExtension = Path.GetFileNameWithoutExtension(csPath);
         if (csPath.EndsWith(".xaml.cs")) return null;
         if (csPath.Contains(@"\obj\")) return null;
-        var filename = Path.GetFileNameWithoutExtension(csPath);
-        if (filename == "GlobalSuppressions") return null;
-        if (filename == "GlobalUsings") return null;
+        if (filenameWithoutExtension == "GlobalSuppressions") return null;
+        if (filenameWithoutExtension == "GlobalUsings") return null;
         if (pathToSave != null)
         {
             csPath = pathToSave;
@@ -80,13 +64,6 @@ public class AddOrEditNamespaceService
         }
         return list;
     }
-    /// <summary>
-    /// Pracovní metoda která se už volá na konkrétní soubor
-    /// Volána z AddNamespaceByInputFolderName
-    /// </summary>
-    /// <param name="lines">File content as list of lines.</param>
-    /// <param name="newNs">Namespace to add if missing.</param>
-    /// <returns>Modified file content with namespace added.</returns>
     private List<string> AddNamespaceIfIsMissingInCs(List<string> lines, string newNs)
     {
         // Tohle jsem tu dal, když jsem byl dement a pracoval jsem v konzoli na neex cestě. Divil jsem se jaktože to v programu jde. Nebylo to tedy debug vs release jak jsem si původně myslel! Opět jsem hledal problém jinde než byl!
@@ -103,7 +80,6 @@ public class AddOrEditNamespaceService
         for (var i = 0; i < lines.Count; i++)
         {
             // .Trim() tu nemůže být protože pak mi to ořezává celý soubor a musím to znovu formátovat
-            lines[i] = lines[i];
             var list = lines[i];
             isNsOuter = list.StartsWith("namespace");
             if (isNsOuter)
@@ -195,15 +171,7 @@ public class AddOrEditNamespaceService
         //await TFCsFormat.WriteAllLines(item, lines);
         return lines;
     }
-    /// <summary>
-    /// Keywords that indicate the start of a type declaration in C# source code.
-    /// </summary>
     public readonly List<string> classCodeElements = new List<string>() { "class ", "interface ", "delegate", "enum ", "struct " };
-    /// <summary>
-    /// FUnguje to OK, prošel jsem si všechny soubory před commitem
-    /// </summary>
-    /// <param name="list">File content as list of lines.</param>
-    /// <returns>Modified file content with file-scoped namespace removed when inside #if directive.</returns>
     private async Task<List<string>> RemoveFileScopedNamespaceWhenIsInSharpIf(List<string> list)
     {
         //var list = (await TF.ReadAllLines(item)).ToList();
@@ -256,11 +224,6 @@ public class AddOrEditNamespaceService
         }
         return list;
     }
-    /// <summary>
-    /// Přidá nový file scoped namespace na začátek souboru
-    /// </summary>
-    /// <param name="newNs"></param>
-    /// <param name="lines"></param>
     private void AddNamespaceOnBegin(string newNs, List<string> lines)
     {
         if (lines.Count > 0)

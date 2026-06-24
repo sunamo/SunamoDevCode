@@ -6,7 +6,7 @@ internal partial class FS
 {
     internal static string Slash(string path, bool slash)
     {
-        string? result = null;
+        string result;
         if (slash)
         {
             result = path.Replace("\"", "/"); //SHReplace.ReplaceAll2(path, "/", "\"");
@@ -22,10 +22,10 @@ internal partial class FS
 
     internal static Dictionary<string, List<string>> GetDictionaryByFileNameWithExtension(List<string> files)
     {
-        Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+        var result = new Dictionary<string, List<string>>();
         foreach (var item in files)
         {
-            string filename = Path.GetFileName(item);
+            var filename = Path.GetFileName(item);
             DictionaryHelper.AddOrCreateIfDontExists<string, string>(result, filename, item);
         }
 
@@ -89,11 +89,6 @@ internal partial class FS
         return WithEndSlash(ref path);
     }
 
-    /// <summary>
-    ///     Usage: Exceptions.FileWasntFoundInDirectory
-    /// </summary>
-    /// <param name="path">Path to ensure ends with a backslash.</param>
-    /// <returns>Path with trailing backslash.</returns>
     internal static string WithEndSlash(ref string path)
     {
         if (path != string.Empty)
@@ -110,39 +105,28 @@ internal partial class FS
         //return InsertBetweenFileNameAndExtension<string, string>(originalPath, textToInsert, null);
         // Cesta by se zde hodila kvůli FS.CiStorageFile
         // nicméně StorageFolder nevím zda se používá, takže to bude umět i bez toho
-        var originalPathString = originalPath.ToString();
-        string fileName = Path.GetFileNameWithoutExtension(originalPathString);
-        string extension = Path.GetExtension(originalPathString);
-        if (originalPathString.Contains('/') || originalPathString.Contains('\\'))
+        var fileName = Path.GetFileNameWithoutExtension(originalPath);
+        var extension = Path.GetExtension(originalPath);
+        if (originalPath.Contains('/') || originalPath.Contains('\\'))
         {
-            string directory = Path.GetDirectoryName(originalPathString)!;
+            var directory = Path.GetDirectoryName(originalPath)!;
             return Path.Combine(directory, fileName + textToInsert + extension);
         }
 
         return fileName + textToInsert + extension;
     }
 
-    /// <summary>
-    /// No direct edit
-    /// </summary>
-    /// <param name="filePaths">Array of file paths.</param>
-    /// <returns>List containing only file names.</returns>
-    internal static List<string> OnlyNamesNoDirectEdit(String[] filePaths)
+    internal static List<string> OnlyNamesNoDirectEdit(string[] filePaths)
     {
         var list = filePaths.ToList();
         return OnlyNamesNoDirectEdit(list);
     }
 
-    /// <summary>
-    /// No direct edit
-    /// Returns with extension
-    /// POZOR: Na rozdíl od stejné metody v sunamo tato metoda vrací úplně nové pole a nemodifikuje A1
-    /// </summary>
-    /// <param name = "filePaths">List of file paths.</param>
+    // No direct edit — vrací úplně nové pole, nemodifikuje filePaths
     internal static List<string> OnlyNamesNoDirectEdit(List<string> filePaths)
     {
-        List<string> fileNames = new List<string>(filePaths.Count);
-        for (int i = 0; i < filePaths.Count; i++)
+        var fileNames = new List<string>(filePaths.Count);
+        for (var i = 0; i < filePaths.Count; i++)
         {
             fileNames.Add(Path.GetFileName(filePaths[i]));
         }

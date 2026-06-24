@@ -4,7 +4,7 @@ internal class MayExcHelper
 {
     internal static bool MayExc(string exception)
     {
-        if (exception != null)
+        if (exception is not null)
         {
             Console.WriteLine(exception);
             //ThisApp.Error( result.exception);

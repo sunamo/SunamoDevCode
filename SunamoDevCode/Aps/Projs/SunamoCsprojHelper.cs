@@ -1,23 +1,9 @@
 namespace SunamoDevCode.Aps.Projs;
 
-/// <summary>
-/// Provides helper methods for analyzing and manipulating .csproj files.
-/// </summary>
 public partial class SunamoCsprojHelper
 {
-    /// <summary>
-    /// Determines whether the csproj content is an SDK-style .NET Core project.
-    /// Must have postfix 2 because IsProjectCsprojSdkStyleIsCore has also a same-argument method.
-    /// </summary>
-    /// <param name="fileOrContent">File path or content string of the csproj.</param>
-    /// <param name="onlyContentIsPassed">Whether the string is pure content rather than a file path.</param>
-    /// <returns>True if the project is SDK-style .NET Core.</returns>
     private static
-#if ASYNC
     async Task<bool>
-#else
-    bool 
-#endif
     IsProjectCsprojSdkStyleIsCore(string fileOrContent, bool onlyContentIsPassed)
     {
         if (!onlyContentIsPassed)
@@ -25,9 +11,7 @@ public partial class SunamoCsprojHelper
             if (!fileOrContent.StartsWith("<") && FS.ExistsFile(fileOrContent))
             {
                 var readContent =
-#if ASYNC
     await
-#endif
                 TF.ReadAllText(fileOrContent);
                 fileOrContent = readContent!;
             }
@@ -37,31 +21,15 @@ public partial class SunamoCsprojHelper
         return fileOrContent!.Contains("Sdk=\"Microsoft.NET.Sdk");
     }
 
-    /// <summary>
-    /// Checks whether a csproj is SDK-style and also determines if it targets netstandard.
-    /// </summary>
-    /// <param name="fileOrContent">File path or content string of the csproj.</param>
-    /// <returns>Result containing the content, SDK-style status, and netstandard status, or null for invalid XML.</returns>
     public static
-#if ASYNC
     async Task<IsProjectCsprojSdkStyleResult?>
-#else
-    IsProjectCsprojSdkStyleResult?
-#endif
     IsProjectCsprojSdkStyleIsCore(string fileOrContent)
     {
         bool netstandard = false;
-#if DEBUG
-        if (fileOrContent.Contains("duom.web.csproj"))
-        {
-        }
-#endif
         if (!fileOrContent.StartsWith("<") && FS.ExistsFile(fileOrContent))
         {
             var xd = 
-#if ASYNC
             await
-#endif
             XmlDocumentsCache.Get(fileOrContent);
             if (xd.Data == null)
             {
@@ -80,31 +48,18 @@ public partial class SunamoCsprojHelper
         {
             Content = fileOrContent,
             IsProjectCsprojSdkStyleIsCore =
-#if ASYNC
     await
-#endif
             IsProjectCsprojSdkStyleIsCore(fileOrContent, true),
             IsNetstandard = netstandard
         };
     }
 
-    /// <summary>
-    /// Whether is old .net fw, version
-    /// </summary>
-    /// <param name="path">Path to the csproj file.</param>
-    /// <returns>Tuple of (isNewSdkStyle, versionString), or null if XML is invalid.</returns>
-    public static 
-#if ASYNC
+    public static
     async Task<Tuple<bool, string>>
-#else
-    Tuple<bool, string> 
-#endif
     DetectNetVersion(string path)
     {
         var xml = 
-#if ASYNC
         await
-#endif
         XmlDocumentsCache.Get(path);
         if (MayExcHelper.MayExc(xml.Exc))
         {
@@ -118,9 +73,7 @@ public partial class SunamoCsprojHelper
 
         var csprojContent = xml.Data.OuterXml;
         var isNew = 
-#if ASYNC
     await
-#endif
         IsProjectCsprojSdkStyleIsCore(csprojContent, true);
         if (isNew)
         {
@@ -144,23 +97,12 @@ public partial class SunamoCsprojHelper
         return new Tuple<bool, string>(isNew, VersionHelper.RemovePartsWhichIsZero(value.Version));
     }
 
-    /// <summary>
-    /// Detects the .NET framework version and returns it as a SupportedNetFw enum value.
-    /// </summary>
-    /// <param name="path">Path to the csproj file.</param>
-    /// <returns>The detected .NET framework enum value.</returns>
     public static
-#if ASYNC
     async Task<SupportedNetFw>
-#else
-    SupportedNetFw
-#endif
     DetectNetVersion2(string path)
     {
         var temp = 
-#if ASYNC
             await
-#endif
         DetectNetVersion(path);
         if (temp != null)
         {
@@ -184,63 +126,29 @@ public partial class SunamoCsprojHelper
         return SupportedNetFw.BadXml;
     }
 
-    /// <summary>
-    /// Builds a list of project dependency tree paths for the given .csproj file.
-    /// </summary>
-    /// <param name="csprojPath">Path to the .csproj file to analyze.</param>
-    /// <param name="dictToAvoidCollectionWasChanged">Dictionary to avoid collection modification during iteration.</param>
-    /// <returns>List of project dependency paths.</returns>
     public static
-#if ASYNC
         async Task<List<string>>
-#else
-    List<string>
-#endif
     BuildProjectsDependencyTreeList(string csprojPath, Dictionary<string, XmlDocument> dictToAvoidCollectionWasChanged)
     {
         XmlDocumentsCache.CantBeLoadWithDictToAvoidCollectionWasChangedButCanWithNull.Clear();
         var result =
-#if ASYNC
             await
-#endif
         BuildProjectsDependencyTree2(csprojPath, dictToAvoidCollectionWasChanged);
         return result.Collection;
     }
 
-    /// <summary>
-    /// Builds a collection of project dependency tree paths for the given .csproj file.
-    /// </summary>
-    /// <param name="csprojPath">Path to the .csproj file to analyze.</param>
-    /// <param name="dictToAvoidCollectionWasChanged">Dictionary to avoid collection modification during iteration.</param>
-    /// <returns>Collection of unique project dependency paths.</returns>
     static
-#if ASYNC
         async Task<CollectionWithoutDuplicatesDC<string>>
-#else
-    CollectionWithoutDuplicates<string>
-#endif
     BuildProjectsDependencyTree2(string csprojPath, Dictionary<string, XmlDocument>? dictToAvoidCollectionWasChanged = null)
     {
         CollectionWithoutDuplicatesDC<string> paths = new CollectionWithoutDuplicatesDC<string>();
-#if ASYNC
         await
-#endif
         BuildProjectsDependencyTree(paths, csprojPath, dictToAvoidCollectionWasChanged);
         return paths;
     }
 
-    /// <summary>
-    /// Recursively builds the project dependency tree.
-    /// </summary>
-    /// <param name="paths">Collection to store discovered project paths.</param>
-    /// <param name="csprojPath">Path to the .csproj file to analyze.</param>
-    /// <param name="dictToAvoidCollectionWasChanged">Dictionary to avoid collection modification during iteration.</param>
     static
-#if ASYNC
         async Task
-#else
-    void
-#endif
     BuildProjectsDependencyTree(CollectionWithoutDuplicatesDC<string> paths, string csprojPath, Dictionary<string, XmlDocument>? dictToAvoidCollectionWasChanged = null)
     {
         if (Ignored.IsIgnored(csprojPath))
@@ -252,24 +160,18 @@ public partial class SunamoCsprojHelper
         // For example, for E:\vs\Projects\AllProjectsSearch.Cmd.CsprojPaths\AllProjectsSearch.Cmd.CsprojPaths\AllProjectsSearch.Cmd.CsprojPaths.csproj
         // it threw an error, but when I ran it again with just this file, it passed
         var result =
-#if ASYNC
             await
-#endif
         VsProjectsFileHelper.GetProjectReferences(csprojPath, dictToAvoidCollectionWasChanged!);
         if (result.Projects == null)
         {
             // debug step by step now
             result =
-#if ASYNC
                 await
-#endif
             VsProjectsFileHelper.GetProjectReferences(csprojPath, null!);
             if (result.Projects == null)
             {
                 result =
-#if ASYNC
                     await
-#endif
                 VsProjectsFileHelper.GetProjectReferences(csprojPath, dictToAvoidCollectionWasChanged!);
                 System.Diagnostics.Debugger.Break();
             }
@@ -293,17 +195,8 @@ public partial class SunamoCsprojHelper
         }
     }
 
-    /// <summary>
-    /// Adds missing projects to a solution.
-    /// </summary>
-    /// <param name="solutionFolder">The solution folder to add projects to.</param>
-    /// <param name="isAddingDependencies">Whether to also add project dependencies.</param>
     public static
-#if ASYNC
         async Task
-#else
-    void
-#endif
     AddMissingProjects(SolutionFolder solutionFolder, bool isAddingDependencies = false)
     {
         var text = ApsHelper.Instance.MainSln(solutionFolder);
@@ -313,9 +206,7 @@ public partial class SunamoCsprojHelper
             return;
         }
 
-#if ASYNC
         await
-#endif
         AddMissingProjectsAlsoString(text, isAddingDependencies);
     }
 }

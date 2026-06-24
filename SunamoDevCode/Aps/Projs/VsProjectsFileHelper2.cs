@@ -2,27 +2,13 @@ namespace SunamoDevCode.Aps.Projs;
 
 public partial class VsProjectsFileHelper
 {
-    /// <summary>
-    /// Adds an ItemGroup element to an SDK-style .csproj file.
-    /// Used in: MoveClassElementIntoSharedFileUC, AddFilesToCsproj.
-    /// Works with pure XML classes, primarily for Compile tags.
-    /// </summary>
-    /// <param name="csprojPath">Path to the .csproj file.</param>
-    /// <param name="itemGroups">The type of ItemGroup to add (Compile, Reference, etc.).</param>
-    /// <param name="itemGroupElement">The ItemGroup element to add to the project.</param>
-    /// <param name="isWritingToStorage">Whether to write changes to storage immediately.</param>
+    // Used in: MoveClassElementIntoSharedFileUC, AddFilesToCsproj. Works with pure XML classes, primarily for Compile tags.
     public static
-#if ASYNC
             async Task
-#else
-        void
-#endif
                 AddItemGroupSdkStyle(string csprojPath, ItemGroups itemGroups, ItemGroupElement itemGroupElement, bool isWritingToStorage)
     {
         ResultWithException<XmlDocument> xmlDocumentResult = null!;
-#if ASYNC
         await
-#endif
 XmlDocumentsCache.Get(csprojPath);
         if (MayExcHelper.MayExc(xmlDocumentResult.Exc!))
         {

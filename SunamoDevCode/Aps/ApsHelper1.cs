@@ -2,32 +2,16 @@ namespace SunamoDevCode.Aps;
 
 public partial class ApsHelper : ApsPluginStatic
 {
-    /// <summary>
-    /// Pushes solutions to git in a thread, building bash commands and showing output window.
-    /// </summary>
-    /// <param name="asyncPushSolutionsObject">AsyncPushSolutions instance containing push configuration.</param>
-    /// <param name="psInvoke">PowerShell invoke function for executing git commands.</param>
-    /// <param name="eVs">Environment variable for the drive path.</param>
-    /// <param name="pathGetMessagesFromGitOutput">Path to file for storing git output messages.</param>
     public
-#if ASYNC
     async Task
-#else
-    void
-#endif
     CheckForPushInThread(object asyncPushSolutionsObject, Func<List<string>, Task<List<List<string>>>> psInvoke, string eVs, string pathGetMessagesFromGitOutput)
     {
         AsyncPushSolutions asyncPushSolutions = (AsyncPushSolutions)asyncPushSolutionsObject;
         ThisApp.Appeal("foldersWithSolutions before " + asyncPushSolutions.FoldersWithSolutions.Count);
         foreach (var sln in asyncPushSolutions.FoldersWithSolutions)
         {
-#if DEBUG
-            //DebugLogger.Instance.WriteLine("Push: " + sln.NameSolution);
-#endif
             if (
-#if ASYNC
     await
-#endif
             GitHelper.PushSolution(asyncPushSolutions.Release, asyncPushSolutions.GitBashBuilder, asyncPushSolutions.PushArgs, asyncPushSolutions.CommitMessage!, sln.FullPathFolder, pushSolutionsData, asyncPushSolutions.GitStatus, psInvoke))
             {
                 var fn = FS.GetFileName(sln.FullPathFolder);
@@ -63,13 +47,6 @@ public partial class ApsHelper : ApsPluginStatic
         }
     }
 
-    /// <summary>
-    /// Shows a window or CLI prompt for entering PowerShell/git output and processing the results.
-    /// </summary>
-    /// <param name="gitBashBuilder">Git bash commands string to copy to clipboard.</param>
-    /// <param name="push">Whether this is a push operation (true), pull (false), or null for general.</param>
-    /// <param name="eVs">Environment variable for the drive path.</param>
-    /// <param name="pathGetMessagesFromGitOutput">Path to file for storing git output messages.</param>
     public async Task ShowWindowForEnterOutputOfPowershell(string gitBashBuilder, bool? push, string eVs, string pathGetMessagesFromGitOutput)
     {
         if (cmd)
@@ -116,8 +93,8 @@ public partial class ApsHelper : ApsPluginStatic
         //miCopyToClipboard.Click += MiCopyToClipboard_Click;
         //miCopyToClipboard.Tag = gitBashBuilder;
         //enterOneValueUC.suSuMenuItems.Add(miCopyToClipboard);
-        //enterOutputOfPowershellGitWindow = new WindowWithUserControl(enterOneValueUC, ResizeMode.CanResize, false, "enterOutputOfPowershellGit");
         //enterOneValueUC.ChangeDialogResult += EnterOutputOfPowershellGit_ChangeDialogResult;
+        //enterOutputOfPowershellGitWindow = new WindowWithUserControl(enterOneValueUC, ResizeMode.CanResize, false, "enterOutputOfPowershellGit");
         //enterOutputOfPowershellGitWindow.ShowDialog();
         }
     }
@@ -126,11 +103,6 @@ public partial class ApsHelper : ApsPluginStatic
     const string call = "Call: ";
     const string restored = "log  : Restored";
     const string failedToRestore = "log  : Failed to restore";
-    /// <summary>
-    /// Parses git output lines to identify failed restore sections and copies them to clipboard.
-    /// </summary>
-    /// <param name="lines">Lines of git output to parse.</param>
-    /// <returns>Always returns null after processing.</returns>
     public IList<string>? GetMessagesFromGitOutput(List<string> lines)
     {
         lines.RemoveAll(data => data.StartsWith(call));
@@ -168,18 +140,7 @@ public partial class ApsHelper : ApsPluginStatic
         return null;
     }
 
-    /// <summary>
-    /// Return empty collection if shouldProcessMessages = false
-    /// </summary>
-    /// <param name = "shouldProcessMessages">Whether to process and filter messages from git output</param>
-    /// <param name = "pathGetMessagesFromGitOutput">Path to file containing git messages</param>
-    /// <param name = "eVs">Environment variable for drive</param>
-
-#if ASYNC
     async Task<IList<string>>
-#else
-    IList<string>
-#endif
     GetMessagesFromGitOutput(bool? shouldProcessMessages, string pathGetMessagesFromGitOutput, string eVs)
     {
         if (cmd)
@@ -195,10 +156,8 @@ public partial class ApsHelper : ApsPluginStatic
             {
                 //var pathGetMessagesFromGitOutput = @"D:\_Test\AllProjectsSearch\AllProjectsSearch\SearchInSolutionsUC\GetMessagesFromGitOutput.txt";
                 FS.CreateUpfoldersPsysicallyUnlessThere(pathGetMessagesFromGitOutput);
-                typed = 
-#if ASYNC
+                typed =
     await
-#endif
                 TF.ReadAllText(pathGetMessagesFromGitOutput);
             }
         }
@@ -223,14 +182,6 @@ public partial class ApsHelper : ApsPluginStatic
         return badSolutions;
     }
 
-    /// <summary>
-    /// Filters git output lines for fatal/error messages and returns the names of affected solutions.
-    /// </summary>
-    /// <param name="shouldProcessMessages">Whether to actually process messages or return empty.</param>
-    /// <param name="lines">Git output lines to process.</param>
-    /// <param name="gitMessageTypes">Types of git messages to check for (fatal, error).</param>
-    /// <param name="eVs">Environment variable for the drive path.</param>
-    /// <returns>List of solution names with matching error messages.</returns>
     public List<string> GetMessagesFromGitOutput(bool? shouldProcessMessages, ref List<string> lines, GitTypesOfMessages gitMessageTypes, string eVs)
     {
         List<string> badSolutions = new List<string>();
@@ -267,13 +218,8 @@ public partial class ApsHelper : ApsPluginStatic
         return badSolutions;
     }
 
-    /// <summary>
-    /// Will decrement A2
-    /// Return relative paths like Projects\_Uap\CreateW10AppGraphics
-    /// </summary>
-    /// <param name = "lines">Git output lines.</param>
-    /// <param name = "lineIndex">Current line index to start searching backwards from.</param>
-    /// <param name = "eVs">Drive path prefix.</param>
+    // Will decrement A2
+    // Return relative paths like Projects\_Uap\CreateW10AppGraphics
     private string? GetNameSolution(List<string> lines, int lineIndex, string eVs)
     {
         lineIndex--;
@@ -299,10 +245,6 @@ public partial class ApsHelper : ApsPluginStatic
         return null;
     }
 
-    /// <summary>
-    /// Handles the dialog result change event for the git output processing window.
-    /// </summary>
-    /// <param name="shouldProcessMessages">Whether to process messages from the output.</param>
     public void EnterOutputOfPowershellGit_ChangeDialogResult(bool? shouldProcessMessages)
     {
         EnterOutputOfPowershellGit_ChangeDialogResult(shouldProcessMessages);

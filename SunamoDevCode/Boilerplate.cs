@@ -1,14 +1,7 @@
 namespace SunamoDevCode;
 
-/// <summary>
-/// Provides boilerplate code templates for C# code generation
-/// </summary>
 public class Boilerplate
 {
-    /// <summary>
-    /// Generates C# command-line program boilerplate
-    /// </summary>
-    /// <param name="innerMain">Main method content</param>
     public static string CSharpCmd(string innerMain)
     {
         var csharpTemplate = @"using System;
@@ -30,13 +23,6 @@ public class Boilerplate
         return stringBuilder.ToString();
     }
 
-    /// <summary>
-    /// Generates C# class boilerplate with initialization method
-    /// </summary>
-    /// <param name="addNamespacesLines">Additional namespace using declarations</param>
-    /// <param name="className">Name of the class</param>
-    /// <param name="fields">Field declarations</param>
-    /// <param name="contentOfInitMethod">Content of Init method</param>
     public static string CSharpClass(string addNamespacesLines, string className, string fields,
         string contentOfInitMethod)
     {

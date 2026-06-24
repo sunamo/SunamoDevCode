@@ -60,8 +60,8 @@ bool isFillAlsoFirstTwo = true)
     }
     internal static void TypeAndMethodName(string stackTraceLine, out string type, out string methodName)
     {
-        var lineAfterAt = stackTraceLine.Split("at ")[1].Trim();
-        var methodFullName = lineAfterAt.Split("(")[0];
+        var lineAfterAt = stackTraceLine.Split(new string[] { "at " }, StringSplitOptions.None)[1].Trim();
+        var methodFullName = lineAfterAt.Split(new char[] { '(' }, StringSplitOptions.None)[0];
         var parts = methodFullName.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         methodName = parts[^1];
         parts.RemoveAt(parts.Count - 1);
@@ -205,7 +205,7 @@ bool isFillAlsoFirstTwo = true)
     string message = "")
     {
         return duplicatedElements.Count != 0
-        ? CheckBefore(before) + $"Duplicated elements in {nameOfVariable} list: " + string.Join(',', [.. duplicatedElements]) +
+        ? CheckBefore(before) + $"Duplicated elements in {nameOfVariable} list: " + string.Join(",", duplicatedElements) +
         " " + message
         : null;
     }

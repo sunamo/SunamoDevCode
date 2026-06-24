@@ -2,16 +2,7 @@ namespace SunamoDevCode;
 
 public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerator
 {
-    /// <summary>
-    /// EN: Generates a constructor with automatic field assignment. Parameters are stored in pairs: type, name, type, name. Static constructors cannot be created here.
-    /// CZ: Generuje konstruktor s automatickým přiřazením polí. Parametry jsou uloženy v párech: typ, název, typ, název. Statický konstruktor zde nelze vytvořit.
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="modifierType">Constructor modifier (public, private, etc.)</param>
-    /// <param name="constructorName">Name of the constructor (should match class name)</param>
-    /// <param name="autoAssign">Whether to automatically assign parameters to fields</param>
-    /// <param name="isBase">Whether this is a base class constructor</param>
-    /// <param name="parameters">Alternating type and name pairs for parameters</param>
+    // Parameters are stored in pairs: type, name, type, name. Static constructors cannot be created here.
     public void Ctor(int tabCount, ModifiersConstructor modifierType, string constructorName, bool autoAssign, bool isBase, params string[] parameters)
     {
         AddTab(tabCount);
@@ -50,20 +41,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         sb.AppendLine();
     }
 
-    /// <summary>
-    /// EN: Generates a property with getter and setter. The get and set parameters can be string (custom implementation) or bool (auto-implementation).
-    /// CZ: Generuje vlastnost s getterem a setterem. Parametry get a set mohou být string (vlastní implementace) nebo bool (auto-implementace).
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="accessModifier">Access modifier for the property</param>
-    /// <param name="isStatic">Whether the property is static</param>
-    /// <param name="returnType">Type of the property</param>
-    /// <param name="name">Name of the property</param>
-    /// <param name="getImplementation">Getter implementation: true for auto-implementation, string for custom code, null/false for none</param>
-    /// <param name="setImplementation">Setter implementation: true for auto-implementation, string for custom code, null/false for none</param>
-    /// <param name="field">Backing field name</param>
-    /// <param name="shortGet">Whether to use short getter syntax (get;)</param>
-    /// <param name="shortSet">Whether to use short setter syntax (set;)</param>
+    // The get and set parameters can be string (custom implementation) or bool (auto-implementation).
     public void Property(int tabCount, AccessModifiers accessModifier, bool isStatic, string returnType, string name, object getImplementation, object setImplementation, string field, bool shortGet, bool shortSet)
     {
 #region MyRegion
@@ -130,17 +108,7 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         sb.AppendLine();
     }
 
-    /// <summary>
-    /// EN: Generates a method declaration with body. The inner content must already be indented for this method.
-    /// CZ: Generuje deklaraci metody s tělem. Vnitřní obsah již musí být odsazený pro tuto metodu.
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="accessModifier">Access modifier for the method</param>
-    /// <param name="isStatic">Whether the method is static</param>
-    /// <param name="returnType">Return type of the method</param>
-    /// <param name="name">Name of the method</param>
-    /// <param name="bodyContent">Body content of the method (already indented)</param>
-    /// <param name="parametersDeclaration">Method parameters declaration</param>
+    // The inner content must already be indented for this method.
     public void Method(int tabCount, AccessModifiers accessModifier, bool isStatic, string returnType, string name, string bodyContent, string parametersDeclaration)
     {
         AddTab(tabCount);
@@ -164,13 +132,6 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         sb.AddItem(name);
     }
 
-    /// <summary>
-    /// EN: Generates a method with pre-formatted header and body content
-    /// CZ: Generuje metodu s předformátovanou hlavičkou a obsahem těla
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="header">Pre-formatted method header</param>
-    /// <param name="bodyContent">Body content of the method</param>
     public void Method(int tabCount, string header, string bodyContent)
     {
         AddTab(tabCount);
@@ -183,11 +144,6 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         sb.AppendLine();
     }
 
-    /// <summary>
-    /// EN: Generates a using directive, automatically adding 'using' keyword and semicolon if needed
-    /// CZ: Generuje using direktivu, automaticky přidává klíčové slovo 'using' a středník pokud chybí
-    /// </summary>
-    /// <param name="usingStatement">Using statement (with or without 'using' keyword and semicolon)</param>
     public void Using(string usingStatement)
     {
         if (!usingStatement.StartsWith("using "))
@@ -198,12 +154,6 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         sb.AppendLine();
     }
 
-    /// <summary>
-    /// EN: Generates an if statement with opening brace. Automatically adds the opening brace.
-    /// CZ: Generuje if příkaz s otevírací závorkou. Automaticky přidává počáteční závorku.
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="condition">Condition for the if statement</param>
     public void If(int tabCount, string condition)
     {
         AddTab(tabCount);
@@ -211,11 +161,6 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         StartBrace(tabCount);
     }
 
-    /// <summary>
-    /// EN: Generates an else statement with opening brace. Automatically adds the opening brace.
-    /// CZ: Generuje else příkaz s otevírací závorkou. Automaticky přidává počáteční závorku.
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
     public void Else(int tabCount)
     {
         AddTab(tabCount);
@@ -223,14 +168,6 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         StartBrace(tabCount);
     }
 
-    /// <summary>
-    /// EN: Generates an enum with XML summary comments for each member
-    /// CZ: Generuje enum s XML summary komentáři pro každý člen
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="accessModifier">Access modifier for the enum</param>
-    /// <param name="enumName">Name of the enum</param>
-    /// <param name="memberComments">Dictionary mapping enum member names to their comments</param>
     public void EnumWithComments(int tabCount, AccessModifiers accessModifier, string enumName, Dictionary<string, string> memberComments)
     {
         WriteAccessModifiers(accessModifier);
@@ -246,13 +183,6 @@ public partial class CSharpGenerator : GeneratorCodeAbstract //, ICSharpGenerato
         EndBrace(tabCount);
     }
 
-    /// <summary>
-    /// EN: Appends an attribute with optional parameters
-    /// CZ: Přidává atribut s volitelnými parametry
-    /// </summary>
-    /// <param name="tabCount">Number of tabs for indentation</param>
-    /// <param name="attributeName">Name of the attribute</param>
-    /// <param name="attributeParameters">Content inside parentheses (can be null)</param>
     private void AppendAttribute(int tabCount, string attributeName, string attributeParameters)
     {
         var parentheses = "";

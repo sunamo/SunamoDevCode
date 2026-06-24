@@ -52,10 +52,8 @@ internal class SH
         return lines[lineIndex];
     }
 
-    /// <summary>
-    /// EN: Return index, therefore x-1
-    /// CZ: Vrátí index, proto x-1
-    /// </summary>
+    // EN: Return index, therefore x-1
+    // CZ: Vrátí index, proto x-1
     internal static int GetLineIndexFromCharIndex(string text, int characterPosition)
     {
         var lineNumber = text.Take(characterPosition).Count(character => character == '\n') + 1;

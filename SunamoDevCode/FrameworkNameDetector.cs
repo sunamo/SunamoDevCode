@@ -1,24 +1,12 @@
 namespace SunamoDevCode;
 
-/// <summary>
-/// Detects the .NET framework name and version from a project file.
-/// </summary>
 public class FrameworkNameDetector
 {
-    /// <summary>
-    /// Default .NET framework identifier used when none is specified in the project.
-    /// </summary>
     public const string DefaultIdentifier = ".NETFramework";
-    /// <summary>
-    /// Default .NET framework version used when none is specified in the project.
-    /// </summary>
     public const string DefaultFrameworkVersion = "v4.0";
-    /// <summary>
-    ///     Working only for .net fw, for sdk style return .net 4.0
-    ///     Must return FrameworkName due to FubuCsProjFile
-    /// </summary>
-    /// <param name="project"></param>
-    /// <returns></returns>
+
+    // Working only for .net fw, for sdk style return .net 4.0
+    // Must return FrameworkName due to FubuCsProjFile
 #pragma warning disable
     public static FrameworkName Detect(/*MSBuildProject*/ object project)
 #pragma warning restore

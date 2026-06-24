@@ -2,9 +2,7 @@ namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive;
 
 internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
 {
-    /// <summary>
-    /// whether duplicates should be removed on load and whether duplicate items should not even be saved
-    /// </summary>
+    // whether duplicates should be removed on load and whether duplicate items should not even be saved
     protected bool removeDuplicates = false;
     protected CollectionOnDriveArgs args = new();
     private bool isSaving;
@@ -25,10 +23,7 @@ internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
         await Save();
     }
     internal abstract Task Load(bool removeDuplicates);
-    /// <summary>
-    /// Check whether T is already contained.
-    /// </summary>
-    /// <param name="element"></param>
+    // Check whether T is already contained.
     internal virtual void AddWithoutSave(T element)
     {
         if (logger == NullLogger.Instance)
@@ -47,12 +42,7 @@ internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
             Add(element);
         }
     }
-    /// <summary>
-    /// Check whether T is already contained.
-    /// </summary>
-    /// <param name="element"></param>
-    /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    // Check whether T is already contained.
     internal virtual async Task<bool> AddWithSave(T? element)
     {
         if (logger == NullLogger.Instance)
@@ -98,10 +88,7 @@ internal abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
         return SHJoin.JoinNL(this);
     }
     #region ctor
-    /// <summary>
-    /// optional call only if you want to set by CollectionOnDriveArgs. Calling Load() for already existing records is important.
-    /// </summary>
-    /// <param name="arguments"></param>
+    // optional call only if you want to set by CollectionOnDriveArgs. Calling Load() for already existing records is important.
     internal void Init(CollectionOnDriveArgs arguments)
     {
         this.args = arguments;

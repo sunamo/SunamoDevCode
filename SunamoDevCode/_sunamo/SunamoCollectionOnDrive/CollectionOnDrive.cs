@@ -1,8 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoCollectionOnDrive;
 
-/// <summary>
-///     
-/// </summary>
 internal sealed class CollectionOnDrive : CollectionOnDriveBase<string>
 {
     private readonly ILogger _logger;

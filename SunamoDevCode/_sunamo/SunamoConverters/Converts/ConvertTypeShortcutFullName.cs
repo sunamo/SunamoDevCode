@@ -1,28 +1,11 @@
 namespace SunamoDevCode._sunamo.SunamoConverters.Converts;
 
-/// <summary>
-/// Converts between type full names and C# shortcuts
-/// </summary>
 internal static class ConvertTypeShortcutFullName
 {
     private const string SystemDot = "System.";
 
-    /// <summary>
-    /// Converts full type name to C# shortcut (throws exception if not basic type)
-    /// </summary>
-    /// <param name="fullName">Full type name (e.g. "System.String")</param>
-    /// <returns>C# shortcut (e.g. "string")</returns>
-    internal static string ToShortcut(string fullName)
-    {
-        return ToShortcut(fullName, true);
-    }
+    internal static string ToShortcut(string fullName) => ToShortcut(fullName, true);
 
-    /// <summary>
-    /// Converts full type name to C# shortcut
-    /// </summary>
-    /// <param name="fullName">Full type name (e.g. "System.String")</param>
-    /// <param name="throwExceptionWhenNotBasicType">If true, throws exception for non-basic types</param>
-    /// <returns>C# shortcut or original full name if not a basic type</returns>
     internal static string ToShortcut(string fullName, bool throwExceptionWhenNotBasicType)
     {
         if (!fullName.StartsWith(SystemDot))

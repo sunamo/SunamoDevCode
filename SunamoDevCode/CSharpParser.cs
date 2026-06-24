@@ -1,42 +1,23 @@
 namespace SunamoDevCode;
 
-/// <summary>
-/// Parser for C# code, specifically for handling const declarations.
-/// </summary>
+// Parser for C# code, specifically for handling const declarations.
 public class CSharpParser
 {
-    /// <summary>
-    /// Public modifier keyword with trailing space.
-    /// </summary>
     public const string PublicModifier = "public ";
-
-    /// <summary>
-    /// Static readonly modifier keywords with trailing space.
-    /// </summary>
     public const string StaticReadonlyModifier = "static readonly ";
 
-
-
-    /// <summary>
-    ///     Directly save to file
-    ///     In A2 will be what can't be deleted, when will be > 0, ThrowException
-    /// </summary>
-    /// <param name="file"></param>
-    /// <param name="remove"></param>
+    // Directly save to file
+    // In A2 will be what can't be deleted, when will be > 0, ThrowException
     public static
-#if ASYNC
         async Task
-#else
-    void
-#endif
         RemoveConsts(string file, List<string> remove)
     {
         remove.Insert(0, null!);
 
         // EN: Inlined from CAIndexesWithNull.IndexesWithNull - gets indexes of null values in collection
         // CZ: Inlined from CAIndexesWithNull.IndexesWithNull - získává indexy null hodnot v kolekci
-        List<int> nullIndexes = new List<int>();
-        int index = 0;
+        var nullIndexes = new List<int>();
+        var index = 0;
         foreach (var item in remove)
         {
             if (item == null)
@@ -47,9 +28,7 @@ public class CSharpParser
         }
 
         var lines = SHGetLines.GetLines(
-#if ASYNC
             await
-#endif
                 File.ReadAllTextAsync(file)).ToList();
 
         for (var i = lines.Count - 1; i >= 0; i--)
@@ -74,12 +53,6 @@ public class CSharpParser
         }
     }
 
-    /// <summary>
-    /// Parses const declarations from lines, tracking the first occurrence index.
-    /// </summary>
-    /// <param name="lines">Lines of C# code to parse.</param>
-    /// <param name="first">Output parameter for the index of the first const declaration found.</param>
-    /// <returns>List of const keys found in the lines.</returns>
     public static List<string> ParseConsts(List<string> lines, out int first)
     {
         var keys = new List<string>();
@@ -99,11 +72,6 @@ public class CSharpParser
         return keys;
     }
 
-    /// <summary>
-    /// Parses const declarations from all lines without filtering.
-    /// </summary>
-    /// <param name="lines">Lines of C# code to parse.</param>
-    /// <returns>List of const keys found in the lines.</returns>
     public static List<string> ParseConstsAllLines(List<string> lines)
     {
         var keys = new List<string>();

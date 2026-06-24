@@ -1,31 +1,16 @@
 namespace SunamoDevCode._sunamo.SunamoEmbeddedResources;
 
-/// <summary>
-/// Helper for embedded resources
-/// Requires assembly and default namespace.
-/// Content is referred like with ResourcesH - with fs path
-/// </summary>
 internal class EmbeddedResourcesH
 {
-    /// <summary>
-    /// Singleton instance for entry assembly
-    /// </summary>
     internal static EmbeddedResourcesH? Instance = null;
 
-    /// <summary>
-    /// Protected constructor for inheritance
-    /// </summary>
     protected EmbeddedResourcesH()
     {
 
     }
 
-    /// <summary>
-    /// Constructor for use in assembly like SunamoNTextCat
-    /// Parameter is name of project, therefore don't insert typeResourcesSunamo.Namespace
-    /// </summary>
-    /// <param name="entryAssembly">Entry assembly</param>
-    /// <param name="defaultNamespace">Default namespace for resources</param>
+    // Constructor for use in assembly like SunamoNTextCat
+    // Parameter is name of project, therefore don't insert typeResourcesSunamo.Namespace
     internal EmbeddedResourcesH(Assembly entryAssembly, string defaultNamespace)
     {
         this._entryAssembly = entryAssembly;
@@ -35,9 +20,6 @@ internal class EmbeddedResourcesH
     protected Assembly? _entryAssembly = null;
     protected string _defaultNamespace = null!;
 
-    /// <summary>
-    /// Gets the entry assembly
-    /// </summary>
     protected Assembly entryAssembly
     {
         get
