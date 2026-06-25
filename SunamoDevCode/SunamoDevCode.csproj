@@ -2,10 +2,10 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>26.5.18.8</Version>
+    <Version>26.6.25.8</Version>
     <Description>Another code mainly for working with C# in all ways. Will be in future merged with
       SunamoCode and SunamoCSharp.</Description>
-    <PackageReleaseNotes>y</PackageReleaseNotes>
+    <PackageReleaseNotes>feat:</PackageReleaseNotes>
     <Authors>www.sunamo.cz</Authors>
     <Copyright>www.sunamo.cz</Copyright>
     <PackageProjectUrl>https://sunamo.github.io/PlatformIndependentNuGetPackages/SunamoDevCode/</PackageProjectUrl>
