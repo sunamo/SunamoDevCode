@@ -1,9 +1,11 @@
 namespace SunamoDevCode.SunamoCSharp;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+// Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public static partial class CSharpHelper
 {
+    // CsKeywordsList je internal — veřejný vstup pro konzumenty balíčku
+    public static void InitKeywords() => CsKeywordsList.Init();
+
     public static object DefaultValueForTypeObject(string type)
     {
         if (type.Contains("."))

@@ -21,9 +21,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="*" Pack="True" />
+    <PackageReference Include="SunamoStringGetLines" Version="26.7.28.1" />
+    <PackageReference Include="SunamoString" Version="26.7.28.2" />
     <ProjectReference Include="..\SunamoDevCode\SunamoDevCode.csproj" />
-    <ProjectReference Include="..\..\SunamoStringGetLines\SunamoStringGetLines\SunamoStringGetLines.csproj" />
-    <ProjectReference Include="..\..\SunamoString\SunamoString\SunamoString.csproj" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>
