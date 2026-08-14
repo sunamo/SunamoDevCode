@@ -103,14 +103,13 @@ internal static partial class AllProjectsSearchSettings
         path = FS.WithEndSlash(path);
         for (int i = 0; i < 1000; i++)
         {
-            string seriesIndex = i.ToString();
-            if (!ExistsFolderSearchBySerie(seriesIndex))
+            if (!ExistsFolderSearchBySerie())
             {
                 break;
             }
             else
             {
-                if (GetSearchFolderNormalized(seriesIndex) == path)
+                if (GetSearchFolderNormalized() == path)
                 {
                     return true;
                 }
@@ -126,15 +125,14 @@ internal static partial class AllProjectsSearchSettings
         List<string> folders = new List<string>();
         for (int i = 0; i < 1000; i++)
         {
-            string seriesIndex = i.ToString();
-            var exists = ExistsFolderSearchBySerie(seriesIndex);
+            var exists = ExistsFolderSearchBySerie();
             if (!exists)
             {
                 break;
             }
             else
             {
-                folders.Add(GetSearchFolderNormalized(seriesIndex));
+                folders.Add(GetSearchFolderNormalized());
             }
         }
         return folders;

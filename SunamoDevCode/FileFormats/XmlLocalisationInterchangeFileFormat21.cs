@@ -56,7 +56,7 @@ Into A1 insert:
 
     public static
         async Task
-    ReplaceForWithoutUnderscore(ILogger logger, string folder)
+    ReplaceForWithoutUnderscore(ILogger logger)
     {
         Dictionary<string, string> withWithoutUnderscore = new();
         var files = XmlLocalisationInterchangeFileFormat.GetFilesCs(logger);
@@ -141,7 +141,7 @@ Into A1 insert:
     //    }
     public static
         async Task<List<string>>
-    GetAllLastLetterFromEnd(string fn, bool saveAllLastLetterToClipboard)
+    GetAllLastLetterFromEnd(string fn)
     {
         List<string> ids = new();
         List<char> allLastLetters = new();

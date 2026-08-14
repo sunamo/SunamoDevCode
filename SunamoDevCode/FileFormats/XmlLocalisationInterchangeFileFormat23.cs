@@ -6,7 +6,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
 {
     public static
         async Task<List<string>>
-    FromXlfWithDiacritic(string fn, XlfParts p, bool saveToClipboard = false)
+    FromXlfWithDiacritic(string fn, XlfParts p)
     {
         // Dont use, its also non czech with diacritic hats tuồng (hats bôi)
         var data =
