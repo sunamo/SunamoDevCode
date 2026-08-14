@@ -5,14 +5,14 @@ public class GeneratorCpp : GeneratorCodeAbstract
     public void MapStringString(int tabCount, string mapName, Dictionary<string, string> nameCommentEnums)
     {
         string typeName = "map<string, string>";
-        NewVariable(tabCount, AccessModifiers.Private, typeName, mapName, true);
+        NewVariable(tabCount, typeName, mapName);
         foreach (var item in nameCommentEnums)
         {
             AppendLine(tabCount, mapName + ".insert({\"" + item.Key + "\", \"" + item.Value + "\"});");
         }
     }
 
-    private void NewVariable(int tabCount, AccessModifiers accessModifier, string typeName, string name, bool createInstance)
+    private void NewVariable(int tabCount, string typeName, string name)
     {
         AddTab2(tabCount, " ");
         sb.AddItem(typeName);
@@ -22,7 +22,7 @@ public class GeneratorCpp : GeneratorCodeAbstract
     public void MapNonStringNonString(int tabCount, string mapName, string keyType, string valueType, Dictionary<string, string> nameCommentEnums)
     {
         string typeName = "map<" + keyType + ", " + valueType + ">";
-        NewVariable(tabCount, AccessModifiers.Private, typeName, mapName, true);
+        NewVariable(tabCount, typeName, mapName);
         foreach (var item in nameCommentEnums)
         {
             AppendLine(tabCount, mapName + ".insert({" + item.Key + ", " + item.Value + "});");
@@ -32,7 +32,7 @@ public class GeneratorCpp : GeneratorCodeAbstract
     public void VectorCustom(int tabsCount, string vectorName, string customType, Dictionary<string, string> dictionary)
     {
         string typeName = "vector<" + customType + ">";
-        NewVariable(tabsCount, AccessModifiers.Private, typeName, vectorName, true);
+        NewVariable(tabsCount, typeName, vectorName);
         Append(tabsCount, vectorName + "=");
         Append(0, "{");
         foreach (var item in dictionary)

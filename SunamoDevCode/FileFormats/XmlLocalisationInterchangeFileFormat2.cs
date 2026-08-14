@@ -150,7 +150,7 @@ TranslateEngine");
         return foundKeys.Distinct().ToList();
     }
 
-    public static IList<string> GetKeysInCsWithRLDataEn(ref string key, string content, string file = "")
+    public static IList<string> GetKeysInCsWithRLDataEn(ref string key, string content)
     {
         List<string> foundKeys = new();
         var occurrences = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.RLDataEn + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
