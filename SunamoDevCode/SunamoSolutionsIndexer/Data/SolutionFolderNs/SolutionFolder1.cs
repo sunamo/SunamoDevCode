@@ -128,21 +128,41 @@ public partial class SolutionFolder : SolutionFolderSerialize, ISolutionFolder
         return null;
     }
 
+    // TFM složka může mít libovolný postfix za "-windows" (verze Windows API, např.
+    // "net10.0-windows7.0") nebo žádný - porovnává se jen číslo netX.Y, postfix se ignoruje.
+    private static readonly Regex NetVersionWindowsRegex = new(@"^net(?<v>\d+\.\d+)-windows(\d+(\.\d+)*)?$", RegexOptions.IgnoreCase);
+    private static readonly Regex NetVersionPlainRegex = new(@"^net(?<v>\d+\.\d+)$", RegexOptions.IgnoreCase);
+
     private string? FindHighestAvailableNetVersion(string baseReleaseFolder, bool isWindows)
     {
-        for (int version = 15; version >= 5; version--)
+        if (!Directory.Exists(baseReleaseFolder))
         {
-            var netFolder = isWindows
-                ? Path.Combine(baseReleaseFolder, $"net{version}.0-windows\\")
-                : Path.Combine(baseReleaseFolder, $"net{version}.0\\");
+            return null;
+        }
 
-            if (Directory.Exists(netFolder))
+        var pattern = isWindows ? NetVersionWindowsRegex : NetVersionPlainRegex;
+
+        string? best = null;
+        Version? bestVersion = null;
+
+        foreach (var dir in Directory.GetDirectories(baseReleaseFolder))
+        {
+            var name = Path.GetFileName(dir.TrimEnd('\\'));
+            var match = pattern.Match(name);
+
+            if (!match.Success || !Version.TryParse(match.Groups["v"].Value, out var version))
             {
-                return netFolder;
+                continue;
+            }
+
+            if (bestVersion == null || version > bestVersion)
+            {
+                bestVersion = version;
+                best = dir.TrimEnd('\\') + "\\";
             }
         }
 
-        return null;
+        return best;
     }
 
     private string? FindExistingFolderWithRightArchitecture(string basePath, string exeNameWithExt)
