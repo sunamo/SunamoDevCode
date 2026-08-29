@@ -3,6 +3,7 @@ namespace SunamoDevCode.SunamoSolutionsIndexer;
 public class SolutionsIndexerHelper
 {
     // Finds a solution folder by name. Can also accept web names like apps.sunamo.cz.
+    // When exact match fails, tries appending "-claude" suffix (for worktree repos).
     public static SolutionFolder? SolutionWithName(string name)
     {
         if (FoldersWithSolutions.Fwss.Count > 1)
@@ -19,25 +20,44 @@ public class SolutionsIndexerHelper
             name = "sunamo.cz";
         }
 
+        var result = SolutionWithNameExact(name);
+
+        if (result != null)
+        {
+            if (originName != String.Empty)
+            {
+                result.SlnNameWithoutExtension = originName;
+            }
+            return result;
+        }
+
+        // Fallback: zkusí variantu s "-claude" suffixem (worktree repos)
+        var claudeName = name + "-claude";
+        result = SolutionWithNameExact(claudeName);
+
+        if (originName != String.Empty && result != null)
+        {
+            result.SlnNameWithoutExtension = originName;
+        }
+
+        return result;
+    }
+
+    private static SolutionFolder? SolutionWithNameExact(string name)
+    {
         foreach (var item in FoldersWithSolutions.Fwss)
         {
             var slns = item.GetSolutions(RepositoryLocal.All);
-            //wpf = slns.Where(d => d.NameSolution.StartsWith(name[0].ToString().ToUpper()));
 
             foreach (var sln in slns)
             {
                 if (sln.NameSolution == name)
                 {
-                    if (originName != String.Empty)
-                    {
-                        sln.SlnNameWithoutExtension = originName;
-                    }
                     return sln;
                 }
             }
         }
 
-        //ThisApp.Warning(name + " solution was not found");
         return null;
     }
 
